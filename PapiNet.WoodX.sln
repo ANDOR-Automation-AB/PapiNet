@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PapiNet.WoodX", "PapiNet.WoodX.csproj", "{A5980843-B37B-4E47-A3BA-88DC2A25B7CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PapiNet.WoodXConsole", "..\PapiNet.WoodXConsole\PapiNet.WoodXConsole.csproj", "{E359A036-861D-4641-B75E-B5889BA540F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5980843-B37B-4E47-A3BA-88DC2A25B7CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5980843-B37B-4E47-A3BA-88DC2A25B7CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5980843-B37B-4E47-A3BA-88DC2A25B7CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5980843-B37B-4E47-A3BA-88DC2A25B7CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E359A036-861D-4641-B75E-B5889BA540F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E359A036-861D-4641-B75E-B5889BA540F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E359A036-861D-4641-B75E-B5889BA540F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E359A036-861D-4641-B75E-B5889BA540F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
