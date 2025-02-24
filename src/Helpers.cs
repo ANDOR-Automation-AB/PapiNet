@@ -24,5 +24,19 @@ namespace PapiNet.WoodX.src
                 new XElement("Day", day)
             );
         }
+
+        public static DateTime? ParseDate(XElement? dateElement)
+        {
+            if (dateElement == null)
+                return null;
+
+            if (int.TryParse(dateElement.Element("Year")?.Value, out int year) &&
+                int.TryParse(dateElement.Element("Month")?.Value, out int month) &&
+                int.TryParse(dateElement.Element("Day")?.Value, out int day))
+                return new DateTime(year, month, day);
+            
+            return null;
+        }
+
     }
 }

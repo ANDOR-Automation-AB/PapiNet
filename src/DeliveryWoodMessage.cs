@@ -1,6 +1,6 @@
 ﻿using PapiNet.WoodX.src;
 using System.Xml.Linq;
-namespace PapiNet.WoodX
+namespace PapiNet.WoodX.Old
 {
     public class DeliveryMessage(string type, string status, string number, DateTime date, DeliveryMessageShipment shipment)
     {
@@ -9,15 +9,92 @@ namespace PapiNet.WoodX
         public string Number => Header.Number;
         public DateTime Date => Header.Date;
         public List<DeliveryMessageReference> References => Header.References;
-        public Party Buyer => Header.BuyerParty;
-        public Party Supplier => Header.SupplierParty;
-        public List<Party> Other => Header.OtherParty;
-        public Party Sender => Header.SenderParty;
-        public Party Receiver => Header.ReceiverParty;
-        public Party Consignee => Header.ShipToInformation.Characteristics.ShipToParty;
+
+        public Party Buyer
+        {
+            get => Header.BuyerParty;
+            set => Header.BuyerParty = value;
+        }
+
+        public Party Supplier
+        {
+            get => Header.SupplierParty;
+            set => Header.SupplierParty = value;
+        }
+
+        public List<Party> Other
+        {
+            get => Header.OtherParty;
+            set => Header.OtherParty = value;
+        }
+
+        public Party Sender
+        {
+            get => Header.SenderParty;
+            set => Header.SenderParty = value;
+        }
+
+        public Party Receiver
+        {
+            get => Header.ReceiverParty;
+            set => Header.ReceiverParty = value;
+        }
+
+        public Party Consignee
+        {
+            get => Header.ShipToInformation.Characteristics.ShipToParty;
+            set => Header.ShipToInformation.Characteristics.ShipToParty = value;
+        }
+
         public DeliveryMessageShipment Shipment { get; set; } = shipment;
         private DeliveryMessageHeader Header { get; set; } = new(number, date);
-        public DeliveryMessageWoodSummary Summary => new(this.Shipment);
+        public DeliveryMessageWoodSummary Summary => new(Shipment);
+
+        public static DeliveryMessage Read(string path)
+        {
+            var doc = XDocument.Load(path);
+            var root = doc.Root;
+
+            if (root == null || root.Name.LocalName != "DeliveryMessageWood")
+                throw new InvalidDataException("XML-filen innehåller inget DeliveryMessageWood-element.");
+
+            var type = root.Attribute("DeliveryMessageType")?.Value ?? "Unknown";
+            var status = root.Attribute("DeliveryMessageStatusType")?.Value ?? "Unknown";
+
+            var headerElement = root.Element("DeliveryMessageWoodHeader");
+            var number = headerElement?.Element("DeliveryMessageNumber")?.Value ?? "Unknown";
+            var dateElement = headerElement?.Element("DeliveryMessageDate")?.Element("Date");
+            var date = XHelpers.ParseDate(dateElement) ?? DateTime.MinValue;
+
+            var references = headerElement?.Elements("DeliveryMessageReference")
+                .Select(x => new DeliveryMessageReference(
+                    x.Attribute("AssignedBy")?.Value ?? "Unknown",
+                    x.Attribute("DeliveryMessageReferenceType")?.Value ?? "Unknown",
+                    x.Value
+                )).ToList() ?? new List<DeliveryMessageReference>();
+
+            var buyer = Party.Parse(headerElement?.Element("BuyerParty"));
+            var supplier = Party.Parse(headerElement?.Element("SupplierParty"));
+            var sender = Party.Parse(headerElement?.Element("SenderParty"));
+            var receiver = Party.Parse(headerElement?.Element("ReceiverParty"));
+
+            var otherParties = headerElement?.Elements("OtherParty")
+                .Select(Party.Parse)
+                .ToList() ?? new List<Party>();
+
+            var shipmentElement = root.Element("DeliveryMessageShipment");
+            var shipment = DeliveryMessageShipment.Parse(shipmentElement);
+
+            return new DeliveryMessage(type, status, number, date, shipment)
+            {
+                Buyer = buyer,
+                Supplier = supplier,
+                Sender = sender,
+                Receiver = receiver,
+                Other = otherParties
+            };
+        }
+
 
         public override string ToString()
         {
@@ -79,6 +156,36 @@ namespace PapiNet.WoodX
         public string? Type { get; set; } = type;
         public List<PartyIdentifier> Identifiers { get; set; } = identifiers.ToList();
         public NameAddress NameAddress { get; set; } = new();
+
+        public static Party Parse(XElement? element)
+        {
+            if (element == null)
+                return new Party();
+
+            var name = element.Name.LocalName;
+            var type = element.Attribute("PartyType")?.Value;
+
+            var identifiers = element.Elements("PartyIdentifier")
+                .Select(x => new PartyIdentifier(
+                    x.Attribute("PartyIdentifierType")?.Value ?? "Unknown",
+                    x.Value
+                )).ToList();
+
+            var nameAddressElement = element.Element("NameAddress");
+            var nameAddress = new NameAddress
+            {
+                Name = nameAddressElement?.Element("Name1")?.Value,
+                Address = nameAddressElement?.Element("Address1")?.Value,
+                City = nameAddressElement?.Element("City")?.Value,
+                County = nameAddressElement?.Element("County")?.Value,
+                PostalCode = nameAddressElement?.Element("PostalCode")?.Value,
+                Country = nameAddressElement?.Element("Country")?.Value,
+                CountryCode = nameAddressElement?.Element("Country")?.Attribute("CountryCode")?.Value
+            };
+
+            return new Party(name, type, identifiers.ToArray()) { NameAddress = nameAddress };
+        }
+
 
         public override string ToString()
         {
@@ -166,6 +273,20 @@ namespace PapiNet.WoodX
         public string Type { get; set; } = shipmentIdType;
         public DeliveryMessageProductGroup ProductGroup { get; set; } = productGroup;
 
+        public static DeliveryMessageShipment Parse(XElement? element)
+        {
+            if (element == null)
+                return new DeliveryMessageShipment("Unknown", new DeliveryMessageProductGroup("Unknown", new List<DeliveryShipmentLineItem>()));
+
+            var id = element.Element("ShipmentID")?.Value ?? "Unknown";
+
+            var productGroupElement = element.Element("DeliveryMessageProductGroup");
+            var productGroup = DeliveryMessageProductGroup.Parse(productGroupElement);
+
+            return new DeliveryMessageShipment(id, productGroup);
+        }
+
+
         public override string ToString()
         {
             return new XElement("DeliveryMessageShipment",
@@ -182,6 +303,21 @@ namespace PapiNet.WoodX
         public string Type { get; set; } = type;
         public string Id { get; set; } = id;
         public List<DeliveryShipmentLineItem> Items { get; set; } = items;
+
+        public static DeliveryMessageProductGroup Parse(XElement? element)
+        {
+            if (element == null)
+                return new DeliveryMessageProductGroup("Unknown", new List<DeliveryShipmentLineItem>());
+
+            var id = element.Element("ProductGroupID")?.Value ?? "Unknown";
+
+            var items = element.Elements("DeliveryShipmentLineItem")
+                .Select(DeliveryShipmentLineItem.Parse)
+                .ToList();
+
+            return new DeliveryMessageProductGroup(id, items);
+        }
+
 
         public override string ToString()
         {
@@ -202,6 +338,24 @@ namespace PapiNet.WoodX
 
         // NOT MANDATORY !!!
         //public PurchaseOrderInformation OrderInformation { get; set; } = new(orderNumber);
+
+        public static DeliveryShipmentLineItem Parse(XElement? element)
+        {
+            if (element == null)
+                return new DeliveryShipmentLineItem("Unknown", new Product("Unknown", new List<ProductIdentifier>()), new List<TransportPackageInformation>());
+
+            var number = element.Element("DeliveryShipmentLineItemNumber")?.Value ?? "Unknown";
+
+            var productElement = element.Element("Product");
+            var product = Product.Parse(productElement);
+
+            var packageInfo = element.Elements("TransportPackageInformation")
+                .Select(TransportPackageInformation.Parse)
+                .ToList();
+
+            return new DeliveryShipmentLineItem(number, product, packageInfo);
+        }
+
 
         public override string ToString()
         {
@@ -232,6 +386,24 @@ namespace PapiNet.WoodX
     {
         public List<ProductIdentifier> Identifiers { get; set; } = identifiers;
         public string Description { get; set; } = description;
+
+        public static Product Parse(XElement? element)
+        {
+            if (element == null)
+                return new Product("Unknown", new List<ProductIdentifier>());
+
+            var description = element.Element("ProductDescription")?.Value ?? "Unknown";
+
+            var identifiers = element.Elements("ProductIdentifier")
+                .Select(x => new ProductIdentifier(
+                    x.Value,
+                    x.Attribute("Agency")?.Value ?? "Unknown",
+                    x.Attribute("ProductIdentifierType")?.Value ?? "Unknown"
+                )).ToList();
+
+            return new Product(description, identifiers);
+        }
+
 
         public override string ToString()
         {
@@ -266,6 +438,22 @@ namespace PapiNet.WoodX
         public string Unit { get; set; } = unit;
         public WoodItem Item { get; set; } = item;
 
+        public static TransportPackageInformation Parse(XElement? element)
+        {
+            if (element == null)
+                return new TransportPackageInformation("Unknown", "0", "Unknown", new WoodItem("Unknown", "Unknown", "0"));
+
+            var id = element.Element("Identifier")?.Value ?? "Unknown";
+            var itemCount = element.Element("ItemCount")?.Element("Value")?.Value ?? "0";
+            var unit = element.Element("ItemCount")?.Element("Value")?.Attribute("UOM")?.Value ?? "Unknown";
+
+            var woodItemElement = element.Element("WoodItem");
+            var woodItem = WoodItem.Parse(woodItemElement);
+
+            return new TransportPackageInformation(id, itemCount, unit, woodItem);
+        }
+
+
         public override string ToString() 
         {
             return new XElement("TransportPackageInformation",
@@ -288,6 +476,18 @@ namespace PapiNet.WoodX
         public string Category { get; set; } = category;
         public string Unit { get; set; } = unit;
         public string Count { get; set; } = count;
+
+        public static WoodItem Parse(XElement? element)
+        {
+            if (element == null)
+                return new WoodItem("Unknown", "Unknown", "0");
+
+            var category = element.Element("LengthSpecification")?.Element("LengthCategory")?.Value ?? "Unknown";
+            var unit = element.Element("LengthSpecification")?.Element("LengthCategory")?.Attribute("UOM")?.Value ?? "Unknown";
+            var count = element.Element("TotalNumberOfUnits")?.Element("Value")?.Value ?? "0";
+
+            return new WoodItem(category, unit, count);
+        }
 
         public override string ToString()
         {
