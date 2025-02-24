@@ -17,13 +17,14 @@ namespace PapiNet.WoodX
         public Party Consignee => Header.ShipToInformation.Characteristics.ShipToParty;
         public DeliveryMessageShipment Shipment { get; set; } = shipment;
         private DeliveryMessageHeader Header { get; set; } = new(number, date);
-        public DeliveryMessageWoodSummary Summary { get; } = new();
+        public DeliveryMessageWoodSummary Summary => new(this.Shipment);
 
         public override string ToString()
         {
             return new XElement("DeliveryMessageWood",
                 XElement.Parse($"{Header}"),
-                XElement.Parse($"{Shipment}")
+                XElement.Parse($"{Shipment}"),
+                XElement.Parse($"{Summary}")
             ).ToString();
         }
     }
@@ -303,8 +304,16 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class DeliveryMessageWoodSummary
+    public class DeliveryMessageWoodSummary(DeliveryMessageShipment shipment)
     {
+        DeliveryMessageShipment _shipment = shipment;
+        public string ShipmentCount => $"{_shipment.ProductGroup.Items.Count}";
 
+        public override string ToString()
+        {
+            return new XElement("DeliveryMessageWoodSummary",
+                new XElement("TotalNumberOfShipments", ShipmentCount)
+            ).ToString();
+        }
     }
 }
