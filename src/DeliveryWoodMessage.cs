@@ -16,8 +16,8 @@ namespace PapiNet.WoodX
         public Party Receiver => Header.ReceiverParty;
         public Party Consignee => Header.ShipToInformation.Characteristics.ShipToParty;
         public DeliveryMessageShipment Shipment { get; set; } = shipment;
-
         private DeliveryMessageHeader Header { get; set; } = new(number, date);
+        public DeliveryMessageWoodSummary Summary { get; } = new();
 
         public override string ToString()
         {
@@ -301,5 +301,10 @@ namespace PapiNet.WoodX
                     Count))
             ).ToString();
         }
+    }
+
+    public class DeliveryMessageWoodSummary
+    {
+
     }
 }
