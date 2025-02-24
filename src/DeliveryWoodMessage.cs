@@ -176,11 +176,11 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class DeliveryMessageProductGroup(string id, string type = "BillOfLadingMark")
+    public class DeliveryMessageProductGroup(string id, List<DeliveryShipmentLineItem> items, string type = "BillOfLadingMark")
     {
         public string Type { get; set; } = type;
         public string Id { get; set; } = id;
-        public List<DeliveryShipmentLineItem> Items { get; set; } = [];
+        public List<DeliveryShipmentLineItem> Items { get; set; } = items;
 
         public override string ToString()
         {
@@ -193,7 +193,7 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class DeliveryShipmentLineItem(string itemNumber, Product product, params List<TransportPackageInformation> packageInformation)
+    public class DeliveryShipmentLineItem(string itemNumber, Product product, List<TransportPackageInformation> packageInformation)
     {
         public string Number { get; set; } = itemNumber;
         public Product Product { get; set; } = product;
@@ -257,14 +257,48 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class TransportPackageInformation(string type = "LengthPackage")
+    public class TransportPackageInformation(string id, string itemCount, string unit, WoodItem item, string type = "LengthPackage")
     {
         public string Type { get; set; } = type;
+        public string Id { get; set; } = id;
+        public string ItemCount { get; set; } = itemCount;
+        public string Unit { get; set; } = unit;
+        public WoodItem Item { get; set; } = item;
 
         public override string ToString() 
         {
             return new XElement("TransportPackageInformation",
-                new XAttribute("PackageType", Type)
+                new XAttribute("PackageType", Type),
+                new XElement("Identifier", 
+                    new XAttribute("IdentifierType", "Primary"),
+                    new XAttribute("IdentifierCodeType", "Supplier"),
+                    Id),
+                new XElement("ItemCount",
+                    new XElement("Value",
+                        new XAttribute("UOM", Unit),
+                        ItemCount)),
+                XElement.Parse($"{Item}")
+            ).ToString();
+        }
+    }
+
+    public class WoodItem(string category, string unit, string count)
+    {
+        public string Category { get; set; } = category;
+        public string Unit { get; set; } = unit;
+        public string Count { get; set; } = count;
+
+        public override string ToString()
+        {
+            return new XElement("WoodItem",
+                new XElement("LengthSpecification",
+                    new XElement("LengthCategory",
+                        new XAttribute("UOM", Unit),
+                        Category)),
+                new XElement("TotalNumberOfUnits",
+                    new XElement("Value",
+                    new XAttribute("UOM", "Piece"),
+                    Count))
             ).ToString();
         }
     }
