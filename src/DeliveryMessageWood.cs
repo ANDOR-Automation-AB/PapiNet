@@ -20,12 +20,13 @@ namespace PapiNet.WoodX
         public Party Sender { get; set; } = new("SenderParty", "Seller");
         public Party Receiver { get; set; } = new("ReceiverParty", "Consignee");
         public Party ShipTo { get; set; } = new("ShipToParty", "PlaceOfDischarge");
-        public Terms Terms { get; set; }
+        public Terms Terms { get; set; } = new();
         public Shipment Shipment { get; set; } = new();
+        public Summary Summary { get; set; } = new();
 
-        public void Write(string path)
+        public override string ToString()
         {
-            var doc = new XDocument(
+            return new XDocument(
                 new XElement("DeliveryMessageWood",
                     new XAttribute("DeliveryMessageType", Type),
                     new XAttribute("DeliveryMessageStatusType", Status),
@@ -43,98 +44,38 @@ namespace PapiNet.WoodX
                         new XElement(Buyer.Name,
                             Buyer.Identifiers.Select(identifier => new XElement("PartyIdentifier",
                                 new XAttribute("PartyIdentifierType", identifier.Type),
-                                identifier.Name)),
-                            new XElement("NameAddress",
-                                Buyer.NameAddress.Name1 != null ? new XElement("Name1", Buyer.NameAddress.Name1) : null,
-                                Buyer.NameAddress.Name2 != null ? new XElement("Name2", Buyer.NameAddress.Name2) : null,
-                                Buyer.NameAddress.Address1 != null ? new XElement("Address1", Buyer.NameAddress.Address1) : null,
-                                Buyer.NameAddress.Address2 != null ? new XElement("Address2", Buyer.NameAddress.Address2) : null,
-                                Buyer.NameAddress.City != null ? new XElement("City", Buyer.NameAddress.City) : null,
-                                Buyer.NameAddress.Country != null ? new XElement("County", Buyer.NameAddress.Country) : null,
-                                Buyer.NameAddress.PostalCode != null ? new XElement("PostalCode", Buyer.NameAddress.PostalCode) : null,
-                                Buyer.NameAddress.Country != null ? new XElement("Country",
-                                    Buyer.NameAddress.CountryCode != null ? new XAttribute("CountryCode", Buyer.NameAddress.CountryCode) : null,
-                                    Buyer.NameAddress.Country) : null)),
+                                identifier.Value)),
+                            $"{Buyer.NameAddress}"),
                         new XElement(Supplier.Name,
                             Supplier.Identifiers.Select(identifier => new XElement("PartyIdentifier",
                                 new XAttribute("PartyIdentifierType", identifier.Type),
-                                identifier.Name)),
-                            new XElement("NameAddress",
-                                Supplier.NameAddress.Name1 != null ? new XElement("Name1", Supplier.NameAddress.Name1) : null,
-                                Supplier.NameAddress.Name2 != null ? new XElement("Name2", Supplier.NameAddress.Name2) : null,
-                                Supplier.NameAddress.Address1 != null ? new XElement("Address1", Supplier.NameAddress.Address1) : null,
-                                Supplier.NameAddress.Address2 != null ? new XElement("Address2", Supplier.NameAddress.Address2) : null,
-                                Supplier.NameAddress.City != null ? new XElement("City", Supplier.NameAddress.City) : null,
-                                Supplier.NameAddress.Country != null ? new XElement("County", Supplier.NameAddress.Country) : null,
-                                Supplier.NameAddress.PostalCode != null ? new XElement("PostalCode", Supplier.NameAddress.PostalCode) : null,
-                                Supplier.NameAddress.Country != null ? new XElement("Country",
-                                    Supplier.NameAddress.CountryCode != null ? new XAttribute("CountryCode", Supplier.NameAddress.CountryCode) : null,
-                                    Supplier.NameAddress.Country) : null)),
+                                identifier.Value)),
+                            $"{Supplier.NameAddress}"),
                         Other.Select(party => new XElement(party.Name,
                             party.Identifiers.Select(identifier => new XElement("PartyIdentifier",
                                 new XAttribute("PartyIdentifierType", identifier.Type),
-                                identifier.Name)),
-                            new XElement("NameAddress",
-                                party.NameAddress.Name1 != null ? new XElement("Name1", party.NameAddress.Name1) : null,
-                                party.NameAddress.Name2 != null ? new XElement("Name2", party.NameAddress.Name2) : null,
-                                party.NameAddress.Address1 != null ? new XElement("Address1", party.NameAddress.Address1) : null,
-                                party.NameAddress.Address2 != null ? new XElement("Address2", party.NameAddress.Address2) : null,
-                                party.NameAddress.City != null ? new XElement("City", party.NameAddress.City) : null,
-                                party.NameAddress.Country != null ? new XElement("County", party.NameAddress.Country) : null,
-                                party.NameAddress.PostalCode != null ? new XElement("PostalCode", party.NameAddress.PostalCode) : null,
-                                party.NameAddress.Country != null ? new XElement("Country",
-                                    party.NameAddress.CountryCode != null ? new XAttribute("CountryCode", party.NameAddress.CountryCode) : null,
-                                    party.NameAddress.Country) : null))),
+                                identifier.Value)),
+                            $"{party.NameAddress}")),
                         new XElement(Sender.Name,
                             Sender.Type != null ? new XAttribute("PartyType", Sender.Type) : null,
                             Sender.Identifiers.Select(identifier => new XElement("PartyIdentifier",
                                 new XAttribute("PartyIdentifierType", identifier.Type),
-                                identifier.Name)),
-                            new XElement("NameAddress",
-                                Sender.NameAddress.Name1 != null ? new XElement("Name1", Sender.NameAddress.Name1) : null,
-                                Sender.NameAddress.Name2 != null ? new XElement("Name2", Sender.NameAddress.Name2) : null,
-                                Sender.NameAddress.Address1 != null ? new XElement("Address1", Sender.NameAddress.Address1) : null,
-                                Sender.NameAddress.Address2 != null ? new XElement("Address2", Sender.NameAddress.Address2) : null,
-                                Sender.NameAddress.City != null ? new XElement("City", Sender.NameAddress.City) : null,
-                                Sender.NameAddress.Country != null ? new XElement("County", Sender.NameAddress.Country) : null,
-                                Sender.NameAddress.PostalCode != null ? new XElement("PostalCode", Sender.NameAddress.PostalCode) : null,
-                                Sender.NameAddress.Country != null ? new XElement("Country",
-                                    Sender.NameAddress.CountryCode != null ? new XAttribute("CountryCode", Sender.NameAddress.CountryCode) : null,
-                                    Sender.NameAddress.Country) : null)),
+                                identifier.Value)),
+                            $"{Sender.NameAddress}"),
                         new XElement(Receiver.Name,
                             Receiver.Type != null ? new XAttribute("PartyType", Receiver.Type) : null,
                             Receiver.Identifiers.Select(identifier => new XElement("PartyIdentifier",
                                 new XAttribute("PartyIdentifierType", identifier.Type),
-                                identifier.Name)),
-                            new XElement("NameAddress",
-                                Receiver.NameAddress.Name1 != null ? new XElement("Name1", Receiver.NameAddress.Name1) : null,
-                                Receiver.NameAddress.Name2 != null ? new XElement("Name2", Receiver.NameAddress.Name2) : null,
-                                Receiver.NameAddress.Address1 != null ? new XElement("Address1", Receiver.NameAddress.Address1) : null,
-                                Receiver.NameAddress.Address2 != null ? new XElement("Address2", Receiver.NameAddress.Address2) : null,
-                                Receiver.NameAddress.City != null ? new XElement("City", Receiver.NameAddress.City) : null,
-                                Receiver.NameAddress.Country != null ? new XElement("County", Receiver.NameAddress.Country) : null,
-                                Receiver.NameAddress.PostalCode != null ? new XElement("PostalCode", Receiver.NameAddress.PostalCode) : null,
-                                Receiver.NameAddress.Country != null ? new XElement("Country",
-                                    Receiver.NameAddress.CountryCode != null ? new XAttribute("CountryCode", Receiver.NameAddress.CountryCode) : null,
-                                    Receiver.NameAddress.Country) : null)),
+                                identifier.Value)),
+                            $"{Receiver.NameAddress}"),
                         new XElement("ShipToInformation",
                             new XElement("ShipToCharacteristics",
                                 new XElement(ShipTo.Name,
                                     ShipTo.Type != null ? new XAttribute("PartyType", ShipTo.Type) : null,
                                     ShipTo.Identifiers.Select(identifier => new XElement("PartyIdentifier",
                                         new XAttribute("PartyIdentifierType", identifier.Type),
-                                        identifier.Name)),
-                                    new XElement("NameAddress",
-                                        ShipTo.NameAddress.Name1 != null ? new XElement("Name1", ShipTo.NameAddress.Name1) : null,
-                                        ShipTo.NameAddress.Name2 != null ? new XElement("Name2", ShipTo.NameAddress.Name2) : null,
-                                        ShipTo.NameAddress.Address1 != null ? new XElement("Address1", ShipTo.NameAddress.Address1) : null,
-                                        ShipTo.NameAddress.Address2 != null ? new XElement("Address2", ShipTo.NameAddress.Address2) : null,
-                                        ShipTo.NameAddress.City != null ? new XElement("City", ShipTo.NameAddress.City) : null,
-                                        ShipTo.NameAddress.Country != null ? new XElement("County", ShipTo.NameAddress.Country) : null,
-                                        ShipTo.NameAddress.PostalCode != null ? new XElement("PostalCode", ShipTo.NameAddress.PostalCode) : null,
-                                        ShipTo.NameAddress.Country != null ? new XElement("Country",
-                                            ShipTo.NameAddress.CountryCode != null ? new XAttribute("CountryCode", ShipTo.NameAddress.CountryCode) : null,
-                                            ShipTo.NameAddress.Country) : null)),
+                                        identifier.Value)),
+                                    $"{ShipTo.NameAddress}"),
                                 new XElement("TermsOfDelivery",
                                     new XElement("IncotermsLocation",
                                         new XAttribute("Incoterms", Terms.Incoterms),
@@ -156,7 +97,7 @@ namespace PapiNet.WoodX
                                     item.Product.Identifiers.Select(identifier => new XElement("ProductIdentifier",
                                         new XAttribute("Agency", identifier.Agency),
                                         new XAttribute("ProductIdentifierType", identifier.Type),
-                                        identifier.Name)),
+                                        identifier.Value)),
                                     item.Product.Description.Select(description => new XElement("ProductDescription", description)),
                                     new XElement("WoodProducts",
                                         new XElement("WoodTimbersDimensionalLumberBoards",
@@ -191,8 +132,29 @@ namespace PapiNet.WoodX
                                                         new XElement("PatternProfileCode", item.Product.ProfileCode),
                                                         item.Product.ProfileText != null ? new XElement("AdditionalText", item.Product.ProfileText) : null)))))),
                                 new XElement("TransportPackageInformation"))))),
-                    new XElement("DeliveryMessageWoodSummary")));
-            doc.Save(path);
+                    new XElement("DeliveryMessageWoodSummary",
+                        new XElement("TotalNumberOfShipments", Summary.ShipmentCount),
+                        new XElement("TotalQuantity",
+                            new XAttribute("QuantityType", Summary.TotalQuantity.Type),
+                            new XAttribute("QuantityTypeContext", Summary.TotalQuantity.Context),
+                                new XElement("Value",
+                                    new XAttribute("UOM", Summary.TotalQuantity.Unit),
+                                    Summary.TotalQuantity.Value)),
+                        Summary.InformationalQuantities.Select(quantity => new XElement("TotalInformationalQuantity",
+                            new XAttribute("QuantityType", quantity.Type),
+                            new XAttribute("QuantityTypeContext", quantity.Context),
+                                new XElement("Value",
+                                    new XAttribute("UOM", quantity.Unit),
+                                    quantity.Value))),
+                        Summary.Specifications.Select(specification => new XElement("LengthSpecification",
+                            new XElement("LengthCategory",
+                                new XAttribute("UOM", specification.CategoryUnit),
+                                specification.Category),
+                            new XElement("TotalNumberOfUnits",
+                                new XElement("Value",
+                                    new XAttribute("UOM", specification.CountUnit),
+                                    specification.Count)))))))
+                .ToString();
         }
     }
 
@@ -211,10 +173,10 @@ namespace PapiNet.WoodX
         public NameAddress NameAddress { get; set; }
     }
 
-    public class Identifier(string name, string type, string? agency = null)
+    public class Identifier(string value, string type, string? agency = null)
     {
         public string Type { get; set; } = type;
-        public string Name { get; set; } = name;
+        public string Value { get; set; } = value;
         public string? Agency { get; set; } = agency;
     }
 
@@ -229,6 +191,22 @@ namespace PapiNet.WoodX
         public string? PostalCode { get; set; } = null;
         public string? Country { get; set; } = null;
         public string? CountryCode { get; set; } = null;
+
+        public override string ToString()
+        {
+            return new XElement("NameAddress",
+                Name1 != null ? new XElement("Name1", Name1) : null,
+                Name2 != null ? new XElement("Name2", Name2) : null,
+                Address1 != null ? new XElement("Address1", Address1) : null,
+                Address2 != null ? new XElement("Address2", Address2) : null,
+                City != null ? new XElement("City", City) : null,
+                Country != null ? new XElement("County", Country) : null,
+                PostalCode != null ? new XElement("PostalCode", PostalCode) : null,
+                Country != null ? new XElement("Country",
+                    CountryCode != null ? new XAttribute("CountryCode", CountryCode) : null,
+                    Country) : null
+            ).ToString();                
+        }
     }
 
     public class Terms
@@ -275,8 +253,33 @@ namespace PapiNet.WoodX
 
     public class Dimension(bool actual)
     {
-        public string Type { get; set; } = actual ? "Actual" : "Nominal";
+        public bool Actual { get; set; } = actual;
+        public string Type => Actual ? "Actual" : "Nominal";
         public string Unit { get; set; }
         public string Value { get; set; }
+    }
+
+    public class Summary
+    {
+        public string ShipmentCount { get; set; }
+        public Quantity TotalQuantity { get; set; }
+        public List<Quantity> InformationalQuantities { get; set; }
+        public List<Specification> Specifications { get; set; }
+    }
+    
+    public class Quantity
+    {
+        public string Type { get; set; }
+        public string Context { get; set; }
+        public string Unit { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class Specification
+    {
+        public string Category { get; set; }
+        public string CategoryUnit { get; set; }
+        public string Count { get; set; }
+        public string CountUnit { get; set; }
     }
 }
