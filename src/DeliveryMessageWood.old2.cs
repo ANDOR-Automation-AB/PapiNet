@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
-namespace PapiNet.WoodX
+namespace PapiNet.WoodX.old3
 {
     using static XHelpers;
 
@@ -63,10 +57,15 @@ namespace PapiNet.WoodX
         public List<Reference> References { get; set; } = [];
         public Party Buyer { get; set; } = new("BuyerParty");
         public Party Supplier { get; set; } = new("SupplierParty");
+        public List<Party> Other { get; set; } = [];
         public Party Seller { get; set; } = new("OtherParty", "Seller");
+        public Party Destination { get; set; } = new("OtherParty", "PlaceFinalDestination");
+        public Party SalesAgent { get; set; } = new("OtherParty", "SalesAgent");
+        public Party SalesOffice { get; set; } = new("OtherParty", "SalesOffice");
         public Party Sender { get; set; } = new("SenderParty");
         public Party Receiver { get; set; } = new("ReceiverParty");
         public Party ShipTo { get; set; } = new("ShipToParty", "PlaceOfDischarge");
+        public Terms? Terms { get; set; } = null;
         public List<Shipment> Shipments { get; set; } = [];
 
         public override string ToString()
@@ -84,18 +83,20 @@ namespace PapiNet.WoodX
                             XElement.Parse($"{Buyer}"),
                             XElement.Parse($"{Supplier}"),
                             XElement.Parse($"{Seller}"),
+                            XElement.Parse($"{Destination}"),
+                            XElement.Parse($"{SalesAgent}"),
+                            XElement.Parse($"{SalesOffice}"),
+                            Other.Select(party => XElement.Parse($"{party}")),
                             XElement.Parse($"{Sender}"),
                             XElement.Parse($"{Receiver}"),
                             new XElement("ShipToInformation",
                                 new XElement("ShipToCharacteristics",
-                                    XElement.Parse($"{ShipTo}")
+                                    XElement.Parse($"{ShipTo}"),
+                                    Terms != null ? XElement.Parse($"{Terms}") : null
                                 )
                             )
                         ),
-                        Shipments.Select(shipment => XElement.Parse($"{shipment}")),
-                        new XElement("DeliveryMessageWoodSummary",
-                            new XElement("TotalNumberOfShipments", Shipments.Count)
-                        )
+                        Shipments.Select(shipment => XElement.Parse($"{shipment}"))
                     )
                 ).ToString();
         }
@@ -116,6 +117,7 @@ namespace PapiNet.WoodX
             ).ToString();
         }
     }
+
 
     public class Party(string name = "OtherParty", string? type = null, params Identifier[] identifiers)
     {
@@ -154,7 +156,6 @@ namespace PapiNet.WoodX
 
             return new Party(name, type, identifiers.ToArray()) { NameAddress = nameAddress };
         }
-
         public override string ToString()
         {
             return new XElement(Name,
@@ -165,16 +166,16 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class Identifier(string type, string number)
+    public class Identifier(string type, string id)
     {
         public string Type { get; set; } = type;
-        public string Number { get; set; } = number;
+        public string Id { get; set; } = id;
 
         public override string ToString()
         {
             return new XElement("PartyIdentifier",
                 new XAttribute("PartyIdentifierType", $"{Type}"),
-                Number
+                Id
             ).ToString();
         }
     }
@@ -208,86 +209,45 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class Shipment
+    public class Terms(IncotermsType incoterms, string version, string location, string? additionalText = null)
     {
-        public List<ProductGroup> ProductGroups { get; set; } = [];
+        public IncotermsType Incoterms { get; set; } = incoterms;
+        public string Version { get; set; } = version;
+        public string Location { get; set; } = location;
+        public string? AdditionalText { get; set; } = additionalText;
 
+        public override string ToString()
+        {
+            return new XElement("TermsOfDelivery",
+                new XElement("IncotermsLocation",
+                    new XAttribute("Incoterms", Incoterms),
+                    new XAttribute("IncotermsVersion", Version),
+                    Location
+                ),
+                AdditionalText != null ? new XElement("AdditionalText", AdditionalText) : null
+            ).ToString();
+        }
+    }
+
+    public class Shipment(string shipmentNumber, Product product)
+    {
+        public string Number { get; set; } = shipmentNumber;
+        public string? OrderNumber { get; set; } = null;
+        public string? ItemNumber { get; set; } = null;
+        public List<Reference> References { get; set; } = [];
+        public Product Product { get; set; } = product;
         public override string ToString()
         {
             return new XElement("DeliveryMessageShipment",
-                ProductGroups.Select(group => XElement.Parse($"{group}"))
-            ).ToString();
-        }
-    }
-
-    public class ProductGroup
-    {
-        public List<LineItem> LineItems { get; set; } = [];
-
-        public override string ToString()
-        {
-            return new XElement("DeliveryMessageProductGroup",
-                LineItems.Select(item => XElement.Parse($"{item}"))
-            ).ToString();
-        }
-    }
-
-    public class LineItem(string number)
-    {
-        public string Number { get; set; } = number;
-        public List<Product> Products { get; set; } = [];
-
-        public override string ToString()
-        {
-            return new XElement("DeliveryShipmentLineItem",
-                new XElement("DeliveryShipmentLineItemNumber", Number),
-                Products.Select(product => XElement.Parse($"{product}"))
-            ).ToString();
-        }
-    }
-
-    public class Product(List<string> descriptions, Classification species, Classification grade, Dimension width, Dimension thickness)
-    {
-        public List<ProductIdentifier> Identifiers { get; set; } = [];
-        public List<string> Descriptions { get; set; } = descriptions;
-        public Classification Species { get; set; } = species;
-        public Classification Grade { get; set; } = grade;
-        public Dimension Width { get; set; } = width;
-        public Dimension Thickness { get; set; } = thickness;
-
-        public override string ToString()
-        {
-            return new XElement("Product",
-                Identifiers.Select(identifier => XElement.Parse($"{identifier}")),
-                Descriptions.Select(description => new XElement("ProductDescription", description)),
-                new XElement("WoodProducts",
-                    new XElement("WoodTimbersDimensionalLumberBoards",
-                        new XElement("SoftwoodLumber",
-                            new XElement("SoftwoodLumberCharacteristics",
-                                new XElement("LumberSpecies",
-                                    new XAttribute("SpeciesType", Species.Name),
-                                    new XElement("SpeciesCode", Species.Code)
-                                ),
-                                new XElement("LumberGrade",
-                                    Grade.Agency != null ? new XAttribute("GradeAgency", Grade.Agency) : null,
-                                    new XElement("GradeName", Grade.Name),
-                                    new XElement("GradeCode", Grade.Code)
-                                ),
-                                new XElement("Width", 
-                                    new XAttribute("ActualNominal", Width.Type),
-                                    new XElement("Value",
-                                        new XAttribute("UOM", Width.Unit),
-                                        Width.Value
-                                    )
-                                ),
-                                new XElement("Thickness",
-                                    new XAttribute("ActualNominal", Thickness.Type),
-                                    new XElement("Value",
-                                        new XAttribute("UOM", Thickness.Unit),
-                                        Thickness.Value
-                                    )
-                                )
-                            )
+                new XElement("DeliveryMessageProductGroup",
+                    new XElement("DeliveryMessageProductGroup",
+                        new XElement("DeliveryShipmentLineItem",
+                            new XElement("DeliveryShipmentLineItemNumber", Number),
+                            OrderNumber != null ? new XElement("PurchaseOrderInformation",
+                                new XElement("PurchaseOrderNumber", OrderNumber)
+                            ) : null,
+                            ItemNumber != null ? new XElement("PurchaseOrderLineItemNumber", ItemNumber) : null,
+                            References.Select(reference => XElement.Parse($"{reference}"))
                         )
                     )
                 )
@@ -295,34 +255,20 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class ProductIdentifier(string number, string type, string agency)
+    public class ProductGroup
     {
-        public string Number { get; set; } = number;
-        public string Type { get; set; } = type;
-        public string Agency { get; set; } = agency;
+
+    }
+
+    public class Product
+    {
+        public List<Identifier> Identifiers { get; set; } = [];
 
         public override string ToString()
         {
-            return new XElement("ProductIdentifier",
-                new XAttribute("Agency", Agency),
-                new XAttribute("ProductIdentifierType", Type),
-                Number
+            return new XElement("Product"
+                
             ).ToString();
         }
-    }
-
-    public class Dimension(bool actual, string unit, string value)
-    {
-        public bool Actual { get; set; } = actual;
-        public string Type => Actual ? "Actual" : "Nominal";
-        public string Unit { get; set; } = unit;
-        public string Value { get; set; } = value;
-    }
-
-    public class Classification(string name, string code, string? agency = null)
-    {
-        public string Name { get; set; } = name;
-        public string Code { get; set; } = code;
-        public string? Agency { get; set; } = agency;
     }
 }

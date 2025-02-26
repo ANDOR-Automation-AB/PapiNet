@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace PapiNet.WoodX.src
+namespace PapiNet.WoodX
 {
     public class XHelpers
     {
-        public static XElement? GetDate(DateTime? date)
+        public static XElement? GetXDate(DateTime? date)
         {
             if (date == null)
                 return null;

@@ -1,5 +1,4 @@
-﻿using PapiNet.WoodX.src;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 namespace PapiNet.WoodX.Old
 {
     public class DeliveryMessage(string type, string status, string number, DateTime date, DeliveryMessageShipment shipment)
@@ -122,7 +121,7 @@ namespace PapiNet.WoodX.Old
         {
             return new XElement("DeliveryMessageHeader",
                 new XElement("DeliveryMessageNumber", Number),
-                XHelpers.GetDate(Date),
+                XHelpers.GetXDate(Date),
                 References.Select(reference => XElement.Parse($"{reference}")),
                 XElement.Parse($"{BuyerParty}"),
                 XElement.Parse($"{SupplierParty}"),
