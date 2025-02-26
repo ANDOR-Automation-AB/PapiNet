@@ -1,7 +1,10 @@
 # PapiNet.WoodX
 
-Detta är en open-source implementation av PapiNet WoodX enligt specifikationen i 
+Detta är en open-source implementation av papiNet WoodX enligt specifikationen i 
 Implementation Guide V2.31. Detta projekt är inte en officiell implementation från PapiNet.
+
+**Referensdokument papiNet V2R31**
+https://www.papinet.org/fileadmin/user_upload/v2r31/20091201/DataDictV2R31_20091201-2010-01-28.pdf
 
 ---
 

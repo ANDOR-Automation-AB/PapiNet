@@ -49,7 +49,7 @@ namespace PapiNet.WoodX
         CPT
     }
 
-    public class DeliveryMessage(string number, DateTime date)
+    public class DeliveryMessage
     {
         const string xsi = "http://www.w3.org/2001/XMLSchema-instance";
         public List<string> Stylesheet { get; set; } = new()
@@ -58,8 +58,8 @@ namespace PapiNet.WoodX
         };
         public DeliveryMessageType Type { get; set; } = DeliveryMessageType.DeliveryMessage;
         public DeliveryMessageStatusType Status { get; set; } = DeliveryMessageStatusType.Original;
-        public string Number { get; set; } = number;
-        public DateTime Date { get; set; } = date;
+        public string Number { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
         public List<Reference> References { get; set; } = [];
         public Party Buyer { get; set; } = new("BuyerParty");
         public Party Supplier { get; set; } = new("SupplierParty");
@@ -68,6 +68,45 @@ namespace PapiNet.WoodX
         public Party Receiver { get; set; } = new("ReceiverParty");
         public Party ShipTo { get; set; } = new("ShipToParty", "PlaceOfDischarge");
         public List<Shipment> Shipments { get; set; } = [];
+
+        public DeliveryMessage(string number, DateTime date) 
+        {
+            Number = number;
+            Date = date;
+        }
+
+        DeliveryMessage()
+        {
+
+        }
+
+        public static DeliveryMessage Parse(string uri)
+        {
+            var xml = XElement.Load(uri);
+            var header = xml.Element("DeliveryMessageWoodHeader")!;
+
+            return new DeliveryMessage
+            {
+                Type = Enum.Parse<DeliveryMessageType>(xml.Attribute("DeliveryMessageType")!.Value),
+                Status = Enum.Parse<DeliveryMessageStatusType>(xml.Attribute("DeliveryMessageStatusType")!.Value),
+                Number = header.Element("DeliveryMessageNumber")!.Value,
+                Date = new DateTime(
+                    year: int.Parse(header.Element("DeliveryMessageDate")!.Element("Date")!.Element("Year")!.Value),
+                    month: int.Parse(header.Element("DeliveryMessageDate")!.Element("Date")!.Element("Month")!.Value),
+                    day: int.Parse(header.Element("DeliveryMessageDate")!.Element("Date")!.Element("Day")!.Value)),
+                References = header.Elements("DeliveryMessageReference").Select(reference => new Reference(
+                    reference.Attribute("DeliveryMessageReferenceType")!.Value, reference.Value, reference.Attribute("AssignedBy")?.Value ?? null))
+                    .ToList(),
+                Buyer = Party.Parse(header.Element("BuyerParty"))!,
+                Supplier = Party.Parse(header.Element("SupplierParty"))!,
+                Seller = Party.Parse(header.Elements("OtherParty")
+                    .Where(element => element.Attribute("PartyType")!.Value == "Seller")
+                    .FirstOrDefault())!,
+                Sender = Party.Parse(header.Element("SenderParty"))!,
+                Receiver = Party.Parse(header.Element("ReceiverParty"))!,
+                ShipTo = Party.Parse(header.Element("ShipToInformation")!.Element("ShipToCharacteristics")!.Element("ShipToParty"))!
+            }; 
+        }
 
         public override string ToString()
         {
@@ -115,6 +154,19 @@ namespace PapiNet.WoodX
                 Value
             ).ToString();
         }
+
+        public static List<Reference> Parse(string path)
+        {
+            var xml = XElement.Load(path);
+
+            return xml.Elements("DeliveryMessageReference")
+                .Select(reference => new Reference(
+                    type: reference.Attribute("DeliveryMessageReferenceType")?.Value,
+                    value: reference.Value,
+                    assignedBy: reference.Attribute("AssignedBy")?.Value
+                    ))
+                .ToList();                
+        }
     }
 
     public class Party(string name = "OtherParty", string? type = null, params Identifier[] identifiers)
@@ -124,35 +176,17 @@ namespace PapiNet.WoodX
         public List<Identifier> Identifiers { get; set; } = identifiers.ToList();
         public NameAddress NameAddress { get; set; } = new();
 
-        public static Party Parse(XElement? element)
+        public static Party? Parse(XElement? xElement)
         {
-            if (element == null)
-                return new Party();
+            if (xElement == null)
+                return null;
 
-            var name = element.Name.LocalName;
-            var type = element.Attribute("PartyType")?.Value;
-
-            var identifiers = element.Elements("PartyIdentifier")
-                .Select(identifier => new Identifier(
-                    identifier.Attribute("PartyIdentifierType")?.Value ?? "Unknown",
-                    identifier.Value
-                )).ToList();
-
-            var nameAddressElement = element.Element("NameAddress");
-            var nameAddress = new NameAddress
+            return new Party(xElement.Name.LocalName, xElement.Attribute("PartyType")?.Value, xElement.Elements("PartyIdentifier")
+                .Select(identifier => new Identifier(identifier.Attribute("PartyIdentifierType")!.Value, identifier.Value))
+                .ToArray())
             {
-                Name1 = nameAddressElement?.Element("Name1")?.Value,
-                Address1 = nameAddressElement?.Element("Address1")?.Value,
-                Name2 = nameAddressElement?.Element("Name2")?.Value,
-                Address2 = nameAddressElement?.Element("Address2")?.Value,
-                City = nameAddressElement?.Element("City")?.Value,
-                County = nameAddressElement?.Element("County")?.Value,
-                PostalCode = nameAddressElement?.Element("PostalCode")?.Value,
-                Country = nameAddressElement?.Element("Country")?.Value,
-                CountryCode = nameAddressElement?.Element("Country")?.Attribute("CountryCode")?.Value
+                NameAddress = NameAddress.Parse(xElement.Element("NameAddress"))!
             };
-
-            return new Party(name, type, identifiers.ToArray()) { NameAddress = nameAddress };
         }
 
         public override string ToString()
@@ -190,6 +224,25 @@ namespace PapiNet.WoodX
         public string? PostalCode { get; set; } = null;
         public string? Country { get; set; } = null;
         public string? CountryCode { get; set; } = null;
+
+        public static NameAddress? Parse(XElement? xElement)
+        {
+            if (xElement == null)
+                return null;
+
+            return new NameAddress
+            {
+                Name1 = xElement.Element("Name1")?.Value ?? null,
+                Address1 = xElement.Element("Address1")?.Value ?? null,
+                Name2 = xElement.Element("Name2")?.Value ?? null,
+                Address2 = xElement.Element("Address2")?.Value ?? null,
+                City = xElement.Element("City")?.Value ?? null,
+                County = xElement.Element("County")?.Value ?? null,
+                PostalCode = xElement.Element("PostalCode")?.Value ?? null,
+                Country = xElement.Element("Country")?.Value ?? null,
+                CountryCode = xElement.Attribute("ISOCountryCode")?.Value ?? null
+            };
+        }
 
         public override string ToString()
         {
@@ -246,14 +299,45 @@ namespace PapiNet.WoodX
         }
     }
 
-    public class Product(List<string> descriptions, Classification species, Classification grade, Dimension width, Dimension thickness)
+    public class Product
     {
         public List<ProductIdentifier> Identifiers { get; set; } = [];
-        public List<string> Descriptions { get; set; } = descriptions;
-        public Classification Species { get; set; } = species;
-        public Classification Grade { get; set; } = grade;
-        public Dimension Width { get; set; } = width;
-        public Dimension Thickness { get; set; } = thickness;
+        public List<string> Descriptions { get; set; } = [];
+        public Classification Species { get; set; }
+        public Classification Grade { get; set; }
+        public Dimension Width { get; set; }
+        public Dimension Thickness { get; set; }
+
+        public Product(List<string> descriptions, Classification species, Classification grade, Dimension width, Dimension thickness)
+        {
+            Descriptions = descriptions;
+            Species = species;
+            Grade = grade;
+            Width = width;
+            Thickness = thickness;
+        }
+
+        Product()
+        {
+
+        }
+
+        public static Product Parse(XElement xElement)
+        {
+            return new Product
+            {
+                Identifiers = xElement.Elements("ProductIdentifier")!
+                    .Select(identifier => new ProductIdentifier(
+                        identifier.Value,
+                        identifier.Attribute("ProductIdentifierType")!.Value,
+                        identifier.Attribute("Agency")!.Value))
+                    .ToList(),
+                Descriptions = xElement.Elements("ProductDescription")
+                    .Select(description => description.Value)
+                    .ToList(),    
+                //Species = new Classification("LumberSpecies"
+            };
+        }
 
         public override string ToString()
         {
@@ -319,10 +403,19 @@ namespace PapiNet.WoodX
         public string Value { get; set; } = value;
     }
 
-    public class Classification(string name, string code, string? agency = null)
+    public class Classification
     {
-        public string Name { get; set; } = name;
-        public string Code { get; set; } = code;
-        public string? Agency { get; set; } = agency;
+        public string Name { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
+        public string? Agency { get; set; }
+
+        public Classification(string name, string code, string? type = null, string? agency = null)
+        {
+            Name = name;
+            Code = code;
+            Type = type ?? string.Empty;
+            Agency = agency;
+        }
     }
 }
