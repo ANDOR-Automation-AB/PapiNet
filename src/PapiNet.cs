@@ -454,6 +454,166 @@ public enum AssignedBy
     Other,
 }
 
+public enum GPSSystem
+{
+    ECEF,
+    HAE,
+    MSL,
+}
+
+public enum MapCoordinateType
+{
+    // ETRS-TM35FIN,
+    Lambert93,
+    Lambert1,
+    Lambert2,
+    Lambert3,
+    Lambert4,
+    Lambert2Etendu,
+    LatLong,
+    // RT90_2.5GonV
+    SWEREF99TM,
+    UTM,
+}
+
+public enum MapReferenceSystem
+{
+    ETRS89,
+    // EUREF-FIN,
+    NTF,
+    RGF93,
+    RT90,
+    SWEREF99,
+    WGS84,
+}
+
+public enum PartyType
+{
+    Bank,
+    BillTo,
+    BorderCrossing,
+    Broker,
+    Buyer,
+    BuyerAgent,
+    Carrier,
+    CarrierAssignmentResponsible,
+    ComponentVendor,
+    Consignee,
+    Consignor,
+    Consuming,
+    Converter,
+    CreditDepartment,
+    CrossDock,
+    CustomerFacility,
+    CustomerStock,
+    Customs,
+    CustomsForwarder,
+    DomesticForwarder,
+    EndUser,
+    ExportForwarder,
+    ForestForwarder,
+    Forwarder,
+    FreightPayer,
+    Insurer,
+    Landowner,
+    LoadingOperator,
+    LoggingArea,
+    MainCarrier,
+    Measurer,
+    Merchant,
+    Mill,
+    NotifyParty,
+    OnBehalfOf,
+    OrderParty,
+    OriginalSupplier,
+    Payee,
+    Payer,
+    PlaceFinalDestination,
+    PlaceOfAccept,
+    PlaceOfDespatch,
+    PlaceOfDischarge,
+    PlaceOfLoading,
+    PlaceOfReloading,
+    Port,
+    PreCarrier,
+    PrinterFacility,
+    ProFormaInvoice,
+    Producer,
+    RemitTo,
+    Requestor,
+    RoadKeeper,
+    RoadOwner,
+    SalesAgent,
+    SalesOffice,
+    Seller,
+    ShipFromLocation,
+    ShipOwner,
+    ShipTo,
+    SubCarrier,
+    Supplier,
+    Terminal,
+    TerminalOperator,
+    UnloadingOperator,
+    Warehouse,
+    WillAdvise,
+    Other,
+}
+
+public enum Incoterms
+{
+    CFR,
+    CIF,
+    CIP,
+    CPT,
+    DAF,
+    DDP,
+    DDU,
+    DEQ,
+    DES,
+    EXW,
+    FAS,
+    FCA,
+    FOB,
+    Other,
+}
+
+public enum IncotermsVersion
+{
+    _1980,
+    _1990,
+    _2000,
+    _20xx
+}
+
+public enum LocationQualifier
+{
+    Destination,
+    DistributionCentre,
+    Dock,
+    Factory,
+    Mill,
+    OnVesselFOBPoint,
+    Origin,
+    OriginAfterLoadingOnEquipment,
+    OriginShippingPoint,
+    Plant,
+    Port,
+    Reload,
+    Terminal,
+    Warehouse,
+}
+
+public enum Method
+{
+    CollectFreight,
+    CollectFreightAndAllowed,
+    CollectFreightCreditedBackToCustomer,
+    CustomerPickupBackhaul,
+    Pickup,
+    PrepaidButChargedToCustomer,
+    PrepaidBySeller,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -465,10 +625,7 @@ public class DeliveryMessageWood
     public DeliveryMessageShipment DeliveryMessageShipment = new();
     public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary;
 
-    public DeliveryMessageWood()
-    {
-
-    }
+    public DeliveryMessageWood() { }
 
     public DeliveryMessageWood(
         DeliveryMessageType deliveryMessageType, 
@@ -534,28 +691,18 @@ public class DeliveryMessageDate
 {
     public Date Date = new();
 
-    public DeliveryMessageDate()
-    {
+    public DeliveryMessageDate() { }
 
-    }
-
-    public DeliveryMessageDate(Date date)
-    {
-        Date = date;
-    }
+    public DeliveryMessageDate(Date date) { Date = date; }
 
     public DeliveryMessageDate(XElement root)
     {
-        var dateElement = root.Element("Date");
-
-        Date = new Date(dateElement!);
+        Date = root.Element("Date") is XElement date ? new Date(date) : Date;
     }
 
     public override string ToString()
     {
-        return new XElement("DeliveryMessageDate",
-            $"{Date}"
-        ).ToString();
+        return new XElement("DeliveryMessageDate", $"{Date}").ToString();
     }
 }
 
@@ -565,10 +712,7 @@ public class Date
     public string Month = string.Empty;
     public string Day = string.Empty;
 
-    public Date()
-    {
-
-    }
+    public Date() { }
 
     public Date(string year, string month, string day)
     {
@@ -579,13 +723,9 @@ public class Date
 
     public Date(XElement root)
     {
-        var yearElement = root.Element("Year");
-        var monthElement = root.Element("Month");
-        var dayElement = root.Element("Day");
-
-        Year = yearElement!.Value;
-        Month = monthElement!.Value;
-        Day = dayElement!.Value;
+        Year = root.Element("Year")?.Value ?? Year;
+        Month = root.Element("Month")?.Value ?? Month;
+        Day = root.Element("Day")?.Value ?? Day;
     }
 
     public override string ToString()
@@ -602,20 +742,11 @@ public class Time
 {
     public string Value = string.Empty;
 
-    public Time()
-    {
+    public Time() { }
 
-    }
+    public Time(string value) { Value = value; }
 
-    public Time(string value)
-    {
-        Value = value;
-    }
-
-    public Time(XElement root)
-    {
-        Value = root.Value;
-    }
+    public Time(XElement root) { Value = root.Value; }
 
     public override string ToString()
     {
@@ -627,10 +758,7 @@ public class Time
 
 public class DeliveryMessageShipment
 {
-    public DeliveryMessageShipment()
-    {
-
-    }
+    public DeliveryMessageShipment() { }
 
     public DeliveryMessageShipment(XElement root)
     {
@@ -644,61 +772,283 @@ public class DeliveryMessageWoodHeader
     public DeliveryMessageDate DeliveryMessageDate = new();
     public List<DeliveryMessageReference> DeliveryMessageReference = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
-    public Party BuyerParty = new();
+    public Party BuyerParty = new() { LocalName = "BuyerParty" };
+    public Party? BillToParty = new() { LocalName = "BillToParty" };
+    public Party SupplierParty = new() { LocalName = "SupplierParty" };
+    public List<Party> OtherParty = [];
+    public Party? SenderParty = new() { LocalName = "SenderParty" };
+    public Party? ReceiverParty = new() { LocalName = "ReceiverParty" };
+    public List<ShipToInformation> ShipToInformation = [];
 
-    public DeliveryMessageWoodHeader()
-    {
-
-    }
+    public DeliveryMessageWoodHeader() { }
 
     public DeliveryMessageWoodHeader(XElement root)
     {
-        var deliveryMessageNumberElement = root.Element("DeliveryMessageNumber");
-        var transactionHistoryNumberElement = root.Element("TransactionHistoryNumber");
-        var deliveryMessageDateElement = root.Element("DeliveryMessageDate");
-        var buyerPartyElement = root.Element("BuyerParty");
+        DeliveryMessageNumber = root.Element("DeliveryMessageNumber")?.Value ?? DeliveryMessageNumber;
+        TransactionHistoryNumber = root.Element("TransactionHistoryNumber")?.Value;
+        DeliveryMessageDate = root.Element("DeliveryMessageDate") is XElement deliveryMessageDate 
+            ? new DeliveryMessageDate(deliveryMessageDate) 
+            : DeliveryMessageDate;
+        DeliveryMessageReference = root.Elements("DeliveryMessageReference")
+            .Select(reference => new DeliveryMessageReference(reference))
+            .ToList();
+        DocumentReferenceInformation = root.Elements("DocumentReferenceInformation")
+            .Select(information => new DocumentReferenceInformation(information))
+            .ToList();
+        BuyerParty = root.Element("BuyerParty") is XElement buyerParty
+            ? new Party(buyerParty)
+            : BuyerParty;
+        BillToParty = root.Element("BillToParty") is XElement billToParty
+            ? new Party(billToParty)
+            : BillToParty;
+        SupplierParty = root.Element("SupplierParty") is XElement supplierParty
+            ? new Party(supplierParty)
+            : SupplierParty;
+        OtherParty = root.Elements("OtherParty")
+            .Select(party => new Party(party))
+            .ToList();
+        SenderParty = root.Element("SenderParty") is XElement senderParty
+            ? new Party(senderParty)
+            : SenderParty;
+        ReceiverParty = root.Element("ReceiverParty") is XElement receiverParty
+            ? new Party(receiverParty)
+            : ReceiverParty;
+    }
+}
 
-        DeliveryMessageNumber = deliveryMessageNumberElement!.Value;
-        TransactionHistoryNumber = transactionHistoryNumberElement != null ? transactionHistoryNumberElement.Value : null;
-        DeliveryMessageDate = new DeliveryMessageDate(deliveryMessageDateElement!);
+public class ShipToInformation
+{
+    public ShipToCharacteristics ShipToCharacteristics = new();
+}
+
+public class ShipToCharacteristics
+{
+    public Party ShipToParty = new() { LocalName = "ShipToParty" };
+    public LocationCode? LocationCode = null;
+    public TermsOfDelivery? TermsOfDelivery = null;
+    public DeliveryRouteCode? DeliveryRouteCode = null;
+
+
+}
+
+public class LocationCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public LocationCode() { }
+
+    public LocationCode(Agency agency, string value)
+    {
+        Agency = agency;
+        Value = value;
+    }
+
+    public LocationCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("LocationCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
+}
+
+public class DeliveryRouteCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public DeliveryRouteCode() { }
+
+    public DeliveryRouteCode(Agency agency, string value)
+    {
+        Agency = agency;
+        Value = value;
+    }
+
+    public DeliveryRouteCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryRouteCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
+}
+
+public class TermsOfDelivery
+{
+    public IncotermsLocation? IncotermsLocation = null;
+    public ShipmentMethodOfPayment? ShipmentMethodOfPayment = null;
+    public string? FreightPayableAt = null;
+    public string? AdditionalText = null;
+
+    public TermsOfDelivery() { }
+
+    public TermsOfDelivery(IncotermsLocation? incotermsLocation, string? shipmentMethodOfPayment, string? freightPayableAt, string? additionalText)
+    {
+        IncotermsLocation = incotermsLocation;
+        ShipmentMethodOfPayment = shipmentMethodOfPayment;
+        FreightPayableAt = freightPayableAt;
+        AdditionalText = additionalText;
+    }
+
+    public TermsOfDelivery(XElement root)
+    {
+        IncotermsLocation = root.Element("IncotermsLocation") is XElement incotermsLocation
+            ? new IncotermsLocation(incotermsLocation)
+            : IncotermsLocation;
+        ShipmentMethodOfPayment = root.Element("ShipmentMethodOfPayment")?.Value ?? ShipmentMethodOfPayment;
+        FreightPayableAt = root.Element("FreightPayableAt")?.Value ?? FreightPayableAt;
+        AdditionalText = root.Element("AdditionalText")?.Value ?? AdditionalText;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TermsOfDelivery",
+            IncotermsLocation != null ? new XElement("IncotermsLocation", IncotermsLocation) : null,
+            ShipmentMethodOfPayment != null ? new XElement("ShipmentMethodOfPayment", ShipmentMethodOfPayment) : null,
+            FreightPayableAt != null ? new XElement("FreightPayableAt", FreightPayableAt) : null,
+            AdditionalText != null ? new XElement("AdditionalText", AdditionalText) : null
+        ).ToString();
+    }
+}
+
+public class ShipmentMethodOfPayment
+{
+    public LocationQualifier? LocationQualifier = null;
+
+}
+
+public class IncotermsLocation
+{
+    public Incoterms Incoterms = Incoterms.Other;
+    public string? IncotermsVersion = null;
+    public string Value = string.Empty;
+
+    public IncotermsLocation() { }
+
+    public IncotermsLocation(Incoterms incoterms, string? incotermsVersion, string value)
+    {
+        Incoterms = incoterms;
+        IncotermsVersion = incotermsVersion;
+        Value = value;
+    }
+
+    public IncotermsLocation(XElement root)
+    {
+        Incoterms = root.Attribute("Incoterms") is XAttribute incoterms
+            ? Enum.Parse<Incoterms>(incoterms.Value)
+            : Incoterms;
+        IncotermsVersion = root.Attribute("IncotermsVersion")?.Value ?? IncotermsVersion;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("IncotermsLocation",
+            new XAttribute("Incoterms", Incoterms),
+            IncotermsVersion != null ? new XAttribute("IncotermsVersion", IncotermsVersion) : null,
+            Value
+        ).ToString();
     }
 }
 
 public class Party
 {
-    public string Name = string.Empty;
-    public LogisticsRole? LogisticsRole;
+    public string LocalName = "OtherParty";
+    public PartyType? PartyType = null;
+    public LogisticsRole? LogisticsRole = null;
     public List<PartyIdentifier> PartyIdentifier = [];
     public NameAddress NameAddress = new();
-    public string? URL;
-    public CommonContact? CommonContact;
+    public string? URL = null;
+    public CommonContact? CommonContact = null;
+
+    public Party() { }
+
+    public Party(string localName, LogisticsRole? logisticsRole, List<PartyIdentifier> partyIdentifier, NameAddress nameAddress, string? uRL, CommonContact? commonContact)
+    {
+        LocalName = localName;
+        LogisticsRole = logisticsRole;
+        PartyIdentifier = partyIdentifier;
+        NameAddress = nameAddress;
+        URL = uRL;
+        CommonContact = commonContact;
+    }
+
+    public Party(XElement root)
+    {
+        LocalName = root.Name.LocalName;
+        PartyType = root.Attribute("PartyType") is XAttribute partyType
+            ? Enum.Parse<PartyType>(partyType.Value)
+            : PartyType;
+        LogisticsRole = root.Attribute("LogisticsRole") is XAttribute logisticsRole
+            ? Enum.Parse<LogisticsRole>(logisticsRole.Value)
+            : LogisticsRole;
+        PartyIdentifier = root.Elements("PartyIdentifier")
+            .Select(identifier => new PartyIdentifier(identifier))
+            .ToList();
+        NameAddress = root.Element("NameAddress") is XElement nameAddress
+            ? new NameAddress(nameAddress)
+            : NameAddress;
+        URL = root.Element("URL")?.Value;
+        CommonContact = root.Element("CommonContact") is XElement commonContact
+            ? new CommonContact(commonContact)
+            : CommonContact;
+    }
+
+    public override string ToString()
+    {
+        return new XElement(LocalName,
+            PartyType != null ? new XAttribute("PartyType", PartyType) : null,
+            LogisticsRole != null ? new XAttribute("LogisticsRole", LogisticsRole) : null,
+            PartyIdentifier.Select(identifier => XElement.Parse($"{identifier}")),
+            XElement.Parse($"{NameAddress}"),
+            URL != null ? new XElement("URL", URL) : null,
+            CommonContact != null ? XElement.Parse($"{CommonContact}") : null
+        ).ToString();
+    }
 }
 
 public class CommonContact
 {
-    public ContactType ContactType;
+    public ContactType ContactType = ContactType.Other;
     public string ContactName = string.Empty;
     public string? ContactIdentifier;
     public string? Telephone;
     public string? MobilePhone;
     public string? Email;
     public string? Fax;
-    //public GPSCoordinates? GPSCoordinates;
-    //public MapCoordinates? MapCoordinates;
+    public GPSCoordinates? GPSCoordinates;
+    public MapCoordinates? MapCoordinates;
 
-    public CommonContact()
-    {
-
-    }
+    public CommonContact() { }
 
     public CommonContact(
-        ContactType contactType, 
+        ContactType contactType,
         string contactName, 
         string? contactIdentifier, 
         string? telephone, 
         string? mobilePhone, 
         string? email, 
-        string? fax)
+        string? fax,
+        GPSCoordinates gpsCoordinates,
+        MapCoordinates mapCoordinates)
     {
         ContactType = contactType;
         ContactName = contactName;
@@ -707,16 +1057,82 @@ public class CommonContact
         MobilePhone = mobilePhone;
         Email = email;
         Fax = fax;
+        GPSCoordinates = gpsCoordinates;
+        MapCoordinates = mapCoordinates;
     }
 
     public CommonContact(XElement root)
     {
-        throw new NotImplementedException();
+        ContactType = root.Attribute("ContactType") is XAttribute contactType
+            ? Enum.Parse<ContactType>(contactType.Value)
+            : ContactType;
+        ContactName = root.Element("ContactName")?.Value ?? ContactName;
+        ContactIdentifier = root.Element("ContactIdentifier")?.Value;
+        Telephone = root.Element("Telephone")?.Value;
+        MobilePhone = root.Element("MobilePhone")?.Value;
+        Email = root.Element("Email")?.Value;
+        Fax = root.Element("Fax")?.Value;
+        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
+            ? new GPSCoordinates(gpsCoordinates)
+            : null;
+        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
+            ? new MapCoordinates(mapCoordinates)
+            : null;
     }
 
     public override string ToString()
     {
-        throw new NotImplementedException();
+        return new XElement("CommonContact",
+            new XAttribute("ContactType", ContactType),
+            new XElement("ContactName", ContactName),
+            ContactIdentifier != null ? new XElement("ContactIdentifier", ContactIdentifier) : null,
+            Telephone != null ? new XElement("Telephone", Telephone) : null,
+            MobilePhone != null ? new XElement("MobilePhone", MobilePhone) : null,
+            Email != null ? new XElement("Email", Email) : null,
+            Fax != null ? new XElement("Fax", Fax) : null,
+            GPSCoordinates != null ? XElement.Parse($"{GPSCoordinates}") : null,
+            MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null
+        ).ToString();
+    }
+}
+
+public class MapCoordinates
+{
+    public MapReferenceSystem MapReferenceSystem;
+    public MapCoordinateType MapCoordinateType;
+    public string Coordinates = string.Empty;
+    public string? Altitude;
+
+    public MapCoordinates() { }
+
+    public MapCoordinates(MapReferenceSystem mapReferenceSystem, MapCoordinateType mapCoordinateType, string coordinates, string? altitude)
+    {
+        MapReferenceSystem = mapReferenceSystem;
+        MapCoordinateType = mapCoordinateType;
+        Coordinates = coordinates;
+        Altitude = altitude;
+    }
+
+    public MapCoordinates(XElement root)
+    {
+        MapReferenceSystem = root.Attribute("MapReferenceSystem") is XAttribute mapReferenceSystem
+            ? Enum.Parse<MapReferenceSystem>(mapReferenceSystem.Value)
+            : MapReferenceSystem;
+        MapCoordinateType = root.Attribute("MapCoordinateType") is XAttribute mapCoordinateType
+            ? Enum.Parse<MapCoordinateType>(mapCoordinateType.Value)
+            : MapCoordinateType;
+        Coordinates = root.Element("Coordinates")?.Value ?? Coordinates;
+        Altitude = root.Element("Altitude")?.Value ?? Altitude;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MapCoordinates",
+            new XAttribute("MapReferenceSystem", MapReferenceSystem),
+            new XAttribute("MapCoordinateType", MapCoordinateType),
+            new XElement("Coordinates"),
+            Altitude != null ? new XElement("Altitude", Altitude) : null
+        ).ToString();
     }
 }
 
@@ -737,13 +1153,10 @@ public class NameAddress
     public string? PostalCode;
     public string? Country;
     public string? ISOCountryCode;
-    //public GPSCoordinates? GPSCoordinates;
-    //public MapCoordinates? MapCoordinates;
+    public GPSCoordinates? GPSCoordinates;
+    public MapCoordinates? MapCoordinates;
 
-    public NameAddress()
-    {
-
-    }
+    public NameAddress() { }
 
     public NameAddress(
         CommunicationRole? communicationRole,
@@ -760,7 +1173,9 @@ public class NameAddress
         string? stateOrProvince,
         string? postalCode,
         string? country,
-        string? iSOCountryCode)
+        string? iSOCountryCode,
+        GPSCoordinates? gpsCoordinates,
+        MapCoordinates? mapCoordinates)
     {
         CommunicationRole = communicationRole;
         Name1 = name1;
@@ -777,42 +1192,35 @@ public class NameAddress
         PostalCode = postalCode;
         Country = country;
         ISOCountryCode = iSOCountryCode;
+        GPSCoordinates = gpsCoordinates;
+        MapCoordinates = mapCoordinates;
     }
 
     public NameAddress(XElement root)
     {
-        var communicationRoleAttribute = root.Attribute("CommunicationRole");
-        var name1Element = root.Element("Name1");
-        var name2Element = root.Element("Name2");
-        var name3Element = root.Element("Name3");
-        var organisationUnitElement = root.Element("OrganisationUnit");
-        var address1Element = root.Element("Address1");
-        var address2Element = root.Element("Address2");
-        var address3Element = root.Element("Address3");
-        var address4Element = root.Element("Address4");
-        var cityElement = root.Element("City");
-        var countyElement = root.Element("County");
-        var stateOrProvinceElement = root.Element("StateOrProvince");
-        var postalCodeElement = root.Element("PostalCode");
-        var countryElement = root.Element("Country");
-
-        var isoCountryCodeAttribute = countryElement?.Attribute("ISOCountryCode");
-
-        CommunicationRole? CommunicationRole = communicationRoleAttribute != null ? Enum.Parse<CommunicationRole>(communicationRoleAttribute.Value) : null;
-        Name1 = name1Element!.Value;
-        Name2 = name2Element?.Value;
-        Name3 = name3Element?.Value;
-        OrganisationUnit = organisationUnitElement?.Value;
-        Address1 = address1Element?.Value;
-        Address2 = address2Element?.Value;
-        Address3 = address3Element?.Value;
-        Address4 = address4Element?.Value;
-        City = cityElement?.Value;
-        County = countyElement?.Value;
-        StateOrProvince = stateOrProvinceElement?.Value;
-        PostalCode = postalCodeElement?.Value;
-        Country = countryElement?.Value;
-        ISOCountryCode = isoCountryCodeAttribute?.Value;
+        CommunicationRole = root.Attribute("CommunicationRole") is XAttribute communicationRole
+            ? Enum.Parse<CommunicationRole>(communicationRole.Value)
+            : null;
+        Name1 = root.Element("Name1")?.Value ?? Name1;
+        Name2 = root.Element("Name2")?.Value;
+        Name3 = root.Element("Name3")?.Value;
+        OrganisationUnit = root.Element("OrganisationUnit")?.Value;
+        Address1 = root.Element("Address1")?.Value;
+        Address2 = root.Element("Address2")?.Value;
+        Address3 = root.Element("Address3")?.Value;
+        Address4 = root.Element("Address4")?.Value;
+        City = root.Element("City")?.Value;
+        County = root.Element("County")?.Value;
+        StateOrProvince = root.Element("StateOrProvince")?.Value;
+        PostalCode = root.Element("PostalCode")?.Value;
+        Country = root.Element("Country")?.Value;
+        ISOCountryCode = root.Element("Country")?.Attribute("ISOCountryCode")?.Value;
+        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
+            ? new GPSCoordinates(gpsCoordinates)
+            : null;
+        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
+            ? new MapCoordinates(mapCoordinates)
+            : null;
     }
 
     public override string ToString()
@@ -831,9 +1239,49 @@ public class NameAddress
             StateOrProvince != null ? new XElement("StateOrProvince", StateOrProvince) : null,
             PostalCode != null ? new XElement("PostalCode", PostalCode) : null,
             Country != null ? new XElement("Country",
-                ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
-                Country
-            ) : null
+                    ISOCountryCode != null 
+                        ? new XAttribute("ISOCountryCode", ISOCountryCode) 
+                        : null, Country) : null,
+            GPSCoordinates != null ? XElement.Parse($"{GPSCoordinates}") : null,
+            MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null
+        ).ToString();
+    }
+}
+
+public class GPSCoordinates
+{
+    public GPSSystem? GPSSystem;
+    public string Latitude = string.Empty;
+    public string Longitude = string.Empty;
+    public string? Height;
+
+    public GPSCoordinates() { }
+
+    public GPSCoordinates(GPSSystem? gPSSystem, string latitude, string longitude, string? height)
+    {
+        GPSSystem = gPSSystem;
+        Latitude = latitude;
+        Longitude = longitude;
+        Height = height;
+    }
+
+    public GPSCoordinates(XElement root)
+    {
+        GPSSystem = root.Attribute("GPSSystem") is XAttribute gpsSystem
+            ? Enum.Parse<GPSSystem>(gpsSystem.Value)
+            : null;
+        Latitude = root.Element("Latitude")?.Value ?? Latitude;
+        Longitude = root.Element("Longitude")?.Value ?? Longitude;
+        Height = root.Element("Height")?.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("GPSCoordinates",
+            GPSSystem != null ? new XAttribute("GPSSystem", GPSSystem) : null,
+            new XElement("Latitude", Latitude),
+            new XElement("Longitude", Longitude),
+            Height != null ? new XElement("Height", Height) : null
         ).ToString();
     }
 }
@@ -844,10 +1292,7 @@ public class PartyIdentifier
     public Agency? Agency;
     public string Value = string.Empty;
 
-    public PartyIdentifier()
-    {
-
-    }
+    public PartyIdentifier() { }
 
     public PartyIdentifier(
         PartyIdentifierType partyIdentifierType,
@@ -861,11 +1306,12 @@ public class PartyIdentifier
 
     public PartyIdentifier(XElement root)
     {
-        var partyIdentifierTypeAttribute = root.Attribute("PartyIdentifierType");
-        var agencyAttribute = root.Attribute("Agency");
-
-        PartyIdentifierType = partyIdentifierTypeAttribute != null ? Enum.Parse<PartyIdentifierType>(partyIdentifierTypeAttribute.Value) : PartyIdentifierType.Other;
-        Agency = agencyAttribute != null ? Enum.Parse<Agency>(agencyAttribute.Value) : null;
+        PartyIdentifierType = root.Attribute("PartyIdentifierType") is XAttribute partyIdentifierType
+            ? Enum.Parse<PartyIdentifierType>(partyIdentifierType.Value)
+            : PartyIdentifierType;
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : null;
         Value = root.Value;
     }
 
@@ -885,12 +1331,9 @@ public class DocumentReferenceInformation
     public string? DocumentReferenceIDLineItemNumber;
     public Date? Date;
     public Time? Time;
-    public string? NumberOfDocumentsRequired = string.Empty;
+    public string? NumberOfDocumentsRequired;
 
-    public DocumentReferenceInformation()
-    {
-
-    }
+    public DocumentReferenceInformation() { }
 
     public DocumentReferenceInformation(
         string documentReferenceID, 
@@ -908,18 +1351,26 @@ public class DocumentReferenceInformation
 
     public DocumentReferenceInformation(XElement root)
     {
-        var documentReferenceID = root.Element("DocumentReferenceID");
-        var documentReferenceIDLineItemNumber = root.Element("DocumentReferenceIDLineItemNumber");
-        var date = root.Element("Date");
-        var time = root.Element("Time");
-        var numberOfDocumentsRequired = root.Element("NumberOfDocumentsRequired");
-
-
+        DocumentReferenceID = root.Element("DocumentReferenceID")?.Value ?? DocumentReferenceID;
+        DocumentReferenceIDLineItemNumber = root.Element("DocumentReferenceIDLineItemNumber")?.Value;
+        Date = root.Element("Date") is XElement date ? new Date(date) : null;
+        Time = root.Element("Time") is XElement time ? new Time(time) : null;
+        NumberOfDocumentsRequired = root.Element("NumberOfDocumentsRequired")?.Value;
     }
 
     public override string ToString()
     {
-        return base.ToString();
+        return new XElement("DocumentReferenceInformation",
+            new XElement("DocumentReferenceID", DocumentReferenceID),
+            DocumentReferenceIDLineItemNumber != null 
+                ? new XElement("DocumentReferenceIDLineItemNumber", DocumentReferenceIDLineItemNumber) 
+                : null,
+            Date != null ? XElement.Parse($"{Date}") : null,
+            Time != null ? XElement.Parse($"{Time}") : null,
+            NumberOfDocumentsRequired != null 
+                ? new XElement("NumberOfDocumentsRequired", NumberOfDocumentsRequired) 
+                : null
+        ).ToString();
     }
 }
 
@@ -929,10 +1380,7 @@ public class DeliveryMessageReference
     public AssignedBy? AssignedBy;
     public string Value = string.Empty;
 
-    public DeliveryMessageReference()
-    {
-
-    }
+    public DeliveryMessageReference() { }
 
     public DeliveryMessageReference(
         DeliveryMessageReferenceType deliveryMessageReferenceType, 
@@ -946,11 +1394,12 @@ public class DeliveryMessageReference
 
     public DeliveryMessageReference(XElement root)
     {
-        var deliveryMessageReferenceTypeAttribute = root.Attribute("DeliveryMessageReferenceType");
-        var assignedByAttribute = root.Attribute("AssignedBy");
-
-        DeliveryMessageReferenceType = deliveryMessageReferenceTypeAttribute != null ? Enum.Parse<DeliveryMessageReferenceType>(deliveryMessageReferenceTypeAttribute.Value) : DeliveryMessageReferenceType.Other;
-        AssignedBy = assignedByAttribute != null ? Enum.Parse<AssignedBy>(assignedByAttribute.Value) : null;
+        DeliveryMessageReferenceType = root.Attribute("DeliveryMessageReferenceType") is XAttribute deliveryMessageReferenceType
+            ? Enum.Parse<DeliveryMessageReferenceType>(deliveryMessageReferenceType.Value)
+            : DeliveryMessageReferenceType;
+        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
+            ? Enum.Parse<AssignedBy>(assignedBy.Value)
+            : null;
         Value = root.Value;
     }
 
