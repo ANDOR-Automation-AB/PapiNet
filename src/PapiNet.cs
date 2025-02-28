@@ -828,7 +828,31 @@ public class ShipToCharacteristics
     public TermsOfDelivery? TermsOfDelivery = null;
     public DeliveryRouteCode? DeliveryRouteCode = null;
 
+    public ShipToCharacteristics() { }
 
+    public ShipToCharacteristics(Party shipToParty, LocationCode? locationCode, TermsOfDelivery? termsOfDelivery, DeliveryRouteCode? deliveryRouteCode)
+    {
+        ShipToParty = shipToParty;
+        LocationCode = locationCode;
+        TermsOfDelivery = termsOfDelivery;
+        DeliveryRouteCode = deliveryRouteCode;
+    }
+
+    public ShipToCharacteristics(XElement root)
+    {
+        ShipToParty = root.Element("ShipToParty") is XElement shipToParty
+            ? new Party(shipToParty)
+            : ShipToParty;
+        LocationCode = root.Element("LocationCode") is XElement locationCode
+            ? new LocationCode(locationCode)
+            : LocationCode;
+        TermsOfDelivery = root.Element("TermsOfDelivery") is XElement termsOfDelivery
+            ? new TermsOfDelivery(termsOfDelivery)
+            : TermsOfDelivery;
+        DeliveryRouteCode = root.Element("DeliveryRouteCode") is XElement deliveryRouteCode
+            ? new DeliveryRouteCode(deliveryRouteCode)
+            : DeliveryRouteCode;
+    }
 }
 
 public class LocationCode
@@ -923,8 +947,8 @@ public class TermsOfDelivery
     public override string ToString()
     {
         return new XElement("TermsOfDelivery",
-            IncotermsLocation != null ? new XElement("IncotermsLocation", IncotermsLocation) : null,
-            ShipmentMethodOfPayment != null ? new XElement("ShipmentMethodOfPayment", ShipmentMethodOfPayment) : null,
+            IncotermsLocation != null ? XElement.Parse($"{IncotermsLocation}") : null,
+            ShipmentMethodOfPayment != null ? XElement.Parse($"{ShipmentMethodOfPayment}") : null,
             FreightPayableAt != null ? new XElement("FreightPayableAt", FreightPayableAt) : null,
             AdditionalText != null ? new XElement("AdditionalText", AdditionalText) : null
         ).ToString();
