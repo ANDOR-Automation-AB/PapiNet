@@ -627,6 +627,30 @@ public enum DeliveryStatusType
     NotFree,
 }
 
+public enum DeliveryDateType
+{
+    ActualArrivalDate,
+    ActualDepartureDate,
+    AvailableToShipDate,
+    CancelAfterDate,
+    DateOfLastChange,
+    DateOfTrading,
+    DeliveryRequestedDate,
+    DoNotDeliverAfterDate,
+    DoNotShipAfterDate,
+    EndCallOffDate,
+    EstimatedTimeOfArrival,
+    EstimatedTimeOfDeparture,
+    LastChangeDate,
+    LoadingDate,
+    PickUpDate,
+    PlannedShipDate,
+    ReferencePeriod,
+    ShipmentPriorToDate,
+    ShipmentRequestedDate,
+    StartCallOffDate,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -840,6 +864,13 @@ public class DeliverySchedule
     public string DeliveryLineNumber = string.Empty;
     public ProductionStatus? ProductionStatus = null;
     public DeliveryStatus? DeliveryStatus = null;
+    public DeliveryDateWindow? DeliveryDateWindow = null;
+
+}
+
+public class DeliveryDateWindow
+{
+
 }
 
 public class DeliveryStatus
