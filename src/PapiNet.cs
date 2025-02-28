@@ -651,6 +651,30 @@ public enum DeliveryDateType
     StartCallOffDate,
 }
 
+public enum QuantityType
+{
+    ActualVolume,
+    AirDryWeight,
+    Area,
+    BoneDry,
+    Count,
+    GrossWeight,
+    Energy,
+    Length,
+    LogPileVolume,
+    NetWeight,
+    NetNetWeight,
+    NominalWeight,
+    Percent,
+    RunningLength,
+    ShortLengthVolume,
+    SolidWoodVolume,
+    TareWeight,
+    Time,
+    TippedLooseVolume,
+    Volume,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -865,6 +889,11 @@ public class DeliverySchedule
     public ProductionStatus? ProductionStatus = null;
     public DeliveryStatus? DeliveryStatus = null;
     public DeliveryDateWindow? DeliveryDateWindow = null;
+    public Quantity Quantity = new();
+}
+
+public class Quantity
+{
 
 }
 
