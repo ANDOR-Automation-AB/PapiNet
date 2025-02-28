@@ -877,6 +877,39 @@ public class DeliveryDateWindow
 public class DateTimeRange
 {
     public DateTimeFrom DateTimeFrom = new();
+    public DateTimeTo DateTimeTo = new();
+}
+
+public class DateTimeTo
+{
+    public Date Date = new();
+    public Time? Time = null;
+
+    public DateTimeTo() { }
+
+    public DateTimeTo(Date date, Time? time)
+    {
+        Date = date;
+        Time = time;
+    }
+
+    public DateTimeTo(XElement root)
+    {
+        Date = root.Element("Date") is XElement date
+            ? new Date(date)
+            : Date;
+        Time = root.Element("Time") is XElement time
+            ? new Time(time)
+            : Time;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DateTimeTo",
+            XElement.Parse($"{Date}"),
+            Time != null ? XElement.Parse($"{Time}") : null
+        ).ToString();
+    }
 }
 
 public class DateTimeFrom
