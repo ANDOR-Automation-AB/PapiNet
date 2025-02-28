@@ -614,6 +614,12 @@ public enum Method
     PrepaidBySeller,
 }
 
+public enum ProductionStatusType
+{
+    Free,
+    NotFree,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -819,6 +825,19 @@ public class DeliveryMessageWoodHeader
 public class ShipToInformation
 {
     public ShipToCharacteristics ShipToCharacteristics = new();
+    public DeliverySchedule? DeliverySchedule = null;
+}
+
+public class DeliverySchedule
+{
+    public string DeliveryLineNumber = string.Empty;
+    public ProductionStatus ProductionStatus = new();
+}
+
+public class ProductionStatus
+{
+    public ProductionStatusType ProductionStatusType;
+
 }
 
 public class ShipToCharacteristics
