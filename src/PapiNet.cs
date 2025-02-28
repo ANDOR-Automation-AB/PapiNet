@@ -900,7 +900,7 @@ public class TermsOfDelivery
 
     public TermsOfDelivery() { }
 
-    public TermsOfDelivery(IncotermsLocation? incotermsLocation, string? shipmentMethodOfPayment, string? freightPayableAt, string? additionalText)
+    public TermsOfDelivery(IncotermsLocation? incotermsLocation, ShipmentMethodOfPayment? shipmentMethodOfPayment, string? freightPayableAt, string? additionalText)
     {
         IncotermsLocation = incotermsLocation;
         ShipmentMethodOfPayment = shipmentMethodOfPayment;
@@ -913,7 +913,9 @@ public class TermsOfDelivery
         IncotermsLocation = root.Element("IncotermsLocation") is XElement incotermsLocation
             ? new IncotermsLocation(incotermsLocation)
             : IncotermsLocation;
-        ShipmentMethodOfPayment = root.Element("ShipmentMethodOfPayment")?.Value ?? ShipmentMethodOfPayment;
+        ShipmentMethodOfPayment = root.Element("ShipmentMethodOfPayment") is XElement shipmentMethodOfPayment
+            ? new ShipmentMethodOfPayment(shipmentMethodOfPayment)
+            : ShipmentMethodOfPayment;
         FreightPayableAt = root.Element("FreightPayableAt")?.Value ?? FreightPayableAt;
         AdditionalText = root.Element("AdditionalText")?.Value ?? AdditionalText;
     }
@@ -932,7 +934,37 @@ public class TermsOfDelivery
 public class ShipmentMethodOfPayment
 {
     public LocationQualifier? LocationQualifier = null;
+    public Method? Method = null;
+    public string Value = string.Empty;
 
+    public ShipmentMethodOfPayment() { }
+
+    public ShipmentMethodOfPayment(LocationQualifier? locationQualifier, Method? method, string value)
+    {
+        LocationQualifier = locationQualifier;
+        Method = method;
+        Value = value;
+    }
+
+    public ShipmentMethodOfPayment(XElement root)
+    {
+        LocationQualifier = root.Attribute("LocationQualifier") is XAttribute locationQualifier
+            ? Enum.Parse<LocationQualifier>(locationQualifier.Value)
+            : LocationQualifier;
+        Method = root.Attribute("Method") is XAttribute method
+            ? Enum.Parse<Method>(method.Value)
+            : Method;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ShipmentMethodOfPayment",
+            LocationQualifier != null ? new XAttribute("LocationQualifier", LocationQualifier) : null,
+            Method != null ? new XAttribute("Method", Method) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class IncotermsLocation
