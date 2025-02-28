@@ -878,6 +878,32 @@ public class DateTimeRange
 {
     public DateTimeFrom DateTimeFrom = new();
     public DateTimeTo DateTimeTo = new();
+
+    public DateTimeRange() { }
+
+    public DateTimeRange(DateTimeFrom dateTimeFrom, DateTimeTo dateTimeTo)
+    {
+        DateTimeFrom = dateTimeFrom;
+        DateTimeTo = dateTimeTo;
+    }
+
+    public DateTimeRange(XElement root)
+    {
+        DateTimeFrom = root.Element("DateTimeFrom") is XElement dateTimeFrom
+            ? new DateTimeFrom(dateTimeFrom)
+            : DateTimeFrom;
+        DateTimeTo = root.Element("DateTimeTo") is XElement dateTimeTo
+            ? new DateTimeTo(dateTimeTo)
+            : DateTimeTo;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DateTimeRange",
+            XElement.Parse($"{DateTimeFrom}"),
+            XElement.Parse($"{DateTimeTo}")
+        ).ToString();
+    }
 }
 
 public class DateTimeTo
