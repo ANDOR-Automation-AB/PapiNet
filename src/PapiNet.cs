@@ -846,6 +846,32 @@ public class DeliveryStatus
 {
     public DeliveryStatusType? DeliveryStatusType = null;
     public DeliveryLastDateOfChange? DeliveryLastDateOfChange = null;
+
+    public DeliveryStatus() { }
+
+    public DeliveryStatus(DeliveryStatusType? deliveryStatusType, DeliveryLastDateOfChange? deliveryLastDateOfChange)
+    {
+        DeliveryStatusType = deliveryStatusType;
+        DeliveryLastDateOfChange = deliveryLastDateOfChange;
+    }
+
+    public DeliveryStatus(XElement root)
+    {
+        DeliveryStatusType = root.Attribute("DeliveryStatusType") is XAttribute deliveryStatusType
+            ? Enum.Parse<DeliveryStatusType>(deliveryStatusType.Value)
+            : DeliveryStatusType;
+        DeliveryLastDateOfChange = root.Element("DeliveryLastDateOfChange") is XElement deliveryLastDateOfChange
+            ? new DeliveryLastDateOfChange(deliveryLastDateOfChange)
+            : DeliveryLastDateOfChange;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryStatus",
+            DeliveryStatusType != null ? new XAttribute("DeliveryStatusType", DeliveryStatusType) : null,
+            DeliveryLastDateOfChange != null ? XElement.Parse($"{DeliveryLastDateOfChange}") : null
+        ).ToString();
+    }
 }
 
 public class DeliveryLastDateOfChange
@@ -907,7 +933,7 @@ public class ProductionStatus
     {
         return new XElement("ProductionLastDateOfChange",
             new XAttribute("ProductionStatusType", ProductionStatusType),
-            ProductionLastDateOfChange != null ? new XElement("ProductionLastDateOfChange", ProductionLastDateOfChange) : null
+            ProductionLastDateOfChange != null ? XElement.Parse($"{ProductionLastDateOfChange}") : null
         ).ToString();
     }
 }
