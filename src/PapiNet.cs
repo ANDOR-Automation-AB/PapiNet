@@ -837,7 +837,40 @@ public class DeliverySchedule
 public class ProductionStatus
 {
     public ProductionStatusType ProductionStatusType;
+    public ProductionLastDateOfChange? ProductionLastDateOfChange = null;
 
+}
+
+public class ProductionLastDateOfChange
+{
+    public Date Date = new();
+    public Time? Time = null;
+
+    public ProductionLastDateOfChange() { }
+
+    public ProductionLastDateOfChange(Date date, Time? time)
+    {
+        Date = date;
+        Time = time;
+    }
+
+    public ProductionLastDateOfChange(XElement root)
+    {
+        Date = root.Element("Date") is XElement date
+            ? new Date(date)
+            : Date;
+        Time = root.Element("Time") is XElement time
+            ? new Time(time)
+            : Time;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductionLastDateOfChange",
+            new XElement("Date", Date),
+            Time != null ? new XElement("Time") : null
+        ).ToString();
+    }
 }
 
 public class ShipToCharacteristics
