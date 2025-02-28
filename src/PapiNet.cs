@@ -714,6 +714,23 @@ public enum QuantityTypeContext
     Wrapped,
 }
 
+public enum AdjustmentType_Tare
+{
+    Advances,
+    Core,
+    Ends,
+    Excess,
+    IncludesOverage,
+    None,
+    Pallet,
+    Samples,
+    SchoolAdoption,
+    Straps,
+    Total,
+    Wrap,
+    WrapCore,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -934,6 +951,7 @@ public class DeliverySchedule
 public class Quantity
 {
     public QuantityType QuantityType = QuantityType.ActualVolume;
+    public QuantityTypeContext? QuantityTypeContext = null;
 
 }
 
