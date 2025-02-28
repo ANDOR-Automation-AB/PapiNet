@@ -836,9 +836,34 @@ public class DeliverySchedule
 
 public class ProductionStatus
 {
-    public ProductionStatusType ProductionStatusType;
+    public ProductionStatusType ProductionStatusType = ProductionStatusType.Free;
     public ProductionLastDateOfChange? ProductionLastDateOfChange = null;
 
+    public ProductionStatus() { }
+
+    public ProductionStatus(ProductionStatusType productionStatusType, ProductionLastDateOfChange? productionLastDateOfChange)
+    {
+        ProductionStatusType = productionStatusType;
+        ProductionLastDateOfChange = productionLastDateOfChange;
+    }
+
+    public ProductionStatus(XElement root)
+    {
+        ProductionStatusType = root.Attribute("ProductionStatusType") is XAttribute productionStatusType
+            ? Enum.Parse<ProductionStatusType>(productionStatusType.Value)
+            : ProductionStatusType;
+        ProductionLastDateOfChange = root.Element("ProductionLastDateOfChange") is XElement productionLastDateOfChange
+            ? new ProductionLastDateOfChange(productionLastDateOfChange)
+            : ProductionLastDateOfChange;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductionLastDateOfChange",
+            new XAttribute("ProductionStatusType", ProductionStatusType),
+            ProductionLastDateOfChange != null ? new XElement("ProductionLastDateOfChange", ProductionLastDateOfChange) : null
+        ).ToString();
+    }
 }
 
 public class ProductionLastDateOfChange
