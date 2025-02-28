@@ -620,6 +620,13 @@ public enum ProductionStatusType
     NotFree,
 }
 
+public enum DeliveryStatusType
+{
+    Cancelled,
+    Free,
+    NotFree,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
