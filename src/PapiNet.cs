@@ -1007,9 +1007,9 @@ public class ShipToCharacteristics
     {
         return new XElement("ShipToCharacteristics",
             new XElement("ShipToParty", ShipToParty),
-            LocationCode != null ? new XElement("LocationCode", LocationCode) : null,
-            TermsOfDelivery != null ? new XElement("TermsOfDelivery", TermsOfDelivery) : null,
-            DeliveryRouteCode != null ? new XElement("DeliveryRouteCode", DeliveryRouteCode) : null
+            LocationCode != null ? XElement.Parse($"{LocationCode}") : null,
+            TermsOfDelivery != null ? XElement.Parse($"{TermsOfDelivery}") : null,
+            DeliveryRouteCode != null ? XElement.Parse($"{DeliveryRouteCode}") : null
         ).ToString();
     }
 }
