@@ -872,6 +872,48 @@ public class DeliveryDateWindow
 {
     public DeliveryDateType DeliveryDateType = DeliveryDateType.ActualArrivalDate;
     public DateTimeRange? DateTimeRange = null;
+    public string? Month = null;
+    public string? Week = null;
+    public Date Date = new();
+    public Time? Time = null;
+
+    public DeliveryDateWindow() { }
+
+    public DeliveryDateWindow(DeliveryDateType deliveryDateType, DateTimeRange? dateTimeRange, string? month, string? week, Date date, Time? time)
+    {
+        DeliveryDateType = deliveryDateType;
+        DateTimeRange = dateTimeRange;
+        Month = month;
+        Week = week;
+        Date = date;
+        Time = time;
+    }
+
+    public DeliveryDateWindow(XElement root)
+    {
+        DeliveryDateType = root.Attribute("DeliveryDateType") is XAttribute deliveryDateType
+            ? Enum.Parse<DeliveryDateType>(deliveryDateType.Value)
+            : DeliveryDateType;
+        DateTimeRange = root.Element("DateTimeRange") is XElement dateTimeRange
+            ? new DateTimeRange(dateTimeRange)
+            : DateTimeRange;
+        Month = root.Element("Month")?.Value;
+        Week = root.Element("Week")?.Value;
+        Date = root.Element("Date") is XElement date ? new Date(date) : Date;
+        Time = root.Element("Time") is XElement time ? new Time(time) : Time;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryDateWindow",
+            new XAttribute("DeliveryDateType", DeliveryDateType),
+            DateTimeRange != null ? XElement.Parse($"{DateTimeRange}") : null,
+            Month != null ? XElement.Parse($"{Month}") : null,
+            Week != null ? XElement.Parse($"{Week}") : null,
+            Date != null ? XElement.Parse($"{Date}") : null,
+            Time != null ? XElement.Parse($"{Time}") : null
+        ).ToString();
+    }
 }
 
 public class DateTimeRange
