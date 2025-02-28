@@ -838,7 +838,46 @@ public class ShipToInformation
 public class DeliverySchedule
 {
     public string DeliveryLineNumber = string.Empty;
-    public ProductionStatus ProductionStatus = new();
+    public ProductionStatus? ProductionStatus = null;
+    public DeliveryStatus? DeliveryStatus = null;
+}
+
+public class DeliveryStatus
+{
+    public DeliveryStatusType? DeliveryStatusType = null;
+    public DeliveryLastDateOfChange? DeliveryLastDateOfChange = null;
+}
+
+public class DeliveryLastDateOfChange
+{
+    public Date Date = new();
+    public Time? Time = null;
+
+    public DeliveryLastDateOfChange() { }
+
+    public DeliveryLastDateOfChange(Date date, Time? time)
+    {
+        Date = date;
+        Time = time;
+    }
+
+    public DeliveryLastDateOfChange(XElement root)
+    {
+        Date = root.Element("Date") is XElement date
+            ? new Date(date)
+            : Date;
+        Time = root.Element("Time") is XElement time
+            ? new Time(time)
+            : Time;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryLastDateOfChange",
+            new XElement("Date", Date),
+            Time != null ? new XElement("Time") : null
+        ).ToString();
+    }
 }
 
 public class ProductionStatus
