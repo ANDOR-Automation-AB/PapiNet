@@ -731,6 +731,15 @@ public enum AdjustmentType_Tare
     WrapCore,
 }
 
+public enum MeasuringAgency
+{
+    Buyer,
+    RVR,
+    SD,
+    SDC,
+    Supplier,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -952,6 +961,7 @@ public class Quantity
 {
     public QuantityType QuantityType = QuantityType.ActualVolume;
     public QuantityTypeContext? QuantityTypeContext = null;
+    public AdjustmentType_Tare? AdjustmentType = null;
 
 }
 
