@@ -1095,6 +1095,27 @@ public class DeliverySchedule
     public Quantity Quantity = new();
 }
 
+public class InformationalQuantity : Quantity
+{
+    public InformationalQuantity() : base() { }
+
+    public InformationalQuantity(XElement root) : base(root) { }
+
+    public override string ToString()
+    {
+        return new XElement("InformationalQuantity",
+            new XAttribute("QuantityType", QuantityType),
+            QuantityTypeContext != null ? new XAttribute("QuantityTypeContext", QuantityTypeContext) : null,
+            AdjustmentType != null ? new XAttribute("AdjustmentType", AdjustmentType) : null,
+            MeasuringAgency != null ? new XAttribute("MeasuringAgency", MeasuringAgency) : null,
+            MeasuringMethod != null ? new XAttribute("MeasuringMethod", MeasuringMethod) : null,
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
 public class Quantity
 {
     public QuantityType QuantityType = QuantityType.ActualVolume;
