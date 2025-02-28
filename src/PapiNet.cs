@@ -675,6 +675,45 @@ public enum QuantityType
     Volume,
 }
 
+public enum QuantityTypeContext
+{
+    AgreedToClaimValue,
+    Allocated,
+    AllowableSpoilage,
+    Balance,
+    CalledOff,
+    Consumed,
+    Credited,
+    CutOff,
+    Damaged,
+    Delivered,
+    Destroyed,
+    Deviation,
+    Freight,
+    Handled,
+    Intransit,
+    Invoiced,
+    Loaded,
+    OnHand,
+    Ordered,
+    Packed,
+    Planned,
+    Produced,
+    Released,
+    Reorder,
+    ReorderPoint,
+    Reserved,
+    Scrapped,
+    Stored,
+    Trimmed,
+    Unloaded,
+    UnspecifiedDamage,
+    ValueClaimed,
+    VendorSupplied,
+    Wound,
+    Wrapped,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -894,6 +933,7 @@ public class DeliverySchedule
 
 public class Quantity
 {
+    public QuantityType QuantityType = QuantityType.ActualVolume;
 
 }
 
