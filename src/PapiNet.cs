@@ -878,6 +878,30 @@ public enum UOM
     Yard,
 }
 
+public enum PriceQuantityBasis
+{
+    ActualVolume,
+    AirDryWeight,
+    Area,
+    BoneDry,
+    Count,
+    GrossWeight,
+    Energy,
+    Length,
+    LogPileVolume,
+    NetWeight,
+    NetNetWeight,
+    NominalWeight,
+    Percent,
+    RunningLength,
+    ShortLengthVolume,
+    SolidWoodVolume,
+    TareWeight,
+    Time,
+    TippedLooseVolume,
+    Volume,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -1093,6 +1117,14 @@ public class DeliverySchedule
     public DeliveryStatus? DeliveryStatus = null;
     public DeliveryDateWindow? DeliveryDateWindow = null;
     public Quantity Quantity = new();
+    public InformationalQuantity? InformationalQuantity = null;
+    public PriceDetails? PriceDetails = null;
+}
+
+public class PriceDetails
+{
+    public PriceQuantityBasis PriceQuantityBasis = PriceQuantityBasis.ActualVolume;
+
 }
 
 public class InformationalQuantity : Quantity
