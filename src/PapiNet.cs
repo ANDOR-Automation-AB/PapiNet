@@ -1107,6 +1107,32 @@ public class Quantity
 
 public class Value
 {
+    public UOM UOM = UOM.Unit;
+    public string Text = string.Empty;
+
+    public Value() { }
+
+    public Value(UOM uOM, string text)
+    {
+        UOM = uOM;
+        Text = text;
+    }
+
+    public Value(XElement root)
+    {
+        UOM = root.Attribute("UOM") is XAttribute uom
+            ? Enum.Parse<UOM>(uom.Value)
+            : UOM;
+        Text = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Value",
+            new XAttribute("UOM", UOM),
+            Text
+        ).ToString();
+    }
 }
 
 public class DeliveryDateWindow
