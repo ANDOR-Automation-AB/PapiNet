@@ -905,6 +905,16 @@ public class ShipToCharacteristics
             ? new DeliveryRouteCode(deliveryRouteCode)
             : DeliveryRouteCode;
     }
+
+    public override string ToString()
+    {
+        return new XElement("ShipToCharacteristics",
+            new XElement("ShipToParty", ShipToParty),
+            LocationCode != null ? new XElement("LocationCode", LocationCode) : null,
+            TermsOfDelivery != null ? new XElement("TermsOfDelivery", TermsOfDelivery) : null,
+            DeliveryRouteCode != null ? new XElement("DeliveryRouteCode", DeliveryRouteCode) : null
+        ).ToString();
+    }
 }
 
 public class LocationCode
