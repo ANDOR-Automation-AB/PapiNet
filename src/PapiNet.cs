@@ -902,6 +902,12 @@ public enum PriceQuantityBasis
     Volume,
 }
 
+public enum PriceTaxBasis
+{
+    Yes,
+    No,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
