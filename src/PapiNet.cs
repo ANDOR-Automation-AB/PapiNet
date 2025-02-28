@@ -1130,7 +1130,35 @@ public class DeliverySchedule
 public class PriceDetails
 {
     public PriceQuantityBasis PriceQuantityBasis = PriceQuantityBasis.ActualVolume;
+    public PriceTaxBasis? PriceTaxBasis = null;
+    public PricePerUnit PricePerUnit = new();
+}
 
+public class PricePerUnit
+{
+    public CurrencyValue CurrencyValue = new();
+}
+
+public class CurrencyValue
+{
+    public string CurrencyType = string.Empty;
+    public string Value = string.Empty;
+
+    public CurrencyValue() { }
+
+    public CurrencyValue(XElement root)
+    {
+        CurrencyType = root.Attribute("CurrencyType")?.Value ?? CurrencyType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("CurrencyValue",
+            new XAttribute("CurrencyType", CurrencyType),
+            Value
+        ).ToString();
+    }
 }
 
 public class InformationalQuantity : Quantity
