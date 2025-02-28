@@ -1105,10 +1105,78 @@ public class Quantity
     public Value Value = new();
     public RangeMin? RangeMin = null;
     public RangeMax? RangeMax = null;
+
+    public Quantity() { }
+
+    public Quantity(
+        QuantityType quantityType, 
+        QuantityTypeContext? quantityTypeContext, 
+        AdjustmentType_Tare? adjustmentType, 
+        MeasuringAgency? measuringAgency, 
+        string? measuringMethod, 
+        Value value,
+        RangeMin? rangeMin, 
+        RangeMax? rangeMax)
+    {
+        QuantityType = quantityType;
+        QuantityTypeContext = quantityTypeContext;
+        AdjustmentType = adjustmentType;
+        MeasuringAgency = measuringAgency;
+        MeasuringMethod = measuringMethod;
+        Value = value;
+        RangeMin = rangeMin;
+        RangeMax = rangeMax;
+    }
+
+    public Quantity(XElement root)
+    {
+        QuantityType = root.Attribute("QuantityType") is XAttribute quantityType
+            ? Enum.Parse<QuantityType>(quantityType.Value)
+            : QuantityType;
+        QuantityTypeContext = root.Attribute("QuantityTypeContext") is XAttribute quantityTypeContext
+            ? Enum.Parse<QuantityTypeContext>(quantityTypeContext.Value)
+            : QuantityTypeContext;
+        AdjustmentType = root.Attribute("AdjustmentType") is XAttribute adjustmentType
+            ? Enum.Parse<AdjustmentType_Tare>(adjustmentType.Value)
+            : AdjustmentType;
+        MeasuringAgency = root.Attribute("MeasuringAgency") is XAttribute measuringAgency
+            ? Enum.Parse<MeasuringAgency>(measuringAgency.Value)
+            : MeasuringAgency;
+        MeasuringMethod = root.Attribute("MeasuringMethod") is XAttribute measuringMethod
+            ? measuringMethod.Value
+            : MeasuringMethod;
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Quantity",
+            new XAttribute("QuantityType", QuantityType),
+            QuantityTypeContext != null ? new XAttribute("QuantityTypeContext", QuantityTypeContext) : null,
+            AdjustmentType != null ? new XAttribute("AdjustmentType", AdjustmentType) : null,
+            MeasuringAgency != null ? new XAttribute("MeasuringAgency", MeasuringAgency) : null,
+            MeasuringMethod != null ? new XAttribute("MeasuringMethod", MeasuringMethod) : null,
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
 }
 
 public class RangeMin : Value 
 {
+    public RangeMin() : base() { }
+
+    public RangeMin(XElement root) : base(root) { }
+
     public override string ToString()
     {
         return new XElement("RangeMin",
@@ -1120,6 +1188,10 @@ public class RangeMin : Value
 
 public class RangeMax : Value
 {
+    public RangeMax() : base() { }
+
+    public RangeMax(XElement root) : base(root) { }
+
     public override string ToString()
     {
         return new XElement("RangeMax",
