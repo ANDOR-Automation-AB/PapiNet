@@ -1137,6 +1137,37 @@ public class PriceDetails
 public class PricePerUnit
 {
     public CurrencyValue CurrencyValue = new();
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public PricePerUnit() { }
+
+    public PricePerUnit(XElement root)
+    {
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(currencyValue)
+            : CurrencyValue;
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PricePerUnit",
+            XElement.Parse($"{CurrencyValue}"),
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
 }
 
 public class CurrencyValue
