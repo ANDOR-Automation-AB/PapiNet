@@ -1103,6 +1103,30 @@ public class Quantity
     public MeasuringAgency? MeasuringAgency = null;
     public string? MeasuringMethod = null;
     public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+}
+
+public class RangeMin : Value 
+{
+    public override string ToString()
+    {
+        return new XElement("RangeMin",
+            new XAttribute("UOM", base.UOM),
+            base.Text
+        ).ToString();
+    }
+}
+
+public class RangeMax : Value
+{
+    public override string ToString()
+    {
+        return new XElement("RangeMax",
+            new XAttribute("UOM", base.UOM),
+            base.Text
+        ).ToString();
+    }
 }
 
 public class Value
