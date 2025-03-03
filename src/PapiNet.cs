@@ -1270,6 +1270,29 @@ public class MonetaryAdjustment
     public MonetaryAdjustmentStartAmount? MonetaryAdjustmentStartAmount = null;
     public MonetaryAdjustmentStartQuantity? MonetaryAdjustmentStartQuantity = null;
     public PriceAdjustment? PriceAdjustment = null;
+    public FlatAmountAdjustment? FlatAmountAdjustment = null;
+}
+
+public class FlatAmountAdjustment
+{
+    public AdjustmentPercentage? AdjustmentPercentage = null;
+    public AdjustmentFixedAmount? AdjustmentFixedAmount = null;
+}
+
+public class AdjustmentFixedAmount
+{
+    public CurrencyValue CurrencyValue = new();
+    public string Value = string.Empty;
+
+    public AdjustmentFixedAmount() { }
+
+    public AdjustmentFixedAmount(XElement root)
+    {
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(currencyValue)
+            : CurrencyValue;
+        Value = root.Value;
+    }
 }
 
 public class PriceAdjustment
