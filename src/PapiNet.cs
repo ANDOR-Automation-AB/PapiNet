@@ -936,6 +936,77 @@ public enum CurrencyType
     // Refer to the ISO standard for enumerations.
 }
 
+public enum AdjustmentType_Financial
+{
+    BillOfLadingCharge,
+    CancellationCharge,
+    CashDiscount,
+    CertificateCharge,
+    ChargesForward,
+    ClaimAdjustment,
+    Commission,
+    CompetitiveAllowance,
+    CongestionCharge,
+    ConsigneeUnloadCharge,
+    ContractAllowance,
+    CurrencyAdjustmentCharge,
+    DecimalRounding,
+    DefectiveAllowance,
+    DeliveryCharge,
+    DeliveryNonConformanceAllowance,
+    EarlyShipAllowance,
+    EnergySurcharge,
+    Environmental,
+    ExpeditedShipmentCharge,
+    ExportClearanceCharge,
+    FlatRateCharge,
+    FreightAllowance,
+    FreightCharge,
+    FuelAdjustmentCharge,
+    HandlingCharge,
+    Inspection,
+    InterestCharge,
+    LabourAllowance,
+    LabourCharge,
+    LotCharge,
+    MetalDetection,
+    ModelHomeDiscount,
+    NewStoreCouponDiscount,
+    OrderQuantity,
+    PalletCharge,
+    PickUpAllowance,
+    PromotionalAllowance,
+    PromotionalCharge,
+    PriceCorrection,
+    ProductionSetUpCharge,
+    Provision,
+    Rebate,
+    ReelDiscount,
+    ReturnedLoadAllowance,
+    ReturnLoadCharge,
+    RoadFeeCharge,
+    ScrapAndDunnageCharge,
+    ServiceCharge,
+    SpecialConversionCharge,
+    SpecialDeliveryCharge,
+    SpecialHandlingCharge,
+    SpecialPackagingCharge,
+    StopOffAllowance,
+    StopOffCharge,
+    StorageAllowance,
+    StorageCharge,
+    Tax,
+    TestingCharge,
+    TradeDiscount,
+    TrialDiscount,
+    TransferCharge,
+    UnloadingAllowance,
+    UnloadingCharge,
+    VolumeDiscount,
+    WarRiskCharge,
+    Other,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -1163,6 +1234,12 @@ public class PriceDetails
     public List<InformationalPricePerUnit> InformationalPricePerUnit = [];
     public List<string> AdditionalText = [];
     public ExchangeRate ExchangeRate = new();
+    public MonetaryAdjustment? MonetaryAdjustment = null;
+}
+
+public class MonetaryAdjustment
+{
+
 }
 
 public class ExchangeRate
