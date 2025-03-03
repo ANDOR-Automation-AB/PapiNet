@@ -1145,7 +1145,39 @@ public class PriceDetails
 
 public class InformationalPricePerUnit
 {
+    public InformationalPricePerUnitType InformationalPricePerUnitType = InformationalPricePerUnitType.ProductPrice;
+    public CurrencyValue CurrencyValue = new();
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
 
+    public InformationalPricePerUnit() { }
+
+    public InformationalPricePerUnit(XElement root)
+    {
+        InformationalPricePerUnitType = root.Attribute("InformationalPricePerUnitType") is XAttribute informationalPricePerUnitType
+            ? Enum.Parse<InformationalPricePerUnitType>(informationalPricePerUnitType.Value)
+            : InformationalPricePerUnitType;
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(root)
+            : CurrencyValue;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(root) 
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(root)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("InformationalPricePerUnit",
+            new XAttribute("InformationalPricePerUnitType", InformationalPricePerUnitType),
+            XElement.Parse($"{CurrencyValue}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
 }
 
 public class PricePerUnit
