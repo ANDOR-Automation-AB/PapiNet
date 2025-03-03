@@ -1277,6 +1277,29 @@ public class FlatAmountAdjustment
 {
     public AdjustmentPercentage? AdjustmentPercentage = null;
     public AdjustmentFixedAmount? AdjustmentFixedAmount = null;
+    public string Value = string.Empty;
+
+    public FlatAmountAdjustment() { }
+
+    public FlatAmountAdjustment(XElement root)
+    {
+        AdjustmentPercentage = root.Element("AdjustmentPercentage") is XElement adjustmentPercentage
+            ? new AdjustmentPercentage(adjustmentPercentage)
+            : AdjustmentPercentage;
+        AdjustmentFixedAmount = root.Element("AdjustmentFixedAmount") is XElement adjustmentFixedAmount
+            ? new AdjustmentFixedAmount(adjustmentFixedAmount)
+            : AdjustmentFixedAmount;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("FlatAmountAdjustment",
+            AdjustmentPercentage != null ? XElement.Parse($"{AdjustmentPercentage}") : null,
+            AdjustmentFixedAmount != null ? XElement.Parse($"{AdjustmentFixedAmount}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class AdjustmentFixedAmount
