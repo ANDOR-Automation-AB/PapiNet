@@ -1302,6 +1302,7 @@ public class MonetaryAdjustment
     public InformationalAmount? InformationalAmount = null;
     public string? MonetaryAdjustmentReferenceLine = null;
     public List<string> AdditionalText = [];
+    public GeneralLedgerAccount? GeneralLedgerAccount = null;
 
     public MonetaryAdjustment() { }
 
@@ -1331,6 +1332,46 @@ public class MonetaryAdjustment
             : InformationalAmount;
         MonetaryAdjustmentReferenceLine = root.Element("MonetaryAdjustmentReferenceLine")?.Value ?? MonetaryAdjustmentReferenceLine;
         AdditionalText = root.Elements("AdditionalText").Select(text => text.Value).ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MonetaryAdjustment",
+            new XAttribute("AdjustmentType", AdjustmentType),
+            new XElement("MonetaryAdjustmentLine", MonetaryAdjustmentLine),
+            MonetaryAdjustmentStartAmount != null ? XElement.Parse($"{MonetaryAdjustmentStartAmount}") : null,
+            MonetaryAdjustmentStartQuantity != null ? XElement.Parse($"{MonetaryAdjustmentStartQuantity}") : null,
+            PriceAdjustment != null ? XElement.Parse($"{PriceAdjustment}") : null,
+            FlatAmountAdjustment != null ? XElement.Parse($"{FlatAmountAdjustment}") : null,
+            TaxAdjustment != null ? XElement.Parse($"{TaxAdjustment}") : null,
+            InformationalAmount != null ? XElement.Parse($"{InformationalAmount}") : null,
+            new XElement("MonetaryAdjustmentReferenceLine", MonetaryAdjustmentReferenceLine),
+            AdditionalText.Select(text => new XElement("AdditionalText", text))
+        ).ToString();
+    }
+}
+
+public class GeneralLedgerAccount
+{
+    public Agency? Agency = null;
+    public string Value = string.Empty;
+
+    public GeneralLedgerAccount() { }
+
+    public GeneralLedgerAccount(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("GeneralLedgerAccount",
+            Agency != null ? new XAttribute("Agency", Agency) : null,
+            Value
+        ).ToString();
     }
 }
 
