@@ -1276,6 +1276,20 @@ public class PriceAdjustment
 {
     public AdjustmentPercentage? AdjustmentPercentage = null;
     public AdjustmentValue? AdjustmentValue = null;
+    public string Value = string.Empty;
+
+    public PriceAdjustment() { }
+
+    public PriceAdjustment(XElement root)
+    {
+        AdjustmentPercentage = root.Element("AdjustmentPercentage") is XElement adjustmentPercentage
+            ? new AdjustmentPercentage(adjustmentPercentage)
+            : AdjustmentPercentage;
+        AdjustmentValue = root.Element("AdjustmentValue") is XElement adjustmentValue
+            ? new AdjustmentValue(adjustmentValue)
+            : AdjustmentValue;
+        Value = root.Value;
+    }
 }
 
 public class AdjustmentValue
