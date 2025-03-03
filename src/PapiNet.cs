@@ -1095,7 +1095,9 @@ public class DeliveryMessageDate
 
     public override string ToString()
     {
-        return new XElement("DeliveryMessageDate", $"{Date}").ToString();
+        return new XElement("DeliveryMessageDate", 
+            XElement.Parse($"{Date}")            
+        ).ToString();
     }
 }
 
@@ -1155,6 +1157,13 @@ public class DeliveryMessageShipment
 
     public DeliveryMessageShipment(XElement root)
     {
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryMessageShipment"
+            
+        ).ToString();
     }
 }
 
