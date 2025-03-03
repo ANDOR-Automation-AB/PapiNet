@@ -1025,6 +1025,15 @@ public enum TaxType
     VAT,
 }
 
+public enum AmountType
+{
+    Adjustment,
+    Net,
+    Tax,
+    TermsDiscountNet,
+    Total,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1299,7 +1308,13 @@ public class TaxAdjustment
     public TaxType TaxType = TaxType.VAT;
     public string? TaxPercent = null;
     public TaxAmount? TaxAmount = null;
+    public string TaxLocation = string.Empty;
+    public List<InformationalAmount> InformationalAmount = [];
+}
 
+public class InformationalAmount
+{
+    public AmountType? AmountType = null;
 }
 
 public class TaxAmount
