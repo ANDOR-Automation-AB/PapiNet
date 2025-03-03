@@ -1034,6 +1034,12 @@ public enum AmountType
     Total,
 }
 
+public enum DeliveryModeType
+{
+    Deliver,
+    PickUp,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1277,6 +1283,13 @@ public class DeliverySchedule
     public Quantity Quantity = new();
     public InformationalQuantity? InformationalQuantity = null;
     public PriceDetails? PriceDetails = null;
+    public MonetaryAdjustment? MonetaryAdjustment = null;
+    public List<DeliveryLeg> DeliveryLeg = [];
+}
+
+public class DeliveryLeg
+{
+    public DeliveryModeType? DeliveryModeType = null;
 }
 
 public class PriceDetails
