@@ -1288,6 +1288,51 @@ public class PriceDetails
     public List<string> AdditionalText = [];
     public ExchangeRate ExchangeRate = new();
     public MonetaryAdjustment? MonetaryAdjustment = null;
+    public GeneralLedgerAccount? GeneralLedgerAccount = null;
+
+    public PriceDetails() { }
+
+    public PriceDetails(XElement root)
+    {
+        PriceQuantityBasis = root.Attribute("PriceQuantityBasis") is XAttribute priceQuantityBasis
+            ? Enum.Parse<PriceQuantityBasis>(priceQuantityBasis.Value)
+            : PriceQuantityBasis;
+        PriceTaxBasis = root.Attribute("PriceTaxBasis") is XAttribute priceTaxBasis
+            ? Enum.Parse<PriceTaxBasis>(priceTaxBasis.Value)
+            : PriceTaxBasis;
+        PricePerUnit = root.Element("PricePerUnit") is XElement pricePerUnit
+            ? new PricePerUnit(pricePerUnit)
+            : PricePerUnit;
+        InformationalPricePerUnit = root.Elements("InformationalPricePerUnit")
+            .Select(unit => new InformationalPricePerUnit(unit))
+            .ToList();
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+        ExchangeRate = root.Element("ExchangeRate") is XElement exchangeRate
+            ? new ExchangeRate(exchangeRate)
+            : ExchangeRate;
+        MonetaryAdjustment = root.Element("MonetaryAdjustment") is XElement monetaryAdjustment
+            ? new MonetaryAdjustment(monetaryAdjustment)
+            : MonetaryAdjustment;
+        GeneralLedgerAccount = root.Element("GeneralLedgerAccount") is XElement generalLedgerAccount
+            ? new GeneralLedgerAccount(generalLedgerAccount)
+            : GeneralLedgerAccount;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PriceDetails",
+            new XAttribute("PriceQuantityBasis", PriceQuantityBasis),
+            PriceTaxBasis != null ? new XAttribute("PriceTaxBasis", PriceTaxBasis) : null,
+            PricePerUnit != null ? XElement.Parse($"{PricePerUnit}") : null,
+            InformationalPricePerUnit.Select(unit => XElement.Parse($"{unit}")),
+            AdditionalText.Select(text => XElement.Parse($"{text}")),
+            ExchangeRate != null ? XElement.Parse($"{ExchangeRate}") : null,
+            MonetaryAdjustment != null ? XElement.Parse($"{MonetaryAdjustment}") : null,
+            GeneralLedgerAccount != null ? XElement.Parse($"{GeneralLedgerAccount}") : null
+        ).ToString();
+    }
 }
 
 public class MonetaryAdjustment
