@@ -1046,6 +1046,14 @@ public enum DeliveryLegType
     Open,
 }
 
+public enum EventType
+{
+    Historical,
+    Current,
+    Future,
+    Return,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1297,6 +1305,7 @@ public class DeliveryLeg
 {
     public DeliveryModeType? DeliveryModeType = null;
     public DeliveryLegType? DeliveryLegType = null;
+    public EventType? EventType = null;
 }
 
 public class PriceDetails
