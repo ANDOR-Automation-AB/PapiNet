@@ -1061,6 +1061,12 @@ public enum LegStageType
     OnCarriage,
 }
 
+public enum LocationType
+{
+    Destination,
+    Origin,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1314,6 +1320,21 @@ public class DeliveryLeg
     public DeliveryLegType? DeliveryLegType = null;
     public EventType? EventType = null;
     public LegStageType? LegStageType = null;
+    public string DeliveryLegSequenceNumber = string.Empty;
+    public DeliveryOrigin DeliveryOrigin = new();
+}
+
+public class DeliveryOrigin
+{
+    public Date? Date = null;
+    public Time? Time = null;
+    public Party LocationParty = new() { LocalName = "LocationParty" };
+    public SupplyPoint? SupplyPoint = null;
+}
+
+public class SupplyPoint
+{
+    public LocationType LocationType;
 }
 
 public class PriceDetails
