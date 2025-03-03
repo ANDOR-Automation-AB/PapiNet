@@ -1015,6 +1015,16 @@ public enum TaxCategoryType
     Other,
 }
 
+public enum TaxType
+{
+    Federal,
+    GST,
+    Harmonised,
+    Local,
+    StateOrProvincial,
+    VAT,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1285,7 +1295,8 @@ public class MonetaryAdjustment
 
 public class TaxAdjustment
 {
-
+    public TaxCategoryType? TaxCategoryType = null;
+    public TaxType? TaxType = null;
 }
 
 public class FlatAmountAdjustment
