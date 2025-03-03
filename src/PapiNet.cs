@@ -1344,6 +1344,15 @@ public class PriceAdjustment
             : AdjustmentValue;
         Value = root.Value;
     }
+
+    public override string ToString()
+    {
+        return new XElement("PriceAdjustment",
+            AdjustmentPercentage != null ? XElement.Parse($"{AdjustmentPercentage}") : null,
+            AdjustmentValue != null ? XElement.Parse($"{AdjustmentValue}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class AdjustmentValue
