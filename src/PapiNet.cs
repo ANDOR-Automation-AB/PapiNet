@@ -1161,7 +1161,7 @@ public class DeliveryMessageShipment
 public class DeliveryMessageWoodHeader
 {
     public string DeliveryMessageNumber = string.Empty;
-    public string? TransactionHistoryNumber; // type nni9
+    public string? TransactionHistoryNumber = null; // type nni9
     public DeliveryMessageDate DeliveryMessageDate = new();
     public List<DeliveryMessageReference> DeliveryMessageReference = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
@@ -1206,6 +1206,23 @@ public class DeliveryMessageWoodHeader
         ReceiverParty = root.Element("ReceiverParty") is XElement receiverParty
             ? new Party(receiverParty)
             : ReceiverParty;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryMessageWoodHeader",
+            new XElement("DeliveryMessageNumber", DeliveryMessageNumber),
+            TransactionHistoryNumber != null ? new XElement("TransactionHistoryNumber", TransactionHistoryNumber) : null,
+            XElement.Parse($"{DeliveryMessageDate}"),
+            DeliveryMessageReference.Select(reference => XElement.Parse($"{reference}")),
+            DocumentReferenceInformation.Select(information => XElement.Parse($"{information}")),
+            XElement.Parse($"{BuyerParty}"),
+            XElement.Parse($"{BillToParty}"),
+            XElement.Parse($"{SupplierParty}"),
+            OtherParty.Select(party => XElement.Parse($"{party}")),
+            XElement.Parse($"{SenderParty}"),
+            XElement.Parse($"{ReceiverParty}")
+        ).ToString();
     }
 }
 
