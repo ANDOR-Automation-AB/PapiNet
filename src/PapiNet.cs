@@ -1054,6 +1054,13 @@ public enum EventType
     Return,
 }
 
+public enum LegStageType
+{
+    PreCarriage,
+    MainCarriage,
+    OnCarriage,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1306,6 +1313,7 @@ public class DeliveryLeg
     public DeliveryModeType? DeliveryModeType = null;
     public DeliveryLegType? DeliveryLegType = null;
     public EventType? EventType = null;
+    public LegStageType? LegStageType = null;
 }
 
 public class PriceDetails
