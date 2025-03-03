@@ -1316,6 +1316,14 @@ public class AdjustmentFixedAmount
             : CurrencyValue;
         Value = root.Value;
     }
+
+    public override string ToString()
+    {
+        return new XElement("AdjustmentFixedAmount",
+            XElement.Parse($"{CurrencyValue}"),
+            Value
+        ).ToString();
+    }
 }
 
 public class PriceAdjustment
