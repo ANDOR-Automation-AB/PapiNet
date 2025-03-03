@@ -1171,6 +1171,18 @@ public class ExchangeRate
     public CurrencyFromType? CurrencyFromType = null;
     public CurrencyValue? CurrencyValue = null;
     public MinCurrencyValue MinCurrencyValue = new();
+    public MaxCurrencyValue MaxCurrencyValue = new();
+}
+
+public class MaxCurrencyValue : MinCurrencyValue
+{
+    public override string ToString()
+    {
+        return new XElement("MaxCurrencyValue",
+            CurrencyType != null ? new XAttribute("CurrencyType", CurrencyType) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class MinCurrencyValue
