@@ -1202,8 +1202,10 @@ public class ExchangeRate
     {
         return new XElement("ExchangeRate",
             new XAttribute("ExchangeRateType", ExchangeRateType),
-            CurrencyFromType != null ? new XAttribute("CurrencyFromType", CurrencyFromType) : null
-
+            CurrencyFromType != null ? new XAttribute("CurrencyFromType", CurrencyFromType) : null,
+            MinCurrencyValue != null ? XElement.Parse($"{MinCurrencyValue}") : null,
+            MaxCurrencyValue != null ? XElement.Parse($"{MaxCurrencyValue}") : null,
+            Date != null ? XElement.Parse($"{Date}") : null
         ).ToString();
     }
 }
