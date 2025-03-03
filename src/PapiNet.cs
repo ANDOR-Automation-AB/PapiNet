@@ -1330,6 +1330,47 @@ public class DeliveryOrigin
     public Time? Time = null;
     public Party LocationParty = new() { LocalName = "LocationParty" };
     public SupplyPoint? SupplyPoint = null;
+    public LocationCode? LocationCode = null;
+    public GPSCoordinates? GPSCoordinates = null;
+    public MapCoordinates? MapCoordinates = null;
+
+    public DeliveryOrigin() { }
+
+    public DeliveryOrigin(XElement root)
+    {
+        Date = root.Element("Date") is XElement date
+            ? new Date(date)
+            : Date;
+        Time = root.Element("Time") is XElement time
+            ? new Time(time)
+            : Time;
+        LocationParty = root.Element("LocationParty") is XElement locationParty
+            ? new Party(locationParty)
+            : LocationParty;
+        SupplyPoint = root.Element("SupplyPoint") is XElement supplyPoint
+            ? new SupplyPoint(supplyPoint)
+            : SupplyPoint;
+        LocationCode = root.Element("LocationCode") is XElement locationCode
+            ? new LocationCode(locationCode)
+            : LocationCode;
+        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
+            ? new GPSCoordinates(gpsCoordinates)
+            : GPSCoordinates;
+        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
+            ? new MapCoordinates(mapCoordinates)
+            : MapCoordinates;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryOrigin",
+            Date != null ? XElement.Parse($"{Date}") : null,
+            Time != null ? XElement.Parse($"{Time}") : null,
+            LocationParty != null ? XElement.Parse($"{LocationParty}") : null,
+            GPSCoordinates != null ? XElement.Parse($"{GPSCoordinates}") : null,
+            MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null
+        ).ToString();
+    }
 }
 
 public class SupplyPoint
