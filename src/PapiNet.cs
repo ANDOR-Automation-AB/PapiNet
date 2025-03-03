@@ -1304,6 +1304,7 @@ public class MonetaryAdjustment
     public List<string> AdditionalText = [];
     public GeneralLedgerAccount? GeneralLedgerAccount = null;
     public MonetaryAdjustmentAmount? MonetaryAdjustmentAmount = null;
+    public string? AdjustmentTypeReason = null;
 
     public MonetaryAdjustment() { }
 
@@ -1333,6 +1334,13 @@ public class MonetaryAdjustment
             : InformationalAmount;
         MonetaryAdjustmentReferenceLine = root.Element("MonetaryAdjustmentReferenceLine")?.Value ?? MonetaryAdjustmentReferenceLine;
         AdditionalText = root.Elements("AdditionalText").Select(text => text.Value).ToList();
+        GeneralLedgerAccount = root.Element("GeneralLedgerAccount") is XElement generalLedgerAccount
+            ? new GeneralLedgerAccount(generalLedgerAccount)
+            : GeneralLedgerAccount;
+        MonetaryAdjustmentAmount = root.Element("MonetaryAdjustmentAmount") is XElement monetaryAdjustmentAmount
+            ? new MonetaryAdjustmentAmount(monetaryAdjustmentAmount)
+            : MonetaryAdjustmentAmount;
+        AdjustmentTypeReason = root.Element("AdjustmentTypeReason")?.Value ?? AdjustmentTypeReason;
     }
 
     public override string ToString()
@@ -1346,8 +1354,13 @@ public class MonetaryAdjustment
             FlatAmountAdjustment != null ? XElement.Parse($"{FlatAmountAdjustment}") : null,
             TaxAdjustment != null ? XElement.Parse($"{TaxAdjustment}") : null,
             InformationalAmount != null ? XElement.Parse($"{InformationalAmount}") : null,
-            new XElement("MonetaryAdjustmentReferenceLine", MonetaryAdjustmentReferenceLine),
-            AdditionalText.Select(text => new XElement("AdditionalText", text))
+            MonetaryAdjustmentReferenceLine != null 
+                ? new XElement("MonetaryAdjustmentReferenceLine", MonetaryAdjustmentReferenceLine)
+                : null,
+            AdditionalText.Select(text => new XElement("AdditionalText", text)),
+            GeneralLedgerAccount != null ? XElement.Parse($"{GeneralLedgerAccount}") : null,
+            MonetaryAdjustmentAmount != null ? XElement.Parse($"{MonetaryAdjustmentAmount}") : null,
+            AdjustmentTypeReason != null ? new XElement("AdjustmentTypeReason", AdjustmentTypeReason) : null
         ).ToString();
     }
 }
