@@ -1315,6 +1315,36 @@ public class TaxAdjustment
 public class InformationalAmount
 {
     public AmountType? AmountType = null;
+    public CurrencyValue CurrencyValue = new();
+    public ExchangeRate? ExchangeRate = null;
+    public List<string> AdditionalText = [];
+
+    public InformationalAmount() { }
+
+    public InformationalAmount(XElement root)
+    {
+        AmountType = root.Attribute("AmountType") is XAttribute amountType
+            ? Enum.Parse<AmountType>(amountType.Value)
+            : AmountType;
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(currencyValue)
+            : CurrencyValue;
+        ExchangeRate = root.Element("ExchangeRate") is XElement exchangeRate
+            ? new ExchangeRate(exchangeRate)
+            : ExchangeRate;
+        AdditionalText = root.Elements("AdditionalText").Select(text => text.Value)
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("InformationalAmount",
+            AmountType != null ? new XAttribute("AmountType", AmountType) : null,
+            XElement.Parse($"{CurrencyValue}"),
+            ExchangeRate != null ? XElement.Parse($"{ExchangeRate}") : null,
+            AdditionalText.Select(text => new XElement("AdditionalText", text))
+        ).ToString();
+    }
 }
 
 public class TaxAmount
