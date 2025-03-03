@@ -1310,6 +1310,38 @@ public class TaxAdjustment
     public TaxAmount? TaxAmount = null;
     public string TaxLocation = string.Empty;
     public List<InformationalAmount> InformationalAmount = [];
+
+    public TaxAdjustment() { }
+
+    public TaxAdjustment(XElement root)
+    {
+        TaxCategoryType = root.Attribute("TaxCategoryType") is XAttribute taxCategoryType
+            ? Enum.Parse<TaxCategoryType>(taxCategoryType.Value)
+            : TaxCategoryType;
+        TaxType = root.Attribute("TaxType") is XAttribute taxType
+            ? Enum.Parse<TaxType>(taxType.Value)
+            : TaxType;
+        TaxPercent = root.Element("TaxPercent")?.Value ?? TaxPercent;
+        TaxAmount = root.Element("TaxAmount") is XElement taxAmount
+            ? new TaxAmount(taxAmount)
+            : TaxAmount;
+        TaxLocation = root.Element("TaxLocation")?.Value ?? TaxLocation;
+        InformationalAmount = root.Elements("InformationalAmount")
+            .Select(amount => new InformationalAmount(amount))
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TaxAdjustment"
+            TaxCategoryType != null ? new XAttribute("TaxCategoryType", TaxCategoryType) : null,
+            new XAttribute("TaxType", TaxType),
+            TaxPercent != null ? XElement.Parse($"{TaxPercent}") : null,
+            TaxAmount != null ? XElement.Parse($"{TaxAmount}") : null,
+            new XElement("TaxLocation", TaxLocation),
+            InformationalAmount.Select(amount => XElement.Parse($"{amount}"))
+        ).ToString();
+    }
 }
 
 public class InformationalAmount
