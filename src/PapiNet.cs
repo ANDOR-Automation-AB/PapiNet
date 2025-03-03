@@ -1239,7 +1239,33 @@ public class PriceDetails
 
 public class MonetaryAdjustment
 {
+    public AdjustmentType_Financial AdjustmentType = AdjustmentType_Financial.Other;
+    public string MonetaryAdjustmentLine = string.Empty;
+    public MonetaryAdjustmentStartAmount? MonetaryAdjustmentStartAmount = null;
+}
 
+public class MonetaryAdjustmentStartAmount
+{
+    public CurrencyValue CurrencyValue = new();
+    public string Value = string.Empty;
+
+    public MonetaryAdjustmentStartAmount() { }
+
+    public MonetaryAdjustmentStartAmount(XElement root)
+    {
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(currencyValue)
+            : CurrencyValue;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MonetaryAdjustmentStartAmount",
+            XElement.Parse($"{CurrencyValue}"),
+            Value
+        ).ToString();
+    }
 }
 
 public class ExchangeRate
