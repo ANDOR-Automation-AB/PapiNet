@@ -1336,6 +1336,36 @@ public class SupplyPoint
 {
     public LocationType LocationType = LocationType.Destination;
     public SupplyPointCode SupplyPointCode = new();
+    public List<string> SupplyPointDescription = [];
+    public List<MapCoordinates> MapCoordinates = [];
+
+    public SupplyPoint() { }
+
+    public SupplyPoint(XElement root)
+    {
+        LocationType = root.Attribute("LocationType") is XAttribute locationType
+            ? Enum.Parse<LocationType>(locationType.Value)
+            : LocationType;
+        SupplyPointCode = root.Element("SupplyPointCode") is XElement supplyPointCode
+            ? new SupplyPointCode(supplyPointCode)
+            : SupplyPointCode;
+        SupplyPointDescription = root.Elements("SupplyPointDescription")
+            .Select(description => description.Value)
+            .ToList();
+        MapCoordinates = root.Elements("MapCoordinates")
+            .Select(coordinates => new MapCoordinates(coordinates))
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SupplyPoint",
+            new XAttribute("LocationType", LocationType),
+            XElement.Parse($"{SupplyPointCode}"),
+            SupplyPointDescription.Select(description => new XElement("SupplyPointDescription", description)),
+            MapCoordinates.Select(coordinates => XElement.Parse($"{coordinates}"))
+        ).ToString();
+    }
 }
 
 public class SupplyPointCode
