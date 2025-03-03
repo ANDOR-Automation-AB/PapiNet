@@ -908,14 +908,6 @@ public enum PriceTaxBasis
     No,
 }
 
-public enum InformationalPricePerUnitType
-{
-    AlternatePrice,
-    CoverPrice,
-    ProductPrice,
-    ProductionPrice,
-}
-
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -1140,11 +1132,6 @@ public class PriceDetails
     public PriceQuantityBasis PriceQuantityBasis = PriceQuantityBasis.ActualVolume;
     public PriceTaxBasis? PriceTaxBasis = null;
     public PricePerUnit PricePerUnit = new();
-    public InformationalPricePerUnit InformationalPricePerUnit = new();
-}
-
-public class InformationalPricePerUnit
-{
 }
 
 public class PricePerUnit
