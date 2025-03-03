@@ -1007,6 +1007,14 @@ public enum AdjustmentType_Financial
     Other,
 }
 
+public enum TaxCategoryType
+{
+    Exempt,
+    Standard,
+    Zero,
+    Other,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1271,6 +1279,13 @@ public class MonetaryAdjustment
     public MonetaryAdjustmentStartQuantity? MonetaryAdjustmentStartQuantity = null;
     public PriceAdjustment? PriceAdjustment = null;
     public FlatAmountAdjustment? FlatAmountAdjustment = null;
+    public TaxAdjustment? TaxAdjustment = null;
+
+}
+
+public class TaxAdjustment
+{
+
 }
 
 public class FlatAmountAdjustment
