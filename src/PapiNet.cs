@@ -1172,10 +1172,48 @@ public class ExchangeRate
     public CurrencyValue? CurrencyValue = null;
     public MinCurrencyValue MinCurrencyValue = new();
     public MaxCurrencyValue MaxCurrencyValue = new();
+    public Date? Date = null;
+
+    public ExchangeRate() { }
+
+    public ExchangeRate(XElement root)
+    {
+        ExchangeRateType = root.Attribute("ExchangeRateType") is XAttribute exchangeRateType
+            ? Enum.Parse<ExchangeRateType>(exchangeRateType.Value)
+            : ExchangeRateType;
+        CurrencyFromType = root.Attribute("CurrencyFromType") is XAttribute currencyFromType
+            ? Enum.Parse<CurrencyFromType>(currencyFromType.Value)
+            : CurrencyFromType;
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(currencyValue)
+            : CurrencyValue;
+        MinCurrencyValue = root.Element("MinCurrencyValue") is XElement minCurrencyValue
+            ? new MinCurrencyValue(minCurrencyValue) 
+            : MinCurrencyValue;
+        MaxCurrencyValue = root.Element("MaxCurrencyValue") is XElement maxCurrencyValue
+            ? new MaxCurrencyValue(maxCurrencyValue) 
+            : MaxCurrencyValue;
+        Date = root.Element("Date") is XElement date
+            ? new Date(date)
+            : Date;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ExchangeRate",
+            new XAttribute("ExchangeRateType", ExchangeRateType),
+            CurrencyFromType != null ? new XAttribute("CurrencyFromType", CurrencyFromType) : null
+
+        ).ToString();
+    }
 }
 
 public class MaxCurrencyValue : MinCurrencyValue
 {
+    public MaxCurrencyValue() : base() { }
+
+    public MaxCurrencyValue(XElement root) : base(root) { }
+
     public override string ToString()
     {
         return new XElement("MaxCurrencyValue",
