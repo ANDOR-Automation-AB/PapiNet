@@ -1067,6 +1067,19 @@ public enum LocationType
     Origin,
 }
 
+public enum TransportModeType
+{
+    Air,
+    InlandWaterway,
+    Intermodal,
+    Mail,
+    Multimodal,
+    Rail,
+    Road,
+    Sea,
+    Other,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1322,6 +1335,14 @@ public class DeliveryLeg
     public LegStageType? LegStageType = null;
     public string DeliveryLegSequenceNumber = string.Empty;
     public DeliveryOrigin DeliveryOrigin = new();
+    public Party? CarrierParty = new Party() { LocalName = "CarrierParty" };
+    public List<Party> OtherParty = [];
+    public TransportModeCharacteristics? TransportModeCharacteristics = null;
+}
+
+public class TransportModeCharacteristics
+{
+    public TransportModeType? TransportModeType = null;
 }
 
 public class DeliveryOrigin
