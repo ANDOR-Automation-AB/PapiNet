@@ -1343,6 +1343,31 @@ public class DeliveryLeg
 public class TransportModeCharacteristics
 {
     public TransportModeType? TransportModeType = null;
+    public TransportModeCode? TransportModeCode = null;
+}
+
+public class TransportModeCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportModeCode() { }
+
+    public TransportModeCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportModeCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliveryOrigin
