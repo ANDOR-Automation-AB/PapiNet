@@ -1040,6 +1040,12 @@ public enum DeliveryModeType
     PickUp,
 }
 
+public enum DeliveryLegType
+{
+    Fixed,
+    Open,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1290,6 +1296,7 @@ public class DeliverySchedule
 public class DeliveryLeg
 {
     public DeliveryModeType? DeliveryModeType = null;
+    public DeliveryLegType? DeliveryLegType = null;
 }
 
 public class PriceDetails
