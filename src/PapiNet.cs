@@ -916,6 +916,12 @@ public enum InformationalPricePerUnitType
     ProductionPrice,
 }
 
+public enum ExchangeRateType
+{
+    Fixed,
+    Float,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -1141,6 +1147,13 @@ public class PriceDetails
     public PriceTaxBasis? PriceTaxBasis = null;
     public PricePerUnit PricePerUnit = new();
     public List<InformationalPricePerUnit> InformationalPricePerUnit = [];
+    public List<string> AdditionalText = [];
+    public ExchangeRate ExchangeRate = new();
+}
+
+public class ExchangeRate
+{
+
 }
 
 public class InformationalPricePerUnit
