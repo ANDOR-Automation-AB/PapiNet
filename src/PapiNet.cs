@@ -1299,7 +1299,39 @@ public class MonetaryAdjustment
     public PriceAdjustment? PriceAdjustment = null;
     public FlatAmountAdjustment? FlatAmountAdjustment = null;
     public TaxAdjustment? TaxAdjustment = null;
+    public InformationalAmount? InformationalAmount = null;
+    public string? MonetaryAdjustmentReferenceLine = null;
+    public List<string> AdditionalText = [];
 
+    public MonetaryAdjustment() { }
+
+    public MonetaryAdjustment(XElement root)
+    {
+        AdjustmentType = root.Attribute("AdjustmentType") is XAttribute adjustmentType
+            ? Enum.Parse<AdjustmentType_Financial>(adjustmentType.Value)
+            : AdjustmentType;
+        MonetaryAdjustmentLine = root.Element("MonetaryAdjustmentLine")?.Value ?? MonetaryAdjustmentLine;
+        MonetaryAdjustmentStartAmount = root.Element("MonetaryAdjustmentStartAmount") is XElement monetaryAdjustmentStartAmount
+            ? new MonetaryAdjustmentStartAmount(monetaryAdjustmentStartAmount)
+            : MonetaryAdjustmentStartAmount;
+        MonetaryAdjustmentStartQuantity = root.Element("MonetaryAdjustmentStartQuantity") is XElement monetaryAdjustmentStartQuantity
+            ? new MonetaryAdjustmentStartQuantity(monetaryAdjustmentStartQuantity)
+            : MonetaryAdjustmentStartQuantity;
+        PriceAdjustment = root.Element("PriceAdjustment") is XElement priceAdjustment
+            ? new PriceAdjustment(priceAdjustment)
+            : PriceAdjustment;
+        FlatAmountAdjustment = root.Element("FlatAmountAdjustment") is XElement flatAmountAdjustment
+            ? new FlatAmountAdjustment(flatAmountAdjustment)
+            : FlatAmountAdjustment;
+        TaxAdjustment = root.Element("TaxAdjustment") is XElement taxAdjustment
+            ? new TaxAdjustment(taxAdjustment)
+            : TaxAdjustment;
+        InformationalAmount = root.Element("InformationalAmount") is XElement informationalAmount
+            ? new InformationalAmount(informationalAmount)
+            : InformationalAmount;
+        MonetaryAdjustmentReferenceLine = root.Element("MonetaryAdjustmentReferenceLine")?.Value ?? MonetaryAdjustmentReferenceLine;
+        AdditionalText = root.Elements("AdditionalText").Select(text => text.Value).ToList();
+    }
 }
 
 public class TaxAdjustment
@@ -1333,7 +1365,7 @@ public class TaxAdjustment
 
     public override string ToString()
     {
-        return new XElement("TaxAdjustment"
+        return new XElement("TaxAdjustment",
             TaxCategoryType != null ? new XAttribute("TaxCategoryType", TaxCategoryType) : null,
             new XAttribute("TaxType", TaxType),
             TaxPercent != null ? XElement.Parse($"{TaxPercent}") : null,
