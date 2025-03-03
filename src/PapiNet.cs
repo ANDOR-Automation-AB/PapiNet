@@ -922,6 +922,20 @@ public enum ExchangeRateType
     Float,
 }
 
+public enum CurrencyFromType
+{
+    // TODO:
+    // A three-character ISO 4217 currency code in capital letters.
+    // Refer to the ISO standard for enumerations.
+}
+
+public enum CurrencyType
+{
+    // TODO:
+    // A three-character ISO 4217 currency code in capital letters.
+    // Refer to the ISO standard for enumerations.
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType;
@@ -1153,7 +1167,34 @@ public class PriceDetails
 
 public class ExchangeRate
 {
+    public ExchangeRateType ExchangeRateType = ExchangeRateType.Fixed;
+    public CurrencyFromType? CurrencyFromType = null;
+    public CurrencyValue? CurrencyValue = null;
+    public MinCurrencyValue MinCurrencyValue = new();
+}
 
+public class MinCurrencyValue
+{
+    public CurrencyType? CurrencyType = null;
+    public string Value = string.Empty;
+
+    public MinCurrencyValue() { }
+
+    public MinCurrencyValue(XElement root)
+    {
+        CurrencyType = root.Attribute("CurrencyType") is XAttribute currencyType
+            ? Enum.Parse<CurrencyType>(currencyType.Value) 
+            : CurrencyType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MinCurrencyValue",
+            CurrencyType != null ? new XAttribute("CurrencyType", CurrencyType) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class InformationalPricePerUnit
