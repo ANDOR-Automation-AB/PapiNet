@@ -1009,14 +1009,14 @@ public enum AdjustmentType_Financial
 
 public class DeliveryMessageWood
 {
-    public DeliveryMessageType DeliveryMessageType;
-    public DeliveryMessageStatusType DeliveryMessageStatusType;
-    public DeliveryMessageContextType? DeliveryMessageContextType;
-    public bool? Reissued;
-    public Language? Language;
+    public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
+    public DeliveryMessageStatusType DeliveryMessageStatusType = DeliveryMessageStatusType.Original;
+    public DeliveryMessageContextType? DeliveryMessageContextType = null;
+    public bool? Reissued = null;
+    public Language? Language = null;
     public DeliveryMessageWoodHeader DeliveryMessageWoodHeader = new();
     public DeliveryMessageShipment DeliveryMessageShipment = new();
-    public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary;
+    public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary = null;
 
     public DeliveryMessageWood() { }
 
