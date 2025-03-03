@@ -1334,7 +1334,24 @@ public class DeliveryOrigin
 
 public class SupplyPoint
 {
-    public LocationType LocationType;
+    public LocationType LocationType = LocationType.Destination;
+    public SupplyPointCode SupplyPointCode = new();
+}
+
+public class SupplyPointCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public SupplyPointCode() { }
+
+    public SupplyPointCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
 }
 
 public class PriceDetails
