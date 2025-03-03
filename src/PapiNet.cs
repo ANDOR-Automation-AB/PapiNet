@@ -1243,6 +1243,43 @@ public class MonetaryAdjustment
     public string MonetaryAdjustmentLine = string.Empty;
     public MonetaryAdjustmentStartAmount? MonetaryAdjustmentStartAmount = null;
     public MonetaryAdjustmentStartQuantity? MonetaryAdjustmentStartQuantity = null;
+    public PriceAdjustment? PriceAdjustment = null;
+}
+
+public class PriceAdjustment
+{
+    public AdjustmentPercentage? AdjustmentPercentage = null;
+}
+
+public class AdjustmentPercentage
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public AdjustmentPercentage() { }
+
+    public AdjustmentPercentage(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("AdjustmentPercentage",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
 }
 
 public class MonetaryAdjustmentStartQuantity
