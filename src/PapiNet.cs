@@ -1303,6 +1303,7 @@ public class MonetaryAdjustment
     public string? MonetaryAdjustmentReferenceLine = null;
     public List<string> AdditionalText = [];
     public GeneralLedgerAccount? GeneralLedgerAccount = null;
+    public MonetaryAdjustmentAmount? MonetaryAdjustmentAmount = null;
 
     public MonetaryAdjustment() { }
 
@@ -1347,6 +1348,27 @@ public class MonetaryAdjustment
             InformationalAmount != null ? XElement.Parse($"{InformationalAmount}") : null,
             new XElement("MonetaryAdjustmentReferenceLine", MonetaryAdjustmentReferenceLine),
             AdditionalText.Select(text => new XElement("AdditionalText", text))
+        ).ToString();
+    }
+}
+
+public class MonetaryAdjustmentAmount
+{
+    public CurrencyValue CurrencyValue = new();
+
+    public MonetaryAdjustmentAmount() { }
+
+    public MonetaryAdjustmentAmount(XElement root)
+    {
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(currencyValue)
+            : CurrencyValue;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MonetaryAdjustmentAmount",
+            XElement.Parse($"{CurrencyValue}")
         ).ToString();
     }
 }
