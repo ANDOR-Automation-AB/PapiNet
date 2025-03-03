@@ -1296,7 +1296,31 @@ public class MonetaryAdjustment
 public class TaxAdjustment
 {
     public TaxCategoryType? TaxCategoryType = null;
-    public TaxType? TaxType = null;
+    public TaxType TaxType = TaxType.VAT;
+    public string? TaxPercent = null;
+    public TaxAmount? TaxAmount = null;
+
+}
+
+public class TaxAmount
+{
+    public CurrencyValue CurrencyValue = new();
+
+    public TaxAmount() { }
+
+    public TaxAmount(XElement root)
+    {
+        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
+            ? new CurrencyValue(currencyValue)
+            : CurrencyValue;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TaxAmount",
+            XElement.Parse($"{CurrencyValue}")
+        ).ToString();
+    }
 }
 
 public class FlatAmountAdjustment
