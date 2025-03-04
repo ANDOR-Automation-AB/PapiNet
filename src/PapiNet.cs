@@ -1362,6 +1362,24 @@ public enum ISOCountryCode
     AX,
 }
 
+public enum TransportUnitType
+{
+    Barge,
+    Cassette,
+    Container,
+    ConventionalVessel,
+    DrawBarCombination,
+    Flatbed,
+    FlatCar,
+    RailCar,
+    RigidLorry,
+    StackTrain,
+    SwapBodies,
+    Trailer,
+    Wagon,
+    Other,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1621,6 +1639,12 @@ public class DeliveryLeg
     public List<Party> OtherParty = [];
     public TransportModeCharacteristics? TransportModeCharacteristics = null;
     public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
+    public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
+}
+
+public class TransportUnitCharacteristics
+{
+    public TransportUnitType TransportUnitType = TransportUnitType.Other;
 }
 
 public class TransportVehicleCharacteristics
