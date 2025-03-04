@@ -1344,6 +1344,29 @@ public class TransportModeCharacteristics
 {
     public TransportModeType? TransportModeType = null;
     public TransportModeCode? TransportModeCode = null;
+    public string? TransportModeText = null;
+
+    public TransportModeCharacteristics() { }
+
+    public TransportModeCharacteristics(XElement root)
+    {
+        TransportModeType = root.Attribute("TransportModeType") is XAttribute transportModeType
+            ? Enum.Parse<TransportModeType>(transportModeType.Value)
+            : TransportModeType;
+        TransportModeCode = root.Element("TransportModeCode") is XElement transportModeCode
+            ? new TransportModeCode(transportModeCode)
+            : TransportModeCode;
+        TransportModeText = root.Element("TransportModeText")?.Value ?? TransportModeText;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportModeCharacteristics",
+            TransportModeType != null ? new XAttribute("TransportModeType", TransportModeType) : null,
+            TransportModeCode != null ? XElement.Parse($"{TransportModeCode}") : null,
+            TransportModeText != null ? new XElement("TransportModeText", TransportModeText) : null
+        ).ToString();
+    }
 }
 
 public class TransportModeCode
