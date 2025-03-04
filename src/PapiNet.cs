@@ -2953,6 +2953,14 @@ public class SupplyPointCode
             : Agency;
         Value = root.Value;
     }
+
+    public override string ToString()
+    {
+        return new XElement("SupplyPointCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class PriceDetails
