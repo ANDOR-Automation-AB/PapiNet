@@ -1390,6 +1390,12 @@ public enum TransportUnitVariable
     WeightCarryingCapacity,
 }
 
+public enum AppliesTo
+{
+    Payload,
+    Unit,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1658,6 +1664,12 @@ public class TransportUnitCharacteristics
     public TransportUnitVariable? TransportUnitVariable = null;
     public string? TransportUnitLevel = null;
     public TransportUnitCode? TransportUnitCode = null;
+    public TransportUnitMeasurements? TransportUnitMeasurements = null;
+}
+
+public class TransportUnitMeasurements
+{
+    public AppliesTo? AppliesTo = null;
 }
 
 public class TransportUnitCode
