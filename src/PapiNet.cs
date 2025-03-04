@@ -1367,6 +1367,34 @@ public class TransportVehicleMeasurements
     public TransportVehicleWidth? TransportVehicleWidth = null;
     public TransportVehicleHeight? TransportVehicleHeight = null;
     public TransportVehicleWeight? TransportVehicleWeight = null;
+
+    public TransportVehicleMeasurements() { }
+
+    public TransportVehicleMeasurements(XElement root)
+    {
+        TransportVehicleLength = root.Element("TransportVehicleLength") is XElement transportVehicleLength
+            ? new TransportVehicleLength(transportVehicleLength)
+            : TransportVehicleLength;
+        TransportVehicleWidth = root.Element("TransportVehicleWidth") is XElement transportVehicleWidth
+            ? new TransportVehicleWidth(transportVehicleWidth)
+            : TransportVehicleWidth;
+        TransportVehicleHeight = root.Element("TransportVehicleHeight") is XElement transportVehicleHeight
+            ? new TransportVehicleHeight(transportVehicleHeight)
+            : TransportVehicleHeight;
+        TransportVehicleWeight = root.Element("TransportVehicleWeight") is XElement transportVehicleWeight
+            ? new TransportVehicleWeight(transportVehicleWeight)
+            : TransportVehicleWeight;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleMeasurements",
+            TransportVehicleLength != null ? XElement.Parse($"{TransportVehicleLength}") : null,
+            TransportVehicleWidth != null ? XElement.Parse($"{TransportVehicleWidth}") : null,
+            TransportVehicleHeight != null ? XElement.Parse($"{TransportVehicleHeight}") : null,
+            TransportVehicleWeight != null ? XElement.Parse($"{TransportVehicleWeight}") : null
+        ).ToString();
+    }
 }
 
 public class TransportVehicleWeight
