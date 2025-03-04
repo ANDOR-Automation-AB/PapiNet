@@ -1380,6 +1380,16 @@ public enum TransportUnitType
     Other,
 }
 
+public enum TransportUnitVariable
+{
+    CubicCapacity,
+    DeckOption,
+    Height,
+    Length,
+    RailcarDoorSize,
+    WeightCarryingCapacity,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1645,6 +1655,7 @@ public class DeliveryLeg
 public class TransportUnitCharacteristics
 {
     public TransportUnitType TransportUnitType = TransportUnitType.Other;
+    public TransportUnitVariable? TransportUnitVariable = null;
 }
 
 public class TransportVehicleCharacteristics
