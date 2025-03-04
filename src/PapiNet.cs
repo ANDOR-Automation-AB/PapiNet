@@ -1359,6 +1359,36 @@ public class TransportVehicleCharacteristics
     public TransportVehicleType? TransportVehicleType = null;
     public TransportVehicleCode? TransportVehicleCode = null;
     public TransportVehicleMeasurements? TransportVehicleMeasurements = null;
+    public List<TransportVehicleEquipment> TransportVehicleEquipment = [];
+}
+
+public class TransportVehicleEquipment
+{
+    public TransportVehicleEquipmentCode? TransportVehicleEquipmentCode = null;
+}
+
+public class TransportVehicleEquipmentCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportVehicleEquipmentCode() { }
+
+    public TransportVehicleEquipmentCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleEquipmentCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportVehicleMeasurements
