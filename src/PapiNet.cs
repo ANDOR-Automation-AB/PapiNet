@@ -1093,6 +1093,22 @@ public enum TransportVehicleType
     Other,
 }
 
+public enum TransportVehicleIdentifierType
+{
+    FlightNumber,
+    GlobalReturnableAssetIdentifier,
+    IMONumber,
+    LicencePlateNumber,
+    RadioCallSign,
+    RFTag,
+    SerialisedShippingContainerCode,
+    StandardCarrierAlphaCode,
+    TrainNumber,
+    VesselName,
+    VoyageNumber,
+    Other,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1360,6 +1376,8 @@ public class TransportVehicleCharacteristics
     public TransportVehicleCode? TransportVehicleCode = null;
     public TransportVehicleMeasurements? TransportVehicleMeasurements = null;
     public List<TransportVehicleEquipment> TransportVehicleEquipment = [];
+    public string? TransportVehicleCount = null;
+
 }
 
 public class TransportVehicleEquipment
