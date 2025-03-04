@@ -1462,6 +1462,12 @@ public enum DirectUnloading
     No,
 }
 
+public enum TransportInstructionType
+{
+    LegSpecific,
+    ProductSpecific,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1723,6 +1729,66 @@ public class DeliveryLeg
     public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
     public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
     public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
+    public TransportOtherInstructions? TransportOtherInstructions = null;
+
+}
+
+public class TransportOtherInstructions
+{
+    public TransportInstructionType? TransportInstructionType = null;
+    public TransportInstructionCode? TransportInstructionCode = null;
+    public List<string> TransportInstructionText = [];
+    public string Value = string.Empty;
+
+    public TransportOtherInstructions() { }
+
+    public TransportOtherInstructions(XElement root)
+    {
+        TransportInstructionType = root.Attribute("TransportInstructionType") is XAttribute transportInstructionType
+            ? Enum.Parse<TransportInstructionType>(transportInstructionType.Value)
+            : TransportInstructionType;
+        TransportInstructionCode = root.Element("TransportInstructionCode") is XElement transportInstructionCode
+            ? new TransportInstructionCode(transportInstructionCode)
+            : TransportInstructionCode;
+        TransportInstructionText = root.Elements("TransportInstructionText")
+            .Select(text => text.Value)
+            .ToList();
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportOtherInstructions",
+            TransportInstructionType != null ? new XAttribute("TransportInstructionType", TransportInstructionType) : null,
+            TransportInstructionCode != null ? XElement.Parse($"{TransportInstructionCode}") : null,
+            TransportInstructionText.Select(text => new XElement("TransportInstructionText", text)),
+            Value
+        ).ToString();
+    }
+}
+
+public class TransportInstructionCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportInstructionCode() { }
+
+    public TransportInstructionCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportInstructionCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportUnloadingCharacteristics
@@ -1791,7 +1857,7 @@ public class TransportUnloadingCodeDescription
     public override string ToString()
     {
         return new XElement("TransportUnloadingCodeDescription",
-            AdditionalText.Select(text => new XElement("AdditionalText", text))
+            AdditionalText.Select(text => new XElement("AdditionalText", text)),
             e_Attachment != null ? XElement.Parse($"{e_Attachment}") : null,
             Value
         ).ToString();
