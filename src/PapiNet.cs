@@ -1670,6 +1670,166 @@ public class TransportUnitCharacteristics
 public class TransportUnitMeasurements
 {
     public AppliesTo? AppliesTo = null;
+    public TransportUnitLength? TransportUnitLength = null;
+    public TransportUnitWidth? TransportUnitWidth = null;
+    public TransportUnitHeight? TransportUnitHeight = null;
+    public TransportUnitWeight? TransportUnitWeight = null;
+
+    public TransportUnitMeasurements() { }
+
+    public TransportUnitMeasurements(XElement root)
+    {
+        AppliesTo = root.Attribute("AppliesTo") is XAttribute appliesTo
+            ? Enum.Parse<AppliesTo>(appliesTo.Value)
+            : AppliesTo;
+        TransportUnitLength = root.Element("TransportUnitLength") is XElement transportUnitLength
+            ? new TransportUnitLength(transportUnitLength)
+            : TransportUnitLength;
+        TransportUnitWidth = root.Element("TransportUnitWidth") is XElement transportUnitWidth
+            ? new TransportUnitWidth(transportUnitWidth)
+            : TransportUnitWidth;
+        TransportUnitHeight = root.Element("TransportUnitHeight") is XElement transportUnitHeight
+            ? new TransportUnitHeight(transportUnitHeight)
+            : TransportUnitHeight;
+        TransportUnitWeight = root.Element("TransportUnitWeight") is XElement transportUnitWeight
+            ? new TransportUnitWeight(transportUnitWeight)
+            : TransportUnitWeight;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitMeasurements",
+            AppliesTo != null ? new XAttribute("AppliesTo", AppliesTo) : null,
+            TransportUnitLength != null ? XElement.Parse($"{TransportUnitLength}") : null,
+            TransportUnitWidth != null ? XElement.Parse($"{TransportUnitWidth}") : null,
+            TransportUnitHeight != null ? XElement.Parse($"{TransportUnitHeight}") : null,
+            TransportUnitWeight != null ? XElement.Parse($"{TransportUnitWeight}") : null
+        ).ToString();
+    }
+}
+
+public class TransportUnitWeight
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public TransportUnitWeight() { }
+
+    public TransportUnitWeight(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitWeight",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class TransportUnitHeight
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public TransportUnitHeight() { }
+
+    public TransportUnitHeight(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitHeight",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class TransportUnitWidth
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public TransportUnitWidth() { }
+
+    public TransportUnitWidth(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitWidth",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class TransportUnitLength
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public TransportUnitLength() { }
+
+    public TransportUnitLength(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitLength",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
 }
 
 public class TransportUnitCode
