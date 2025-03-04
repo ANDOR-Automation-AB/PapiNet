@@ -1447,6 +1447,21 @@ public enum LoadOpeningSide
     RightSide,
 }
 
+public enum TransportUnloadingType
+{
+    ByUnloadingCode,
+    Lying,
+    Standing,
+    StandingUpsideDown,
+    Other,
+}
+
+public enum DirectUnloading
+{
+    Yes,
+    No,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1707,6 +1722,156 @@ public class DeliveryLeg
     public TransportModeCharacteristics? TransportModeCharacteristics = null;
     public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
     public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
+    public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
+}
+
+public class TransportUnloadingCharacteristics
+{
+    public TransportUnloadingType? TransportUnloadingType = null;
+    public DirectUnloading? DirectUnloading = null;
+    public TransportUnloadingCode? TransportUnloadingCode = null;
+    public TransportUnloadingCodeDescription? TransportUnloadingCodeDescription = null;
+    public List<string> TransportUnloadingText = [];
+    public string Value = string.Empty;
+
+    public TransportUnloadingCharacteristics() { }
+
+    public TransportUnloadingCharacteristics(XElement root)
+    {
+        TransportUnloadingType = root.Attribute("TransportUnloadingType") is XAttribute transportUnloadingType
+            ? Enum.Parse<TransportUnloadingType>(transportUnloadingType.Value)
+            : TransportUnloadingType;
+        DirectUnloading = root.Attribute("DirectUnloading") is XAttribute directUnloading
+            ? Enum.Parse<DirectUnloading>(directUnloading.Value)
+            : DirectUnloading;
+        TransportUnloadingCode = root.Element("TransportUnloadingCode") is XElement transportUnloadingCode
+            ? new TransportUnloadingCode(transportUnloadingCode)
+            : TransportUnloadingCode;
+        TransportUnloadingCodeDescription = root.Element("TransportUnloadingCodeDescription") is XElement transportUnloadingCodeDescription
+            ? new TransportUnloadingCodeDescription(transportUnloadingCodeDescription)
+            : TransportUnloadingCodeDescription;
+        TransportUnloadingText = root.Elements("TransportUnloadingText")
+            .Select(text => text.Value)
+            .ToList();
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnloadingCharacteristics",
+            TransportUnloadingType != null ? new XAttribute("TransportUnloadingType", TransportUnloadingType) : null,
+            DirectUnloading != null ? new XAttribute("DirectUnloading", DirectUnloading) : null,
+            TransportUnloadingCode != null ? XElement.Parse($"{TransportUnloadingCode}") : null,
+            TransportUnloadingCodeDescription != null ? XElement.Parse($"{TransportUnloadingCodeDescription}") : null,
+            TransportUnloadingText.Select(text => new XElement("TransportUnloadingText", text)),
+            Value
+        ).ToString();
+    }
+}
+
+public class TransportUnloadingCodeDescription
+{
+    public List<string> AdditionalText = [];
+    public e_Attachment? e_Attachment = null;
+    public string Value = string.Empty;
+
+    public TransportUnloadingCodeDescription() { }
+
+    public TransportUnloadingCodeDescription(XElement root)
+    {
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+        e_Attachment = root.Element("Attachment") is XElement attachment
+            ? new e_Attachment(attachment)
+            : e_Attachment;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnloadingCodeDescription",
+            AdditionalText.Select(text => new XElement("AdditionalText", text))
+            e_Attachment != null ? XElement.Parse($"{e_Attachment}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class e_Attachment
+{
+    public string? AttachmentFileName = null;
+    public string? NumberOfAttachments = null;
+    public URL? URL = null;
+    public string Value = string.Empty;
+
+    public e_Attachment() { }
+
+    public e_Attachment(XElement root)
+    {
+        AttachmentFileName = root.Element("AttachmentFileName")?.Value ?? AttachmentFileName;
+        NumberOfAttachments = root.Element("NumberOfAttachments")?.Value ?? NumberOfAttachments;
+        URL = root.Element("URL") is XElement url
+            ? new URL(url)
+            : URL;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("e-Attachment",
+            AttachmentFileName != null ? new XElement("AttachmentFileName", AttachmentFileName) : null,
+            NumberOfAttachments != null ? new XElement("NumberOfAttachments", NumberOfAttachments) : null,
+            URL != null ? XElement.Parse($"{URL}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class URL
+{
+    public string? URLContext = null;
+    public string Value = string.Empty;
+
+    public URL() { }
+
+    public URL(XElement root)
+    {
+        URLContext = root.Attribute("URLContext")?.Value ?? URLContext;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("URL",
+            URLContext != null ? new XAttribute("URLContext", URLContext) : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class TransportUnloadingCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportUnloadingCode() { }
+
+    public TransportUnloadingCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnloadingCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportUnitCharacteristics
