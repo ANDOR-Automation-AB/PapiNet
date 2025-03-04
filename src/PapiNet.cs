@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Linq;
+using System.Xml.Linq;
 
 namespace PapiNet;
 
@@ -1496,6 +1497,75 @@ public enum MapPointType
     WeighBridge,
 }
 
+public enum RoadOwnerType
+{
+    Public,
+    Private,
+}
+
+public enum RoadKeeperType
+{
+    Public,
+    Private,
+}
+
+public enum RoadAccessibilityType
+{
+    Trailer,
+    DrawBarCombination,
+    DrawBarCombinationWithAdjustableBogie,
+    RigidLorry,
+}
+
+public enum RoadTurningPossibilityType
+{
+    Trailer,
+    DrawBarCombination,
+    DrawBarCombinationWithAdjustableBogie,
+    RigidLorry,
+    NoTurningPossibility,
+}
+
+public enum RoadTurningPointType
+{
+    Circle,
+    //T-crossing,
+    //X-crossing,
+}
+
+public enum RoadPassingPossibility
+{
+    Yes,
+    No,
+}
+
+public enum RoadAvailability
+{
+    AllYear,
+    NotInHeavyRain,
+    NotInSevereThawing,
+    NotInWinter,
+    InWinter,
+}
+
+public enum RoadBearingCapacityType
+{
+    BogieLoad,
+    SingleAxleLoad,
+    TripleAxleLoad,
+    TotalVehicleLoad,
+}
+
+public enum RoadObstructionType
+{
+    Bridge,
+    Ferry,
+    Passage,
+    RoadWorks,
+    Slope,
+    UnderPass,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1768,6 +1838,10 @@ public class Route
     public List<string> RouteComment = [];
     public List<SupplyPoint> SupplyPoint = [];
     public List<MapPoint> MapPoint = [];
+    public string? RouteLength = null;
+    public string? RouteDefinition = null;
+    public eAttachment? eAttachment = null;
+    public List<RouteLeg> RouteLeg = [];
     public string RootValue = string.Empty;
 
     public Route() { }
@@ -1798,6 +1872,414 @@ public class Route
             RouteComment.Select(comment => new XElement("RouteComment", comment)),
             SupplyPoint.Select(point => XElement.Parse($"{point}")),
             MapPoint.Select(point => XElement.Parse($"{point}")),
+            RootValue
+        ).ToString();
+    }
+}
+
+public class RouteLeg
+{
+    public string RouteLegNumber = string.Empty;
+    public string? RouteLegName = null;
+    public List<Party> OtherParty = [];
+    public MapPoint? MapPoint = null;
+    public RouteLegLength? RouteLegLength = null;
+    public RoadCharacteristics? RoadCharacteristics = null;
+    public eAttachment? eAttachment = null;
+    public List<string> AdditionalText = [];
+
+    public RouteLeg() { }
+
+    public RouteLeg(XElement root)
+    {
+        RouteLegNumber = root.Element("RouteLegNumber")?.Value ?? RouteLegNumber;
+        RouteLegName = root.Element("RouteLegName")?.Value ?? RouteLegName;
+        OtherParty = root.Elements("OtherParty")
+            .Select(party => new Party(party) { LocalName = "OtherParty" })
+            .ToList();
+        MapPoint = root.Element("MapPoint") is XElement mapPoint
+            ? new MapPoint(mapPoint)
+            : MapPoint;
+        RouteLegLength = root.Element("RouteLegLength") is XElement routeLegLength
+            ? new RouteLegLength(routeLegLength)
+            : RouteLegLength;
+        RoadCharacteristics = root.Element("RoadCharacteristics") is XElement roadCharacteristics
+            ? new RoadCharacteristics(roadCharacteristics)
+            : RoadCharacteristics;
+        eAttachment = root.Element("eAttachment") is XElement attachment
+            ? new eAttachment(attachment)
+            : eAttachment;
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RouteLeg",
+            RouteLegNumber != null ? new XElement("RouteLegNumber", RouteLegNumber) : null,
+            RouteLegName != null ? new XElement("RouteLegName", RouteLegName) : null,
+            OtherParty.Select(party => XElement.Parse($"{party}")),
+            MapPoint != null ? XElement.Parse($"{MapPoint}") : null,
+            RouteLegLength != null ? XElement.Parse($"{RouteLegLength}") : null,
+            RoadCharacteristics != null ? XElement.Parse($"{RoadCharacteristics}") : null,
+            eAttachment != null ? XElement.Parse($"{eAttachment}") : null,
+            AdditionalText.Select(text => new XElement("AdditionalText", text))
+        ).ToString();
+    }
+}
+
+public class RoadCharacteristics
+{
+    public RoadOwnerType? RoadOwnerType = null;
+    public RoadKeeperType? RoadKeeperType = null;
+    public RoadAccessibilityType? RoadAccessibilityType = null;
+    public RoadTurningPossibilityType? RoadTurningPossibilityType = null;
+    public RoadTurningPointType? RoadTurningPointType = null;
+    public RoadPassingPossibility? RoadPassingPossibility = null;
+    public string? RoadName = null;
+    public string? RoadNumber = null;
+    public List<RoadClassification> RoadClassification = [];
+    public List<RoadAvailability> RoadAvailability = [];
+    public List<RoadBearingCapacity> RoadBearingCapacity = [];
+    public List<RoadObstruction> RoadObstruction = [];
+
+    public RoadCharacteristics() { }
+
+    public RoadCharacteristics(XElement root)
+    {
+        RoadOwnerType = root.Attribute("RoadOwnerType") is XAttribute roadOwnerType
+            ? Enum.Parse<RoadOwnerType>(roadOwnerType.Value)
+            : RoadOwnerType;
+        RoadKeeperType = root.Attribute("RoadKeeperType") is XAttribute roadKeeperType
+            ? Enum.Parse<RoadKeeperType>(roadKeeperType.Value)
+            : RoadKeeperType;
+        RoadAccessibilityType = root.Attribute("RoadAccessibilityType") is XAttribute roadAccessibilityType
+            ? Enum.Parse<RoadAccessibilityType>(roadAccessibilityType.Value)
+            : RoadAccessibilityType;
+        RoadTurningPossibilityType = root.Attribute("RoadTurningPossibilityType") is XAttribute roadTurningPossibilityType
+            ? Enum.Parse<RoadTurningPossibilityType>(roadTurningPossibilityType.Value)
+            : RoadTurningPossibilityType;
+        RoadTurningPointType = root.Attribute("RoadTurningPointType") is XAttribute roadTurningPointType
+            ? Enum.Parse<RoadTurningPointType>(roadTurningPointType.Value)
+            : RoadTurningPointType;
+        RoadPassingPossibility = root.Attribute("RoadPassingPossibility") is XAttribute roadPassingPossibility
+            ? Enum.Parse<RoadPassingPossibility>(roadPassingPossibility.Value)
+            : RoadPassingPossibility;
+        RoadName = root.Element("RoadName")?.Value ?? RoadName;
+        RoadNumber = root.Element("RoadNumber")?.Value ?? RoadNumber;
+        RoadClassification = root.Elements("RoadClassification")
+            .Select(classification => new RoadClassification(classification))
+            .ToList();
+        RoadAvailability = root.Elements("RoadAvailability")
+            .Select(availability => Enum.Parse<RoadAvailability>(availability.Value))
+            .ToList();
+        RoadBearingCapacity = root.Elements("RoadBearingCapacity")
+            .Select(capacity => new RoadBearingCapacity(capacity))
+            .ToList();
+        RoadObstruction = root.Elements("RoadObstruction")
+            .Select(obstruction => new RoadObstruction(obstruction))
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RoadCharacteristics",
+            RoadOwnerType != null ? new XAttribute("RoadOwnerType", RoadOwnerType) : null,
+            RoadKeeperType != null ? new XAttribute("RoadKeeperType", RoadKeeperType) : null,
+            RoadAccessibilityType != null ? new XAttribute("RoadAccessibilityType", RoadAccessibilityType) : null,
+            RoadTurningPossibilityType != null ? new XAttribute("RoadTurningPossibilityType", RoadTurningPossibilityType) : null,
+            RoadTurningPointType != null ? new XAttribute("RoadTurningPointType", RoadTurningPointType) : null,
+            RoadPassingPossibility != null ? new XAttribute("RoadPassingPossibility", RoadPassingPossibility) : null,
+            RoadName != null ? new XElement("RoadName", RoadName) : null,
+            RoadNumber != null ? new XElement("RoadNumber", RoadNumber) : null,
+            RoadClassification.Select(classification => XElement.Parse($"{classification}")),
+            RoadAvailability.Select(availability => XElement.Parse($"{availability}")),
+            RoadBearingCapacity.Select(capacity => XElement.Parse($"{capacity}")),
+            RoadObstruction.Select(obstruction => XElement.Parse($"{obstruction}"))
+        ).ToString();
+    }
+}
+
+public class RoadObstruction
+{
+    public RoadObstructionType RoadObstructionType = RoadObstructionType.Passage;
+    public string? MapPointName = null;
+    public List<string> MapPointComment = [];
+    public List<MapCoordinates> MapCoordinates = [];
+    public string? RoadSlopePercent = null;
+    public List<RoadBearingCapacity> RoadBearingCapacity = [];
+    public Length_Object? Length = null;
+    public Width_Object? Width = null;
+    public Height_Object? Height = null;
+    public eAttachment? eAttachment = null;
+    public List<string> AdditionalText = [];
+
+    public RoadObstruction() { }
+
+    public RoadObstruction(XElement root)
+    {
+        RoadObstructionType = root.Attribute("RoadObstructionType") is XAttribute roadObstructionType
+            ? Enum.Parse<RoadObstructionType>(roadObstructionType.Value)
+            : RoadObstructionType;
+        MapPointName = root.Element("MapPointName")?.Value ?? MapPointName;
+        MapPointComment = root.Elements("MapPointComment")
+            .Select(comment => comment.Value)
+            .ToList();
+        MapCoordinates = root.Elements("MapCoordinates")
+            .Select(coordinates => new MapCoordinates(coordinates))
+            .ToList();
+        RoadSlopePercent = root.Element("RoadSlopePercent")?.Value ?? RoadSlopePercent;
+        RoadBearingCapacity = root.Elements("RoadBearingCapacity")
+            .Select(capacity => new RoadBearingCapacity(capacity))
+            .ToList();
+        Length = root.Element("Length") is XElement length
+            ? new Length_Object(length)
+            : Length;
+        Width = root.Element("Width") is XElement width
+            ? new Width_Object(width)
+            : Width;
+        Height = root.Element("Height") is XElement height
+            ? new Height_Object(height)
+            : Height;
+        eAttachment = root.Element("eAttachment") is XElement attachment
+            ? new eAttachment(attachment)
+            : eAttachment;
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RoadObstruction",
+            new XAttribute("RoadObstructionType", RoadObstructionType),
+            MapPointName != null ? new XElement("MapPointName", MapPointName) : null,
+            MapPointComment.Select(comment => new XElement("MapPointComment", comment)),
+            MapCoordinates.Select(coordinates => XElement.Parse($"{coordinates}")),
+            RoadSlopePercent != null ? new XElement("RoadSlopePercent", RoadSlopePercent) : null,
+            RoadBearingCapacity.Select(capacity => XElement.Parse($"{capacity}")),
+            Length != null ? XElement.Parse($"{Length}") : null,
+            Width != null ? XElement.Parse($"{Width}") : null,
+            Height != null ? XElement.Parse($"{Height}") : null,
+            eAttachment != null ? XElement.Parse($"{eAttachment}") : null,
+            AdditionalText.Select(text => new XElement("AdditionalText", text))
+        ).ToString();
+    }
+}
+
+public class Height_Object
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public Height_Object() { }
+
+    public Height_Object(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Height",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class Width_Object
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public Width_Object() { }
+
+    public Width_Object(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Width",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class Length_Object
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public Length_Object() { }
+
+    public Length_Object(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Length",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class RoadBearingCapacity
+{
+    public RoadBearingCapacityType? RoadBearingCapacityType = null;
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public RoadBearingCapacity() { }
+
+    public RoadBearingCapacity(XElement root)
+    {
+        RoadBearingCapacityType = root.Attribute("RoadBearingCapacityType") is XAttribute roadBearingCapacityType
+            ? Enum.Parse<RoadBearingCapacityType>(roadBearingCapacityType.Value)
+            : RoadBearingCapacityType;
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RoadBearingCapacity",
+            RoadBearingCapacityType != null ? new XAttribute("RoadBearingCapacityType", RoadBearingCapacityType) : null,
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class RoadClassification
+{
+    public string? RoadClassificationCode = null;
+    public List<string> RoadClassificationDescription = [];
+    public string RootValue = string.Empty;
+
+    public RoadClassification() { }
+
+    public RoadClassification(XElement root)
+    {
+        RoadClassificationCode = root.Element("RoadClassificationCode")?.Value ?? RoadClassificationCode;
+        RoadClassificationDescription = root.Elements("RoadClassificationDescription")
+            .Select(description => description.Value)
+            .ToList();
+        RootValue = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RoadClassification",
+            RoadClassificationCode != null ? new XElement("RoadClassificationCode", RoadClassificationCode) : null,
+            RoadClassificationDescription.Select(description => new XElement("RoadClassificationDescription", description)),
+            RootValue
+        ).ToString();
+    }
+}
+
+public class RouteLegLength
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public RouteLegLength() { }
+
+    public RouteLegLength(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RouteLegLength",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
+}
+
+public class eAttachment
+{
+    public string? AttachmentFileName = null;
+    public string? NumberOfAttachments = null;
+    public List<URL> URL = [];
+    public string RootValue = string.Empty;
+
+    public eAttachment() { }
+
+    public eAttachment(XElement root)
+    {
+        AttachmentFileName = root.Element("AttachmentFileName")?.Value ?? AttachmentFileName;
+        NumberOfAttachments = root.Element("NumberOfAttachments")?.Value ?? NumberOfAttachments;
+        URL = root.Elements("URL")
+            .Select(url => new URL(url))
+            .ToList();
+        RootValue = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("eAttachment",
+            AttachmentFileName != null ? new XElement("AttachmentFileName", AttachmentFileName) : null,
+            NumberOfAttachments != null ? new XElement("NumberOfAttachments", NumberOfAttachments) : null,
+            URL.Select(url => XElement.Parse($"{url}")),
             RootValue
         ).ToString();
     }
