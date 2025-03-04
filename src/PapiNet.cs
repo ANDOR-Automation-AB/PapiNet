@@ -1080,6 +1080,19 @@ public enum TransportModeType
     Other,
 }
 
+public enum TransportVehicleType
+{
+    Barge,
+    ContainerVessel,
+    ConventionalVessel,
+    RollOnOffShip,
+    SidePortVessel,
+    Train,
+    Truck,
+    TruckTrailer,
+    Other,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
