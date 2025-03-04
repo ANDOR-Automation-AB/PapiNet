@@ -2015,7 +2015,7 @@ public class TransportVehicleIdentifier
 public class TransportVehicleEquipment
 {
     public TransportVehicleEquipmentCode? TransportVehicleEquipmentCode = null;
-    public TransportVehicleEquipmentDescription? TransportVehicleEquipmentDescription = null;
+    public List<TransportVehicleEquipmentDescription> TransportVehicleEquipmentDescription = [];
 
     public TransportVehicleEquipment() { }
 
@@ -2024,16 +2024,16 @@ public class TransportVehicleEquipment
         TransportVehicleEquipmentCode = root.Element("TransportVehicleEquipmentCode") is XElement transportVehicleEquipmentCode
             ? new TransportVehicleEquipmentCode(transportVehicleEquipmentCode)
             : TransportVehicleEquipmentCode;
-        TransportVehicleEquipmentDescription = root.Element("TransportVehicleEquipmentDescription") is XElement transportVehicleEquipmentDescription
-            ? new TransportVehicleEquipmentDescription(transportVehicleEquipmentDescription)
-            : TransportVehicleEquipmentDescription;
+        TransportVehicleEquipmentDescription = root.Elements("TransportVehicleEquipmentDescription")
+            .Select(description => new TransportVehicleEquipmentDescription(description))
+            .ToList();
     }
 
     public override string ToString()
     {
         return new XElement("TransportVehicleEquipment",
             TransportVehicleEquipmentCode != null ? XElement.Parse($"{TransportVehicleEquipmentCode}") : null,
-            TransportVehicleEquipmentDescription != null ? XElement.Parse($"{TransportVehicleEquipmentDescription}") : null
+            TransportVehicleEquipmentDescription.Select(description => XElement.Parse($"{description}"))
         ).ToString();
     }
 }
