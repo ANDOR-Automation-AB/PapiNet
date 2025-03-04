@@ -1396,6 +1396,57 @@ public enum AppliesTo
     Unit,
 }
 
+public enum TransportUnitIdentifierType
+{
+    ContainerID,
+    CassetteID,
+    GlobalReturnableAssetIdentifier,
+    RailCarID,
+    RFTag,
+    SealNumber,
+    SerialShippingContainerCode,
+    TrailerID,
+    WagonID,
+    Other,
+}
+
+public enum TransportUnitDetailType
+{
+    DryFreightContainer,
+    PlatformContainer,
+    OpenSidesContainer,
+    OpenTopContainer,
+    OverheadContainer,
+    SwapBodyContainer,
+    BoxTrailer,
+    CurtainsiderTrailer,
+    DrawBarTrailer,
+    GooseneckTrailer,
+    HuckepackTrailer,
+    FlatbedTrailer,
+    SkeletalTrailer,
+    SkeletalContainerTrailer,
+    SkeletalDrawbarTrailer,
+    SpecialTrailer,
+    TerminalTrailer,
+    TiltTrailer,
+    BasketRailCar,
+    ContainerRailCar,
+    FlatRailCar,
+    HighSidedRailCar,
+    PocketRailCar,
+    SpineRailCar,
+}
+
+public enum LoadOpeningSide
+{
+    BackEndSide,
+    FrontEndSide,
+    LeftAndRightSide,
+    LeftSide,
+    RightSide,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1666,6 +1717,148 @@ public class TransportUnitCharacteristics
     public TransportUnitCode? TransportUnitCode = null;
     public TransportUnitMeasurements? TransportUnitMeasurements = null;
     public List<TransportUnitEquipment> TransportUnitEquipment = [];
+    public string? TransportUnitCount = null;
+    public List<TransportUnitIdentifier> TransportUnitIdentifier = [];
+    public string? TransportUnitText = null;
+    public TransportUnitDetail? TransportUnitDetail = null;
+
+    public TransportUnitCharacteristics() { }
+
+    public TransportUnitCharacteristics(XElement root)
+    {
+        TransportUnitType = root.Attribute("TransportUnitType") is XAttribute transportUnitType
+            ? Enum.Parse<TransportUnitType>(transportUnitType.Value)
+            : TransportUnitType;
+        TransportUnitVariable = root.Attribute("TransportUnitVariable") is XAttribute transportUnitVariable
+            ? Enum.Parse<TransportUnitVariable>(transportUnitVariable.Value)
+            : TransportUnitVariable;
+        TransportUnitLevel = root.Attribute("TransportUnitLevel")?.Value ?? TransportUnitLevel;
+        TransportUnitCode = root.Element("TransportUnitCode") is XElement transportUnitCode
+            ? new TransportUnitCode(transportUnitCode)
+            : TransportUnitCode;
+        TransportUnitMeasurements = root.Element("TransportUnitMeasurements") is XElement transportUnitMeasurements
+            ? new TransportUnitMeasurements(transportUnitMeasurements)
+            : TransportUnitMeasurements;
+        TransportUnitEquipment = root.Elements("TransportUnitEquipment")
+            .Select(equipment => new TransportUnitEquipment(equipment))
+            .ToList();
+        TransportUnitCount = root.Element("TransportUnitCount")?.Value ?? TransportUnitCount;
+        TransportUnitIdentifier = root.Elements("TransportUnitIdentifier")
+            .Select(identifier => new TransportUnitIdentifier(identifier))
+            .ToList();
+        TransportUnitText = root.Element("TransportUnitText")?.Value ?? TransportUnitText;
+        TransportUnitDetail = root.Element("TransportUnitDetail") is XElement transportUnitDetail
+            ? new TransportUnitDetail(transportUnitDetail)
+            : TransportUnitDetail;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitCharacteristics",
+            new XAttribute("TransportUnitType", TransportUnitType),
+            TransportUnitVariable != null ? new XAttribute("TransportUnitVariable", TransportUnitVariable) : null,
+            TransportUnitLevel != null ? new XAttribute("TransportUnitLevel", TransportUnitLevel) : null,
+            TransportUnitCode != null ? XElement.Parse($"{TransportUnitCode}") : null,
+            TransportUnitMeasurements != null ? XElement.Parse($"{TransportUnitMeasurements}") : null,
+            TransportUnitEquipment.Select(equipment =>  XElement.Parse($"{equipment}")),
+            TransportUnitCount != null ? new XElement("TransportUnitCount", TransportUnitCount) : null,
+            TransportUnitIdentifier.Select(identifier => XElement.Parse($"{identifier}")),
+            TransportUnitText != null ? new XElement("TransportUnitText", TransportUnitText) : null,
+            TransportUnitDetail != null ? XElement.Parse($"{TransportUnitDetail}") : null
+        ).ToString();
+    }
+}
+
+public class TransportUnitDetail
+{
+    public TransportUnitDetailType? TransportUnitDetailType = null;
+    public LoadOpeningSide? LoadOpeningSide = null;
+    public TransportUnitDetailCode? TransportUnitDetailCode = null;
+    public List<string> AdditionalText = [];
+
+    public TransportUnitDetail() { }
+
+    public TransportUnitDetail(XElement root)
+    {
+        TransportUnitDetailType = root.Attribute("TransportUnitDetailType") is XAttribute transportUnitDetailType
+            ? Enum.Parse<TransportUnitDetailType>(transportUnitDetailType.Value)
+            : TransportUnitDetailType;
+        LoadOpeningSide = root.Attribute("LoadOpeningSide") is XAttribute loadOpeningSide
+            ? Enum.Parse<LoadOpeningSide>(loadOpeningSide.Value)
+            : LoadOpeningSide;
+        TransportUnitDetailCode = root.Element("TransportUnitDetailCode") is XElement transportUnitDetailCode
+            ? new TransportUnitDetailCode(transportUnitDetailCode)
+            : TransportUnitDetailCode;
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitDetail",
+            TransportUnitDetailType != null ? new XAttribute("TransportUnitDetailType", TransportUnitDetailType) : null,
+            LoadOpeningSide != null ? new XAttribute("LoadOpeningSide", LoadOpeningSide) : null,
+            TransportUnitDetailCode != null ? XElement.Parse($"{TransportUnitDetailCode}") : null,
+            AdditionalText.Select(text => new XElement("AdditionalText", text))
+        ).ToString();
+    }
+}
+
+public class TransportUnitDetailCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportUnitDetailCode() { }
+
+    public TransportUnitDetailCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitDetailCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
+}
+
+public class TransportUnitIdentifier
+{
+    public TransportUnitIdentifierType TransportUnitIdentifierType = TransportUnitIdentifierType.Other;
+    public string? StateOrProvince = null;
+    public ISOCountryCode? ISOCountryCode = null;
+    public string Value = string.Empty;
+
+    public TransportUnitIdentifier() { }
+
+    public TransportUnitIdentifier(XElement root)
+    {
+        TransportUnitIdentifierType = root.Attribute("TransportUnitIdentifierType") is XAttribute transportUnitIdentifierType
+            ? Enum.Parse<TransportUnitIdentifierType>(transportUnitIdentifierType.Value)
+            : TransportUnitIdentifierType;
+        StateOrProvince = root.Attribute("StateOrProvince")?.Value ?? StateOrProvince;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
+            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
+            : ISOCountryCode;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitIdentifier",
+            new XAttribute("TransportUnitIdentifierType", TransportUnitIdentifierType),
+            StateOrProvince != null ? new XAttribute("StateOrProvince", StateOrProvince) : null,
+            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportUnitEquipment
