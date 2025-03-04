@@ -1468,6 +1468,34 @@ public enum TransportInstructionType
     ProductSpecific,
 }
 
+public enum RouteType
+{
+    DeliveryOriginToDeliveryDestination,
+    MainIntersectionToDeliveryDestination,
+    SupplyPointToDeliveryDestination,
+    SupplyPointToMainIntersection,
+}
+
+public enum MapPointType
+{
+    Barrier,
+    Bridge,
+    CraneTemporaryStorage,
+    Ferry,
+    MainIntersection,
+    Passage,
+    PassingPossibility,
+    RoadWorks,
+    RouteLegEnd,
+    RouteLegStart,
+    RouteEnd,
+    RouteStart,
+    Slope,
+    TurningPossibility,
+    UnderPass,
+    WeighBridge,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -1730,7 +1758,53 @@ public class DeliveryLeg
     public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
     public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
     public TransportOtherInstructions? TransportOtherInstructions = null;
+    public List<Route> Route = [];
+}
 
+public class Route
+{
+    public RouteType RouteType = RouteType.DeliveryOriginToDeliveryDestination;
+    public string RouteName = string.Empty;
+    public List<string> RouteComment = [];
+    public List<SupplyPoint> SupplyPoint = [];
+    public List<MapPoint> MapPoint = [];
+}
+
+public class MapPoint
+{
+    public MapPointType? MapPointType = null;
+    public string MapPointName = string.Empty;
+    public List<string> MapPointComment = [];
+    public List<MapCoordinates> MapCoordinates = [];
+    public string Value = string.Empty;
+
+    public MapPoint() { }
+
+    public MapPoint(XElement root)
+    {
+        MapPointType = root.Attribute("MapPointType") is XAttribute mapPointType
+            ? Enum.Parse<MapPointType>(mapPointType.Value)
+            : MapPointType;
+        MapPointName = root.Element("MapPointName")?.Value ?? MapPointName;
+        MapPointComment = root.Elements("MapPointComment")
+            .Select(comment => comment.Value)
+            .ToList();
+        MapCoordinates = root.Elements("MapCoordinates")
+            .Select(coordinates => new MapCoordinates(coordinates))
+            .ToList();
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MapPoint",
+            MapPointType != null ? new XAttribute("MapPointType", MapPointType) : null,
+            new XElement("MapPointName", MapPointName),
+            MapPointComment.Select(comment => new XElement("MapPointComment", comment)),
+            MapCoordinates.Select(coordinates => XElement.Parse($"{coordinates}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportOtherInstructions
