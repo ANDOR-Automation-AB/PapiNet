@@ -1351,6 +1351,37 @@ public class DeliveryLeg
     public Party? CarrierParty = new Party() { LocalName = "CarrierParty" };
     public List<Party> OtherParty = [];
     public TransportModeCharacteristics? TransportModeCharacteristics = null;
+    public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
+}
+
+public class TransportVehicleCharacteristics
+{
+    public TransportVehicleType? TransportVehicleType = null;
+    public TransportVehicleCode? TransportVehicleCode = null;
+}
+
+public class TransportVehicleCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportVehicleCode() { }
+
+    public TransportVehicleCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportModeCharacteristics
