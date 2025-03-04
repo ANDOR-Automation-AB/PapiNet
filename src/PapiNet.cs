@@ -1656,6 +1656,32 @@ public class TransportUnitCharacteristics
 {
     public TransportUnitType TransportUnitType = TransportUnitType.Other;
     public TransportUnitVariable? TransportUnitVariable = null;
+    public string? TransportUnitLevel = null;
+    public TransportUnitCode? TransportUnitCode = null;
+}
+
+public class TransportUnitCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportUnitCode() { }
+
+    public TransportUnitCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportVehicleCharacteristics
