@@ -1365,6 +1365,31 @@ public class TransportVehicleCharacteristics
 public class TransportVehicleEquipment
 {
     public TransportVehicleEquipmentCode? TransportVehicleEquipmentCode = null;
+    public TransportVehicleEquipmentDescription? TransportVehicleEquipmentDescription = null;
+}
+
+public class TransportVehicleEquipmentDescription
+{
+    public Language? Language = null;
+    public string Value = string.Empty;
+
+    public TransportVehicleEquipmentDescription() { }
+
+    public TransportVehicleEquipmentDescription(XElement root)
+    {
+        Language = root.Attribute("Language") is XAttribute language
+            ? Enum.Parse<Language>(language.Value)
+            : Language;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleEquipmentDescription",
+            Language != null ? new XAttribute("Language", Language) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportVehicleEquipmentCode
