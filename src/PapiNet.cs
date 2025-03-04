@@ -1364,6 +1364,38 @@ public class TransportVehicleCharacteristics
 public class TransportVehicleMeasurements
 {
     public TransportVehicleLength? TransportVehicleLength = null;
+    public TransportVehicleWidth? TransportVehicleWidth = null;
+}
+
+public class TransportVehicleWidth
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public TransportVehicleWidth() { }
+
+    public TransportVehicleWidth(XElement root)
+    {
+        Value = root.Element("Value") is XElement value
+            ? new Value(value)
+            : Value;
+        RangeMin = root.Element("RangeMin") is XElement rangeMin
+            ? new RangeMin(rangeMin)
+            : RangeMin;
+        RangeMax = root.Element("RangeMax") is XElement rangeMax
+            ? new RangeMax(rangeMax)
+            : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleWidth",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
 }
 
 public class TransportVehicleLength
