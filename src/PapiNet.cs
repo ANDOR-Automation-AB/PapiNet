@@ -1638,6 +1638,33 @@ public class TransportVehicleIdentifier
     public TransportVehicleIdentifierType? TransportVehicleIdentifierType = null;
     public string? StateOrProvince = null;
     public ISOCountryCode? ISOCountryCode = null;
+    public string Value = string.Empty;
+
+    public TransportVehicleIdentifier() { }
+
+    public TransportVehicleIdentifier(XElement root)
+    {
+        TransportVehicleIdentifierType = root.Attribute("TransportVehicleIdentifierType") is XAttribute transportVehicleIdentifierType
+            ? Enum.Parse<TransportVehicleIdentifierType>(transportVehicleIdentifierType.Value)
+            : TransportVehicleIdentifierType;
+        StateOrProvince = root.Attribute("StateOrProvince") is XAttribute stateOrProvince
+            ? stateOrProvince.Value
+            : StateOrProvince;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
+            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
+            : ISOCountryCode;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleIdentifier",
+            TransportVehicleIdentifierType != null ? new XAttribute("TransportVehicleIdentifierType", TransportVehicleIdentifierType) : null,
+            StateOrProvince != null ? new XAttribute("StateOrProvince", StateOrProvince) : null,
+            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportVehicleEquipment
