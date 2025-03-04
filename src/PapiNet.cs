@@ -1366,6 +1366,26 @@ public class TransportVehicleEquipment
 {
     public TransportVehicleEquipmentCode? TransportVehicleEquipmentCode = null;
     public TransportVehicleEquipmentDescription? TransportVehicleEquipmentDescription = null;
+
+    public TransportVehicleEquipment() { }
+
+    public TransportVehicleEquipment(XElement root)
+    {
+        TransportVehicleEquipmentCode = root.Element("TransportVehicleEquipmentCode") is XElement transportVehicleEquipmentCode
+            ? new TransportVehicleEquipmentCode(transportVehicleEquipmentCode)
+            : TransportVehicleEquipmentCode;
+        TransportVehicleEquipmentDescription = root.Element("TransportVehicleEquipmentDescription") is XElement transportVehicleEquipmentDescription
+            ? new TransportVehicleEquipmentDescription(transportVehicleEquipmentDescription)
+            : TransportVehicleEquipmentDescription;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleEquipment",
+            TransportVehicleEquipmentCode != null ? XElement.Parse($"{TransportVehicleEquipmentCode}") : null,
+            TransportVehicleEquipmentDescription != null ? XElement.Parse($"{TransportVehicleEquipmentDescription}") : null
+        ).ToString();
+    }
 }
 
 public class TransportVehicleEquipmentDescription
