@@ -1665,6 +1665,81 @@ public class TransportUnitCharacteristics
     public string? TransportUnitLevel = null;
     public TransportUnitCode? TransportUnitCode = null;
     public TransportUnitMeasurements? TransportUnitMeasurements = null;
+    public List<TransportUnitEquipment> TransportUnitEquipment = [];
+}
+
+public class TransportUnitEquipment
+{
+    public TransportUnitEquipmentCode? TransportUnitEquipmentCode = null;
+    public List<TransportUnitEquipmentDescription> TransportUnitEquipmentDescription = [];
+
+    public TransportUnitEquipment() { }
+
+    public TransportUnitEquipment(XElement root)
+    {
+        TransportUnitEquipmentCode = root.Element("TransportUnitEquipmentCode") is XElement transportUnitEquipmentCode
+            ? new TransportUnitEquipmentCode(transportUnitEquipmentCode)
+            : TransportUnitEquipmentCode;
+        TransportUnitEquipmentDescription = root.Elements("TransportUnitEquipmentDescription")
+            .Select(description => new TransportUnitEquipmentDescription(description))
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitEquipment",
+            TransportUnitEquipmentCode != null ? XElement.Parse($"{TransportUnitEquipmentCode}") : null,
+            TransportUnitEquipmentDescription.Select(description => XElement.Parse($"{description}"))
+        ).ToString();
+    }
+}
+
+public class TransportUnitEquipmentDescription
+{
+    public Language? Language = null;
+    public string Value = string.Empty;
+
+    public TransportUnitEquipmentDescription() { }
+
+    public TransportUnitEquipmentDescription(XElement root)
+    {
+        Language = root.Attribute("Language") is XAttribute language
+            ? Enum.Parse<Language>(language.Value)
+            : Language;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitEquipmentDescription",
+            Language != null ? new XAttribute("Language", Language) : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class TransportUnitEquipmentCode
+{
+    public Agency Agency = Agency.Other;
+    public string Value = string.Empty;
+
+    public TransportUnitEquipmentCode() { }
+
+    public TransportUnitEquipmentCode(XElement root)
+    {
+        Agency = root.Attribute("Agency") is XAttribute agency
+            ? Enum.Parse<Agency>(agency.Value)
+            : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportUnitEquipmentCode",
+            new XAttribute("Agency", Agency),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportUnitMeasurements
