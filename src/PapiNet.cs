@@ -1631,6 +1631,43 @@ public class TransportVehicleCharacteristics
     public List<TransportVehicleEquipment> TransportVehicleEquipment = [];
     public string? TransportVehicleCount = null;
     public TransportVehicleIdentifier? TransportVehicleIdentifier = null;
+    public string? TransportVehicleText = null;
+
+    public TransportVehicleCharacteristics() { }
+
+    public TransportVehicleCharacteristics(XElement root)
+    {
+        TransportVehicleType = root.Attribute("TransportVehicleType") is XAttribute transportVehicleType
+            ? Enum.Parse<TransportVehicleType>(transportVehicleType.Value)
+            : TransportVehicleType;
+        TransportVehicleCode = root.Element("TransportVehicleCode") is XElement transportVehicleCode
+            ? new TransportVehicleCode(transportVehicleCode)
+            : TransportVehicleCode;
+        TransportVehicleMeasurements = root.Element("TransportVehicleMeasurements") is XElement transportVehicleMeasurements
+            ? new TransportVehicleMeasurements(transportVehicleMeasurements)
+            : TransportVehicleMeasurements;
+        TransportVehicleEquipment = root.Elements("TransportVehicleEquipment")
+            .Select(equipment => new TransportVehicleEquipment(equipment))
+            .ToList();
+        TransportVehicleCount = root.Element("TransportVehicleCount")?.Value ?? TransportVehicleCount;
+        TransportVehicleIdentifier = root.Element("TransportVehicleIdentifier") is XElement transportVehicleIdentifier
+            ? new TransportVehicleIdentifier(transportVehicleIdentifier)
+            : TransportVehicleIdentifier;
+        TransportVehicleText = root.Element("TransportVehicleText")?.Value ?? TransportVehicleText;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportVehicleCharacteristics",
+            TransportVehicleType != null ? new XAttribute("TransportVehicleType", TransportVehicleType) : null,
+            TransportVehicleCode != null ? XElement.Parse($"{TransportVehicleCode}") : null,
+            TransportVehicleMeasurements != null ? XElement.Parse($"{TransportVehicleMeasurements}") : null,
+            TransportVehicleEquipment.Select(equipment => XElement.Parse($"{equipment}")),
+            TransportVehicleCount != null ? new XElement("TransportVehicleCount", TransportVehicleCount) : null,
+            TransportVehicleIdentifier != null ? XElement.Parse($"{TransportVehicleIdentifier}") : null,
+            TransportVehicleText != null ? new XElement("TransportVehicleText", TransportVehicleText) : null
+        ).ToString();
+    }
 }
 
 public class TransportVehicleIdentifier
