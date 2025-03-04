@@ -1768,6 +1768,39 @@ public class Route
     public List<string> RouteComment = [];
     public List<SupplyPoint> SupplyPoint = [];
     public List<MapPoint> MapPoint = [];
+    public string RootValue = string.Empty;
+
+    public Route() { }
+
+    public Route(XElement root)
+    {
+        RouteType = root.Attribute("RouteType") is XAttribute routeType
+            ? Enum.Parse<RouteType>(routeType.Value)
+            : RouteType;
+        RouteName = root.Element("RouteName")?.Value ?? RouteName;
+        RouteComment = root.Elements("RouteComment")
+            .Select(comment => comment.Value)
+            .ToList();
+        SupplyPoint = root.Elements("SupplyPoint")
+            .Select(point => new SupplyPoint(point))
+            .ToList();
+        MapPoint = root.Elements("MapPoint")
+            .Select(point => new MapPoint(point))
+            .ToList();
+        RootValue = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Route",
+            new XAttribute("RouteType", RouteType),
+            new XElement("RouteName", RouteName),
+            RouteComment.Select(comment => new XElement("RouteComment", comment)),
+            SupplyPoint.Select(point => XElement.Parse($"{point}")),
+            MapPoint.Select(point => XElement.Parse($"{point}")),
+            RootValue
+        ).ToString();
+    }
 }
 
 public class MapPoint
