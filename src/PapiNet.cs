@@ -2414,10 +2414,8 @@ public class PurchaseOrderInformation
     {
         PurchaseOrderNumber = root.Element("PurchaseOrderNumber")?.Value ?? PurchaseOrderNumber;
         PurchaseOrderReleaseNumber = root.Element("PurchaseOrderReleaseNumber")?.Value ?? PurchaseOrderReleaseNumber;
-        PurchaseOrderIssuedDate = root.Element("PurchaseOrderIssuedDate") is XElement purchaseOrderIssuedDate
-            ? new PurchaseOrderIssuedDate(purchaseOrderIssuedDate)
-            : PurchaseOrderIssuedDate;
-        PurchaseOrderReference = [.. root.Elements("PurchaseOrderReference").Select(element => new PurchaseOrderReference(element))];
+        PurchaseOrderIssuedDate = root.Element("PurchaseOrderIssuedDate") is { } e ? new(e) : PurchaseOrderIssuedDate;
+        PurchaseOrderReference = [.. root.Elements("PurchaseOrderReference").Select(e => new PurchaseOrderReference(e))];
         Value = root.Value;
     }
 
@@ -2443,12 +2441,12 @@ public class PurchaseOrderReference
 
     public PurchaseOrderReference(XElement root)
     {
-        PurchaseOrderReferenceType = root.Attribute("PurchaseOrderReferenceType") is XAttribute purchaseOrderReferenceType
-            ? Enum.Parse<PurchaseOrderReferenceType>(purchaseOrderReferenceType.Value)
+        PurchaseOrderReferenceType = root.Attribute("PurchaseOrderReferenceType") is { Value: var v1 }
+            ? Enum.Parse<PurchaseOrderReferenceType>(v1) 
             : PurchaseOrderReferenceType;
-        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
-            ? Enum.Parse<AssignedBy>(assignedBy.Value)
-            : AssignedBy;
+        AssignedBy = root.Attribute("AssignedBy") is { Value: var v2 } 
+            ? Enum.Parse<AssignedBy>(v2) 
+            : AssignedBy;        
         Value = root.Value;
     }
 
