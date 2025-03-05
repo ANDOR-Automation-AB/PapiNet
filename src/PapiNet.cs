@@ -165,6 +165,27 @@ public class TransportLoadingCharacteristics
     public LabelOrientation? LabelOrientation = null;
     public string? TransportLoadingCode = null;
     public TransportLoadingCodeDescription? TransportLoadingCodeDescription = null;
+    public List<string> TransportLoadingText = [];
+    public string Value = string.Empty;
+
+    public TransportLoadingCharacteristics() { }
+
+    public TransportLoadingCharacteristics(XElement root)
+    {
+        MixProductIndicator = root.Attribute("MixProductIndicator") is { Value: var mpi } ? Enum.Parse<MixProductIndicator>(mpi) : MixProductIndicator;
+        TransportLoadingType = root.Attribute("TransportLoadingType") is { Value: var tlp } ? Enum.Parse<TransportLoadingType>(tlp) : TransportLoadingType;
+        TransportDeckOption = root.Attribute("TransportDeckOption") is { Value: var tdo } ? Enum.Parse<TransportDeckOption>(tdo) : TransportDeckOption;
+        LoadingTolerance = root.Attribute("LoadingTolerance") is { Value: var lt } ? Enum.Parse<LoadingTolerance>(lt) : LoadingTolerance;
+        DirectLoading = root.Attribute("DirectLoading") is { Value: var dl } ? Enum.Parse<DirectLoading>(dl) : DirectLoading;
+        GoodsLoadingPrinciple = root.Attribute("GoodsLoadingPrinciple") is { Value: var glp } ? Enum.Parse<GoodsLoadingPrinciple>(glp) : GoodsLoadingPrinciple;
+        LabelOrientation = root.Attribute("LabelOrientation") is { Value: var lo } ? Enum.Parse<LabelOrientation>(lo) : LabelOrientation;
+        TransportLoadingCode = root.Element("TransportLoadingCode")?.Value ?? TransportLoadingCode;
+        TransportLoadingCodeDescription = root.Element("TransportLoadingCodeDescription") is { } tlcd ? new(tlcd) : TransportLoadingCodeDescription;
+        TransportLoadingText = [.. root.Elements("TransportLoadingText").Select(tlt => tlt.Value)];
+        Value = root.Value;
+    }
+
+
 }
 
 public class TransportLoadingCodeDescription
