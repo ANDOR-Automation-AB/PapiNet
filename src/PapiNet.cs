@@ -2195,6 +2195,7 @@ public class DeliveryMessageWoodHeader
     public CountryOfOrigin? CountryOfOrigin = null;
     public CountryOfDestination? CountryOfDestination = null;
     public CountryOfConsumption? CountryOfConsumption = null;
+    public Insurance? Insurance = null;
 
     public DeliveryMessageWoodHeader() { }
 
@@ -2245,6 +2246,61 @@ public class DeliveryMessageWoodHeader
             OtherParty.Select(party => XElement.Parse($"{party}")),
             XElement.Parse($"{SenderParty}"),
             XElement.Parse($"{ReceiverParty}")
+        ).ToString();
+    }
+}
+
+public class Insurance
+{
+    public string? Insurer = null;
+    public string? InsuranceContractNo = null;
+    public InsuredValue? InsuredValue = null;
+    public string? InsuranceInfo = null;
+    public string Value = string.Empty;
+
+    public Insurance() { }
+
+    public Insurance(XElement root)
+    {
+        Insurer = root.Element("Insurer")?.Value ?? Insurer;
+        InsuranceContractNo = root.Element("InsuranceContractNo")?.Value ?? InsuranceContractNo;
+        InsuredValue = root.Element("InsuredValue") is XElement insuredValue
+            ? new InsuredValue(insuredValue)
+            : InsuredValue;
+        InsuranceInfo = root.Element("InsuranceInfo")?.Value ?? InsuranceInfo;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Insurance",
+            Insurer != null ? new XElement("Insurer", Insurer) : null,
+            InsuranceContractNo != null ? new XElement("InsuranceContractNo", InsuranceContractNo) : null,
+            InsuredValue != null ? XElement.Parse($"{InsuredValue}") : null,
+            InsuranceInfo != null ? new XElement("InsuranceInfo", InsuranceInfo) : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class InsuredValue
+{
+    public string CurrencyValue = string.Empty;
+    public string Value = string.Empty;
+
+    public InsuredValue() { }
+
+    public InsuredValue(XElement root)
+    {
+        CurrencyValue = root.Element("CurrencyValue")?.Value ?? CurrencyValue;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("InsuredValue",
+            new XElement("CurrencyValue", CurrencyValue),
+            Value
         ).ToString();
     }
 }
