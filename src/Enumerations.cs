@@ -2308,3 +2308,25 @@ public enum LabelOrientation
     LeftSide,
     RightSide,
 }
+
+public enum SafetyAndEnvironmentalType
+{
+    Agricultural,
+    Biodegradable,
+    Certified,
+    Chemical,
+    CSA,
+    Energy,
+    FlamabilityReactivity,
+    FSC,
+    FSCMixed,
+    FSCPure,
+    FSCRecycled,
+    HazardousMaterial,
+    MaterialSafetyData,
+    MTCC,
+    PEFC,
+    Recycled,
+    SFI,
+    TransportationSafetyAlert,
+}

@@ -152,6 +152,14 @@ public class DeliveryShipmentLineItem
     public MillProductionInformation? MillProductionInformation = null;
     public QuantityOrderedInformation? QuantityOrderedInformation = null;
     public List<TransportLoadingCharacteristics> TransportLoadingCharacteristics = [];
+    public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
+    public List<TransportOtherInstructions> TransportOtherInstructions = [];
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+}
+
+public class SafetyAndEnvironmentalInformation
+{
+
 }
 
 public class TransportLoadingCharacteristics
