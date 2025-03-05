@@ -2398,6 +2398,38 @@ public class DeliveryShipmentLineItem
 {
     public string DeliveryShipmentLineItemNumber = string.Empty;
     public PurchaseOrderInformation PurchaseOrderInformation = new();
+    public string? PurchaseOrderLineItemNumber = null;
+    public List<DeliveryMessageReference> DeliveryMessageReference = [];
+    public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
+    public CountryOfOrigin? CountryOfOrigin = null;
+    public CountryOfDestination? CountryOfDestination = null;
+    public CountryOfConsumption? CountryOfConsumption = null;
+    public TotalNumberOfUnits? TotalNumberOfUnits = null;
+}
+
+public class TotalNumberOfUnits
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public TotalNumberOfUnits() { }
+
+    public TotalNumberOfUnits(XElement root)
+    {
+        Value = root.Element("Value") is { } value ? new(value) : Value;
+        RangeMin = root.Element("RangeMin") is { } min ? new(min) : RangeMin;
+        RangeMax = root.Element("RangeMax") is { } max ? new(max) : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TotalNumberOfUnits",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+        ).ToString();
+    }
 }
 
 public class PurchaseOrderInformation
