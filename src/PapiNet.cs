@@ -2018,6 +2018,24 @@ public enum DeliveryScheduleReferenceType
     Other,
 }
 
+public enum DocumentType
+{
+    ATR,
+    BillOfLading,
+    CertificateForPackaging,
+    CIM,
+    CMR,
+    DeliveryNote,
+    EUR1,
+    Invoice,
+    PowerOfAttorney,
+    TORG12,
+    T2,
+    T2L,
+    UnitPaper,
+    WayBill,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -2196,6 +2214,8 @@ public class DeliveryMessageWoodHeader
     public CountryOfDestination? CountryOfDestination = null;
     public CountryOfConsumption? CountryOfConsumption = null;
     public Insurance? Insurance = null;
+    public List<string> AdditionalText = [];
+    public List<DocumentInformation> DocumentInformation = [];
 
     public DeliveryMessageWoodHeader() { }
 
@@ -2246,6 +2266,40 @@ public class DeliveryMessageWoodHeader
             OtherParty.Select(party => XElement.Parse($"{party}")),
             XElement.Parse($"{SenderParty}"),
             XElement.Parse($"{ReceiverParty}")
+        ).ToString();
+    }
+}
+
+public class DocumentInformation
+{
+    public DocumentType DocumentType = DocumentType.DeliveryNote;
+    public List<string> NumberOfDocuments = [];
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public DocumentInformation() { }
+
+    public DocumentInformation(XElement root)
+    {
+        DocumentType = root.Attribute("DocumentType") is XAttribute documentType
+            ? Enum.Parse<DocumentType>(documentType.Value)
+            : DocumentType;
+        NumberOfDocuments = root.Elements("NumberOfDocuments")
+            .Select(number => number.Value)
+            .ToList();
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DocumentInformation",
+            new XAttribute("DocumentType", DocumentType),
+            NumberOfDocuments.Select(number => new XElement("NumberOfDocuments", number)),
+            AdditionalText.Select(text => new XElement("AdditionalText", text)),
+            Value
         ).ToString();
     }
 }
