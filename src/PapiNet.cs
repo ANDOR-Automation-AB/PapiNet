@@ -2216,13 +2216,14 @@ public class DeliveryMessageWoodHeader
     public Insurance? Insurance = null;
     public List<string> AdditionalText = [];
     public List<DocumentInformation> DocumentInformation = [];
+    public string Value = string.Empty;
 
     public DeliveryMessageWoodHeader() { }
 
     public DeliveryMessageWoodHeader(XElement root)
     {
         DeliveryMessageNumber = root.Element("DeliveryMessageNumber")?.Value ?? DeliveryMessageNumber;
-        TransactionHistoryNumber = root.Element("TransactionHistoryNumber")?.Value;
+        TransactionHistoryNumber = root.Element("TransactionHistoryNumber")?.Value ?? TransactionHistoryNumber;
         DeliveryMessageDate = root.Element("DeliveryMessageDate") is XElement deliveryMessageDate 
             ? new DeliveryMessageDate(deliveryMessageDate) 
             : DeliveryMessageDate;
@@ -2233,23 +2234,45 @@ public class DeliveryMessageWoodHeader
             .Select(information => new DocumentReferenceInformation(information))
             .ToList();
         BuyerParty = root.Element("BuyerParty") is XElement buyerParty
-            ? new Party(buyerParty)
+            ? new Party(buyerParty) { LocalName = "BuyerParty" }
             : BuyerParty;
         BillToParty = root.Element("BillToParty") is XElement billToParty
-            ? new Party(billToParty)
+            ? new Party(billToParty) { LocalName = "BillToParty" }
             : BillToParty;
         SupplierParty = root.Element("SupplierParty") is XElement supplierParty
-            ? new Party(supplierParty)
+            ? new Party(supplierParty) { LocalName = "SupplierParty" }
             : SupplierParty;
         OtherParty = root.Elements("OtherParty")
-            .Select(party => new Party(party))
+            .Select(party => new Party(party) { LocalName = "OtherParty" })
             .ToList();
         SenderParty = root.Element("SenderParty") is XElement senderParty
-            ? new Party(senderParty)
+            ? new Party(senderParty) { LocalName = "SenderParty" }
             : SenderParty;
         ReceiverParty = root.Element("ReceiverParty") is XElement receiverParty
-            ? new Party(receiverParty)
+            ? new Party(receiverParty) { LocalName = "ReceiverParty" }
             : ReceiverParty;
+        ShipToInformation = root.Elements("ShipToInformation")
+            .Select(information => new ShipToInformation(information))
+            .ToList();
+        CountryOfOrigin = root.Element("CountryOfOrigin") is XElement countryOfOrigin
+            ? new CountryOfOrigin(countryOfOrigin)
+            : CountryOfOrigin;
+        CountryOfDestination = root.Element("CountryOfDestination") is XElement countryOfDestination
+            ? new CountryOfDestination(countryOfDestination)
+            : CountryOfDestination;
+        CountryOfConsumption = root.Element("CountryOfConsumption") is XElement countryOfConsumption
+            ? new CountryOfConsumption(countryOfConsumption)
+            : CountryOfConsumption;
+        Insurance = root.Element("Insurance") is XElement insurance
+            ? new Insurance(insurance)
+            : Insurance;
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+        DocumentInformation = root.Elements("DocumentInformation")
+            .Select(information => new DocumentInformation(information))
+            .ToList();
+        Value = root.Value;
     }
 
     public override string ToString()
@@ -2261,11 +2284,19 @@ public class DeliveryMessageWoodHeader
             DeliveryMessageReference.Select(reference => XElement.Parse($"{reference}")),
             DocumentReferenceInformation.Select(information => XElement.Parse($"{information}")),
             XElement.Parse($"{BuyerParty}"),
-            XElement.Parse($"{BillToParty}"),
+            BillToParty != null ? XElement.Parse($"{BillToParty}") : null,
             XElement.Parse($"{SupplierParty}"),
             OtherParty.Select(party => XElement.Parse($"{party}")),
-            XElement.Parse($"{SenderParty}"),
-            XElement.Parse($"{ReceiverParty}")
+            SenderParty != null ? XElement.Parse($"{SenderParty}") : null,
+            ReceiverParty != null ? XElement.Parse($"{ReceiverParty}") : null,
+            ShipToInformation.Select(information => XElement.Parse($"{information}")),
+            CountryOfOrigin != null ? XElement.Parse($"{CountryOfOrigin}") : null,
+            CountryOfDestination != null ? XElement.Parse($"{CountryOfDestination}") : null,
+            CountryOfConsumption != null ? XElement.Parse($"{CountryOfConsumption}") : null,
+            Insurance != null ? XElement.Parse($"{Insurance}") : null,
+            AdditionalText.Select(text => new XElement("AdditionalText", text)),
+            DocumentInformation.Select(information => XElement.Parse($"{information}")),
+            Value
         ).ToString();
     }
 }
