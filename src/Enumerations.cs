@@ -2286,3 +2286,9 @@ public enum LoadingTolerance
     FullWithinTolerance,
     WithinTolerance,
 }
+
+public enum DirectLoading
+{
+    Yes,
+    No,
+}

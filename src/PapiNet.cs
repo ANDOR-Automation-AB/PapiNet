@@ -160,6 +160,8 @@ public class TransportLoadingCharacteristics
     public TransportLoadingType? TransportLoadingType = null;
     public TransportDeckOption? TransportDeckOption = null;
     public LoadingTolerance? LoadingTolerance = null;
+    public DirectLoading? DirectLoading = null;
+
 }
 
 public class QuantityOrderedInformation
