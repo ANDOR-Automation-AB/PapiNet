@@ -163,6 +163,33 @@ public class TransportLoadingCharacteristics
     public DirectLoading? DirectLoading = null;
     public GoodsLoadingPrinciple? GoodsLoadingPrinciple = null;
     public LabelOrientation? LabelOrientation = null;
+    public string? TransportLoadingCode = null;
+    public TransportLoadingCodeDescription? TransportLoadingCodeDescription = null;
+}
+
+public class TransportLoadingCodeDescription
+{
+    public List<string> AdditionalText = [];
+    public e_Attachment? e_Attachment = null;
+    public string Value = string.Empty;
+
+    public TransportLoadingCodeDescription() { }
+
+    public TransportLoadingCodeDescription(XElement root)
+    {
+        AdditionalText = [.. root.Elements("AdditionalText").Select(t => t.Value)];
+        e_Attachment = root.Element("e-Attachment") is { } a ? new(a) : e_Attachment;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportLoadingCodeDescription",
+            AdditionalText.Select(t => new XElement("AdditionalText", t)),
+            e_Attachment != null ? XElement.Parse($"{e_Attachment}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class QuantityOrderedInformation
