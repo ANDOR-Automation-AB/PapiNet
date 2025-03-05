@@ -164,6 +164,17 @@ public class Product
     public string ProductIdentifier = string.Empty;
     public List<string> ProductDescription = [];
     public List<Classification> Classification = [];
+    public BookManufacturing? BookManufacturing = null;
+}
+
+public class BookManufacturing
+{
+    public List<BookClassification> BookClassification = [];
+}
+
+public class BookClassification
+{
+    public BookClassificationType BookClassificationType;
 }
 
 public class Classification

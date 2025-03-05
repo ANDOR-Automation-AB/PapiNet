@@ -2330,3 +2330,26 @@ public enum SafetyAndEnvironmentalType
     SFI,
     TransportationSafetyAlert,
 }
+
+public enum BookClassificationType
+{
+    Assembly,
+    Audio,
+    Binding,
+    Box,
+    Cover,
+    Endsheet,
+    FinishedGoods,
+    Insert,
+    Jacket,
+    Label,
+    Material,
+    Media,
+    MediaHolder,
+    Packaging,
+    Prep,
+    SlipCase,
+    Text,
+    Video,
+    Wrap,
+}
