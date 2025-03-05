@@ -2193,6 +2193,7 @@ public class DeliveryMessageWoodHeader
     public Party? ReceiverParty = new() { LocalName = "ReceiverParty" };
     public List<ShipToInformation> ShipToInformation = [];
     public CountryOfOrigin? CountryOfOrigin = null;
+    public CountryOfDestination? CountryOfDestination = null;
 
     public DeliveryMessageWoodHeader() { }
 
@@ -2243,6 +2244,33 @@ public class DeliveryMessageWoodHeader
             OtherParty.Select(party => XElement.Parse($"{party}")),
             XElement.Parse($"{SenderParty}"),
             XElement.Parse($"{ReceiverParty}")
+        ).ToString();
+    }
+}
+
+public class CountryOfDestination
+{
+    public string Country = string.Empty;
+    public ISOCountryCode? ISOCountryCode = null;
+    public string Value = string.Empty;
+
+    public CountryOfDestination() { }
+
+    public CountryOfDestination(XElement root)
+    {
+        Country = root.Element("Country")?.Value ?? Country;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
+            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
+            : ISOCountryCode;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("CountryOfDestination",
+            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            new XElement("Country", Country),
+            Value
         ).ToString();
     }
 }
