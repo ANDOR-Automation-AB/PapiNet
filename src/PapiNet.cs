@@ -2257,13 +2257,71 @@ public class DeliverySchedule
     public string DeliveryLineNumber = string.Empty;
     public ProductionStatus? ProductionStatus = null;
     public DeliveryStatus? DeliveryStatus = null;
-    public DeliveryDateWindow? DeliveryDateWindow = null;
+    public List<DeliveryDateWindow> DeliveryDateWindow = [];
     public Quantity Quantity = new();
-    public InformationalQuantity? InformationalQuantity = null;
+    public List<InformationalQuantity> InformationalQuantity = [];
     public PriceDetails? PriceDetails = null;
-    public MonetaryAdjustment? MonetaryAdjustment = null;
+    public List<MonetaryAdjustment> MonetaryAdjustment = [];
     public List<DeliveryLeg> DeliveryLeg = [];
     public List<DeliveryScheduleReference> DeliveryScheduleReference = [];
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public DeliverySchedule() { }
+
+    public DeliverySchedule(XElement root)
+    {
+        DeliveryLineNumber = root.Element("DeliveryLineNumber")?.Value ?? DeliveryLineNumber;
+        ProductionStatus = root.Element("ProductionStatus") is XElement productionStatus
+            ? new ProductionStatus(productionStatus)
+            : ProductionStatus;
+        DeliveryStatus = root.Element("DeliveryStatus") is XElement deliveryStatus
+            ? new DeliveryStatus(deliveryStatus)
+            : DeliveryStatus;
+        DeliveryDateWindow = root.Elements("DeliveryDateWindow")
+            .Select(window => new DeliveryDateWindow(window))
+            .ToList();
+        Quantity = root.Element("Quantity") is XElement quantity
+            ? new Quantity(quantity)
+            : Quantity;
+        InformationalQuantity = root.Elements("InformationalQuantity")
+            .Select(quantity => new InformationalQuantity(quantity))
+            .ToList();
+        PriceDetails = root.Element("PriceDetails") is XElement priceDetails
+            ? new PriceDetails(priceDetails)
+            : PriceDetails;
+        MonetaryAdjustment = root.Elements("MonetaryAdjustment")
+            .Select(adjustment => new MonetaryAdjustment(adjustment))
+            .ToList();
+        DeliveryLeg = root.Elements("DeliveryLeg")
+            .Select(leg => new DeliveryLeg(leg))
+            .ToList();
+        DeliveryScheduleReference = root.Elements("DeliveryScheduleReference")
+            .Select(reference => new DeliveryScheduleReference(reference))
+            .ToList();
+        AdditionalText = root.Elements("AdditionalText")
+            .Select(text => text.Value)
+            .ToList();
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliverySchedule",
+            new XElement("DeliveryLineNumber", DeliveryLineNumber),
+            ProductionStatus != null ? XElement.Parse($"{ProductionStatus}") : null,
+            DeliveryStatus != null ? XElement.Parse($"{DeliveryStatus}") : null,
+            DeliveryDateWindow.Select(window => XElement.Parse($"{window}")),
+            Quantity != null ? XElement.Parse($"{Quantity}") : null,
+            InformationalQuantity.Select(quantity => XElement.Parse($"{quantity}")),
+            PriceDetails != null ? XElement.Parse($"{PriceDetails}") : null,
+            MonetaryAdjustment.Select(adjustment => XElement.Parse($"{adjustment}")),
+            DeliveryLeg.Select(leg => XElement.Parse($"{leg}")),
+            DeliveryScheduleReference.Select(reference => XElement.Parse($"{reference}")),
+            AdditionalText.Select(text => new XElement("AdditionalText", text)),
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliveryScheduleReference
