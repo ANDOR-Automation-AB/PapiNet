@@ -2044,48 +2044,14 @@ public class DeliveryMessageWood
     public bool? Reissued = null;
     public Language? Language = null;
     public DeliveryMessageWoodHeader DeliveryMessageWoodHeader = new();
-    public DeliveryMessageShipment DeliveryMessageShipment = new();
+    public List<DeliveryMessageShipment> DeliveryMessageShipment = [];
     public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary = null;
 
     public DeliveryMessageWood() { }
 
-    public DeliveryMessageWood(
-        DeliveryMessageType deliveryMessageType, 
-        DeliveryMessageStatusType deliveryMessageStatusType,
-        DeliveryMessageContextType? deliveryMessageContextType, 
-        bool? reissued,
-        Language? language,
-        DeliveryMessageWoodHeader deliveryMessageWoodHeader,
-        DeliveryMessageShipment deliveryMessageShipment,
-        DeliveryMessageWoodSummary? deliveryMessageWoodSummary)
-    {
-        DeliveryMessageType = deliveryMessageType;
-        DeliveryMessageStatusType = deliveryMessageStatusType;
-        DeliveryMessageContextType = deliveryMessageContextType;
-        Reissued = reissued;
-        Language = language;
-        DeliveryMessageWoodHeader = deliveryMessageWoodHeader;
-        DeliveryMessageShipment = deliveryMessageShipment;
-        DeliveryMessageWoodSummary = deliveryMessageWoodSummary;
-    }
-
     public DeliveryMessageWood(XElement root)
     {
-        var deliveryMessageTypeAttribute = root.Attribute("DeliveryMessageType");
-        var deliveryMessageStatusTypeAttribute = root.Attribute("DeliveryMessageStatusType");
-        var deliveryMessageContextTypeAttribute = root.Attribute("DeliveryMessageContextType");
-        var reissuedAttribute = root.Attribute("Reissued");
-        var deliveryMessageWoodHeaderElement = root.Element("DeliveryMessageWoodHeader");
-        var deliveryMessageShipmentElement = root.Element("DeliveryMessageShipment");
-        var deliveryMessageWoodSummaryElement = root.Element("DeliveryMessageWoodSummary");
 
-        DeliveryMessageType = Enum.Parse<DeliveryMessageType>(deliveryMessageTypeAttribute!.Value);
-        DeliveryMessageStatusType = Enum.Parse<DeliveryMessageStatusType>(deliveryMessageStatusTypeAttribute!.Value);
-        DeliveryMessageContextType = deliveryMessageContextTypeAttribute != null ? Enum.Parse<DeliveryMessageContextType>(deliveryMessageContextTypeAttribute.Value) : null;
-        Reissued = reissuedAttribute != null ? bool.Parse(reissuedAttribute.Value) : null;
-        DeliveryMessageWoodHeader = new DeliveryMessageWoodHeader(deliveryMessageWoodHeaderElement!);
-        DeliveryMessageShipment = new DeliveryMessageShipment(deliveryMessageShipmentElement!);
-        DeliveryMessageWoodSummary = deliveryMessageWoodSummaryElement != null ? new DeliveryMessageWoodSummary(deliveryMessageWoodSummaryElement) : null;
     }
 
     public override string ToString()
@@ -2096,7 +2062,7 @@ public class DeliveryMessageWood
             DeliveryMessageContextType != null ? new XAttribute("DeliveryMessageContextType", DeliveryMessageContextType) : null,
             Reissued != null ? new XAttribute("Reissued", Reissued) : null,
             XElement.Parse($"{DeliveryMessageWoodHeader}"),
-            XElement.Parse($"{DeliveryMessageShipment}"),
+            DeliveryMessageShipment.Select(shipment => XElement.Parse($"{shipment}")),
             DeliveryMessageWoodSummary != null ? XElement.Parse($"{DeliveryMessageWoodSummary}") : null
         ).ToString();
     }
@@ -2182,6 +2148,9 @@ public class Time
 
 public class DeliveryMessageShipment
 {
+    public string? ShipmentID = null;
+    public List<DeliveryMessageProductGroup> DeliveryMessageProductGroup = [];
+
     public DeliveryMessageShipment() { }
 
     public DeliveryMessageShipment(XElement root)
@@ -2192,6 +2161,54 @@ public class DeliveryMessageShipment
     {
         return new XElement("DeliveryMessageShipment"
             
+        ).ToString();
+    }
+}
+
+public class DeliveryMessageProductGroup
+{
+    public string? ProductGroupID = null;
+    public List<DeliveryShipmentLineItem> DeliveryShipmentLineItem = [];
+}
+
+public class DeliveryShipmentLineItem
+{
+    public string DeliveryShipmentLineItemNumber = string.Empty;
+    public PurchaseOrderInformation PurchaseOrderInformation = new();
+}
+
+public class PurchaseOrderInformation
+{
+    public string? PurchaseOrderNumber = null;
+    public string? PurchaseOrderReleaseNumber = null;
+    public PurchaseOrderIssuedDate? PurchaseOrderIssuedDate = null;
+}
+
+public class PurchaseOrderIssuedDate
+{
+    public Date Date = new();
+    public Time? Time = null;
+    public string Value = string.Empty;
+
+    public PurchaseOrderIssuedDate() { }
+
+    public PurchaseOrderIssuedDate(XElement root)
+    {
+        Date = root.Element("Date") is XElement date
+            ? new Date(date)
+            : Date;
+        Time = root.Element("Time") is XElement time
+            ? new Time(time)
+            : Time;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PurchaseOrderIssuedDate",
+            XElement.Parse($"{Date}"),
+            Time != null ? XElement.Parse($"{Time}") : null,
+            Value
         ).ToString();
     }
 }
