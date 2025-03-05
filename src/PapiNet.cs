@@ -2060,9 +2060,98 @@ public class DeliveryLeg
     public List<Route> Route = [];
     public DeliveryTransitTime? DeliveryTransitTime = null;
     public DeliveryDestination? DeliveryDestination = null;
-    public DeliveryDateWindow? DeliveryDateWindow = null;
-    public DeliveryLegReference? DeliveryLegReference = null;
-    public TermsOfChartering? TermsOfChartering = null;
+    public List<DeliveryDateWindow> DeliveryDateWindow = [];
+    public List<DeliveryLegReference> DeliveryLegReference = [];
+    public List<TermsOfChartering> TermsOfChartering = [];
+    public string Value = string.Empty;
+
+    public DeliveryLeg() { }
+
+    public DeliveryLeg(XElement root)
+    {
+        DeliveryModeType = root.Attribute("DeliveryModeType") is XAttribute deliveryModeType
+            ? Enum.Parse<DeliveryModeType>(deliveryModeType.Value)
+            : DeliveryModeType;
+        DeliveryLegType = root.Attribute("DeliveryLegType") is XAttribute deliveryLegType
+            ? Enum.Parse<DeliveryLegType>(deliveryLegType.Value)
+            : DeliveryLegType;
+        EventType = root.Attribute("EventType") is XAttribute eventType
+            ? Enum.Parse<EventType>(eventType.Value)
+            : EventType;
+        LegStageType = root.Attribute("LegStageType") is XAttribute legStageType
+            ? Enum.Parse<LegStageType>(legStageType.Value)
+            : LegStageType;
+        DeliveryLegSequenceNumber = root.Element("DeliveryLegSequenceNumber")?.Value ?? DeliveryLegSequenceNumber;
+        DeliveryOrigin = root.Element("DeliveryOrigin") is XElement deliveryOrigin
+            ? new DeliveryOrigin(deliveryOrigin)
+            : DeliveryOrigin;
+        CarrierParty = root.Element("CarrierParty") is XElement carrierParty
+            ? new Party(carrierParty) { LocalName = "CarrierParty" }
+            : CarrierParty;
+        OtherParty = root.Elements("OtherParty")
+            .Select(party => new Party(party) { LocalName = "OtherParty" })
+            .ToList();
+        TransportModeCharacteristics = root.Element("TransportModeCharacteristics") is XElement transportModeCharacteristics
+            ? new TransportModeCharacteristics(transportModeCharacteristics)
+            : TransportModeCharacteristics;
+        TransportVehicleCharacteristics = root.Element("TransportVehicleCharacteristics") is XElement transportVehicleCharacteristics
+            ? new TransportVehicleCharacteristics(transportVehicleCharacteristics)
+            : TransportVehicleCharacteristics;
+        TransportUnitCharacteristics = root.Element("TransportUnitCharacteristics") is XElement transportUnitCharacteristics
+            ? new TransportUnitCharacteristics(transportUnitCharacteristics)
+            : TransportUnitCharacteristics;
+        TransportUnloadingCharacteristics = root.Element("TransportUnloadingCharacteristics") is XElement transportUnloadingCharacteristics
+            ? new TransportUnloadingCharacteristics(transportUnloadingCharacteristics)
+            : TransportUnloadingCharacteristics;
+        TransportOtherInstructions = root.Element("TransportOtherInstructions") is XElement transportOtherInstructions
+            ? new TransportOtherInstructions(transportOtherInstructions)
+            : TransportOtherInstructions;
+        Route = root.Elements("Route")
+            .Select(route => new Route(route))
+            .ToList();
+        DeliveryTransitTime = root.Element("DeliveryTransitTime") is XElement deliveryTransitTime
+            ? new DeliveryTransitTime(deliveryTransitTime)
+            : DeliveryTransitTime;
+        DeliveryDestination = root.Element("DeliveryDestination") is XElement deliveryDestination
+            ? new DeliveryDestination(deliveryDestination)
+            : DeliveryDestination;
+        DeliveryDateWindow = root.Elements("DeliveryDateWindow")
+            .Select(window => new DeliveryDateWindow(window))
+            .ToList();
+        DeliveryLegReference = root.Elements("DeliveryLegReference")
+            .Select(reference => new DeliveryLegReference(reference))
+            .ToList();
+        TermsOfChartering = root.Elements("TermsOfChartering")
+            .Select(chartering => new TermsOfChartering(chartering))
+            .ToList();
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryLeg",
+            DeliveryModeType != null ? new XAttribute("DeliveryModeType", DeliveryModeType) : null,
+            DeliveryLegType != null ? new XAttribute("DeliveryLegType", DeliveryLegType) : null,
+            EventType != null ? new XAttribute("EventType", EventType) : null,
+            LegStageType != null ? new XAttribute("LegStageType", LegStageType) : null,
+            new XElement("DeliveryLegSequenceNumber", DeliveryLegSequenceNumber),
+            XElement.Parse($"{DeliveryOrigin}"),
+            CarrierParty != null ? XElement.Parse($"{CarrierParty}") : null,
+            OtherParty.Select(party => XElement.Parse($"{party}")),
+            TransportModeCharacteristics != null ? XElement.Parse($"{TransportModeCharacteristics}") : null,
+            TransportVehicleCharacteristics != null ? XElement.Parse($"{TransportVehicleCharacteristics}") : null,
+            TransportUnitCharacteristics != null ? XElement.Parse($"{TransportUnitCharacteristics}") : null,
+            TransportUnloadingCharacteristics != null ? XElement.Parse($"{TransportUnloadingCharacteristics}") : null,
+            TransportOtherInstructions != null ? XElement.Parse($"{TransportOtherInstructions}") : null,
+            Route.Select(route => XElement.Parse($"{route}")),
+            DeliveryTransitTime != null ? XElement.Parse($"{DeliveryTransitTime}") : null,
+            DeliveryDestination != null ? XElement.Parse($"{DeliveryDestination}") : null,
+            DeliveryDateWindow.Select(window => XElement.Parse($"{window}")),
+            DeliveryLegReference.Select(reference => XElement.Parse($"{reference}")),
+            TermsOfChartering.Select(chartering => XElement.Parse($"{chartering}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class TermsOfChartering
