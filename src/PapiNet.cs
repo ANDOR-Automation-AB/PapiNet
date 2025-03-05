@@ -155,6 +155,40 @@ public class DeliveryShipmentLineItem
     public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
     public List<TransportOtherInstructions> TransportOtherInstructions = [];
     public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+    public Party? BillToParty = null;
+    public Product? Product = null;
+}
+
+public class Product
+{
+    public string ProductIdentifier = string.Empty;
+    public List<string> ProductDescription = [];
+    public List<Classification> Classification = [];
+}
+
+public class Classification
+{
+    public string ClassificationCode = string.Empty;
+    public string? ClassificationDescription = string.Empty;
+    public string Value = string.Empty;
+
+    public Classification() { }
+
+    public Classification(XElement root)
+    {
+        ClassificationCode = root.Element("ClassificationCode")?.Value ?? ClassificationCode;
+        ClassificationDescription = root.Element("ClassificationDescription")?.Value ?? ClassificationDescription;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Classification",
+            new XElement("ClassificationCode", ClassificationCode),
+            ClassificationDescription != null ? new XElement("ClassificationDescription", ClassificationDescription) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class SafetyAndEnvironmentalInformation
