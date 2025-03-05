@@ -2411,7 +2411,30 @@ public class PurchaseOrderInformation
 public class PurchaseOrderReference
 {
     public PurchaseOrderReferenceType PurchaseOrderReferenceType = PurchaseOrderReferenceType.Other;
+    public AssignedBy? AssignedBy = null;
+    public string Value = string.Empty;
 
+    public PurchaseOrderReference() { }
+
+    public PurchaseOrderReference(XElement root)
+    {
+        PurchaseOrderReferenceType = root.Attribute("PurchaseOrderReferenceType") is XAttribute purchaseOrderReferenceType
+            ? Enum.Parse<PurchaseOrderReferenceType>(purchaseOrderReferenceType.Value)
+            : PurchaseOrderReferenceType;
+        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
+            ? Enum.Parse<AssignedBy>(assignedBy.Value)
+            : AssignedBy;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PurchaseOrderReference",
+            new XAttribute("PurchaseOrderReferenceType", PurchaseOrderReferenceType),
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class PurchaseOrderIssuedDate
