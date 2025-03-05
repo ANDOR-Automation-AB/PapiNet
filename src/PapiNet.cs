@@ -2269,7 +2269,30 @@ public class DeliverySchedule
 public class DeliveryScheduleReference
 {
     public DeliveryScheduleReferenceType DeliveryScheduleReferenceType = DeliveryScheduleReferenceType.Other;
+    public AssignedBy? AssignedBy = null;
+    public string Value = string.Empty;
 
+    public DeliveryScheduleReference() { }
+
+    public DeliveryScheduleReference(XElement root)
+    {
+        DeliveryScheduleReferenceType = root.Attribute("DeliveryScheduleReferenceType") is XAttribute deliveryScheduleReferenceType
+            ? Enum.Parse<DeliveryScheduleReferenceType>(deliveryScheduleReferenceType.Value)
+            : DeliveryScheduleReferenceType;
+        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
+            ? Enum.Parse<AssignedBy>(assignedBy.Value)
+            : AssignedBy;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryScheduleReference",
+            new XAttribute("DeliveryScheduleReferenceType", DeliveryScheduleReferenceType),
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliveryLeg
