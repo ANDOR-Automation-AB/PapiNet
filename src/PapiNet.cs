@@ -2181,7 +2181,7 @@ public class DeliveryMessageShipment
 public class DeliveryMessageWoodHeader
 {
     public string DeliveryMessageNumber = string.Empty;
-    public string? TransactionHistoryNumber = null; // type nni9
+    public string? TransactionHistoryNumber = null;
     public DeliveryMessageDate DeliveryMessageDate = new();
     public List<DeliveryMessageReference> DeliveryMessageReference = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
@@ -2192,6 +2192,7 @@ public class DeliveryMessageWoodHeader
     public Party? SenderParty = new() { LocalName = "SenderParty" };
     public Party? ReceiverParty = new() { LocalName = "ReceiverParty" };
     public List<ShipToInformation> ShipToInformation = [];
+    public CountryOfOrigin? CountryOfOrigin = null;
 
     public DeliveryMessageWoodHeader() { }
 
@@ -2242,6 +2243,33 @@ public class DeliveryMessageWoodHeader
             OtherParty.Select(party => XElement.Parse($"{party}")),
             XElement.Parse($"{SenderParty}"),
             XElement.Parse($"{ReceiverParty}")
+        ).ToString();
+    }
+}
+
+public class CountryOfOrigin
+{
+    public string Country = string.Empty;
+    public ISOCountryCode? ISOCountryCode = null;
+    public string Value = string.Empty;
+
+    public CountryOfOrigin() { }
+
+    public CountryOfOrigin(XElement root)
+    {
+        Country = root.Element("Country")?.Value ?? Country;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
+            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
+            : ISOCountryCode;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("CountryOfOrigin",
+            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            new XElement("Country", Country),
+            Value
         ).ToString();
     }
 }
