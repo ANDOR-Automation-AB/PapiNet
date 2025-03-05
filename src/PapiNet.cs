@@ -164,6 +164,34 @@ public class SafetyAndEnvironmentalInformation
     public string? LicenceNumber = null;
     public string? ChainOfCustody = null;
     public SafetyAndEnvironmentalCertification? SafetyAndEnvironmentalCertification = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public SafetyAndEnvironmentalInformation() { }
+
+    public SafetyAndEnvironmentalInformation(XElement root)
+    {
+        SafetyAndEnvironmentalType = root.Attribute("SafetyAndEnvironmentalType") is { Value: var saet } ? Enum.Parse<SafetyAndEnvironmentalType>(saet) : SafetyAndEnvironmentalType;
+        Agency = root.Attribute("Agency") is { Value: var a } ? Enum.Parse<Agency>(a) : Agency;
+        LicenceNumber = root.Element("LicenceNumber")?.Value ?? LicenceNumber;
+        ChainOfCustody = root.Element("ChainOfCustody")?.Value ?? ChainOfCustody;
+        SafetyAndEnvironmentalCertification = root.Element("SafetyAndEnvironmentalCertification") is { } saec ? new(saec) : SafetyAndEnvironmentalCertification;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(at => at.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SafetyAndEnvironmentalInformation",
+            new XAttribute("SafetyAndEnvironmentalType", SafetyAndEnvironmentalType),
+            new XAttribute("Agency", Agency),
+            LicenceNumber != null ? new XElement("LicenceNumber", LicenceNumber) : null,
+            ChainOfCustody != null ? new XElement("ChainOfCustody", ChainOfCustody) : null,
+            SafetyAndEnvironmentalCertification != null ? XElement.Parse($"{SafetyAndEnvironmentalCertification}") : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class SafetyAndEnvironmentalCertification
