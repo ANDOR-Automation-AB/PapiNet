@@ -159,6 +159,7 @@ public class TransportLoadingCharacteristics
     public MixProductIndicator? MixProductIndicator = null;
     public TransportLoadingType? TransportLoadingType = null;
     public TransportDeckOption? TransportDeckOption = null;
+    public LoadingTolerance? LoadingTolerance = null;
 }
 
 public class QuantityOrderedInformation

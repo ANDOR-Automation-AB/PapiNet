@@ -2278,3 +2278,11 @@ public enum TransportDeckOption
     OneThirdDeck,
     UnderDeck,
 }
+
+public enum LoadingTolerance
+{
+    FillUpFromOtherOrder,
+    Full,
+    FullWithinTolerance,
+    WithinTolerance,
+}
