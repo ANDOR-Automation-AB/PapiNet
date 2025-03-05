@@ -2249,7 +2249,30 @@ public class DeliveryMessageWoodHeader
 public class ShipToInformation
 {
     public ShipToCharacteristics ShipToCharacteristics = new();
-    public DeliverySchedule? DeliverySchedule = null;
+    public List<DeliverySchedule> DeliverySchedule = [];
+    public string Value = string.Empty;
+
+    public ShipToInformation() { }
+
+    public ShipToInformation(XElement root)
+    {
+        ShipToCharacteristics = root.Element("ShipToCharacteristics") is XElement shipToCharacteristics
+            ? new ShipToCharacteristics(shipToCharacteristics)
+            : ShipToCharacteristics;
+        DeliverySchedule = root.Elements("DeliverySchedule")
+            .Select(schedule => new DeliverySchedule(schedule))
+            .ToList();
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ShipToInformation",
+            XElement.Parse($"{ShipToCharacteristics}"),
+            DeliverySchedule.Select(schedule => XElement.Parse($"{schedule}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliverySchedule
