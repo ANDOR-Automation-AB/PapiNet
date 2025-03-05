@@ -1830,6 +1830,57 @@ public class DeliveryLeg
     public TransportOtherInstructions? TransportOtherInstructions = null;
     public List<Route> Route = [];
     public DeliveryTransitTime? DeliveryTransitTime = null;
+    public DeliveryDestination? DeliveryDestination = null;
+}
+
+public class DeliveryDestination
+{
+    public Date? Date = null;
+    public Time? Time = null;
+    public Party LocationParty = new() { LocalName = "LocationParty" };
+    public SupplyPoint? SupplyPoint = null;
+    public LocationCode? LocationCode = null;
+    public GPSCoordinates? GPSCoordinates = null;
+    public MapCoordinates? MapCoordinates = null;
+    public string Value = string.Empty;
+
+    public DeliveryDestination() { }
+
+    public DeliveryDestination(XElement root)
+    {
+        Date = root.Element("Date") is XElement date
+            ? new Date(date)
+            : Date;
+        Time = root.Element("Time") is XElement time
+            ? new Time(time)
+            : Time;
+        LocationParty = root.Element("LocationParty") is XElement locationParty
+            ? new Party(locationParty) { LocalName = "LocationParty" }
+            : LocationParty;
+        LocationCode = root.Element("LocationCode") is XElement locationCode
+            ? new LocationCode(locationCode)
+            : LocationCode;
+        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
+            ? new GPSCoordinates(gpsCoordinates)
+            : GPSCoordinates;
+        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
+            ? new MapCoordinates(mapCoordinates)
+            : MapCoordinates;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryDestination",
+            Date != null ? XElement.Parse($"{Date}") : null,
+            Time != null ? XElement.Parse($"{Time}") : null,
+            LocationParty != null ? XElement.Parse($"{LocationParty}") : null,
+            LocationCode != null ? XElement.Parse($"{LocationCode}") : null,
+            GPSCoordinates != null ? XElement.Parse($"{GPSCoordinates}") : null,
+            MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliveryTransitTime
