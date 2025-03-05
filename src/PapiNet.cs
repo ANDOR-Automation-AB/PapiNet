@@ -185,7 +185,22 @@ public class TransportLoadingCharacteristics
         Value = root.Value;
     }
 
-
+    public override string ToString()
+    {
+        return new XElement("TransportLoadingCharacteristics",
+            MixProductIndicator != null ? new XAttribute("MixProductIndicator", MixProductIndicator) : null,
+            TransportLoadingType != null ? new XAttribute("TransportLoadingType", TransportLoadingType) : null,
+            TransportDeckOption != null ? new XAttribute("TransportDeckOption", TransportDeckOption) : null,
+            LoadingTolerance != null ? new XAttribute("LoadingTolerance", LoadingTolerance) : null,
+            DirectLoading != null ? new XAttribute("DirectLoading", DirectLoading) : null,
+            GoodsLoadingPrinciple != null ? new XAttribute("GoodsLoadingPrinciple", GoodsLoadingPrinciple) : null,
+            LabelOrientation != null ? new XAttribute("LabelOrientation", LabelOrientation) : null,
+            TransportLoadingCode != null ? new XElement("TransportLoadingCode", TransportLoadingCode) : null,
+            TransportLoadingCodeDescription != null ? XElement.Parse($"{TransportLoadingCodeDescription}") : null,
+            TransportLoadingText.Select(tlt => new XElement("TransportLoadingText", tlt)),
+            Value
+        ).ToString();
+    }
 }
 
 public class TransportLoadingCodeDescription
