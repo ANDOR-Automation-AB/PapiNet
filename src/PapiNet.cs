@@ -1789,6 +1789,12 @@ public enum DeliveryLegReferenceType
     Other,
 }
 
+public enum TermsOfCharteringType
+{
+    Loading,
+    Unloading,
+}
+
 public class DeliveryMessageWood
 {
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
@@ -2056,7 +2062,12 @@ public class DeliveryLeg
     public DeliveryDestination? DeliveryDestination = null;
     public DeliveryDateWindow? DeliveryDateWindow = null;
     public DeliveryLegReference? DeliveryLegReference = null;
+    public TermsOfChartering? TermsOfChartering = null;
+}
 
+public class TermsOfChartering
+{
+    public TermsOfCharteringType? TermsOfCharteringType = null;
 }
 
 public class DeliveryLegReference
