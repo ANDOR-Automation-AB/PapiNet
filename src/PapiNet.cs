@@ -174,7 +174,14 @@ public class BookManufacturing
 
 public class BookClassification
 {
-    public BookClassificationType BookClassificationType;
+    public BookClassificationType BookClassificationType = BookClassificationType.Assembly;
+    public List<string> ClassificationDescription = [];
+    public List<BookSubClassification> BookSubClassification = [];
+}
+
+public class BookSubClassification
+{
+    public BookSubClassificationType BookSubClassificationType;
 }
 
 public class Classification
