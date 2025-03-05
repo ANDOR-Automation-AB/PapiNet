@@ -1829,6 +1829,32 @@ public class DeliveryLeg
     public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
     public TransportOtherInstructions? TransportOtherInstructions = null;
     public List<Route> Route = [];
+    public DeliveryTransitTime? DeliveryTransitTime = null;
+}
+
+public class DeliveryTransitTime
+{
+    public string Days = string.Empty;
+    public string? Hours = null;
+    public string? Minutes = null;
+
+    public DeliveryTransitTime() { }
+
+    public DeliveryTransitTime(XElement root)
+    {
+        Days = root.Element("Days")?.Value ?? Days;
+        Hours = root.Element("Hours")?.Value ?? Hours;
+        Minutes = root.Element("Minutes")?.Value ?? Minutes;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryTransitTime",
+            new XElement("Days", Days),
+            Hours != null ? new XElement("Hours", Hours) : null,
+            Minutes != null ? new XElement("Minutes", Minutes) : null
+        ).ToString();
+    }
 }
 
 public class Route
