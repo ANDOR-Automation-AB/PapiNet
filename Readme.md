@@ -1,7 +1,7 @@
-# PapiNet.WoodX
+# PapiNet Standard
 
-Detta är en open-source implementation av papiNet WoodX enligt specifikationen i 
-Implementation Guide V2.31. Detta projekt är inte en officiell implementation från PapiNet.
+Detta Ã¤r en open-source implementation av papiNet WoodX enligt specifikationen i 
+Implementation Guide V2.31. Detta projekt Ã¤r inte en officiell implementation frÃ¥n PapiNet.
 
 **Referensdokument papiNet V2R31**
 https://www.papinet.org/fileadmin/user_upload/v2r31/20091201/DataDictV2R31_20091201-2010-01-28.pdf
@@ -14,23 +14,23 @@ https://www.papinet.org/fileadmin/user_upload/v2r31/20091201/DataDictV2R31_20091
 
 #### ShipToInformation
 Enligt papiNet WoodX standarden ska ShipToInformation vara en grupp (group element)
-som innehåller information om mottagaren och leveransvillkoren. 
-I den aktuella implementationen har ShipToInformation istället lagts som ett 
-enskilt element, vilket avviker från standarden. För att säkerställa kompatibilitet
-och korrekt struktur enligt standarden bör ShipToInformation omstruktureras till 
-en grupp som innehåller ShipToCharacteristics, ShipToParty, 
+som innehÃ¥ller information om mottagaren och leveransvillkoren. 
+I den aktuella implementationen har ShipToInformation istÃ¤llet lagts som ett 
+enskilt element, vilket avviker frÃ¥n standarden. FÃ¶r att sÃ¤kerstÃ¤lla kompatibilitet
+och korrekt struktur enligt standarden bÃ¶r ShipToInformation omstruktureras till 
+en grupp som innehÃ¥ller ShipToCharacteristics, ShipToParty, 
 och eventuellt TermsOfDelivery.
 
 #### SafetyAndEnvironmentalType
-Enligt papiNet WoodX standarden är SafetyAndEnvironmentalType ett 
+Enligt papiNet WoodX standarden Ã¤r SafetyAndEnvironmentalType ett 
 obligatoriskt element som ska inkluderas i varje DeliveryShipmentLineItem. 
-Detta element används för att kommunicera viktig säkerhets- och 
-miljörelaterad information.
+Detta element anvÃ¤nds fÃ¶r att kommunicera viktig sÃ¤kerhets- och 
+miljÃ¶relaterad information.
 I den aktuella implementationen saknas SafetyAndEnvironmentalType, vilket 
-avviker från standarden. För att säkerställa fullständig kompatibilitet 
-bör detta element implementeras enligt specifikationen.
+avviker frÃ¥n standarden. FÃ¶r att sÃ¤kerstÃ¤lla fullstÃ¤ndig kompatibilitet 
+bÃ¶r detta element implementeras enligt specifikationen.
 
 ---
 
 Copyright (c) 2000-2024 papiNet SNC. All rights reserved. 
-Detta projekt är baserat på den öppna PapiNet WoodX standarden.
+Detta projekt Ã¤r baserat pÃ¥ den Ã¶ppna PapiNet WoodX standarden.
