@@ -2255,3 +2255,18 @@ public enum PurchaseOrderReferenceType
     WaybillIdentifier,
     Other,
 }
+
+public enum MixProductIndicator
+{
+    Yes,
+    No,
+}
+
+public enum TransportLoadingType
+{
+    ByLoadingCode,
+    Lying,
+    Standing,
+    StandingUpsideDown,
+    Other,
+}

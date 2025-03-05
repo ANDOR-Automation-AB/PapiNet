@@ -156,7 +156,8 @@ public class DeliveryShipmentLineItem
 
 public class TransportLoadingCharacteristics
 {
-
+    public MixProductIndicator? MixProductIndicator = null;
+    public TransportLoadingType? TransportLoadingType = null;
 }
 
 public class QuantityOrderedInformation
