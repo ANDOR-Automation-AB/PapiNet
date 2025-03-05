@@ -2407,6 +2407,38 @@ public class DeliveryShipmentLineItem
     public TotalNumberOfUnits? TotalNumberOfUnits = null;
     public List<DeliveryDateWindow> DeliveryDateWindow = [];
     public MillProductionInformation? MillProductionInformation = null;
+    public QuantityOrderedInformation? QuantityOrderedInformation = null;
+}
+
+public class QuantityOrderedInformation
+{
+    public Quantity Quantity = new();
+    public List<InformationalQuantity> InformationalQuantity = [];
+    public List<string> AdditionalText = [];
+    public List<Length_Object> Length = [];
+    public string Value = string.Empty;
+
+    public QuantityOrderedInformation() { }
+
+    public QuantityOrderedInformation(XElement root)
+    {
+        Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
+        InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(iq => new InformationalQuantity(iq))];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(t => t.Value)];
+        Length = [.. root.Elements("Length").Select(l => new Length_Object(l))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("QuantityOrderedInformation",
+            Quantity != null ? XElement.Parse($"{Quantity}") : null,
+            InformationalQuantity.Select(iq => XElement.Parse($"{iq}")),
+            AdditionalText.Select(t => new XElement("AdditionalText", t)),
+            Length.Select(l => XElement.Parse($"{l}"))
+            Value
+        ).ToString();
+    }
 }
 
 public class MillProductionInformation
