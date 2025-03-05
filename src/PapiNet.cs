@@ -2061,7 +2061,31 @@ public class DeliveryLeg
 
 public class DeliveryLegReference
 {
-    public DeliveryLegReferenceType DeliveryLegReferenceType;
+    public DeliveryLegReferenceType DeliveryLegReferenceType = DeliveryLegReferenceType.Other;
+    public AssignedBy? AssignedBy = null;
+    public string Value = string.Empty;
+
+    public DeliveryLegReference() { }
+
+    public DeliveryLegReference(XElement root)
+    {
+        DeliveryLegReferenceType = root.Attribute("DeliveryLegReferenceType") is XAttribute deliveryLegReferenceType
+            ? Enum.Parse<DeliveryLegReferenceType>(deliveryLegReferenceType.Value)
+            : DeliveryLegReferenceType;
+        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
+            ? Enum.Parse<AssignedBy>(assignedBy.Value)
+            : AssignedBy;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryLegReference",
+            new XAttribute("DeliveryLegReferenceType", DeliveryLegReferenceType),
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliveryDestination
