@@ -2406,6 +2406,31 @@ public class PurchaseOrderInformation
     public string? PurchaseOrderReleaseNumber = null;
     public PurchaseOrderIssuedDate? PurchaseOrderIssuedDate = null;
     public List<PurchaseOrderReference> PurchaseOrderReference = [];
+    public string Value = string.Empty;
+
+    public PurchaseOrderInformation() { }
+
+    public PurchaseOrderInformation(XElement root)
+    {
+        PurchaseOrderNumber = root.Element("PurchaseOrderNumber")?.Value ?? PurchaseOrderNumber;
+        PurchaseOrderReleaseNumber = root.Element("PurchaseOrderReleaseNumber")?.Value ?? PurchaseOrderReleaseNumber;
+        PurchaseOrderIssuedDate = root.Element("PurchaseOrderIssuedDate") is XElement purchaseOrderIssuedDate
+            ? new PurchaseOrderIssuedDate(purchaseOrderIssuedDate)
+            : PurchaseOrderIssuedDate;
+        PurchaseOrderReference = [.. root.Elements("PurchaseOrderReference").Select(element => new PurchaseOrderReference(element))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PurchaseOrderInformation",
+            PurchaseOrderNumber != null ? new XElement("PurchaseOrderNumber", PurchaseOrderNumber) : null,
+            PurchaseOrderReleaseNumber != null ? new XElement("PurchaseOrderReleaseNumber", PurchaseOrderReleaseNumber) : null,
+            PurchaseOrderIssuedDate != null ? XElement.Parse($"{PurchaseOrderIssuedDate}") : null,
+            PurchaseOrderReference.Select(obj => XElement.Parse($"{obj}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class PurchaseOrderReference
