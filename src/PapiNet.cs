@@ -2068,6 +2068,25 @@ public class DeliveryLeg
 public class TermsOfChartering
 {
     public TermsOfCharteringType? TermsOfCharteringType = null;
+    public string Value = string.Empty;
+
+    public TermsOfChartering() { }
+
+    public TermsOfChartering(XElement root)
+    {
+        TermsOfCharteringType = root.Attribute("TermsOfCharteringType") is XAttribute termsOfCharteringType
+            ? Enum.Parse<TermsOfCharteringType>(termsOfCharteringType.Value)
+            : TermsOfCharteringType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TermsOfChartering",
+            TermsOfCharteringType != null ? new XAttribute("TermsOfCharteringType", TermsOfCharteringType) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliveryLegReference
