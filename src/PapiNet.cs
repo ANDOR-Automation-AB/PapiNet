@@ -2405,6 +2405,38 @@ public class DeliveryShipmentLineItem
     public CountryOfDestination? CountryOfDestination = null;
     public CountryOfConsumption? CountryOfConsumption = null;
     public TotalNumberOfUnits? TotalNumberOfUnits = null;
+    public List<DeliveryDateWindow> DeliveryDateWindow = [];
+    public MillProductionInformation? MillProductionInformation = null;
+}
+
+public class MillProductionInformation
+{
+    public MillCharacteristics? MillCharacteristics = null;
+}
+
+public class MillCharacteristics
+{
+    public Party? MillParty = null;
+    public string? MachineID = null;
+    public string Value = string.Empty;
+
+    public MillCharacteristics() { }
+
+    public MillCharacteristics(XElement root)
+    {
+        MillParty = root.Element("MillParty") is { } party ? new(party) { LocalName = "MillParty" } : MillParty;
+        MachineID = root.Element("MachineID")?.Value ?? MachineID;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MillCharacteristics",
+            MillParty != null ? XElement.Parse($"{MillParty}") : null,
+            MachineID != null ? new XElement("MachineID", MachineID) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class TotalNumberOfUnits
