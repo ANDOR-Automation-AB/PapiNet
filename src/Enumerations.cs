@@ -2292,3 +2292,10 @@ public enum DirectLoading
     Yes,
     No,
 }
+
+public enum GoodsLoadingPrinciple
+{
+    FirstInFirstOut,
+    LastInFirstOut,
+    Random,
+}
