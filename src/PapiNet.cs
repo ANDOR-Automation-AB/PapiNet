@@ -2412,6 +2412,29 @@ public class DeliveryShipmentLineItem
 public class MillProductionInformation
 {
     public MillCharacteristics? MillCharacteristics = null;
+    public string? MillOrderNumber = null;
+    public Quantity? Quantity = null;
+    public string Value = string.Empty;
+
+    public MillProductionInformation() { }
+
+    public MillProductionInformation(XElement root)
+    {
+        MillCharacteristics = root.Element("MillCharacteristics") is { } c ? new(c) : MillCharacteristics;
+        MillOrderNumber = root.Element("MillOrderNumber")?.Value ?? MillOrderNumber;
+        Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MillProductionInformation",
+            MillCharacteristics != null ? XElement.Parse($"{MillCharacteristics}") : null,
+            MillOrderNumber != null ? new XElement("MillOrderNumber", MillOrderNumber) : null,
+            Quantity != null ? XElement.Parse($"{Quantity}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class MillCharacteristics
