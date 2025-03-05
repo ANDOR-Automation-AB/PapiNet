@@ -2270,3 +2270,11 @@ public enum TransportLoadingType
     StandingUpsideDown,
     Other,
 }
+
+public enum TransportDeckOption
+{
+    FullDeck,
+    HalfDeck,
+    OneThirdDeck,
+    UnderDeck,
+}
