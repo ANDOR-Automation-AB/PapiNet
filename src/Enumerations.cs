@@ -2299,3 +2299,12 @@ public enum GoodsLoadingPrinciple
     LastInFirstOut,
     Random,
 }
+
+public enum LabelOrientation
+{
+    BackEndSide,
+    FrontEndSide,
+    LeftAndRightSide,
+    LeftSide,
+    RightSide,
+}

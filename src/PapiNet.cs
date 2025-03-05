@@ -162,6 +162,7 @@ public class TransportLoadingCharacteristics
     public LoadingTolerance? LoadingTolerance = null;
     public DirectLoading? DirectLoading = null;
     public GoodsLoadingPrinciple? GoodsLoadingPrinciple = null;
+    public LabelOrientation? LabelOrientation = null;
 }
 
 public class QuantityOrderedInformation
