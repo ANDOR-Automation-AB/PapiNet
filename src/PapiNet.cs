@@ -159,7 +159,36 @@ public class DeliveryShipmentLineItem
 
 public class SafetyAndEnvironmentalInformation
 {
+    public SafetyAndEnvironmentalType SafetyAndEnvironmentalType = SafetyAndEnvironmentalType.MaterialSafetyData;
+    public Agency Agency = Agency.Other;
+    public string? LicenceNumber = null;
+    public string? ChainOfCustody = null;
+    public SafetyAndEnvironmentalCertification? SafetyAndEnvironmentalCertification = null;
+}
 
+public class SafetyAndEnvironmentalCertification
+{
+    public Value Value = new();
+    public RangeMin? RangeMin = null;
+    public RangeMax? RangeMax = null;
+
+    public SafetyAndEnvironmentalCertification() { }
+
+    public SafetyAndEnvironmentalCertification(XElement root)
+    {
+        Value = root.Element("Value") is { } v ? new(v) : Value;
+        RangeMin = root.Element("RangeMin") is { } rmin ? new(rmin) : RangeMin;
+        RangeMax = root.Element("RangeMax") is { } rmax ? new(rmax) : RangeMax;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SafetyAndEnvironmentalCertification",
+            XElement.Parse($"{Value}"),
+            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null,
+        ).ToString();
+    }
 }
 
 public class TransportLoadingCharacteristics
