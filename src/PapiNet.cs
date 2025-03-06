@@ -1,4 +1,5 @@
-﻿using System.Runtime;
+﻿using System.Net.Http.Headers;
+using System.Runtime;
 using System.Xml.Linq;
 
 namespace PapiNet;
@@ -773,15 +774,9 @@ public class DocumentInformation
 
     public DocumentInformation(XElement root)
     {
-        DocumentType = root.Attribute("DocumentType") is XAttribute documentType
-            ? Enum.Parse<DocumentType>(documentType.Value)
-            : DocumentType;
-        NumberOfDocuments = root.Elements("NumberOfDocuments")
-            .Select(number => number.Value)
-            .ToList();
-        AdditionalText = root.Elements("AdditionalText")
-            .Select(text => text.Value)
-            .ToList();
+        DocumentType = root.Attribute("DocumentType") is { Value: var dt } ? Enum.Parse<DocumentType>(dt) : DocumentType;
+        NumberOfDocuments = [.. root.Elements("NumberOfDocuments").Select(e => e.Value)];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
         Value = root.Value;
     }
 
@@ -810,9 +805,7 @@ public class Insurance
     {
         Insurer = root.Element("Insurer")?.Value ?? Insurer;
         InsuranceContractNo = root.Element("InsuranceContractNo")?.Value ?? InsuranceContractNo;
-        InsuredValue = root.Element("InsuredValue") is XElement insuredValue
-            ? new InsuredValue(insuredValue)
-            : InsuredValue;
+        InsuredValue = root.Element("InsuredValue") is { } iv ? new(iv) : InsuredValue;
         InsuranceInfo = root.Element("InsuranceInfo")?.Value ?? InsuranceInfo;
         Value = root.Value;
     }
@@ -862,9 +855,7 @@ public class CountryOfConsumption
     public CountryOfConsumption(XElement root)
     {
         Country = root.Element("Country")?.Value ?? Country;
-        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
-            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
-            : ISOCountryCode;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is { Value: var isocc } ? Enum.Parse<ISOCountryCode>(isocc) : ISOCountryCode;
         Value = root.Value;
     }
 
@@ -889,9 +880,7 @@ public class CountryOfDestination
     public CountryOfDestination(XElement root)
     {
         Country = root.Element("Country")?.Value ?? Country;
-        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
-            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
-            : ISOCountryCode;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is { Value: var isocc } ? Enum.Parse<ISOCountryCode>(isocc) : ISOCountryCode;
         Value = root.Value;
     }
 
@@ -916,9 +905,7 @@ public class CountryOfOrigin
     public CountryOfOrigin(XElement root)
     {
         Country = root.Element("Country")?.Value ?? Country;
-        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
-            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
-            : ISOCountryCode;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is { Value: var isocc } ? Enum.Parse<ISOCountryCode>(isocc) : ISOCountryCode;
         Value = root.Value;
     }
 
@@ -942,12 +929,8 @@ public class ShipToInformation
 
     public ShipToInformation(XElement root)
     {
-        ShipToCharacteristics = root.Element("ShipToCharacteristics") is XElement shipToCharacteristics
-            ? new ShipToCharacteristics(shipToCharacteristics)
-            : ShipToCharacteristics;
-        DeliverySchedule = root.Elements("DeliverySchedule")
-            .Select(schedule => new DeliverySchedule(schedule))
-            .ToList();
+        ShipToCharacteristics = root.Element("ShipToCharacteristics") is { } stc ? new(stc) : ShipToCharacteristics;
+        DeliverySchedule = [.. root.Elements("DeliverySchedule").Select(e => new DeliverySchedule(e))];
         Value = root.Value;
     }
 
@@ -981,36 +964,16 @@ public class DeliverySchedule
     public DeliverySchedule(XElement root)
     {
         DeliveryLineNumber = root.Element("DeliveryLineNumber")?.Value ?? DeliveryLineNumber;
-        ProductionStatus = root.Element("ProductionStatus") is XElement productionStatus
-            ? new ProductionStatus(productionStatus)
-            : ProductionStatus;
-        DeliveryStatus = root.Element("DeliveryStatus") is XElement deliveryStatus
-            ? new DeliveryStatus(deliveryStatus)
-            : DeliveryStatus;
-        DeliveryDateWindow = root.Elements("DeliveryDateWindow")
-            .Select(window => new DeliveryDateWindow(window))
-            .ToList();
-        Quantity = root.Element("Quantity") is XElement quantity
-            ? new Quantity(quantity)
-            : Quantity;
-        InformationalQuantity = root.Elements("InformationalQuantity")
-            .Select(quantity => new InformationalQuantity(quantity))
-            .ToList();
-        PriceDetails = root.Element("PriceDetails") is XElement priceDetails
-            ? new PriceDetails(priceDetails)
-            : PriceDetails;
-        MonetaryAdjustment = root.Elements("MonetaryAdjustment")
-            .Select(adjustment => new MonetaryAdjustment(adjustment))
-            .ToList();
-        DeliveryLeg = root.Elements("DeliveryLeg")
-            .Select(leg => new DeliveryLeg(leg))
-            .ToList();
-        DeliveryScheduleReference = root.Elements("DeliveryScheduleReference")
-            .Select(reference => new DeliveryScheduleReference(reference))
-            .ToList();
-        AdditionalText = root.Elements("AdditionalText")
-            .Select(text => text.Value)
-            .ToList();
+        ProductionStatus = root.Element("ProductionStatus") is { } ps ? new(ps) : ProductionStatus;
+        DeliveryStatus = root.Element("DeliveryStatus") is { } ds ? new(ds) : DeliveryStatus;
+        DeliveryDateWindow = [.. root.Elements("DeliveryDateWindow").Select(e => new DeliveryDateWindow(e))];
+        Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
+        InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(e => new InformationalQuantity(e))];
+        PriceDetails = root.Element("PriceDetails") is { } pd ? new(pd) : PriceDetails;
+        MonetaryAdjustment = [.. root.Elements("MonetaryAdjustment").Select(e => new MonetaryAdjustment(e))];
+        DeliveryLeg = [.. root.Elements("DeliveryLeg").Select(e => new DeliveryLeg(e))];
+        DeliveryScheduleReference = [.. root.Elements("DeliveryScheduleReference").Select(e => new DeliveryScheduleReference(e))];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
         Value = root.Value;
     }
 
@@ -1083,61 +1046,25 @@ public class DeliveryLeg
 
     public DeliveryLeg(XElement root)
     {
-        DeliveryModeType = root.Attribute("DeliveryModeType") is XAttribute deliveryModeType
-            ? Enum.Parse<DeliveryModeType>(deliveryModeType.Value)
-            : DeliveryModeType;
-        DeliveryLegType = root.Attribute("DeliveryLegType") is XAttribute deliveryLegType
-            ? Enum.Parse<DeliveryLegType>(deliveryLegType.Value)
-            : DeliveryLegType;
-        EventType = root.Attribute("EventType") is XAttribute eventType
-            ? Enum.Parse<EventType>(eventType.Value)
-            : EventType;
-        LegStageType = root.Attribute("LegStageType") is XAttribute legStageType
-            ? Enum.Parse<LegStageType>(legStageType.Value)
-            : LegStageType;
+        DeliveryModeType = root.Attribute("DeliveryModeType") is { Value: var dmt } ? Enum.Parse<DeliveryModeType>(dmt) : DeliveryModeType;
+        DeliveryLegType = root.Attribute("DeliveryLegType") is { Value: var dlt } ? Enum.Parse<DeliveryLegType>(dlt) : DeliveryLegType;
+        EventType = root.Attribute("EventType") is { Value: var et } ? Enum.Parse<EventType>(et) : EventType;
+        LegStageType = root.Attribute("LegStageType") is { Value: var lst } ? Enum.Parse<LegStageType>(lst) : LegStageType;
         DeliveryLegSequenceNumber = root.Element("DeliveryLegSequenceNumber")?.Value ?? DeliveryLegSequenceNumber;
-        DeliveryOrigin = root.Element("DeliveryOrigin") is XElement deliveryOrigin
-            ? new DeliveryOrigin(deliveryOrigin)
-            : DeliveryOrigin;
-        CarrierParty = root.Element("CarrierParty") is XElement carrierParty
-            ? new Party(carrierParty) { LocalName = "CarrierParty" }
-            : CarrierParty;
-        OtherParty = root.Elements("OtherParty")
-            .Select(party => new Party(party) { LocalName = "OtherParty" })
-            .ToList();
-        TransportModeCharacteristics = root.Element("TransportModeCharacteristics") is XElement transportModeCharacteristics
-            ? new TransportModeCharacteristics(transportModeCharacteristics)
-            : TransportModeCharacteristics;
-        TransportVehicleCharacteristics = root.Element("TransportVehicleCharacteristics") is XElement transportVehicleCharacteristics
-            ? new TransportVehicleCharacteristics(transportVehicleCharacteristics)
-            : TransportVehicleCharacteristics;
-        TransportUnitCharacteristics = root.Element("TransportUnitCharacteristics") is XElement transportUnitCharacteristics
-            ? new TransportUnitCharacteristics(transportUnitCharacteristics)
-            : TransportUnitCharacteristics;
-        TransportUnloadingCharacteristics = root.Element("TransportUnloadingCharacteristics") is XElement transportUnloadingCharacteristics
-            ? new TransportUnloadingCharacteristics(transportUnloadingCharacteristics)
-            : TransportUnloadingCharacteristics;
-        TransportOtherInstructions = root.Element("TransportOtherInstructions") is XElement transportOtherInstructions
-            ? new TransportOtherInstructions(transportOtherInstructions)
-            : TransportOtherInstructions;
-        Route = root.Elements("Route")
-            .Select(route => new Route(route))
-            .ToList();
-        DeliveryTransitTime = root.Element("DeliveryTransitTime") is XElement deliveryTransitTime
-            ? new DeliveryTransitTime(deliveryTransitTime)
-            : DeliveryTransitTime;
-        DeliveryDestination = root.Element("DeliveryDestination") is XElement deliveryDestination
-            ? new DeliveryDestination(deliveryDestination)
-            : DeliveryDestination;
-        DeliveryDateWindow = root.Elements("DeliveryDateWindow")
-            .Select(window => new DeliveryDateWindow(window))
-            .ToList();
-        DeliveryLegReference = root.Elements("DeliveryLegReference")
-            .Select(reference => new DeliveryLegReference(reference))
-            .ToList();
-        TermsOfChartering = root.Elements("TermsOfChartering")
-            .Select(chartering => new TermsOfChartering(chartering))
-            .ToList();
+        DeliveryOrigin = root.Element("DeliveryOrigin") is { } deo ? new(deo) : DeliveryOrigin;
+        CarrierParty = root.Element("CarrierParty") is { } cp ? new(cp) : CarrierParty;
+        OtherParty = [.. root.Elements("OtherParty").Select(e => new Party(e))];
+        TransportModeCharacteristics = root.Element("TransportModeCharacteristics") is { } tmc ? new(tmc) : TransportModeCharacteristics;
+        TransportVehicleCharacteristics = root.Element("TransportVehicleCharacteristics") is { } tvc ? new(tvc) : TransportVehicleCharacteristics;
+        TransportUnitCharacteristics = root.Element("TransportUnitCharacteristics") is { } tunic ? new(tunic) : TransportUnitCharacteristics;
+        TransportUnloadingCharacteristics = root.Element("TransportUnloadingCharacteristics") is { } tunlc ? new(tunlc) : TransportUnloadingCharacteristics;
+        TransportOtherInstructions = root.Element("TransportOtherInstructions") is { } toi ? new(toi) : TransportOtherInstructions;
+        Route = [.. root.Elements("Route").Select(e => new Route(e))];
+        DeliveryTransitTime = root.Element("DeliveryTransitTime") is { } dtt ? new(dtt) : DeliveryTransitTime;
+        DeliveryDestination = root.Element("DeliveryDestination") is { } dd ? new(dd) : DeliveryDestination;
+        DeliveryDateWindow = [.. root.Elements("DeliveryDateWindow").Select(e => new DeliveryDateWindow(e))];
+        DeliveryLegReference = [.. root.Elements("DeliveryLegReference").Select(e => new DeliveryLegReference(e))];
+        TermsOfChartering = [.. root.Elements("TermsOfChartering").Select(e => new TermsOfChartering(e))];
         Value = root.Value;
     }
 
@@ -1177,9 +1104,7 @@ public class TermsOfChartering
 
     public TermsOfChartering(XElement root)
     {
-        TermsOfCharteringType = root.Attribute("TermsOfCharteringType") is XAttribute termsOfCharteringType
-            ? Enum.Parse<TermsOfCharteringType>(termsOfCharteringType.Value)
-            : TermsOfCharteringType;
+        TermsOfCharteringType = root.Attribute("TermsOfCharteringType") is { Value: var toct } ? Enum.Parse<TermsOfCharteringType>(toct) : TermsOfCharteringType;
         Value = root.Value;
     }
 
@@ -1230,24 +1155,12 @@ public class DeliveryDestination
 
     public DeliveryDestination(XElement root)
     {
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
-        Time = root.Element("Time") is XElement time
-            ? new Time(time)
-            : Time;
-        LocationParty = root.Element("LocationParty") is XElement locationParty
-            ? new Party(locationParty) { LocalName = "LocationParty" }
-            : LocationParty;
-        LocationCode = root.Element("LocationCode") is XElement locationCode
-            ? new LocationCode(locationCode)
-            : LocationCode;
-        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
-            ? new GPSCoordinates(gpsCoordinates)
-            : GPSCoordinates;
-        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
-            ? new MapCoordinates(mapCoordinates)
-            : MapCoordinates;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
+        LocationParty = root.Element("LocationParty") is { } lp ? new(lp) : LocationParty;
+        LocationCode = root.Element("LocationCode") is { } lc ? new(lc) : LocationCode;
+        GPSCoordinates = root.Element("GPSCoordinates") is { } gpsc ? new(gpsc) : GPSCoordinates;
+        MapCoordinates = root.Element("MapCoordinates") is { } mp ? new(mp) : MapCoordinates;
         Value = root.Value;
     }
 
@@ -1307,19 +1220,11 @@ public class Route
 
     public Route(XElement root)
     {
-        RouteType = root.Attribute("RouteType") is XAttribute routeType
-            ? Enum.Parse<RouteType>(routeType.Value)
-            : RouteType;
+        RouteType = root.Attribute("RouteType") is { Value: var rt } ? Enum.Parse<RouteType>(rt) : RouteType;
         RouteName = root.Element("RouteName")?.Value ?? RouteName;
-        RouteComment = root.Elements("RouteComment")
-            .Select(comment => comment.Value)
-            .ToList();
-        SupplyPoint = root.Elements("SupplyPoint")
-            .Select(point => new SupplyPoint(point))
-            .ToList();
-        MapPoint = root.Elements("MapPoint")
-            .Select(point => new MapPoint(point))
-            .ToList();
+        RouteComment = [.. root.Elements("RouteComment").Select(e => e.Value)];
+        SupplyPoint = [.. root.Elements("SupplyPoint").Select(e => new SupplyPoint(e))];
+        MapPoint = [.. root.Elements("MapPoint").Select(e => new MapPoint(e))];
         RootValue = root.Value;
     }
 
@@ -1353,24 +1258,12 @@ public class RouteLeg
     {
         RouteLegNumber = root.Element("RouteLegNumber")?.Value ?? RouteLegNumber;
         RouteLegName = root.Element("RouteLegName")?.Value ?? RouteLegName;
-        OtherParty = root.Elements("OtherParty")
-            .Select(party => new Party(party) { LocalName = "OtherParty" })
-            .ToList();
-        MapPoint = root.Element("MapPoint") is XElement mapPoint
-            ? new MapPoint(mapPoint)
-            : MapPoint;
-        RouteLegLength = root.Element("RouteLegLength") is XElement routeLegLength
-            ? new RouteLegLength(routeLegLength)
-            : RouteLegLength;
-        RoadCharacteristics = root.Element("RoadCharacteristics") is XElement roadCharacteristics
-            ? new RoadCharacteristics(roadCharacteristics)
-            : RoadCharacteristics;
-        eAttachment = root.Element("eAttachment") is XElement attachment
-            ? new eAttachment(attachment)
-            : eAttachment;
-        AdditionalText = root.Elements("AdditionalText")
-            .Select(text => text.Value)
-            .ToList();
+        OtherParty = [.. root.Elements("OtherParty").Select(e => new Party(e))];
+        MapPoint = root.Element("MapPoint") is { } mp ? new(mp) : MapPoint;
+        RouteLegLength = root.Element("RouteLegLength") is { } rll ? new(rll) : RouteLegLength;
+        RoadCharacteristics = root.Element("RoadCharacteristics") is { } rc ? new(rc) : RoadCharacteristics;
+        eAttachment = root.Element("eAttachment") is { } ea ? new(ea) : eAttachment;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
     }
 
     public override string ToString()
@@ -1407,38 +1300,18 @@ public class RoadCharacteristics
 
     public RoadCharacteristics(XElement root)
     {
-        RoadOwnerType = root.Attribute("RoadOwnerType") is XAttribute roadOwnerType
-            ? Enum.Parse<RoadOwnerType>(roadOwnerType.Value)
-            : RoadOwnerType;
-        RoadKeeperType = root.Attribute("RoadKeeperType") is XAttribute roadKeeperType
-            ? Enum.Parse<RoadKeeperType>(roadKeeperType.Value)
-            : RoadKeeperType;
-        RoadAccessibilityType = root.Attribute("RoadAccessibilityType") is XAttribute roadAccessibilityType
-            ? Enum.Parse<RoadAccessibilityType>(roadAccessibilityType.Value)
-            : RoadAccessibilityType;
-        RoadTurningPossibilityType = root.Attribute("RoadTurningPossibilityType") is XAttribute roadTurningPossibilityType
-            ? Enum.Parse<RoadTurningPossibilityType>(roadTurningPossibilityType.Value)
-            : RoadTurningPossibilityType;
-        RoadTurningPointType = root.Attribute("RoadTurningPointType") is XAttribute roadTurningPointType
-            ? Enum.Parse<RoadTurningPointType>(roadTurningPointType.Value)
-            : RoadTurningPointType;
-        RoadPassingPossibility = root.Attribute("RoadPassingPossibility") is XAttribute roadPassingPossibility
-            ? Enum.Parse<RoadPassingPossibility>(roadPassingPossibility.Value)
-            : RoadPassingPossibility;
+        RoadOwnerType = root.Attribute("RoadOwnerType") is { Value: var rot } ? Enum.Parse<RoadOwnerType>(rot) : RoadOwnerType;
+        RoadKeeperType = root.Attribute("RoadKeeperType") is { Value: var rkt } ? Enum.Parse<RoadKeeperType>(rkt) : RoadKeeperType;
+        RoadAccessibilityType = root.Attribute("RoadAccessibilityType") is { Value: var rat } ? Enum.Parse<RoadAccessibilityType>(rat) : RoadAccessibilityType;
+        RoadTurningPossibilityType = root.Attribute("RoadTurningPossibilityType") is { Value: var rtpost } ? Enum.Parse<RoadTurningPossibilityType>(rtpost) : RoadTurningPossibilityType;
+        RoadTurningPointType = root.Attribute("RoadTurningPointType") is { Value: var rtpoit } ? Enum.Parse<RoadTurningPointType>(rtpoit) : RoadTurningPointType;
+        RoadPassingPossibility = root.Attribute("RoadPassingPossibility") is { Value: var rpp } ? Enum.Parse<RoadPassingPossibility>(rpp) : RoadPassingPossibility;
         RoadName = root.Element("RoadName")?.Value ?? RoadName;
         RoadNumber = root.Element("RoadNumber")?.Value ?? RoadNumber;
-        RoadClassification = root.Elements("RoadClassification")
-            .Select(classification => new RoadClassification(classification))
-            .ToList();
-        RoadAvailability = root.Elements("RoadAvailability")
-            .Select(availability => Enum.Parse<RoadAvailability>(availability.Value))
-            .ToList();
-        RoadBearingCapacity = root.Elements("RoadBearingCapacity")
-            .Select(capacity => new RoadBearingCapacity(capacity))
-            .ToList();
-        RoadObstruction = root.Elements("RoadObstruction")
-            .Select(obstruction => new RoadObstruction(obstruction))
-            .ToList();
+        RoadClassification = [.. root.Elements("RoadClassification").Select(e => new RoadClassification(e))];
+        RoadAvailability = [.. root.Elements("RoadAvailability").Select(e => Enum.Parse<RoadAvailability>(e.Value))];
+        RoadBearingCapacity = [.. root.Elements("RoadBearingCapacity").Select(e => new RoadBearingCapacity(e))];
+        RoadObstruction = [.. root.Elements("RoadObstruction").Select(e => new RoadObstruction(e))];
     }
 
     public override string ToString()
@@ -1478,35 +1351,17 @@ public class RoadObstruction
 
     public RoadObstruction(XElement root)
     {
-        RoadObstructionType = root.Attribute("RoadObstructionType") is XAttribute roadObstructionType
-            ? Enum.Parse<RoadObstructionType>(roadObstructionType.Value)
-            : RoadObstructionType;
+        RoadObstructionType = root.Attribute("RoadObstructionType") is { Value: var rot } ? Enum.Parse<RoadObstructionType>(rot) : RoadObstructionType;
         MapPointName = root.Element("MapPointName")?.Value ?? MapPointName;
-        MapPointComment = root.Elements("MapPointComment")
-            .Select(comment => comment.Value)
-            .ToList();
-        MapCoordinates = root.Elements("MapCoordinates")
-            .Select(coordinates => new MapCoordinates(coordinates))
-            .ToList();
+        MapPointComment = [.. root.Elements("MapPointComment").Select(e => e.Value)];
+        MapCoordinates = [.. root.Elements("MapCoordinates").Select(e => new MapCoordinates(e))];
         RoadSlopePercent = root.Element("RoadSlopePercent")?.Value ?? RoadSlopePercent;
-        RoadBearingCapacity = root.Elements("RoadBearingCapacity")
-            .Select(capacity => new RoadBearingCapacity(capacity))
-            .ToList();
-        Length = root.Element("Length") is XElement length
-            ? new Length_Object(length)
-            : Length;
-        Width = root.Element("Width") is XElement width
-            ? new Width(width)
-            : Width;
-        Height = root.Element("Height") is XElement height
-            ? new Height(height)
-            : Height;
-        eAttachment = root.Element("eAttachment") is XElement attachment
-            ? new eAttachment(attachment)
-            : eAttachment;
-        AdditionalText = root.Elements("AdditionalText")
-            .Select(text => text.Value)
-            .ToList();
+        RoadBearingCapacity = [.. root.Elements("RoadBearingCapacity").Select(e => new RoadBearingCapacity(e))];
+        Length = root.Element("Length") is { } l ? new(l) : Length;
+        Width = root.Element("Width") is { } w ? new(w) : Width;
+        Height = root.Element("Height") is { } h ? new(h) : Height;
+        eAttachment = root.Element("eAttachment") is { } ea ? new(ea) : eAttachment;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
     }
 
     public override string ToString()
@@ -1565,18 +1420,10 @@ public class RoadBearingCapacity
 
     public RoadBearingCapacity(XElement root)
     {
-        RoadBearingCapacityType = root.Attribute("RoadBearingCapacityType") is XAttribute roadBearingCapacityType
-            ? Enum.Parse<RoadBearingCapacityType>(roadBearingCapacityType.Value)
-            : RoadBearingCapacityType;
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
+        RoadBearingCapacityType = root.Attribute("RoadBearingCapacityType") is { Value: var rbct } ? Enum.Parse<RoadBearingCapacityType>(rbct) : RoadBearingCapacityType;
+        Value = root.Element("Value") is { } v ? new(v) : Value;
+        RangeMin = root.Element("RangeMin") is { } rmin ? new(rmin) : RangeMin;
+        RangeMax = root.Element("RangeMax") is { } rmax ? new(rmax) : RangeMax;
     }
 
     public override string ToString()
@@ -1601,9 +1448,7 @@ public class RoadClassification
     public RoadClassification(XElement root)
     {
         RoadClassificationCode = root.Element("RoadClassificationCode")?.Value ?? RoadClassificationCode;
-        RoadClassificationDescription = root.Elements("RoadClassificationDescription")
-            .Select(description => description.Value)
-            .ToList();
+        RoadClassificationDescription = [.. root.Elements("RoadClassificationDescription").Select(e => e.Value)];
         RootValue = root.Value;
     }
 
@@ -1639,9 +1484,7 @@ public class eAttachment
     {
         AttachmentFileName = root.Element("AttachmentFileName")?.Value ?? AttachmentFileName;
         NumberOfAttachments = root.Element("NumberOfAttachments")?.Value ?? NumberOfAttachments;
-        URL = root.Elements("URL")
-            .Select(url => new URL(url))
-            .ToList();
+        URL = [.. root.Elements("URL").Select(e => new URL(e))];
         RootValue = root.Value;
     }
 
@@ -1668,19 +1511,13 @@ public class MapPoint
 
     public MapPoint(XElement root)
     {
-        MapPointType = root.Attribute("MapPointType") is XAttribute mapPointType
-            ? Enum.Parse<MapPointType>(mapPointType.Value)
-            : MapPointType;
+        MapPointType = root.Attribute("MapPointType") is { Value: var mpt } ? Enum.Parse<MapPointType>(mpt) : MapPointType;
         MapPointName = root.Element("MapPointName")?.Value ?? MapPointName;
-        MapPointComment = root.Elements("MapPointComment")
-            .Select(comment => comment.Value)
-            .ToList();
-        MapCoordinates = root.Elements("MapCoordinates")
-            .Select(coordinates => new MapCoordinates(coordinates))
-            .ToList();
+        MapPointComment = [.. root.Elements("MapPointComment").Select(e => e.Value)];
+        MapCoordinates = [.. root.Elements("MapCoordinates").Select(e => new MapCoordinates(e))];
         Value = root.Value;
     }
-
+    
     public override string ToString()
     {
         return new XElement("MapPoint",
@@ -1704,15 +1541,9 @@ public class TransportOtherInstructions
 
     public TransportOtherInstructions(XElement root)
     {
-        TransportInstructionType = root.Attribute("TransportInstructionType") is XAttribute transportInstructionType
-            ? Enum.Parse<TransportInstructionType>(transportInstructionType.Value)
-            : TransportInstructionType;
-        TransportInstructionCode = root.Element("TransportInstructionCode") is XElement transportInstructionCode
-            ? new TransportInstructionCode(transportInstructionCode)
-            : TransportInstructionCode;
-        TransportInstructionText = root.Elements("TransportInstructionText")
-            .Select(text => text.Value)
-            .ToList();
+        TransportInstructionType = root.Attribute("TransportInstructionType") is { Value: var tit } ? Enum.Parse<TransportInstructionType>(tit) : TransportInstructionType;
+        TransportInstructionCode = root.Element("TransportInstructionCode") is { } tic ? new(tic) : TransportInstructionCode;
+        TransportInstructionText = [.. root.Elements("TransportInstructionText").Select(e => e.Value)];
         Value = root.Value;
     }
 
@@ -1749,21 +1580,11 @@ public class TransportUnloadingCharacteristics
 
     public TransportUnloadingCharacteristics(XElement root)
     {
-        TransportUnloadingType = root.Attribute("TransportUnloadingType") is XAttribute transportUnloadingType
-            ? Enum.Parse<TransportUnloadingType>(transportUnloadingType.Value)
-            : TransportUnloadingType;
-        DirectUnloading = root.Attribute("DirectUnloading") is XAttribute directUnloading
-            ? Enum.Parse<DirectUnloading>(directUnloading.Value)
-            : DirectUnloading;
-        TransportUnloadingCode = root.Element("TransportUnloadingCode") is XElement transportUnloadingCode
-            ? new TransportUnloadingCode(transportUnloadingCode)
-            : TransportUnloadingCode;
-        TransportUnloadingCodeDescription = root.Element("TransportUnloadingCodeDescription") is XElement transportUnloadingCodeDescription
-            ? new TransportUnloadingCodeDescription(transportUnloadingCodeDescription)
-            : TransportUnloadingCodeDescription;
-        TransportUnloadingText = root.Elements("TransportUnloadingText")
-            .Select(text => text.Value)
-            .ToList();
+        TransportUnloadingType = root.Attribute("TransportUnloadingType") is { Value: var tut } ? Enum.Parse<TransportUnloadingType>(tut) : TransportUnloadingType;
+        DirectUnloading = root.Attribute("DirectUnloading") is { Value: var du } ? Enum.Parse<DirectUnloading>(du) : DirectUnloading;
+        TransportUnloadingCode = root.Element("TransportUnloadingCode") is { } tuc ? new(tuc) : TransportUnloadingCode;
+        TransportUnloadingCodeDescription = root.Element("TransportUnloadingCodeDescription") is { } tucd ? new(tucd) : TransportUnloadingCodeDescription;
+        TransportUnloadingText = [.. root.Elements("TransportUnloadingText").Select(e => e.Value)];
         Value = root.Value;
     }
 
@@ -1822,9 +1643,7 @@ public class e_Attachment
     {
         AttachmentFileName = root.Element("AttachmentFileName")?.Value ?? AttachmentFileName;
         NumberOfAttachments = root.Element("NumberOfAttachments")?.Value ?? NumberOfAttachments;
-        URL = root.Element("URL") is XElement url
-            ? new URL(url)
-            : URL;
+        URL = root.Element("URL") is { } url ? new(url) : URL;
         Value = root.Value;
     }
 
@@ -1887,30 +1706,16 @@ public class TransportUnitCharacteristics
 
     public TransportUnitCharacteristics(XElement root)
     {
-        TransportUnitType = root.Attribute("TransportUnitType") is XAttribute transportUnitType
-            ? Enum.Parse<TransportUnitType>(transportUnitType.Value)
-            : TransportUnitType;
-        TransportUnitVariable = root.Attribute("TransportUnitVariable") is XAttribute transportUnitVariable
-            ? Enum.Parse<TransportUnitVariable>(transportUnitVariable.Value)
-            : TransportUnitVariable;
+        TransportUnitType = root.Attribute("TransportUnitType") is { Value: var tut } ? Enum.Parse<TransportUnitType>(tut) : TransportUnitType;
+        TransportUnitVariable = root.Attribute("TransportUnitVariable") is { Value: var tuv } ? Enum.Parse<TransportUnitVariable>(tuv) : TransportUnitVariable;
         TransportUnitLevel = root.Attribute("TransportUnitLevel")?.Value ?? TransportUnitLevel;
-        TransportUnitCode = root.Element("TransportUnitCode") is XElement transportUnitCode
-            ? new TransportUnitCode(transportUnitCode)
-            : TransportUnitCode;
-        TransportUnitMeasurements = root.Element("TransportUnitMeasurements") is XElement transportUnitMeasurements
-            ? new TransportUnitMeasurements(transportUnitMeasurements)
-            : TransportUnitMeasurements;
-        TransportUnitEquipment = root.Elements("TransportUnitEquipment")
-            .Select(equipment => new TransportUnitEquipment(equipment))
-            .ToList();
+        TransportUnitCode = root.Element("TransportUnitCode") is { } tuc ? new(tuc) : TransportUnitCode;
+        TransportUnitMeasurements = root.Element("TransportUnitMeasurements") is { } tum ? new(tum) : TransportUnitMeasurements;
+        TransportUnitEquipment = [.. root.Elements("TransportUnitEquipment").Select(e => new TransportUnitEquipment(e))];
         TransportUnitCount = root.Element("TransportUnitCount")?.Value ?? TransportUnitCount;
-        TransportUnitIdentifier = root.Elements("TransportUnitIdentifier")
-            .Select(identifier => new TransportUnitIdentifier(identifier))
-            .ToList();
+        TransportUnitIdentifier = [.. root.Elements("TransportUnitIdentifier").Select(e => new TransportUnitIdentifier(e))];
         TransportUnitText = root.Element("TransportUnitText")?.Value ?? TransportUnitText;
-        TransportUnitDetail = root.Element("TransportUnitDetail") is XElement transportUnitDetail
-            ? new TransportUnitDetail(transportUnitDetail)
-            : TransportUnitDetail;
+        TransportUnitDetail = root.Element("TransportUnitDetail") is { } tud ? new(tud) : TransportUnitDetail;
     }
 
     public override string ToString()
@@ -1941,18 +1746,10 @@ public class TransportUnitDetail
 
     public TransportUnitDetail(XElement root)
     {
-        TransportUnitDetailType = root.Attribute("TransportUnitDetailType") is XAttribute transportUnitDetailType
-            ? Enum.Parse<TransportUnitDetailType>(transportUnitDetailType.Value)
-            : TransportUnitDetailType;
-        LoadOpeningSide = root.Attribute("LoadOpeningSide") is XAttribute loadOpeningSide
-            ? Enum.Parse<LoadOpeningSide>(loadOpeningSide.Value)
-            : LoadOpeningSide;
-        TransportUnitDetailCode = root.Element("TransportUnitDetailCode") is XElement transportUnitDetailCode
-            ? new TransportUnitDetailCode(transportUnitDetailCode)
-            : TransportUnitDetailCode;
-        AdditionalText = root.Elements("AdditionalText")
-            .Select(text => text.Value)
-            .ToList();
+        TransportUnitDetailType = root.Attribute("TransportUnitDetailType") is { Value: var tudt } ? Enum.Parse<TransportUnitDetailType>(tudt) : TransportUnitDetailType;
+        LoadOpeningSide = root.Attribute("LoadOpeningSide") is { Value: var los } ? Enum.Parse<LoadOpeningSide>(los) : LoadOpeningSide;
+        TransportUnitDetailCode = root.Element("TransportUnitDetailCode") is { } tudc ? new(tudc) : TransportUnitDetailCode;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
     }
 
     public override string ToString()
@@ -1986,13 +1783,9 @@ public class TransportUnitIdentifier
 
     public TransportUnitIdentifier(XElement root)
     {
-        TransportUnitIdentifierType = root.Attribute("TransportUnitIdentifierType") is XAttribute transportUnitIdentifierType
-            ? Enum.Parse<TransportUnitIdentifierType>(transportUnitIdentifierType.Value)
-            : TransportUnitIdentifierType;
+        TransportUnitIdentifierType = root.Attribute("TransportUnitIdentifierType") is { Value: var tuit } ? Enum.Parse<TransportUnitIdentifierType>(tuit) : TransportUnitIdentifierType;
         StateOrProvince = root.Attribute("StateOrProvince")?.Value ?? StateOrProvince;
-        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
-            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
-            : ISOCountryCode;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is { Value: var isocc } ? Enum.Parse<ISOCountryCode>(isocc) : ISOCountryCode;
         Value = root.Value;
     }
 
@@ -2016,12 +1809,8 @@ public class TransportUnitEquipment
 
     public TransportUnitEquipment(XElement root)
     {
-        TransportUnitEquipmentCode = root.Element("TransportUnitEquipmentCode") is XElement transportUnitEquipmentCode
-            ? new TransportUnitEquipmentCode(transportUnitEquipmentCode)
-            : TransportUnitEquipmentCode;
-        TransportUnitEquipmentDescription = root.Elements("TransportUnitEquipmentDescription")
-            .Select(description => new TransportUnitEquipmentDescription(description))
-            .ToList();
+        TransportUnitEquipmentCode = root.Element("TransportUnitEquipmentCode") is { } tuec ? new(tuec) : TransportUnitEquipmentCode;
+        TransportUnitEquipmentDescription = [.. root.Elements("TransportUnitEquipmentDescription").Select(e => new TransportUnitEquipmentDescription(e))];
     }
 
     public override string ToString()
@@ -2042,9 +1831,7 @@ public class TransportUnitEquipmentDescription
 
     public TransportUnitEquipmentDescription(XElement root)
     {
-        Language = root.Attribute("Language") is XAttribute language
-            ? Enum.Parse<Language>(language.Value)
-            : Language;
+        Language = root.Attribute("Language") is { Value: var l } ? Enum.Parse<Language>(l) : Language;
         Value = root.Value;
     }
 
@@ -2078,21 +1865,11 @@ public class TransportUnitMeasurements
 
     public TransportUnitMeasurements(XElement root)
     {
-        AppliesTo = root.Attribute("AppliesTo") is XAttribute appliesTo
-            ? Enum.Parse<AppliesTo>(appliesTo.Value)
-            : AppliesTo;
-        TransportUnitLength = root.Element("TransportUnitLength") is XElement transportUnitLength
-            ? new TransportUnitLength(transportUnitLength)
-            : TransportUnitLength;
-        TransportUnitWidth = root.Element("TransportUnitWidth") is XElement transportUnitWidth
-            ? new TransportUnitWidth(transportUnitWidth)
-            : TransportUnitWidth;
-        TransportUnitHeight = root.Element("TransportUnitHeight") is XElement transportUnitHeight
-            ? new TransportUnitHeight(transportUnitHeight)
-            : TransportUnitHeight;
-        TransportUnitWeight = root.Element("TransportUnitWeight") is XElement transportUnitWeight
-            ? new TransportUnitWeight(transportUnitWeight)
-            : TransportUnitWeight;
+        AppliesTo = root.Attribute("AppliesTo") is { Value: var at } ? Enum.Parse<AppliesTo>(at) : AppliesTo;
+        TransportUnitLength = root.Element("TransportUnitLength") is { } length ? new(length) : TransportUnitLength;
+        TransportUnitWidth = root.Element("TransportUnitWidth") is { } width ? new(width) : TransportUnitWidth;
+        TransportUnitHeight = root.Element("TransportUnitHeight") is { } height ? new(height) : TransportUnitHeight;
+        TransportUnitWeight = root.Element("TransportUnitWeight") is { } weight ? new(weight) : TransportUnitWeight;
     }
 
     public override string ToString()
@@ -2166,22 +1943,12 @@ public class TransportVehicleCharacteristics
 
     public TransportVehicleCharacteristics(XElement root)
     {
-        TransportVehicleType = root.Attribute("TransportVehicleType") is XAttribute transportVehicleType
-            ? Enum.Parse<TransportVehicleType>(transportVehicleType.Value)
-            : TransportVehicleType;
-        TransportVehicleCode = root.Element("TransportVehicleCode") is XElement transportVehicleCode
-            ? new TransportVehicleCode(transportVehicleCode)
-            : TransportVehicleCode;
-        TransportVehicleMeasurements = root.Element("TransportVehicleMeasurements") is XElement transportVehicleMeasurements
-            ? new TransportVehicleMeasurements(transportVehicleMeasurements)
-            : TransportVehicleMeasurements;
-        TransportVehicleEquipment = root.Elements("TransportVehicleEquipment")
-            .Select(equipment => new TransportVehicleEquipment(equipment))
-            .ToList();
+        TransportVehicleType = root.Attribute("TransportVehicleType") is { Value: var tvt } ? Enum.Parse<TransportVehicleType>(tvt) : TransportVehicleType;
+        TransportVehicleCode = root.Element("TransportVehicleCode") is { } tvc ? new(tvc) : TransportVehicleCode;
+        TransportVehicleMeasurements = root.Element("TransportVehicleMeasurements") is { } tvm ? new(tvm) : TransportVehicleMeasurements;
+        TransportVehicleEquipment = [.. root.Elements("TransportVehicleEquipment").Select(e => new TransportVehicleEquipment(e))];
         TransportVehicleCount = root.Element("TransportVehicleCount")?.Value ?? TransportVehicleCount;
-        TransportVehicleIdentifier = root.Element("TransportVehicleIdentifier") is XElement transportVehicleIdentifier
-            ? new TransportVehicleIdentifier(transportVehicleIdentifier)
-            : TransportVehicleIdentifier;
+        TransportVehicleIdentifier = root.Element("TransportVehicleIdentifier") is { } tvi ? new(tvi) : TransportVehicleIdentifier;
         TransportVehicleText = root.Element("TransportVehicleText")?.Value ?? TransportVehicleText;
     }
 
@@ -2210,15 +1977,9 @@ public class TransportVehicleIdentifier
 
     public TransportVehicleIdentifier(XElement root)
     {
-        TransportVehicleIdentifierType = root.Attribute("TransportVehicleIdentifierType") is XAttribute transportVehicleIdentifierType
-            ? Enum.Parse<TransportVehicleIdentifierType>(transportVehicleIdentifierType.Value)
-            : TransportVehicleIdentifierType;
-        StateOrProvince = root.Attribute("StateOrProvince") is XAttribute stateOrProvince
-            ? stateOrProvince.Value
-            : StateOrProvince;
-        ISOCountryCode = root.Attribute("ISOCountryCode") is XAttribute isoCountryCode
-            ? Enum.Parse<ISOCountryCode>(isoCountryCode.Value)
-            : ISOCountryCode;
+        TransportVehicleIdentifierType = root.Attribute("TransportVehicleIdentifierType") is { Value: var tvit } ? Enum.Parse<TransportVehicleIdentifierType>(tvit) : TransportVehicleIdentifierType;
+        StateOrProvince = root.Attribute("StateOrProvince")?.Value ?? StateOrProvince;
+        ISOCountryCode = root.Attribute("ISOCountryCode") is { Value: var isocc } ? Enum.Parse<ISOCountryCode>(isocc) : ISOCountryCode;
         Value = root.Value;
     }
 
@@ -2242,12 +2003,8 @@ public class TransportVehicleEquipment
 
     public TransportVehicleEquipment(XElement root)
     {
-        TransportVehicleEquipmentCode = root.Element("TransportVehicleEquipmentCode") is XElement transportVehicleEquipmentCode
-            ? new TransportVehicleEquipmentCode(transportVehicleEquipmentCode)
-            : TransportVehicleEquipmentCode;
-        TransportVehicleEquipmentDescription = root.Elements("TransportVehicleEquipmentDescription")
-            .Select(description => new TransportVehicleEquipmentDescription(description))
-            .ToList();
+        TransportVehicleEquipmentCode = root.Element("TransportVehicleEquipmentCode") is { } tvec ? new(tvec) : TransportVehicleEquipmentCode;
+        TransportVehicleEquipmentDescription = [.. root.Elements("TransportVehicleEquipmentDescription").Select(e => new TransportVehicleEquipmentDescription(e))];
     }
 
     public override string ToString()
@@ -2268,9 +2025,7 @@ public class TransportVehicleEquipmentDescription
 
     public TransportVehicleEquipmentDescription(XElement root)
     {
-        Language = root.Attribute("Language") is XAttribute language
-            ? Enum.Parse<Language>(language.Value)
-            : Language;
+        Language = root.Attribute("Language") is { Value: var l } ? Enum.Parse<Language>(l) : Language;
         Value = root.Value;
     }
 
@@ -2303,18 +2058,10 @@ public class TransportVehicleMeasurements
 
     public TransportVehicleMeasurements(XElement root)
     {
-        TransportVehicleLength = root.Element("TransportVehicleLength") is XElement transportVehicleLength
-            ? new TransportVehicleLength(transportVehicleLength)
-            : TransportVehicleLength;
-        TransportVehicleWidth = root.Element("TransportVehicleWidth") is XElement transportVehicleWidth
-            ? new TransportVehicleWidth(transportVehicleWidth)
-            : TransportVehicleWidth;
-        TransportVehicleHeight = root.Element("TransportVehicleHeight") is XElement transportVehicleHeight
-            ? new TransportVehicleHeight(transportVehicleHeight)
-            : TransportVehicleHeight;
-        TransportVehicleWeight = root.Element("TransportVehicleWeight") is XElement transportVehicleWeight
-            ? new TransportVehicleWeight(transportVehicleWeight)
-            : TransportVehicleWeight;
+        TransportVehicleLength = root.Element("TransportVehicleLength") is { } length ? new(length) : TransportVehicleLength;
+        TransportVehicleWidth = root.Element("TransportVehicleWidth") is { } width ? new(width) : TransportVehicleWidth;
+        TransportVehicleHeight = root.Element("TransportVehicleHeight") is { } height ? new(height) : TransportVehicleHeight;
+        TransportVehicleWeight = root.Element("TransportVehicleWeight") is { } weight ? new(weight) : TransportVehicleWeight;
     }
 
     public override string ToString()
@@ -2383,12 +2130,8 @@ public class TransportModeCharacteristics
 
     public TransportModeCharacteristics(XElement root)
     {
-        TransportModeType = root.Attribute("TransportModeType") is XAttribute transportModeType
-            ? Enum.Parse<TransportModeType>(transportModeType.Value)
-            : TransportModeType;
-        TransportModeCode = root.Element("TransportModeCode") is XElement transportModeCode
-            ? new TransportModeCode(transportModeCode)
-            : TransportModeCode;
+        TransportModeType = root.Attribute("TransportModeType") is { Value: var tmt } ? Enum.Parse<TransportModeType>(tmt) : TransportModeType;
+        TransportModeCode = root.Element("TransportModeCode") is { } tmc ? new(tmc) : TransportModeCode;
         TransportModeText = root.Element("TransportModeText")?.Value ?? TransportModeText;
     }
 
@@ -2425,27 +2168,13 @@ public class DeliveryOrigin
 
     public DeliveryOrigin(XElement root)
     {
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
-        Time = root.Element("Time") is XElement time
-            ? new Time(time)
-            : Time;
-        LocationParty = root.Element("LocationParty") is XElement locationParty
-            ? new Party(locationParty)
-            : LocationParty;
-        SupplyPoint = root.Element("SupplyPoint") is XElement supplyPoint
-            ? new SupplyPoint(supplyPoint)
-            : SupplyPoint;
-        LocationCode = root.Element("LocationCode") is XElement locationCode
-            ? new LocationCode(locationCode)
-            : LocationCode;
-        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
-            ? new GPSCoordinates(gpsCoordinates)
-            : GPSCoordinates;
-        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
-            ? new MapCoordinates(mapCoordinates)
-            : MapCoordinates;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
+        LocationParty = root.Element("LocationParty") is { } lp ? new(lp) : LocationParty;
+        SupplyPoint = root.Element("SupplyPoint") is { } sp ? new(sp) : SupplyPoint;
+        LocationCode = root.Element("LocationCode") is { } lc ? new(lc) : LocationCode;
+        GPSCoordinates = root.Element("GPSCoordinates") is { } gpsc ? new(gpsc) : GPSCoordinates;
+        MapCoordinates = root.Element("MapCoordinates") is { } mc ? new(mc) : MapCoordinates;
     }
 
     public override string ToString()
@@ -2471,18 +2200,10 @@ public class SupplyPoint
 
     public SupplyPoint(XElement root)
     {
-        LocationType = root.Attribute("LocationType") is XAttribute locationType
-            ? Enum.Parse<LocationType>(locationType.Value)
-            : LocationType;
-        SupplyPointCode = root.Element("SupplyPointCode") is XElement supplyPointCode
-            ? new SupplyPointCode(supplyPointCode)
-            : SupplyPointCode;
-        SupplyPointDescription = root.Elements("SupplyPointDescription")
-            .Select(description => description.Value)
-            .ToList();
-        MapCoordinates = root.Elements("MapCoordinates")
-            .Select(coordinates => new MapCoordinates(coordinates))
-            .ToList();
+        LocationType = root.Attribute("LocationType") is { Value: var lt } ? Enum.Parse<LocationType>(lt) : LocationType;
+        SupplyPointCode = root.Element("SupplyPointCode") is { } spc ? new(spc) : SupplyPointCode;
+        SupplyPointDescription = [.. root.Elements("SupplyPointDescription").Select(e => e.Value)];
+        MapCoordinates = [.. root.Elements("MapCoordinates").Select(e => new MapCoordinates(e))];
     }
 
     public override string ToString()
@@ -2520,30 +2241,14 @@ public class PriceDetails
 
     public PriceDetails(XElement root)
     {
-        PriceQuantityBasis = root.Attribute("PriceQuantityBasis") is XAttribute priceQuantityBasis
-            ? Enum.Parse<PriceQuantityBasis>(priceQuantityBasis.Value)
-            : PriceQuantityBasis;
-        PriceTaxBasis = root.Attribute("PriceTaxBasis") is XAttribute priceTaxBasis
-            ? Enum.Parse<PriceTaxBasis>(priceTaxBasis.Value)
-            : PriceTaxBasis;
-        PricePerUnit = root.Element("PricePerUnit") is XElement pricePerUnit
-            ? new PricePerUnit(pricePerUnit)
-            : PricePerUnit;
-        InformationalPricePerUnit = root.Elements("InformationalPricePerUnit")
-            .Select(unit => new InformationalPricePerUnit(unit))
-            .ToList();
-        AdditionalText = root.Elements("AdditionalText")
-            .Select(text => text.Value)
-            .ToList();
-        ExchangeRate = root.Element("ExchangeRate") is XElement exchangeRate
-            ? new ExchangeRate(exchangeRate)
-            : ExchangeRate;
-        MonetaryAdjustment = root.Element("MonetaryAdjustment") is XElement monetaryAdjustment
-            ? new MonetaryAdjustment(monetaryAdjustment)
-            : MonetaryAdjustment;
-        GeneralLedgerAccount = root.Element("GeneralLedgerAccount") is XElement generalLedgerAccount
-            ? new GeneralLedgerAccount(generalLedgerAccount)
-            : GeneralLedgerAccount;
+        PriceQuantityBasis = root.Attribute("PriceQuantityBasis") is { Value: var pqb } ? Enum.Parse<PriceQuantityBasis>(pqb) : PriceQuantityBasis;
+        PriceTaxBasis = root.Attribute("PriceTaxBasis") is { Value: var ptb } ? Enum.Parse<PriceTaxBasis>(ptb) : PriceTaxBasis;
+        PricePerUnit = root.Element("PricePerUnit") is { } ppu ? new(ppu) : PricePerUnit;
+        InformationalPricePerUnit = [.. root.Elements("InformationalPricePerUnit").Select(e => new InformationalPricePerUnit(e))];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        ExchangeRate = root.Element("ExchangeRate") is { } er ? new(er) : ExchangeRate;
+        MonetaryAdjustment = root.Element("MonetaryAdjustment") is { } ma ? new(ma) : MonetaryAdjustment;
+        GeneralLedgerAccount = root.Element("GeneralLedgerAccount") is { } gla ? new(gla) : GeneralLedgerAccount;
     }
 
     public override string ToString()
@@ -2581,36 +2286,18 @@ public class MonetaryAdjustment
 
     public MonetaryAdjustment(XElement root)
     {
-        AdjustmentType = root.Attribute("AdjustmentType") is XAttribute adjustmentType
-            ? Enum.Parse<AdjustmentType_Financial>(adjustmentType.Value)
-            : AdjustmentType;
+        AdjustmentType = root.Attribute("AdjustmentType") is { Value: var at } ? Enum.Parse<AdjustmentType_Financial>(at) : AdjustmentType;
         MonetaryAdjustmentLine = root.Element("MonetaryAdjustmentLine")?.Value ?? MonetaryAdjustmentLine;
-        MonetaryAdjustmentStartAmount = root.Element("MonetaryAdjustmentStartAmount") is XElement monetaryAdjustmentStartAmount
-            ? new MonetaryAdjustmentStartAmount(monetaryAdjustmentStartAmount)
-            : MonetaryAdjustmentStartAmount;
-        MonetaryAdjustmentStartQuantity = root.Element("MonetaryAdjustmentStartQuantity") is XElement monetaryAdjustmentStartQuantity
-            ? new MonetaryAdjustmentStartQuantity(monetaryAdjustmentStartQuantity)
-            : MonetaryAdjustmentStartQuantity;
-        PriceAdjustment = root.Element("PriceAdjustment") is XElement priceAdjustment
-            ? new PriceAdjustment(priceAdjustment)
-            : PriceAdjustment;
-        FlatAmountAdjustment = root.Element("FlatAmountAdjustment") is XElement flatAmountAdjustment
-            ? new FlatAmountAdjustment(flatAmountAdjustment)
-            : FlatAmountAdjustment;
-        TaxAdjustment = root.Element("TaxAdjustment") is XElement taxAdjustment
-            ? new TaxAdjustment(taxAdjustment)
-            : TaxAdjustment;
-        InformationalAmount = root.Element("InformationalAmount") is XElement informationalAmount
-            ? new InformationalAmount(informationalAmount)
-            : InformationalAmount;
+        MonetaryAdjustmentStartAmount = root.Element("MonetaryAdjustmentStartAmount") is { } masa ? new(masa) : MonetaryAdjustmentStartAmount;
+        MonetaryAdjustmentStartQuantity = root.Element("MonetaryAdjustmentStartQuantity") is { } masq ? new(masq) : MonetaryAdjustmentStartQuantity;
+        PriceAdjustment = root.Element("PriceAdjustment") is { } pa ? new(pa) : PriceAdjustment;
+        FlatAmountAdjustment = root.Element("FlatAmountAdjustment") is { } faa ? new(faa) : FlatAmountAdjustment;
+        TaxAdjustment = root.Element("TaxAdjustment") is { } ta ? new(ta) : TaxAdjustment;
+        InformationalAmount = root.Element("InformationalAmount") is { } ia ? new(ia) : InformationalAmount;
         MonetaryAdjustmentReferenceLine = root.Element("MonetaryAdjustmentReferenceLine")?.Value ?? MonetaryAdjustmentReferenceLine;
-        AdditionalText = root.Elements("AdditionalText").Select(text => text.Value).ToList();
-        GeneralLedgerAccount = root.Element("GeneralLedgerAccount") is XElement generalLedgerAccount
-            ? new GeneralLedgerAccount(generalLedgerAccount)
-            : GeneralLedgerAccount;
-        MonetaryAdjustmentAmount = root.Element("MonetaryAdjustmentAmount") is XElement monetaryAdjustmentAmount
-            ? new MonetaryAdjustmentAmount(monetaryAdjustmentAmount)
-            : MonetaryAdjustmentAmount;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        GeneralLedgerAccount = root.Element("GeneralLedgerAccount") is { } gla ? new(gla) : GeneralLedgerAccount;
+        MonetaryAdjustmentAmount = root.Element("MonetaryAdjustmentAmount") is { } maa ? new(maa) : MonetaryAdjustmentAmount;
         AdjustmentTypeReason = root.Element("AdjustmentTypeReason")?.Value ?? AdjustmentTypeReason;
     }
 
@@ -2625,9 +2312,7 @@ public class MonetaryAdjustment
             FlatAmountAdjustment != null ? XElement.Parse($"{FlatAmountAdjustment}") : null,
             TaxAdjustment != null ? XElement.Parse($"{TaxAdjustment}") : null,
             InformationalAmount != null ? XElement.Parse($"{InformationalAmount}") : null,
-            MonetaryAdjustmentReferenceLine != null 
-                ? new XElement("MonetaryAdjustmentReferenceLine", MonetaryAdjustmentReferenceLine)
-                : null,
+            MonetaryAdjustmentReferenceLine != null ? new XElement("MonetaryAdjustmentReferenceLine", MonetaryAdjustmentReferenceLine) : null,
             AdditionalText.Select(text => new XElement("AdditionalText", text)),
             GeneralLedgerAccount != null ? XElement.Parse($"{GeneralLedgerAccount}") : null,
             MonetaryAdjustmentAmount != null ? XElement.Parse($"{MonetaryAdjustmentAmount}") : null,
@@ -2644,9 +2329,7 @@ public class MonetaryAdjustmentAmount
 
     public MonetaryAdjustmentAmount(XElement root)
     {
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(currencyValue)
-            : CurrencyValue;
+        CurrencyValue = root.Element("CurrencyValue") is { } cv ? new(cv) : CurrencyValue;
     }
 
     public override string ToString()
@@ -2679,20 +2362,12 @@ public class TaxAdjustment
 
     public TaxAdjustment(XElement root)
     {
-        TaxCategoryType = root.Attribute("TaxCategoryType") is XAttribute taxCategoryType
-            ? Enum.Parse<TaxCategoryType>(taxCategoryType.Value)
-            : TaxCategoryType;
-        TaxType = root.Attribute("TaxType") is XAttribute taxType
-            ? Enum.Parse<TaxType>(taxType.Value)
-            : TaxType;
+        TaxCategoryType = root.Attribute("TaxCategoryType") is { Value: var tct } ? Enum.Parse<TaxCategoryType>(tct) : TaxCategoryType;
+        TaxType = root.Attribute("TaxType") is { Value: var tt } ? Enum.Parse<TaxType>(tt) : TaxType;
         TaxPercent = root.Element("TaxPercent")?.Value ?? TaxPercent;
-        TaxAmount = root.Element("TaxAmount") is XElement taxAmount
-            ? new TaxAmount(taxAmount)
-            : TaxAmount;
+        TaxAmount = root.Element("TaxAmount") is { } ta ? new(ta) : TaxAmount;
         TaxLocation = root.Element("TaxLocation")?.Value ?? TaxLocation;
-        InformationalAmount = root.Elements("InformationalAmount")
-            .Select(amount => new InformationalAmount(amount))
-            .ToList();
+        InformationalAmount = [.. root.Elements("InformationalAmount").Select(e => new InformationalAmount(e))];
     }
 
     public override string ToString()
@@ -2719,17 +2394,10 @@ public class InformationalAmount
 
     public InformationalAmount(XElement root)
     {
-        AmountType = root.Attribute("AmountType") is XAttribute amountType
-            ? Enum.Parse<AmountType>(amountType.Value)
-            : AmountType;
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(currencyValue)
-            : CurrencyValue;
-        ExchangeRate = root.Element("ExchangeRate") is XElement exchangeRate
-            ? new ExchangeRate(exchangeRate)
-            : ExchangeRate;
-        AdditionalText = root.Elements("AdditionalText").Select(text => text.Value)
-            .ToList();
+        AmountType = root.Attribute("AmountType") is { Value: var at } ? Enum.Parse<AmountType>(at) : AmountType;
+        CurrencyValue = root.Element("CurrencyValue") is { } cv ? new(cv) : CurrencyValue;
+        ExchangeRate = root.Element("ExchangeRate") is { } er ? new(er) : ExchangeRate;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
     }
 
     public override string ToString()
@@ -2751,9 +2419,7 @@ public class TaxAmount
 
     public TaxAmount(XElement root)
     {
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(currencyValue)
-            : CurrencyValue;
+        CurrencyValue = root.Element("CurrencyValue") is { } cv ? new(cv) : CurrencyValue;
     }
 
     public override string ToString()
@@ -2774,12 +2440,8 @@ public class FlatAmountAdjustment
 
     public FlatAmountAdjustment(XElement root)
     {
-        AdjustmentPercentage = root.Element("AdjustmentPercentage") is XElement adjustmentPercentage
-            ? new AdjustmentPercentage(adjustmentPercentage)
-            : AdjustmentPercentage;
-        AdjustmentFixedAmount = root.Element("AdjustmentFixedAmount") is XElement adjustmentFixedAmount
-            ? new AdjustmentFixedAmount(adjustmentFixedAmount)
-            : AdjustmentFixedAmount;
+        AdjustmentPercentage = root.Element("AdjustmentPercentage") is { } ap ? new(ap) : AdjustmentPercentage;
+        AdjustmentFixedAmount = root.Element("AdjustmentFixedAmount") is { } afa ? new(afa) : AdjustmentFixedAmount;
         Value = root.Value;
     }
 
@@ -2802,9 +2464,7 @@ public class AdjustmentFixedAmount
 
     public AdjustmentFixedAmount(XElement root)
     {
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(currencyValue)
-            : CurrencyValue;
+        CurrencyValue = root.Element("CurrencyValue") is { } cv ? new(cv) : CurrencyValue;
         Value = root.Value;
     }
 
@@ -2827,12 +2487,8 @@ public class PriceAdjustment
 
     public PriceAdjustment(XElement root)
     {
-        AdjustmentPercentage = root.Element("AdjustmentPercentage") is XElement adjustmentPercentage
-            ? new AdjustmentPercentage(adjustmentPercentage)
-            : AdjustmentPercentage;
-        AdjustmentValue = root.Element("AdjustmentValue") is XElement adjustmentValue
-            ? new AdjustmentValue(adjustmentValue)
-            : AdjustmentValue;
+        AdjustmentPercentage = root.Element("AdjustmentPercentage") is { } ap ? new(ap) : AdjustmentPercentage;
+        AdjustmentValue = root.Element("AdjustmentValue") is { } av ? new(av) : AdjustmentValue;
         Value = root.Value;
     }
 
@@ -2925,24 +2581,12 @@ public class ExchangeRate
 
     public ExchangeRate(XElement root)
     {
-        ExchangeRateType = root.Attribute("ExchangeRateType") is XAttribute exchangeRateType
-            ? Enum.Parse<ExchangeRateType>(exchangeRateType.Value)
-            : ExchangeRateType;
-        CurrencyFromType = root.Attribute("CurrencyFromType") is XAttribute currencyFromType
-            ? Enum.Parse<CurrencyFromType>(currencyFromType.Value)
-            : CurrencyFromType;
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(currencyValue)
-            : CurrencyValue;
-        MinCurrencyValue = root.Element("MinCurrencyValue") is XElement minCurrencyValue
-            ? new MinCurrencyValue(minCurrencyValue) 
-            : MinCurrencyValue;
-        MaxCurrencyValue = root.Element("MaxCurrencyValue") is XElement maxCurrencyValue
-            ? new MaxCurrencyValue(maxCurrencyValue) 
-            : MaxCurrencyValue;
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
+        ExchangeRateType = root.Attribute("ExchangeRateType") is { Value: var ert } ? Enum.Parse<ExchangeRateType>(ert) : ExchangeRateType;
+        CurrencyFromType = root.Attribute("CurrencyFromType") is { Value: var cft } ? Enum.Parse<CurrencyFromType>(cft) : CurrencyFromType;
+        CurrencyValue = root.Element("CurrencyValue") is { } ct ? new(ct) : CurrencyValue;
+        MinCurrencyValue = root.Element("MinCurrencyValue") is { } mincv ? new(mincv) : MinCurrencyValue;
+        MaxCurrencyValue = root.Element("MaxCurrencyValue") is { } maxcv ? new(maxcv) : MaxCurrencyValue;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
     }
 
     public override string ToString()
@@ -2957,39 +2601,42 @@ public class ExchangeRate
     }
 }
 
-public class MaxCurrencyValue : MinCurrencyValue
+public class MaxCurrencyValue : CurrencyValueBase
 {
     public MaxCurrencyValue() : base() { }
 
     public MaxCurrencyValue(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("MaxCurrencyValue",
-            CurrencyType != null ? new XAttribute("CurrencyType", CurrencyType) : null,
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "MaxCurrencyValue";
 }
 
-public class MinCurrencyValue
+public class MinCurrencyValue : CurrencyValueBase
+{
+    public MinCurrencyValue() : base() { }
+
+    public MinCurrencyValue(XElement root) : base(root) { }
+
+    public override string LocalName => "MinCurrencyValue";
+}
+
+public abstract class CurrencyValueBase
 {
     public CurrencyType? CurrencyType = null;
     public string Value = string.Empty;
 
-    public MinCurrencyValue() { }
+    public abstract string LocalName { get; }
 
-    public MinCurrencyValue(XElement root)
+    public CurrencyValueBase() { }
+
+    public CurrencyValueBase(XElement root)
     {
-        CurrencyType = root.Attribute("CurrencyType") is XAttribute currencyType
-            ? Enum.Parse<CurrencyType>(currencyType.Value) 
-            : CurrencyType;
+        CurrencyType = root.Attribute("CurrencyType") is { Value: var ct } ? Enum.Parse<CurrencyType>(ct) : CurrencyType;
         Value = root.Value;
     }
-
+    
     public override string ToString()
     {
-        return new XElement("MinCurrencyValue",
+        return new XElement(LocalName,
             CurrencyType != null ? new XAttribute("CurrencyType", CurrencyType) : null,
             Value
         ).ToString();
@@ -3102,52 +2749,16 @@ public class Quantity
 
     public Quantity() { }
 
-    public Quantity(
-        QuantityType quantityType, 
-        QuantityTypeContext? quantityTypeContext, 
-        AdjustmentType_Tare? adjustmentType, 
-        MeasuringAgency? measuringAgency, 
-        string? measuringMethod, 
-        Value value,
-        RangeMin? rangeMin, 
-        RangeMax? rangeMax)
-    {
-        QuantityType = quantityType;
-        QuantityTypeContext = quantityTypeContext;
-        AdjustmentType = adjustmentType;
-        MeasuringAgency = measuringAgency;
-        MeasuringMethod = measuringMethod;
-        Value = value;
-        RangeMin = rangeMin;
-        RangeMax = rangeMax;
-    }
-
     public Quantity(XElement root)
     {
-        QuantityType = root.Attribute("QuantityType") is XAttribute quantityType
-            ? Enum.Parse<QuantityType>(quantityType.Value)
-            : QuantityType;
-        QuantityTypeContext = root.Attribute("QuantityTypeContext") is XAttribute quantityTypeContext
-            ? Enum.Parse<QuantityTypeContext>(quantityTypeContext.Value)
-            : QuantityTypeContext;
-        AdjustmentType = root.Attribute("AdjustmentType") is XAttribute adjustmentType
-            ? Enum.Parse<AdjustmentType_Tare>(adjustmentType.Value)
-            : AdjustmentType;
-        MeasuringAgency = root.Attribute("MeasuringAgency") is XAttribute measuringAgency
-            ? Enum.Parse<MeasuringAgency>(measuringAgency.Value)
-            : MeasuringAgency;
-        MeasuringMethod = root.Attribute("MeasuringMethod") is XAttribute measuringMethod
-            ? measuringMethod.Value
-            : MeasuringMethod;
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
+        QuantityType = root.Attribute("QuantityType") is { Value: var qt } ? Enum.Parse<QuantityType>(qt) : QuantityType;
+        QuantityTypeContext = root.Attribute("QuantityTypeContext") is { Value: var qtc } ? Enum.Parse<QuantityTypeContext>(qtc) : QuantityTypeContext;
+        AdjustmentType = root.Attribute("AdjustmentType") is { Value: var at } ? Enum.Parse<AdjustmentType_Tare>(at) : AdjustmentType;
+        MeasuringAgency = root.Attribute("MeasuringAgency") is { Value: var ma } ? Enum.Parse<MeasuringAgency>(ma) : MeasuringAgency;
+        MeasuringMethod = root.Attribute("MeasuringMethod")?.Value ?? MeasuringMethod;
+        Value = root.Element("Value") is { } v ? new(v) : Value;
+        RangeMin = root.Element("RangeMin") is { } rmin ? new(rmin) : RangeMin;
+        RangeMax = root.Element("RangeMax") is { } rmax ? new(rmax) : RangeMax;
     }
 
     public override string ToString()
@@ -3174,8 +2785,8 @@ public class RangeMin : Value
     public override string ToString()
     {
         return new XElement("RangeMin",
-            new XAttribute("UOM", base.UOM),
-            base.Text
+            new XAttribute("UOM", UOM),
+            Text
         ).ToString();
     }
 }
@@ -3189,8 +2800,8 @@ public class RangeMax : Value
     public override string ToString()
     {
         return new XElement("RangeMax",
-            new XAttribute("UOM", base.UOM),
-            base.Text
+            new XAttribute("UOM", UOM),
+            Text
         ).ToString();
     }
 }
@@ -3202,17 +2813,9 @@ public class Value
 
     public Value() { }
 
-    public Value(UOM uOM, string text)
-    {
-        UOM = uOM;
-        Text = text;
-    }
-
     public Value(XElement root)
     {
-        UOM = root.Attribute("UOM") is XAttribute uom
-            ? Enum.Parse<UOM>(uom.Value)
-            : UOM;
+        UOM = root.Attribute("UOM") is { Value: var uom } ? Enum.Parse<UOM>(uom) : UOM;
         Text = root.Value;
     }
 
@@ -3236,28 +2839,14 @@ public class DeliveryDateWindow
 
     public DeliveryDateWindow() { }
 
-    public DeliveryDateWindow(DeliveryDateType deliveryDateType, DateTimeRange? dateTimeRange, string? month, string? week, Date date, Time? time)
-    {
-        DeliveryDateType = deliveryDateType;
-        DateTimeRange = dateTimeRange;
-        Month = month;
-        Week = week;
-        Date = date;
-        Time = time;
-    }
-
     public DeliveryDateWindow(XElement root)
     {
-        DeliveryDateType = root.Attribute("DeliveryDateType") is XAttribute deliveryDateType
-            ? Enum.Parse<DeliveryDateType>(deliveryDateType.Value)
-            : DeliveryDateType;
-        DateTimeRange = root.Element("DateTimeRange") is XElement dateTimeRange
-            ? new DateTimeRange(dateTimeRange)
-            : DateTimeRange;
-        Month = root.Element("Month")?.Value;
-        Week = root.Element("Week")?.Value;
-        Date = root.Element("Date") is XElement date ? new Date(date) : Date;
-        Time = root.Element("Time") is XElement time ? new Time(time) : Time;
+        DeliveryDateType = root.Attribute("DeliveryDateType") is { Value: var ddt } ? Enum.Parse<DeliveryDateType>(ddt) : DeliveryDateType;
+        DateTimeRange = root.Element("DateTimeRange") is { } dtr ? new(dtr) : DateTimeRange;
+        Month = root.Element("Month")?.Value ?? Month;
+        Week = root.Element("Week")?.Value ?? Week;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
     }
 
     public override string ToString()
@@ -3280,20 +2869,10 @@ public class DateTimeRange
 
     public DateTimeRange() { }
 
-    public DateTimeRange(DateTimeFrom dateTimeFrom, DateTimeTo dateTimeTo)
-    {
-        DateTimeFrom = dateTimeFrom;
-        DateTimeTo = dateTimeTo;
-    }
-
     public DateTimeRange(XElement root)
     {
-        DateTimeFrom = root.Element("DateTimeFrom") is XElement dateTimeFrom
-            ? new DateTimeFrom(dateTimeFrom)
-            : DateTimeFrom;
-        DateTimeTo = root.Element("DateTimeTo") is XElement dateTimeTo
-            ? new DateTimeTo(dateTimeTo)
-            : DateTimeTo;
+        DateTimeFrom = root.Element("DateTimeFrom") is { } dtf ? new(dtf) : DateTimeFrom;
+        DateTimeTo = root.Element("DateTimeTo") is { } dtt ? new(dtt) : DateTimeTo;
     }
 
     public override string ToString()
@@ -3312,20 +2891,10 @@ public class DateTimeTo
 
     public DateTimeTo() { }
 
-    public DateTimeTo(Date date, Time? time)
-    {
-        Date = date;
-        Time = time;
-    }
-
     public DateTimeTo(XElement root)
     {
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
-        Time = root.Element("Time") is XElement time
-            ? new Time(time)
-            : Time;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
     }
 
     public override string ToString()
@@ -3344,20 +2913,10 @@ public class DateTimeFrom
 
     public DateTimeFrom() { }
 
-    public DateTimeFrom(Date date, Time? time)
-    {
-        Date = date;
-        Time = time;
-    }
-
     public DateTimeFrom(XElement root)
     {
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
-        Time = root.Element("Time") is XElement time
-            ? new Time(time)
-            : Time;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
     }
 
     public override string ToString()
@@ -3376,20 +2935,10 @@ public class DeliveryStatus
 
     public DeliveryStatus() { }
 
-    public DeliveryStatus(DeliveryStatusType? deliveryStatusType, DeliveryLastDateOfChange? deliveryLastDateOfChange)
-    {
-        DeliveryStatusType = deliveryStatusType;
-        DeliveryLastDateOfChange = deliveryLastDateOfChange;
-    }
-
     public DeliveryStatus(XElement root)
     {
-        DeliveryStatusType = root.Attribute("DeliveryStatusType") is XAttribute deliveryStatusType
-            ? Enum.Parse<DeliveryStatusType>(deliveryStatusType.Value)
-            : DeliveryStatusType;
-        DeliveryLastDateOfChange = root.Element("DeliveryLastDateOfChange") is XElement deliveryLastDateOfChange
-            ? new DeliveryLastDateOfChange(deliveryLastDateOfChange)
-            : DeliveryLastDateOfChange;
+        DeliveryStatusType = root.Attribute("DeliveryStatusType") is { Value: var dst } ? Enum.Parse<DeliveryStatusType>(dst) : DeliveryStatusType;
+        DeliveryLastDateOfChange = root.Element("DeliveryLastDateOfChange") is { } dldoc ? new(dldoc) : DeliveryLastDateOfChange;
     }
 
     public override string ToString()
@@ -3408,20 +2957,10 @@ public class DeliveryLastDateOfChange
 
     public DeliveryLastDateOfChange() { }
 
-    public DeliveryLastDateOfChange(Date date, Time? time)
-    {
-        Date = date;
-        Time = time;
-    }
-
     public DeliveryLastDateOfChange(XElement root)
     {
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
-        Time = root.Element("Time") is XElement time
-            ? new Time(time)
-            : Time;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
     }
 
     public override string ToString()
@@ -3440,20 +2979,10 @@ public class ProductionStatus
 
     public ProductionStatus() { }
 
-    public ProductionStatus(ProductionStatusType productionStatusType, ProductionLastDateOfChange? productionLastDateOfChange)
-    {
-        ProductionStatusType = productionStatusType;
-        ProductionLastDateOfChange = productionLastDateOfChange;
-    }
-
     public ProductionStatus(XElement root)
     {
-        ProductionStatusType = root.Attribute("ProductionStatusType") is XAttribute productionStatusType
-            ? Enum.Parse<ProductionStatusType>(productionStatusType.Value)
-            : ProductionStatusType;
-        ProductionLastDateOfChange = root.Element("ProductionLastDateOfChange") is XElement productionLastDateOfChange
-            ? new ProductionLastDateOfChange(productionLastDateOfChange)
-            : ProductionLastDateOfChange;
+        ProductionStatusType = root.Attribute("ProductionStatusType") is { Value: var pst } ? Enum.Parse<ProductionStatusType>(pst) : ProductionStatusType;
+        ProductionLastDateOfChange = root.Element("ProductionLastDateOfChange") is { } pldoc ? new(pldoc) : ProductionLastDateOfChange;
     }
 
     public override string ToString()
@@ -3472,20 +3001,10 @@ public class ProductionLastDateOfChange
 
     public ProductionLastDateOfChange() { }
 
-    public ProductionLastDateOfChange(Date date, Time? time)
-    {
-        Date = date;
-        Time = time;
-    }
-
     public ProductionLastDateOfChange(XElement root)
     {
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
-        Time = root.Element("Time") is XElement time
-            ? new Time(time)
-            : Time;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
     }
 
     public override string ToString()
@@ -3506,28 +3025,12 @@ public class ShipToCharacteristics
 
     public ShipToCharacteristics() { }
 
-    public ShipToCharacteristics(Party shipToParty, LocationCode? locationCode, TermsOfDelivery? termsOfDelivery, DeliveryRouteCode? deliveryRouteCode)
-    {
-        ShipToParty = shipToParty;
-        LocationCode = locationCode;
-        TermsOfDelivery = termsOfDelivery;
-        DeliveryRouteCode = deliveryRouteCode;
-    }
-
     public ShipToCharacteristics(XElement root)
     {
-        ShipToParty = root.Element("ShipToParty") is XElement shipToParty
-            ? new Party(shipToParty)
-            : ShipToParty;
-        LocationCode = root.Element("LocationCode") is XElement locationCode
-            ? new LocationCode(locationCode)
-            : LocationCode;
-        TermsOfDelivery = root.Element("TermsOfDelivery") is XElement termsOfDelivery
-            ? new TermsOfDelivery(termsOfDelivery)
-            : TermsOfDelivery;
-        DeliveryRouteCode = root.Element("DeliveryRouteCode") is XElement deliveryRouteCode
-            ? new DeliveryRouteCode(deliveryRouteCode)
-            : DeliveryRouteCode;
+        ShipToParty = root.Element("ShipToParty") is { } stp ? new(stp) : ShipToParty;
+        LocationCode = root.Element("LocationCode") is { } lc ? new(lc) : LocationCode;
+        TermsOfDelivery = root.Element("TermsOfDelivery") is { } tod ? new(tod) : TermsOfDelivery;
+        DeliveryRouteCode = root.Element("DeliveryRouteCode") is { } drc ? new(drc) : DeliveryRouteCode;
     }
 
     public override string ToString()
@@ -3568,22 +3071,10 @@ public class TermsOfDelivery
 
     public TermsOfDelivery() { }
 
-    public TermsOfDelivery(IncotermsLocation? incotermsLocation, ShipmentMethodOfPayment? shipmentMethodOfPayment, string? freightPayableAt, string? additionalText)
-    {
-        IncotermsLocation = incotermsLocation;
-        ShipmentMethodOfPayment = shipmentMethodOfPayment;
-        FreightPayableAt = freightPayableAt;
-        AdditionalText = additionalText;
-    }
-
     public TermsOfDelivery(XElement root)
     {
-        IncotermsLocation = root.Element("IncotermsLocation") is XElement incotermsLocation
-            ? new IncotermsLocation(incotermsLocation)
-            : IncotermsLocation;
-        ShipmentMethodOfPayment = root.Element("ShipmentMethodOfPayment") is XElement shipmentMethodOfPayment
-            ? new ShipmentMethodOfPayment(shipmentMethodOfPayment)
-            : ShipmentMethodOfPayment;
+        IncotermsLocation = root.Element("IncotermsLocation") is { } il ? new(il) : IncotermsLocation;
+        ShipmentMethodOfPayment = root.Element("ShipmentMethodOfPayment") is { } smop ? new(smop) : ShipmentMethodOfPayment;
         FreightPayableAt = root.Element("FreightPayableAt")?.Value ?? FreightPayableAt;
         AdditionalText = root.Element("AdditionalText")?.Value ?? AdditionalText;
     }
@@ -3607,21 +3098,10 @@ public class ShipmentMethodOfPayment
 
     public ShipmentMethodOfPayment() { }
 
-    public ShipmentMethodOfPayment(LocationQualifier? locationQualifier, Method? method, string value)
-    {
-        LocationQualifier = locationQualifier;
-        Method = method;
-        Value = value;
-    }
-
     public ShipmentMethodOfPayment(XElement root)
     {
-        LocationQualifier = root.Attribute("LocationQualifier") is XAttribute locationQualifier
-            ? Enum.Parse<LocationQualifier>(locationQualifier.Value)
-            : LocationQualifier;
-        Method = root.Attribute("Method") is XAttribute method
-            ? Enum.Parse<Method>(method.Value)
-            : Method;
+        LocationQualifier = root.Attribute("LocationQualifier") is { Value: var lq } ? Enum.Parse<LocationQualifier>(lq) : LocationQualifier;
+        Method = root.Attribute("Method") is { Value: var m } ? Enum.Parse<Method>(m) : Method;
         Value = root.Value;
     }
 
@@ -3643,18 +3123,9 @@ public class IncotermsLocation
 
     public IncotermsLocation() { }
 
-    public IncotermsLocation(Incoterms incoterms, string? incotermsVersion, string value)
-    {
-        Incoterms = incoterms;
-        IncotermsVersion = incotermsVersion;
-        Value = value;
-    }
-
     public IncotermsLocation(XElement root)
     {
-        Incoterms = root.Attribute("Incoterms") is XAttribute incoterms
-            ? Enum.Parse<Incoterms>(incoterms.Value)
-            : Incoterms;
+        Incoterms = root.Attribute("Incoterms") is { Value: var i } ? Enum.Parse<Incoterms>(i) : Incoterms;
         IncotermsVersion = root.Attribute("IncotermsVersion")?.Value ?? IncotermsVersion;
         Value = root.Value;
     }
@@ -3681,35 +3152,15 @@ public class Party
 
     public Party() { }
 
-    public Party(string localName, LogisticsRole? logisticsRole, List<PartyIdentifier> partyIdentifier, NameAddress nameAddress, string? uRL, CommonContact? commonContact)
-    {
-        LocalName = localName;
-        LogisticsRole = logisticsRole;
-        PartyIdentifier = partyIdentifier;
-        NameAddress = nameAddress;
-        URL = uRL;
-        CommonContact = commonContact;
-    }
-
     public Party(XElement root)
     {
         LocalName = root.Name.LocalName;
-        PartyType = root.Attribute("PartyType") is XAttribute partyType
-            ? Enum.Parse<PartyType>(partyType.Value)
-            : PartyType;
-        LogisticsRole = root.Attribute("LogisticsRole") is XAttribute logisticsRole
-            ? Enum.Parse<LogisticsRole>(logisticsRole.Value)
-            : LogisticsRole;
-        PartyIdentifier = root.Elements("PartyIdentifier")
-            .Select(identifier => new PartyIdentifier(identifier))
-            .ToList();
-        NameAddress = root.Element("NameAddress") is XElement nameAddress
-            ? new NameAddress(nameAddress)
-            : NameAddress;
-        URL = root.Element("URL")?.Value;
-        CommonContact = root.Element("CommonContact") is XElement commonContact
-            ? new CommonContact(commonContact)
-            : CommonContact;
+        PartyType = root.Attribute("PartyType") is { Value: var pt } ? Enum.Parse<PartyType>(pt) : PartyType;
+        LogisticsRole = root.Attribute("LogisticsRole") is { Value: var lr } ? Enum.Parse<LogisticsRole>(lr) : LogisticsRole;
+        PartyIdentifier = [.. root.Elements("PartyIdentifier").Select(e => new PartyIdentifier(e))];
+        NameAddress = root.Element("NameAddress") is { } na ? new(na) : NameAddress;
+        URL = root.Element("URL")?.Value ?? URL;
+        CommonContact = root.Element("CommonContact") is { } cc ? new(cc) : CommonContact;
     }
 
     public override string ToString()
@@ -3729,55 +3180,27 @@ public class CommonContact
 {
     public ContactType ContactType = ContactType.Other;
     public string ContactName = string.Empty;
-    public string? ContactIdentifier;
-    public string? Telephone;
-    public string? MobilePhone;
-    public string? Email;
-    public string? Fax;
-    public GPSCoordinates? GPSCoordinates;
-    public MapCoordinates? MapCoordinates;
+    public string? ContactIdentifier = null;
+    public string? Telephone = null;
+    public string? MobilePhone = null;
+    public string? Email = null;
+    public string? Fax = null;
+    public GPSCoordinates? GPSCoordinates = null;
+    public MapCoordinates? MapCoordinates = null;
 
     public CommonContact() { }
 
-    public CommonContact(
-        ContactType contactType,
-        string contactName, 
-        string? contactIdentifier, 
-        string? telephone, 
-        string? mobilePhone, 
-        string? email, 
-        string? fax,
-        GPSCoordinates gpsCoordinates,
-        MapCoordinates mapCoordinates)
-    {
-        ContactType = contactType;
-        ContactName = contactName;
-        ContactIdentifier = contactIdentifier;
-        Telephone = telephone;
-        MobilePhone = mobilePhone;
-        Email = email;
-        Fax = fax;
-        GPSCoordinates = gpsCoordinates;
-        MapCoordinates = mapCoordinates;
-    }
-
     public CommonContact(XElement root)
     {
-        ContactType = root.Attribute("ContactType") is XAttribute contactType
-            ? Enum.Parse<ContactType>(contactType.Value)
-            : ContactType;
+        ContactType = root.Attribute("ContactType") is { Value: var ct } ? Enum.Parse<ContactType>(ct) : ContactType;
         ContactName = root.Element("ContactName")?.Value ?? ContactName;
-        ContactIdentifier = root.Element("ContactIdentifier")?.Value;
-        Telephone = root.Element("Telephone")?.Value;
-        MobilePhone = root.Element("MobilePhone")?.Value;
-        Email = root.Element("Email")?.Value;
-        Fax = root.Element("Fax")?.Value;
-        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
-            ? new GPSCoordinates(gpsCoordinates)
-            : null;
-        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
-            ? new MapCoordinates(mapCoordinates)
-            : null;
+        ContactIdentifier = root.Element("ContactIdentifier")?.Value ?? ContactIdentifier;
+        Telephone = root.Element("Telephone")?.Value ?? Telephone;
+        MobilePhone = root.Element("MobilePhone")?.Value ?? MobilePhone;
+        Email = root.Element("Email")?.Value ?? Email;
+        Fax = root.Element("Fax")?.Value ?? Fax;
+        GPSCoordinates = root.Element("GPSCoordinates") is { } gpsc ? new(gpsc) : GPSCoordinates;
+        MapCoordinates = root.Element("MapCoordinates") is { } mp ? new(mp) : MapCoordinates;
     }
 
     public override string ToString()
@@ -3798,29 +3221,17 @@ public class CommonContact
 
 public class MapCoordinates
 {
-    public MapReferenceSystem MapReferenceSystem;
-    public MapCoordinateType MapCoordinateType;
+    public MapReferenceSystem MapReferenceSystem = MapReferenceSystem.NTF;
+    public MapCoordinateType MapCoordinateType = MapCoordinateType.UTM;
     public string Coordinates = string.Empty;
-    public string? Altitude;
+    public string? Altitude = null;
 
     public MapCoordinates() { }
 
-    public MapCoordinates(MapReferenceSystem mapReferenceSystem, MapCoordinateType mapCoordinateType, string coordinates, string? altitude)
-    {
-        MapReferenceSystem = mapReferenceSystem;
-        MapCoordinateType = mapCoordinateType;
-        Coordinates = coordinates;
-        Altitude = altitude;
-    }
-
     public MapCoordinates(XElement root)
     {
-        MapReferenceSystem = root.Attribute("MapReferenceSystem") is XAttribute mapReferenceSystem
-            ? Enum.Parse<MapReferenceSystem>(mapReferenceSystem.Value)
-            : MapReferenceSystem;
-        MapCoordinateType = root.Attribute("MapCoordinateType") is XAttribute mapCoordinateType
-            ? Enum.Parse<MapCoordinateType>(mapCoordinateType.Value)
-            : MapCoordinateType;
+        MapReferenceSystem = root.Attribute("MapReferenceSystem") is { Value: var mrs } ? Enum.Parse<MapReferenceSystem>(mrs) : MapReferenceSystem;
+        MapCoordinateType = root.Attribute("MapCoordinateType") is { Value: var mct } ? Enum.Parse<MapCoordinateType>(mct) : MapCoordinateType;
         Coordinates = root.Element("Coordinates")?.Value ?? Coordinates;
         Altitude = root.Element("Altitude")?.Value ?? Altitude;
     }
@@ -3838,89 +3249,43 @@ public class MapCoordinates
 
 public class NameAddress
 {
-    public CommunicationRole? CommunicationRole;
+    public CommunicationRole? CommunicationRole = null;
     public string Name1 = string.Empty;
-    public string? Name2;
-    public string? Name3;
-    public string? OrganisationUnit;
-    public string? Address1;
-    public string? Address2;
-    public string? Address3;
-    public string? Address4;
-    public string? City;
-    public string? County;
-    public string? StateOrProvince;
-    public string? PostalCode;
-    public string? Country;
-    public string? ISOCountryCode;
-    public GPSCoordinates? GPSCoordinates;
-    public MapCoordinates? MapCoordinates;
+    public string? Name2 = null;
+    public string? Name3 = null;
+    public string? OrganisationUnit = null;
+    public string? Address1 = null;
+    public string? Address2 = null;
+    public string? Address3 = null;
+    public string? Address4 = null;
+    public string? City = null;
+    public string? County = null;
+    public string? StateOrProvince = null;
+    public string? PostalCode = null;
+    public Country? Country = null;
+    public GPSCoordinates? GPSCoordinates = null;
+    public MapCoordinates? MapCoordinates = null;
 
     public NameAddress() { }
 
-    public NameAddress(
-        CommunicationRole? communicationRole,
-        string name1,
-        string? name2,
-        string? name3,
-        string? organisationUnit,
-        string? address1,
-        string? address2,
-        string? address3,
-        string? address4,
-        string? city,
-        string? county,
-        string? stateOrProvince,
-        string? postalCode,
-        string? country,
-        string? iSOCountryCode,
-        GPSCoordinates? gpsCoordinates,
-        MapCoordinates? mapCoordinates)
-    {
-        CommunicationRole = communicationRole;
-        Name1 = name1;
-        Name2 = name2;
-        Name3 = name3;
-        OrganisationUnit = organisationUnit;
-        Address1 = address1;
-        Address2 = address2;
-        Address3 = address3;
-        Address4 = address4;
-        City = city;
-        County = county;
-        StateOrProvince = stateOrProvince;
-        PostalCode = postalCode;
-        Country = country;
-        ISOCountryCode = iSOCountryCode;
-        GPSCoordinates = gpsCoordinates;
-        MapCoordinates = mapCoordinates;
-    }
-
     public NameAddress(XElement root)
     {
-        CommunicationRole = root.Attribute("CommunicationRole") is XAttribute communicationRole
-            ? Enum.Parse<CommunicationRole>(communicationRole.Value)
-            : null;
+        CommunicationRole = root.Attribute("CommunicationRole") is { Value: var cr } ? Enum.Parse<CommunicationRole>(cr) : CommunicationRole;
         Name1 = root.Element("Name1")?.Value ?? Name1;
-        Name2 = root.Element("Name2")?.Value;
-        Name3 = root.Element("Name3")?.Value;
-        OrganisationUnit = root.Element("OrganisationUnit")?.Value;
-        Address1 = root.Element("Address1")?.Value;
-        Address2 = root.Element("Address2")?.Value;
-        Address3 = root.Element("Address3")?.Value;
-        Address4 = root.Element("Address4")?.Value;
-        City = root.Element("City")?.Value;
-        County = root.Element("County")?.Value;
-        StateOrProvince = root.Element("StateOrProvince")?.Value;
-        PostalCode = root.Element("PostalCode")?.Value;
-        Country = root.Element("Country")?.Value;
-        ISOCountryCode = root.Element("Country")?.Attribute("ISOCountryCode")?.Value;
-        GPSCoordinates = root.Element("GPSCoordinates") is XElement gpsCoordinates
-            ? new GPSCoordinates(gpsCoordinates)
-            : null;
-        MapCoordinates = root.Element("MapCoordinates") is XElement mapCoordinates
-            ? new MapCoordinates(mapCoordinates)
-            : null;
+        Name2 = root.Element("Name2")?.Value ?? Name2;
+        Name3 = root.Element("Name3")?.Value ?? Name3;
+        OrganisationUnit = root.Element("OrganisationUnit")?.Value ?? OrganisationUnit;
+        Address1 = root.Element("Address1")?.Value ?? Address1;
+        Address2 = root.Element("Address2")?.Value ?? Address2;
+        Address3 = root.Element("Address3")?.Value ?? Address3;
+        Address4 = root.Element("Address4")?.Value ?? Address4;
+        City = root.Element("City")?.Value ?? City;
+        County = root.Element("County")?.Value ?? County;
+        StateOrProvince = root.Element("StateOrProvince")?.Value ?? StateOrProvince;
+        PostalCode = root.Element("PostalCode")?.Value ?? PostalCode;
+        Country = root.Element("Country") is { } c ? new(c) : Country;
+        GPSCoordinates = root.Element("GPSCoordinates") is { } gpsc ? new(gpsc) : GPSCoordinates;
+        MapCoordinates = root.Element("MapCoordinates") is { } mc ? new(mc) : MapCoordinates;
     }
 
     public override string ToString()
@@ -3938,41 +3303,50 @@ public class NameAddress
             County != null ? new XElement("County", County) : null,
             StateOrProvince != null ? new XElement("StateOrProvince", StateOrProvince) : null,
             PostalCode != null ? new XElement("PostalCode", PostalCode) : null,
-            Country != null ? new XElement("Country",
-                    ISOCountryCode != null 
-                        ? new XAttribute("ISOCountryCode", ISOCountryCode) 
-                        : null, Country) : null,
+            Country != null ? XElement.Parse($"{Country}") : null,
             GPSCoordinates != null ? XElement.Parse($"{GPSCoordinates}") : null,
             MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null
         ).ToString();
     }
 }
 
+public class Country
+{
+    public ISOCountryCode? ISOCountryCode = null;
+    public string Value = string.Empty;
+
+    public Country() { }
+
+    public Country(XElement root)
+    {
+        ISOCountryCode = root.Attribute("ISOCountryCode") is { Value: var v } ? Enum.Parse<ISOCountryCode>(v) : ISOCountryCode;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Country",
+            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            Value
+        ).ToString();
+    }
+}
+
 public class GPSCoordinates
 {
-    public GPSSystem? GPSSystem;
+    public GPSSystem? GPSSystem = null;
     public string Latitude = string.Empty;
     public string Longitude = string.Empty;
-    public string? Height;
+    public string? Height = null;
 
     public GPSCoordinates() { }
 
-    public GPSCoordinates(GPSSystem? gPSSystem, string latitude, string longitude, string? height)
-    {
-        GPSSystem = gPSSystem;
-        Latitude = latitude;
-        Longitude = longitude;
-        Height = height;
-    }
-
     public GPSCoordinates(XElement root)
     {
-        GPSSystem = root.Attribute("GPSSystem") is XAttribute gpsSystem
-            ? Enum.Parse<GPSSystem>(gpsSystem.Value)
-            : null;
+        GPSSystem = root.Attribute("GPSSystem") is { Value: var gpss } ? Enum.Parse<GPSSystem>(gpss) : GPSSystem;
         Latitude = root.Element("Latitude")?.Value ?? Latitude;
         Longitude = root.Element("Longitude")?.Value ?? Longitude;
-        Height = root.Element("Height")?.Value;
+        Height = root.Element("Height")?.Value ?? Height;
     }
 
     public override string ToString()
@@ -4012,48 +3386,30 @@ public class PartyIdentifier : AgencyValueBase
 public class DocumentReferenceInformation
 {
     public string DocumentReferenceID = string.Empty;
-    public string? DocumentReferenceIDLineItemNumber;
-    public Date? Date;
-    public Time? Time;
-    public string? NumberOfDocumentsRequired;
+    public string? DocumentReferenceIDLineItemNumber = null;
+    public Date? Date = null;
+    public Time? Time = null;
+    public string? NumberOfDocumentsRequired = null;
 
     public DocumentReferenceInformation() { }
-
-    public DocumentReferenceInformation(
-        string documentReferenceID, 
-        string? documentReferenceIDLineItemNumber,
-        Date? date,
-        Time? time, 
-        string? numberOfDocumentsRequired)
-    {
-        DocumentReferenceID = documentReferenceID;
-        DocumentReferenceIDLineItemNumber = documentReferenceIDLineItemNumber;
-        Date = date;
-        Time = time;
-        NumberOfDocumentsRequired = numberOfDocumentsRequired;
-    }
 
     public DocumentReferenceInformation(XElement root)
     {
         DocumentReferenceID = root.Element("DocumentReferenceID")?.Value ?? DocumentReferenceID;
-        DocumentReferenceIDLineItemNumber = root.Element("DocumentReferenceIDLineItemNumber")?.Value;
-        Date = root.Element("Date") is XElement date ? new Date(date) : null;
-        Time = root.Element("Time") is XElement time ? new Time(time) : null;
-        NumberOfDocumentsRequired = root.Element("NumberOfDocumentsRequired")?.Value;
+        DocumentReferenceIDLineItemNumber = root.Element("DocumentReferenceIDLineItemNumber")?.Value ?? DocumentReferenceIDLineItemNumber;
+        Date = root.Element("Date") is XElement date ? new Date(date) : Date;
+        Time = root.Element("Time") is XElement time ? new Time(time) : Time;
+        NumberOfDocumentsRequired = root.Element("NumberOfDocumentsRequired")?.Value ?? NumberOfDocumentsRequired;
     }
 
     public override string ToString()
     {
         return new XElement("DocumentReferenceInformation",
             new XElement("DocumentReferenceID", DocumentReferenceID),
-            DocumentReferenceIDLineItemNumber != null 
-                ? new XElement("DocumentReferenceIDLineItemNumber", DocumentReferenceIDLineItemNumber) 
-                : null,
+            DocumentReferenceIDLineItemNumber != null ? new XElement("DocumentReferenceIDLineItemNumber", DocumentReferenceIDLineItemNumber) : null,
             Date != null ? XElement.Parse($"{Date}") : null,
             Time != null ? XElement.Parse($"{Time}") : null,
-            NumberOfDocumentsRequired != null 
-                ? new XElement("NumberOfDocumentsRequired", NumberOfDocumentsRequired) 
-                : null
+            NumberOfDocumentsRequired != null ? new XElement("NumberOfDocumentsRequired", NumberOfDocumentsRequired) : null
         ).ToString();
     }
 }
