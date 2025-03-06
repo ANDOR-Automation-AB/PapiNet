@@ -457,7 +457,7 @@ public class SafetyAndEnvironmentalCertification
         return new XElement("SafetyAndEnvironmentalCertification",
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null,
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
         ).ToString();
     }
 }
