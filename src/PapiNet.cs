@@ -627,28 +627,22 @@ public class PurchaseOrderInformation
     }
 }
 
-public class PurchaseOrderReference
+public class PurchaseOrderReference : AssignedByReferenceValueBase
 {
     public PurchaseOrderReferenceType PurchaseOrderReferenceType = PurchaseOrderReferenceType.Other;
-    public AssignedBy? AssignedBy = null;
-    public string Value = string.Empty;
 
-    public PurchaseOrderReference() { }
+    public PurchaseOrderReference() : base() { }
 
-    public PurchaseOrderReference(XElement root)
+    public PurchaseOrderReference(XElement root) : base(root)
     {
-        PurchaseOrderReferenceType = root.Attribute("PurchaseOrderReferenceType") is { Value: var v1 }
-            ? Enum.Parse<PurchaseOrderReferenceType>(v1) 
-            : PurchaseOrderReferenceType;
-        AssignedBy = root.Attribute("AssignedBy") is { Value: var v2 } 
-            ? Enum.Parse<AssignedBy>(v2) 
-            : AssignedBy;        
-        Value = root.Value;
+        PurchaseOrderReferenceType = root.Attribute("PurchaseOrderReferenceType") is { Value: var v } ? Enum.Parse<PurchaseOrderReferenceType>(v) : PurchaseOrderReferenceType;
     }
+
+    public override string LocalName => "PurchaseOrderReference";
 
     public override string ToString()
     {
-        return new XElement("PurchaseOrderReference",
+        return new XElement(LocalName,
             new XAttribute("PurchaseOrderReferenceType", PurchaseOrderReferenceType),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
@@ -1039,28 +1033,22 @@ public class DeliverySchedule
     }
 }
 
-public class DeliveryScheduleReference
+public class DeliveryScheduleReference : AssignedByReferenceValueBase
 {
     public DeliveryScheduleReferenceType DeliveryScheduleReferenceType = DeliveryScheduleReferenceType.Other;
-    public AssignedBy? AssignedBy = null;
-    public string Value = string.Empty;
 
-    public DeliveryScheduleReference() { }
+    public DeliveryScheduleReference() : base() { }
 
-    public DeliveryScheduleReference(XElement root)
+    public DeliveryScheduleReference(XElement root) : base(root)
     {
-        DeliveryScheduleReferenceType = root.Attribute("DeliveryScheduleReferenceType") is XAttribute deliveryScheduleReferenceType
-            ? Enum.Parse<DeliveryScheduleReferenceType>(deliveryScheduleReferenceType.Value)
-            : DeliveryScheduleReferenceType;
-        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
-            ? Enum.Parse<AssignedBy>(assignedBy.Value)
-            : AssignedBy;
-        Value = root.Value;
+        DeliveryScheduleReferenceType = root.Attribute("DeliveryScheduleReferenceType") is { Value: var dsrt } ? Enum.Parse<DeliveryScheduleReferenceType>(dsrt) : DeliveryScheduleReferenceType;
     }
+
+    public override string LocalName => "DeliveryScheduleReference";
 
     public override string ToString()
     {
-        return new XElement("DeliveryScheduleReference",
+        return new XElement(LocalName,
             new XAttribute("DeliveryScheduleReferenceType", DeliveryScheduleReferenceType),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
@@ -1204,28 +1192,22 @@ public class TermsOfChartering
     }
 }
 
-public class DeliveryLegReference
+public class DeliveryLegReference : AssignedByReferenceValueBase
 {
     public DeliveryLegReferenceType DeliveryLegReferenceType = DeliveryLegReferenceType.Other;
-    public AssignedBy? AssignedBy = null;
-    public string Value = string.Empty;
 
-    public DeliveryLegReference() { }
+    public DeliveryLegReference() : base() { }
 
-    public DeliveryLegReference(XElement root)
+    public DeliveryLegReference(XElement root) : base(root)
     {
-        DeliveryLegReferenceType = root.Attribute("DeliveryLegReferenceType") is XAttribute deliveryLegReferenceType
-            ? Enum.Parse<DeliveryLegReferenceType>(deliveryLegReferenceType.Value)
-            : DeliveryLegReferenceType;
-        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
-            ? Enum.Parse<AssignedBy>(assignedBy.Value)
-            : AssignedBy;
-        Value = root.Value;
+        DeliveryLegReferenceType = root.Attribute("DeliveryLegReferenceType") is { Value: var dlft } ? Enum.Parse<DeliveryLegReferenceType>(dlft) : DeliveryLegReferenceType;
     }
+
+    public override string LocalName => "DeliveryLegReference";
 
     public override string ToString()
     {
-        return new XElement("DeliveryLegReference",
+        return new XElement(LocalName,
             new XAttribute("DeliveryLegReferenceType", DeliveryLegReferenceType),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
@@ -4076,38 +4058,22 @@ public class DocumentReferenceInformation
     }
 }
 
-public class DeliveryMessageReference
+public class DeliveryMessageReference : AssignedByReferenceValueBase
 {
     public DeliveryMessageReferenceType DeliveryMessageReferenceType = DeliveryMessageReferenceType.Other;
-    public AssignedBy? AssignedBy;
-    public string Value = string.Empty;
 
-    public DeliveryMessageReference() { }
+    public DeliveryMessageReference() : base() { }
 
-    public DeliveryMessageReference(
-        DeliveryMessageReferenceType deliveryMessageReferenceType, 
-        AssignedBy? assignedBy, 
-        string value)
+    public DeliveryMessageReference(XElement root) : base(root)
     {
-        DeliveryMessageReferenceType = deliveryMessageReferenceType;
-        AssignedBy = assignedBy;
-        Value = value;
+        DeliveryMessageReferenceType = root.Attribute("DeliveryMessageReferenceType") is { Value: var dmrt } ? Enum.Parse<DeliveryMessageReferenceType>(dmrt) : DeliveryMessageReferenceType;
     }
 
-    public DeliveryMessageReference(XElement root)
-    {
-        DeliveryMessageReferenceType = root.Attribute("DeliveryMessageReferenceType") is XAttribute deliveryMessageReferenceType
-            ? Enum.Parse<DeliveryMessageReferenceType>(deliveryMessageReferenceType.Value)
-            : DeliveryMessageReferenceType;
-        AssignedBy = root.Attribute("AssignedBy") is XAttribute assignedBy
-            ? Enum.Parse<AssignedBy>(assignedBy.Value)
-            : null;
-        Value = root.Value;
-    }
+    public override string LocalName => "DeliveryMessageReference";
 
     public override string ToString()
     {
-        return new XElement("DeliveryMessageReference",
+        return new XElement(LocalName,
             new XAttribute("DeliveryMessageReferenceType", DeliveryMessageReferenceType),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
@@ -4134,6 +4100,30 @@ public abstract class AgencyValueBase
     {
         return new XElement(LocalName,
             Agency != null ?new XAttribute("Agency", Agency) : null,
+            Value
+        ).ToString();
+    }
+}
+
+public abstract class AssignedByReferenceValueBase
+{
+    public AssignedBy? AssignedBy;
+    public string Value = string.Empty;
+
+    public abstract string LocalName { get; }
+
+    public AssignedByReferenceValueBase() { }
+
+    public AssignedByReferenceValueBase(XElement root)
+    {
+        AssignedBy = root.Attribute("AssignedBy") is { Value: var ab } ? Enum.Parse<AssignedBy>(ab) : AssignedBy;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement(LocalName,
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
         ).ToString();
     }
