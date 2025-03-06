@@ -179,6 +179,24 @@ public class PrepInformation
     public PrepType? PrepType = null;
     public Party SupplierParty = new() { LocalName = "SupplierParty" };
     public PrepShipDate? PrepShipDate = null;
+    public PrepDueDate? PrepDueDate = null;
+
+}
+
+public class PrepDueDate : DateTimeBasis
+{
+    public PrepDueDate() : base() { }
+
+    public PrepDueDate(XElement root) : base(root) { }
+
+    public override string ToString()
+    {
+        return new XElement("PrepDueDate",
+            XElement.Parse($"{Date}"),
+            Time != null ? XElement.Parse($"{Time}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class PrepShipDate : DateTimeBasis
