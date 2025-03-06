@@ -181,20 +181,11 @@ public class PrepInformation
     public PrepShipDate? PrepShipDate = null;
 }
 
-public class PrepShipDate
+public class PrepShipDate : DateTimeBasis
 {
-    public Date Date = new();
-    public Time? Time = null;
-    public string Value = string.Empty;
+    public PrepShipDate() : base() { }
 
-    public PrepShipDate() { }
-
-    public PrepShipDate(XElement root)
-    {
-        Date = root.Element("Date") is { } d ? new(d) : Date;
-        Time = root.Element("Time") is { } t ? new(t) : Time;
-        Value = root.Value;
-    }
+    public PrepShipDate(XElement root) : base(root) { }
 
     public override string ToString()
     {
@@ -204,6 +195,24 @@ public class PrepShipDate
             Value
         ).ToString();
     }
+}
+
+public abstract class DateTimeBasis
+{
+    public Date Date = new();
+    public Time? Time = null;
+    public string Value = string.Empty;
+
+    public DateTimeBasis() { }
+
+    public DateTimeBasis(XElement root)
+    {
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
+        Value = root.Value;
+    }
+
+    public abstract override string ToString();
 }
 
 public class ProofInformationalQuantity
@@ -246,20 +255,11 @@ public class ProofInformationalQuantity
     }
 }
 
-public class ProofDueDate
+public class ProofDueDate : DateTimeBasis
 {
-    public Date Date = new();
-    public Time? Time = null;
-    public string Value = string.Empty;
+    public ProofDueDate() : base() { }
 
-    public ProofDueDate() { }
-
-    public ProofDueDate(XElement root)
-    {
-        Date = root.Element("Date") is { } d ? new(d) : Date;
-        Time = root.Element("Time") is { } t ? new(t) : Time;
-        Value = root.Value;
-    }
+    public ProofDueDate(XElement root) : base(root) { }
 
     public override string ToString()
     {
@@ -271,20 +271,11 @@ public class ProofDueDate
     }
 }
 
-public class ProofApprovalDate
+public class ProofApprovalDate : DateTimeBasis
 {
-    public Date Date = new();
-    public Time? Time = null;
-    public string Value = string.Empty;
+    public ProofApprovalDate() : base() { }
 
-    public ProofApprovalDate() { }
-
-    public ProofApprovalDate(XElement root)
-    {
-        Date = root.Element("Date") is { } d ? new(d) : Date;
-        Time = root.Element("Time") is { } t ? new(t) : Time;
-        Value = root.Value;
-    }
+    public ProofApprovalDate(XElement root) : base(root) { }
 
     public override string ToString()
     {
@@ -679,24 +670,11 @@ public class PurchaseOrderReference
     }
 }
 
-public class PurchaseOrderIssuedDate
+public class PurchaseOrderIssuedDate : DateTimeBasis
 {
-    public Date Date = new();
-    public Time? Time = null;
-    public string Value = string.Empty;
+    public PurchaseOrderIssuedDate() : base() { }
 
-    public PurchaseOrderIssuedDate() { }
-
-    public PurchaseOrderIssuedDate(XElement root)
-    {
-        Date = root.Element("Date") is XElement date
-            ? new Date(date)
-            : Date;
-        Time = root.Element("Time") is XElement time
-            ? new Time(time)
-            : Time;
-        Value = root.Value;
-    }
+    public PurchaseOrderIssuedDate(XElement root) : base(root) { }
 
     public override string ToString()
     {
