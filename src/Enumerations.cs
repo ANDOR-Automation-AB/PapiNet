@@ -2464,3 +2464,23 @@ public enum BookSubClassificationType
     Wrap,
     ZipLockBag,
 }
+
+public enum ProofType
+{
+    Blues,
+    ColorKey,
+    Cromalin,
+    CustomCromalin,
+    DigitalProofs,
+    Dylux,
+    FilmProofs,
+    FoldedGathered,
+    InkDrawDown,
+    Iris,
+    MatchPrint,
+    PressProofs,
+    ReferenceCDCassette,
+    Samples,
+    //T-Print,
+    Other,
+}

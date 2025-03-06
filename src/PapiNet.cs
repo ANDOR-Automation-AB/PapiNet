@@ -170,6 +170,12 @@ public class Product
 public class BookManufacturing
 {
     public List<BookClassification> BookClassification = [];
+    public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
+}
+
+public class ProofInformationalQuantity
+{
+    public ProofType? ProofType = null;
 }
 
 public class BookClassification
