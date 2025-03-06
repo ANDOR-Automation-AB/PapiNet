@@ -184,28 +184,28 @@ public class PrepInformation
 
 }
 
-public class PrepNeededDate : DateTimeBasis
+public class PrepNeededDate : DateTimeBase
 {
     public override string LocalName => "PrepNeededDate";
     public PrepNeededDate() { }
     public PrepNeededDate(XElement root) : base(root) { }
 }
 
-public class PrepDueDate : DateTimeBasis
+public class PrepDueDate : DateTimeBase
 {
     public override string LocalName => "PrepDueDate";
     public PrepDueDate() { }
     public PrepDueDate(XElement root) : base(root) { }
 }
 
-public class PrepShipDate : DateTimeBasis 
+public class PrepShipDate : DateTimeBase 
 { 
     public override string LocalName => "PrepShipDate";
     public PrepShipDate() { }
     public PrepShipDate(XElement root) : base(root) { }
 }
 
-public abstract class DateTimeBasis
+public abstract class DateTimeBase
 {
     public Date Date = new();
     public Time? Time = null;
@@ -213,9 +213,9 @@ public abstract class DateTimeBasis
 
     public abstract string LocalName { get; }
 
-    public DateTimeBasis() { }
+    public DateTimeBase() { }
 
-    public DateTimeBasis(XElement root)
+    public DateTimeBase(XElement root)
     {
         Date = root.Element("Date") is { } d ? new(d) : Date;
         Time = root.Element("Time") is { } t ? new(t) : Time;
@@ -272,14 +272,14 @@ public class ProofInformationalQuantity
     }
 }
 
-public class ProofDueDate : DateTimeBasis
+public class ProofDueDate : DateTimeBase
 {
     public override string LocalName => "ProofDueDate";
     public ProofDueDate() { }
     public ProofDueDate(XElement root) : base(root) { }
 }
 
-public class ProofApprovalDate : DateTimeBasis
+public class ProofApprovalDate : DateTimeBase
 {
     public override string LocalName => "ProofApprovalDate";
     public ProofApprovalDate() { }
@@ -669,7 +669,7 @@ public class PurchaseOrderReference
     }
 }
 
-public class PurchaseOrderIssuedDate : DateTimeBasis
+public class PurchaseOrderIssuedDate : DateTimeBase
 {
     public override string LocalName => "PurchaseOrderIssuedDate";
     public PurchaseOrderIssuedDate() { }
