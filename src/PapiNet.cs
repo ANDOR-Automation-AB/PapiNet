@@ -181,6 +181,36 @@ public class ProofInformationalQuantity
     public Party? OtherParty = null;
     public ProofApprovalDate? ProofApprovalDate = null;
     public ProofDueDate? ProofDueDate = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public ProofInformationalQuantity() { }
+
+    public ProofInformationalQuantity(XElement root)
+    {
+        ProofType = root.Attribute("ProofType") is { Value: var pt } ? Enum.Parse<ProofType>(pt) : ProofType;
+        Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
+        InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(iq => new InformationalQuantity(iq))];
+        OtherParty = root.Element("OtherParty") is { } op ? new(op) { LocalName = "OtherParty" } : OtherParty;
+        ProofApprovalDate = root.Element("ProofApprovalDate") is { } pad ? new(pad) : ProofApprovalDate;
+        ProofDueDate = root.Element("ProofDueDate") is { } pdd ? new(pdd) : ProofDueDate;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(at => at.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProofInformationalQuantity",
+            ProofType != null ? new XAttribute("ProofType", ProofType) : null,
+            XElement.Parse($"{Quantity}"),
+            InformationalQuantity.Select(iq => XElement.Parse($"{iq}")),
+            OtherParty != null ? XElement.Parse($"{OtherParty}") : null,
+            ProofApprovalDate != null ? XElement.Parse($"{ProofApprovalDate}") : null,
+            ProofDueDate != null ? XElement.Parse($"{ProofDueDate}") : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class ProofDueDate
