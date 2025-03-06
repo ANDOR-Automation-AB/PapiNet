@@ -182,6 +182,26 @@ public class BookClassification
 public class BookSubClassification
 {
     public BookSubClassificationType BookSubClassificationType;
+    public List<string> ClassificationDescription = [];
+    public string Value = string.Empty;
+
+    public BookSubClassification() { }
+
+    public BookSubClassification(XElement root)
+    {
+        BookSubClassificationType = root.Attribute("BookSubClassificationType") is { Value: var bct } ? Enum.Parse<BookSubClassificationType>(bct) : BookSubClassificationType;
+        ClassificationDescription = [.. root.Elements("ClassificationDescription").Select(cd => cd.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("BookSubClassification",
+            new XAttribute("BookSubClassificationType", BookSubClassificationType),
+            ClassificationDescription.Select(cd => new XElement("ClassificationDescription", cd)),
+            Value
+        ).ToString();
+    }
 }
 
 public class Classification
