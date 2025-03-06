@@ -177,6 +177,33 @@ public class BookManufacturing
 public class PrepInformation
 {
     public PrepType? PrepType = null;
+    public Party SupplierParty = new() { LocalName = "SupplierParty" };
+    public PrepShipDate? PrepShipDate = null;
+}
+
+public class PrepShipDate
+{
+    public Date Date = new();
+    public Time? Time = null;
+    public string Value = string.Empty;
+
+    public PrepShipDate() { }
+
+    public PrepShipDate(XElement root)
+    {
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PrepShipDate",
+            XElement.Parse($"{Date}"),
+            Time != null ? XElement.Parse($"{Time}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class ProofInformationalQuantity
