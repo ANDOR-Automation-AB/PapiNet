@@ -171,6 +171,12 @@ public class BookManufacturing
 {
     public List<BookClassification> BookClassification = [];
     public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
+    public List<PrepInformation> PrepInformation = [];
+}
+
+public class PrepInformation
+{
+    public PrepType? PrepType = null;
 }
 
 public class ProofInformationalQuantity

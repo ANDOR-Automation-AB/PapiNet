@@ -2484,3 +2484,35 @@ public enum ProofType
     //T-Print,
     Other,
 }
+
+public enum PrepType
+{
+    //4PageImposedFilm,
+    //8PageImposedFilm,
+    ApplicationFiles,
+    Bookmap,
+    CameraCopy,
+    CopyBook,
+    DuplicateStrip,
+    ElectronicFiles,
+    ElectronicGraphic,
+    Film,
+    FilmPageNegatives,
+    FilmPagePositives,
+    llustrationFilm,
+    NegativeImposedPlateMakingFilm,
+    Originals,
+    OriginalArt,
+    Other,
+    Overtakes,
+    PageProof,
+    PDF,
+    PositiveImposedPlateMakingFilm,
+    RachwalFilm,
+    ReflectiveArtBoard,
+    ReproProof,
+    RestripSuppliedFlats,
+    TearSheet,
+    Transparencies,
+}
+
