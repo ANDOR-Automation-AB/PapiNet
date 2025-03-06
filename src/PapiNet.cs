@@ -176,6 +176,35 @@ public class BookManufacturing
 public class ProofInformationalQuantity
 {
     public ProofType? ProofType = null;
+    public Quantity Quantity = new();
+    public List<InformationalQuantity> InformationalQuantity = [];
+    public Party? OtherParty = null;
+    public ProofApprovalDate? ProofApprovalDate = null;
+}
+
+public class ProofApprovalDate
+{
+    public Date Date = new();
+    public Time? Time = null;
+    public string Value = string.Empty;
+
+    public ProofApprovalDate() { }
+
+    public ProofApprovalDate(XElement root)
+    {
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProofApprovalDate",
+            XElement.Parse($"{Date}"),
+            Time != null ? XElement.Parse($"{Time}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class BookClassification
