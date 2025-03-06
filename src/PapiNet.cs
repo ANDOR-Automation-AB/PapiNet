@@ -584,15 +584,17 @@ public class MillCharacteristics
     }
 }
 
-public class TotalNumberOfUnits
+public abstract class RangeValueBase
 {
     public Value Value = new();
     public RangeMin? RangeMin = null;
     public RangeMax? RangeMax = null;
 
-    public TotalNumberOfUnits() { }
+    public abstract string LocalName { get; }
 
-    public TotalNumberOfUnits(XElement root)
+    public RangeValueBase() { }
+
+    public RangeValueBase(XElement root)
     {
         Value = root.Element("Value") is { } value ? new(value) : Value;
         RangeMin = root.Element("RangeMin") is { } min ? new(min) : RangeMin;
@@ -601,12 +603,19 @@ public class TotalNumberOfUnits
 
     public override string ToString()
     {
-        return new XElement("TotalNumberOfUnits",
+        return new XElement(LocalName,
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
             RangeMax != null ? XElement.Parse($"{RangeMax}") : null
         ).ToString();
     }
+}
+
+public class TotalNumberOfUnits : RangeValueBase
+{
+    public override string LocalName => "TotalNumberOfUnits";
+    public TotalNumberOfUnits() { }
+    public TotalNumberOfUnits(XElement root) : base(root) { }
 }
 
 public class PurchaseOrderInformation
@@ -1500,8 +1509,8 @@ public class RoadObstruction
     public string? RoadSlopePercent = null;
     public List<RoadBearingCapacity> RoadBearingCapacity = [];
     public Length_Object? Length = null;
-    public Width_Object? Width = null;
-    public Height_Object? Height = null;
+    public Width? Width = null;
+    public Height? Height = null;
     public eAttachment? eAttachment = null;
     public List<string> AdditionalText = [];
 
@@ -1527,10 +1536,10 @@ public class RoadObstruction
             ? new Length_Object(length)
             : Length;
         Width = root.Element("Width") is XElement width
-            ? new Width_Object(width)
+            ? new Width(width)
             : Width;
         Height = root.Element("Height") is XElement height
-            ? new Height_Object(height)
+            ? new Height(height)
             : Height;
         eAttachment = root.Element("eAttachment") is XElement attachment
             ? new eAttachment(attachment)
@@ -1558,97 +1567,31 @@ public class RoadObstruction
     }
 }
 
-public class Height_Object
+public class Height : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
+    public Height() { }
 
-    public Height_Object() { }
+    public Height(XElement root) : base(root) { }
 
-    public Height_Object(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("Height",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "Height";
 }
 
-public class Width_Object
+public class Width : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
+    public Width() { }
 
-    public Width_Object() { }
+    public Width(XElement root) : base(root) { }
 
-    public Width_Object(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("Width",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "Width";
 }
 
-public class Length_Object
+public class Length_Object : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public Length_Object() { }
 
-    public Length_Object(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public Length_Object(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("Length",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "Length";
 }
 
 public class RoadBearingCapacity
@@ -1714,35 +1657,13 @@ public class RoadClassification
     }
 }
 
-public class RouteLegLength
+public class RouteLegLength : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public RouteLegLength() { }
 
-    public RouteLegLength(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public RouteLegLength(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("RouteLegLength",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "RouteLegLength";
 }
 
 public class eAttachment
@@ -2286,128 +2207,40 @@ public class TransportUnitMeasurements
     }
 }
 
-public class TransportUnitWeight
+public class TransportUnitWeight : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportUnitWeight() { }
 
-    public TransportUnitWeight(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportUnitWeight(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportUnitWeight",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnitWeight";
 }
 
-public class TransportUnitHeight
+public class TransportUnitHeight : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportUnitHeight() { }
 
-    public TransportUnitHeight(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportUnitHeight(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportUnitHeight",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnitHeight";
 }
 
-public class TransportUnitWidth
+public class TransportUnitWidth : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportUnitWidth() { }
 
-    public TransportUnitWidth(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportUnitWidth(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportUnitWidth",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnitWidth";
 }
 
-public class TransportUnitLength
+public class TransportUnitLength : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportUnitLength() { }
 
-    public TransportUnitLength(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportUnitLength(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportUnitLength",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnitLength";
 }
 
 public class TransportUnitCode
@@ -2625,128 +2458,40 @@ public class TransportVehicleMeasurements
     }
 }
 
-public class TransportVehicleWeight
+public class TransportVehicleWeight : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportVehicleWeight() { }
 
-    public TransportVehicleWeight(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportVehicleWeight(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportVehicleWeight",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportVehicleWeight";
 }
 
-public class TransportVehicleHeight
+public class TransportVehicleHeight : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportVehicleHeight() { }
 
-    public TransportVehicleHeight(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportVehicleHeight(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportVehicleHeight",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportVehicleHeight";
 }
 
-public class TransportVehicleWidth
+public class TransportVehicleWidth : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportVehicleWidth() { }
 
-    public TransportVehicleWidth(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportVehicleWidth(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportVehicleWidth",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportVehicleWidth";
 }
 
-public class TransportVehicleLength
+public class TransportVehicleLength : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public TransportVehicleLength() { }
 
-    public TransportVehicleLength(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public TransportVehicleLength(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("TransportVehicleLength",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "TransportVehicleLength";
 }
 
 public class TransportVehicleCode
@@ -3291,34 +3036,22 @@ public class PriceAdjustment
     }
 }
 
-public class AdjustmentValue
+public class AdjustmentValue : RangeValueBase
 {
     public CurrencyValue CurrencyValue = new();
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
 
     public AdjustmentValue() { }
 
-    public AdjustmentValue(XElement root)
+    public AdjustmentValue(XElement root) : base(root)
     {
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(currencyValue)
-            : CurrencyValue;
-        Value = root.Element("Value") is XElement value
-            ? new Value(value) 
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
+        CurrencyValue = root.Element("CurrencyValue") is { } cv ? new(cv) : CurrencyValue;
     }
+
+    public override string LocalName => "AdjustmentValue";
 
     public override string ToString()
     {
-        return new XElement("AdjustmentValue",
+        return new XElement(LocalName,
             XElement.Parse($"{CurrencyValue}"),
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
@@ -3327,66 +3060,22 @@ public class AdjustmentValue
     }
 }
 
-public class AdjustmentPercentage
+public class AdjustmentPercentage : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public AdjustmentPercentage() { }
 
-    public AdjustmentPercentage(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public AdjustmentPercentage(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("AdjustmentPercentage",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "AdjustmentPercentage";
 }
 
-public class MonetaryAdjustmentStartQuantity
+public class MonetaryAdjustmentStartQuantity : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-
     public MonetaryAdjustmentStartQuantity() { }
 
-    public MonetaryAdjustmentStartQuantity(XElement root)
-    {
-        Value = root.Element("Value") is XElement value
-            ? new Value(root)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
-    }
+    public MonetaryAdjustmentStartQuantity(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("MonetaryAdjustmentStartQuantity",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "MonetaryAdjustmentStartQuantity";
 }
 
 public class MonetaryAdjustmentStartAmount
@@ -3497,35 +3186,24 @@ public class MinCurrencyValue
     }
 }
 
-public class InformationalPricePerUnit
+public class InformationalPricePerUnit : RangeValueBase
 {
     public InformationalPricePerUnitType InformationalPricePerUnitType = InformationalPricePerUnitType.ProductPrice;
     public CurrencyValue CurrencyValue = new();
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
 
     public InformationalPricePerUnit() { }
 
-    public InformationalPricePerUnit(XElement root)
+    public InformationalPricePerUnit(XElement root) : base(root)
     {
-        InformationalPricePerUnitType = root.Attribute("InformationalPricePerUnitType") is XAttribute informationalPricePerUnitType
-            ? Enum.Parse<InformationalPricePerUnitType>(informationalPricePerUnitType.Value)
-            : InformationalPricePerUnitType;
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(root)
-            : CurrencyValue;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(root) 
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(root)
-            : RangeMax;
+        InformationalPricePerUnitType = root.Attribute("InformationalPricePerUnitType") is { Value: var ipput } ? Enum.Parse<InformationalPricePerUnitType>(ipput) : InformationalPricePerUnitType;
+        CurrencyValue = root.Element("CurrencyValue") is { } cv ? new(cv) : CurrencyValue;
     }
+
+    public override string LocalName => "InformationalPricePerUnit";
 
     public override string ToString()
     {
-        return new XElement("InformationalPricePerUnit",
+        return new XElement(LocalName,
             new XAttribute("InformationalPricePerUnitType", InformationalPricePerUnitType),
             XElement.Parse($"{CurrencyValue}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
@@ -3534,34 +3212,22 @@ public class InformationalPricePerUnit
     }
 }
 
-public class PricePerUnit
+public class PricePerUnit : RangeValueBase
 {
     public CurrencyValue CurrencyValue = new();
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
 
     public PricePerUnit() { }
 
-    public PricePerUnit(XElement root)
+    public PricePerUnit(XElement root) : base(root)
     {
-        CurrencyValue = root.Element("CurrencyValue") is XElement currencyValue
-            ? new CurrencyValue(currencyValue)
-            : CurrencyValue;
-        Value = root.Element("Value") is XElement value
-            ? new Value(value)
-            : Value;
-        RangeMin = root.Element("RangeMin") is XElement rangeMin
-            ? new RangeMin(rangeMin)
-            : RangeMin;
-        RangeMax = root.Element("RangeMax") is XElement rangeMax
-            ? new RangeMax(rangeMax)
-            : RangeMax;
+        CurrencyValue = root.Element("CurrencyValue") is { } cv ? new(cv) : CurrencyValue;
     }
+
+    public override string LocalName => "PricePerUnit";
 
     public override string ToString()
     {
-        return new XElement("PricePerUnit",
+        return new XElement(LocalName,
             XElement.Parse($"{CurrencyValue}"),
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
