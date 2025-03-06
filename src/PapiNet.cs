@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Runtime;
+using System.Xml.Linq;
 
 namespace PapiNet;
 
@@ -401,29 +402,13 @@ public class SafetyAndEnvironmentalInformation
     }
 }
 
-public class SafetyAndEnvironmentalCertification
+public class SafetyAndEnvironmentalCertification : RangeValueBase
 {
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
+    public SafetyAndEnvironmentalCertification() : base() { }
 
-    public SafetyAndEnvironmentalCertification() { }
+    public SafetyAndEnvironmentalCertification(XElement root) : base(root) { }
 
-    public SafetyAndEnvironmentalCertification(XElement root)
-    {
-        Value = root.Element("Value") is { } v ? new(v) : Value;
-        RangeMin = root.Element("RangeMin") is { } rmin ? new(rmin) : RangeMin;
-        RangeMax = root.Element("RangeMax") is { } rmax ? new(rmax) : RangeMax;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("SafetyAndEnvironmentalCertification",
-            XElement.Parse($"{Value}"),
-            RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
-        ).ToString();
-    }
+    public override string LocalName => "SafetyAndEnvironmentalCertification";
 }
 
 public class TransportLoadingCharacteristics
@@ -1767,28 +1752,13 @@ public class TransportOtherInstructions
     }
 }
 
-public class TransportInstructionCode
+public class TransportInstructionCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportInstructionCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public TransportInstructionCode() { }
+    public TransportInstructionCode(XElement root) : base(root) { }
 
-    public TransportInstructionCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportInstructionCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportInstructionCode";
 }
 
 public class TransportUnloadingCharacteristics
@@ -1916,28 +1886,13 @@ public class URL
     }
 }
 
-public class TransportUnloadingCode
+public class TransportUnloadingCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportUnloadingCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public TransportUnloadingCode() { }
+    public TransportUnloadingCode(XElement root) : base(root) { }
 
-    public TransportUnloadingCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportUnloadingCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnloadingCode";
 }
 
 public class TransportUnitCharacteristics
@@ -2036,28 +1991,13 @@ public class TransportUnitDetail
     }
 }
 
-public class TransportUnitDetailCode
+public class TransportUnitDetailCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportUnitDetailCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public TransportUnitDetailCode() { }
+    public TransportUnitDetailCode(XElement root) : base(root) { }
 
-    public TransportUnitDetailCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportUnitDetailCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnitDetailCode";
 }
 
 public class TransportUnitIdentifier
@@ -2142,28 +2082,13 @@ public class TransportUnitEquipmentDescription
     }
 }
 
-public class TransportUnitEquipmentCode
+public class TransportUnitEquipmentCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportUnitEquipmentCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public TransportUnitEquipmentCode() { }
+    public TransportUnitEquipmentCode(XElement root) : base(root) { }
 
-    public TransportUnitEquipmentCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportUnitEquipmentCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnitEquipmentCode";
 }
 
 public class TransportUnitMeasurements
@@ -2243,28 +2168,13 @@ public class TransportUnitLength : RangeValueBase
     public override string LocalName => "TransportUnitLength";
 }
 
-public class TransportUnitCode
+public class TransportUnitCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportUnitCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public TransportUnitCode() { }
+    public TransportUnitCode(XElement root) : base(root) { }
 
-    public TransportUnitCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportUnitCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportUnitCode";
 }
 
 public class TransportVehicleCharacteristics
@@ -2398,28 +2308,13 @@ public class TransportVehicleEquipmentDescription
     }
 }
 
-public class TransportVehicleEquipmentCode
+public class TransportVehicleEquipmentCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportVehicleEquipmentCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public TransportVehicleEquipmentCode() { }
+    public TransportVehicleEquipmentCode(XElement root) : base(root) { }
 
-    public TransportVehicleEquipmentCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportVehicleEquipmentCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportVehicleEquipmentCode";
 }
 
 public class TransportVehicleMeasurements
@@ -2494,28 +2389,13 @@ public class TransportVehicleLength : RangeValueBase
     public override string LocalName => "TransportVehicleLength";
 }
 
-public class TransportVehicleCode
+public class TransportVehicleCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportVehicleCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public TransportVehicleCode() { }
+    public TransportVehicleCode(XElement root) : base(root) { }
 
-    public TransportVehicleCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportVehicleCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportVehicleCode";
 }
 
 public class TransportModeCharacteristics
@@ -2547,28 +2427,13 @@ public class TransportModeCharacteristics
     }
 }
 
-public class TransportModeCode
+public class TransportModeCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public TransportModeCode() { Agency = PapiNet.Agency.Other; }
 
-    public TransportModeCode() { }
+    public TransportModeCode(XElement root) : base(root) { }
 
-    public TransportModeCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("TransportModeCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "TransportModeCode";
 }
 
 public class DeliveryOrigin
@@ -2656,28 +2521,13 @@ public class SupplyPoint
     }
 }
 
-public class SupplyPointCode
+public class SupplyPointCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public SupplyPointCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public SupplyPointCode() { }
+    public SupplyPointCode(XElement root) : base(root) { }
 
-    public SupplyPointCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("SupplyPointCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "SupplyPointCode";
 }
 
 public class PriceDetails
@@ -2832,28 +2682,13 @@ public class MonetaryAdjustmentAmount
     }
 }
 
-public class GeneralLedgerAccount
+public class GeneralLedgerAccount : AgencyValueBase
 {
-    public Agency? Agency = null;
-    public string Value = string.Empty;
-
     public GeneralLedgerAccount() { }
 
-    public GeneralLedgerAccount(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
+    public GeneralLedgerAccount(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("GeneralLedgerAccount",
-            Agency != null ? new XAttribute("Agency", Agency) : null,
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "GeneralLedgerAccount";
 }
 
 public class TaxAdjustment
@@ -3731,64 +3566,22 @@ public class ShipToCharacteristics
     }
 }
 
-public class LocationCode
+public class LocationCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public LocationCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public LocationCode() { }
+    public LocationCode(XElement root) : base(root) { }
 
-    public LocationCode(Agency agency, string value)
-    {
-        Agency = agency;
-        Value = value;
-    }
-
-    public LocationCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("LocationCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "LocationCode";
 }
 
-public class DeliveryRouteCode
+public class DeliveryRouteCode : AgencyValueBase
 {
-    public Agency Agency = Agency.Other;
-    public string Value = string.Empty;
+    public DeliveryRouteCode() : base() { Agency = PapiNet.Agency.Other; }
 
-    public DeliveryRouteCode() { }
+    public DeliveryRouteCode(XElement root) : base(root) { }
 
-    public DeliveryRouteCode(Agency agency, string value)
-    {
-        Agency = agency;
-        Value = value;
-    }
-
-    public DeliveryRouteCode(XElement root)
-    {
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : Agency;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("DeliveryRouteCode",
-            new XAttribute("Agency", Agency),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "DeliveryRouteCode";
 }
 
 public class TermsOfDelivery
@@ -4218,38 +4011,22 @@ public class GPSCoordinates
     }
 }
 
-public class PartyIdentifier
+public class PartyIdentifier : AgencyValueBase
 {
     public PartyIdentifierType PartyIdentifierType = PartyIdentifierType.Other;
-    public Agency? Agency;
-    public string Value = string.Empty;
 
-    public PartyIdentifier() { }
+    public PartyIdentifier() : base() { }
 
-    public PartyIdentifier(
-        PartyIdentifierType partyIdentifierType,
-        Agency? agency,
-        string value)
+    public PartyIdentifier(XElement root) : base(root)
     {
-        PartyIdentifierType = partyIdentifierType;
-        Agency = agency;
-        Value = value;
+        PartyIdentifierType = root.Attribute("PartyIdentifierType") is { Value: var pit } ? Enum.Parse<PartyIdentifierType>(pit) : PartyIdentifierType;
     }
 
-    public PartyIdentifier(XElement root)
-    {
-        PartyIdentifierType = root.Attribute("PartyIdentifierType") is XAttribute partyIdentifierType
-            ? Enum.Parse<PartyIdentifierType>(partyIdentifierType.Value)
-            : PartyIdentifierType;
-        Agency = root.Attribute("Agency") is XAttribute agency
-            ? Enum.Parse<Agency>(agency.Value)
-            : null;
-        Value = root.Value;
-    }
+    public override string LocalName => "PartyIdentifier";
 
     public override string ToString()
     {
-        return new XElement("PartyIdentifier",
+        return new XElement(LocalName,
             new XAttribute("PartyIdentifierType", PartyIdentifierType),
             Agency != null ? new XAttribute("Agency", Agency) : null,
             Value
@@ -4340,6 +4117,30 @@ public class DeliveryMessageReference
         return new XElement("DeliveryMessageReference",
             new XAttribute("DeliveryMessageReferenceType", DeliveryMessageReferenceType),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            Value
+        ).ToString();
+    }
+}
+
+public abstract class AgencyValueBase
+{
+    public Agency? Agency = null;
+    public string Value = string.Empty;
+
+    public abstract string LocalName { get; }
+
+    public AgencyValueBase() { }
+
+    public AgencyValueBase(XElement root)
+    {
+        Agency = root.Attribute("Agency") is { Value: var a } ? Enum.Parse<Agency>(a) : Agency;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement(LocalName,
+            Agency != null ?new XAttribute("Agency", Agency) : null,
             Value
         ).ToString();
     }
