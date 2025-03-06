@@ -71,13 +71,6 @@ public class Date
 
     public Date() { }
 
-    public Date(string year, string month, string day)
-    {
-        Year = year;
-        Month = month;
-        Day = day;
-    }
-
     public Date(XElement root)
     {
         Year = root.Element("Year")?.Value ?? Year;
