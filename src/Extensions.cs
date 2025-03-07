@@ -5,7 +5,7 @@ namespace PapiNet;
 
 public static class Extensions
 {
-    public static string Value<T>(this T value) where T : Enum
+    public static string GetMemberValue<T>(this T value) where T : Enum
     {
         return typeof(T)
             .GetTypeInfo()
@@ -14,5 +14,14 @@ public static class Extensions
             ?.GetCustomAttribute<EnumMemberAttribute>(false)
             ?.Value ?? $"{value}";
     }
-}
 
+    public static T ToEnum<T>(this string value) where T : struct, Enum
+    {
+        return (T)Enum.Parse(typeof(T),
+            typeof(T).GetTypeInfo()
+                .DeclaredMembers
+                .SingleOrDefault(mi => mi.GetCustomAttribute<EnumMemberAttribute>(false)?.Value == value)
+                ?.Name ?? value,
+            true);
+    }
+}
