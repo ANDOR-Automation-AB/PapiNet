@@ -205,6 +205,24 @@ public class Abrasion
     public DetailRangeMin? DetailRangeMin = null;
     public DetailRangeMax? DetailRangeMax = null;
     public StandardDeviation? StandardDeviation = null;
+    public SampleSize? SampleSize = null;
+}
+
+public class SampleSize
+{
+    public string Value = string.Empty;
+
+    public SampleSize() { }
+
+    public SampleSize(XElement root)
+    {
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SampleSize", Value).ToString();
+    }
 }
 
 public class StandardDeviation : ValueBase
