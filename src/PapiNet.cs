@@ -174,6 +174,29 @@ public class SuppliedComponentInformation
 {
     public Party SupplierParty = new Party() { LocalName = "SupplierParty" };
     public ProductIdentifier ProductIdentifier = new();
+    public ProductDescription? ProductDescription = null;
+}
+
+public class ProductDescription
+{
+    public Language? Language = null;
+    public string Value = string.Empty;
+
+    public ProductDescription() { }
+
+    public ProductDescription(XElement root)
+    {
+        Language = root.Element("Language") is { Value: var l } ? Enum.Parse<Language>(l) : Language;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductDescription",
+            Language != null ? new XAttribute("Language", Language) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class ProductIdentifier
