@@ -206,6 +206,22 @@ public class Abrasion
     public DetailRangeMax? DetailRangeMax = null;
     public StandardDeviation? StandardDeviation = null;
     public SampleSize? SampleSize = null;
+    public TwoSigmaLower? TwoSigmaLower = null;
+    public TwoSigmaUpper? TwoSigmaUpper = null;
+}
+
+public class TwoSigmaUpper : ValueBase
+{
+    public TwoSigmaUpper(XElement root) : base(root) { }
+
+    public override string LocalName => "TwoSigmaUpper";
+}
+
+public class TwoSigmaLower : ValueBase
+{
+    public TwoSigmaLower(XElement root) : base(root) { }
+
+    public override string LocalName => "TwoSigmaLower";
 }
 
 public class SampleSize
