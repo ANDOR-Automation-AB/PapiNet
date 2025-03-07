@@ -201,6 +201,26 @@ public class SoftwoodLumberCharacteristics
 public class Seasoning
 {
     public SeasoningType? SeasoningType = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public Seasoning() { }
+
+    public Seasoning(XElement root)
+    {
+        SeasoningType = root.Attribute("SeasoningType") is { Value: var st } ? st.ToEnum<SeasoningType>() : null;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Seasoning",
+            SeasoningType != null ? new XAttribute("SeasoningType", SeasoningType) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class Thickness : MeasurementBase
