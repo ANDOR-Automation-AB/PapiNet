@@ -2895,3 +2895,307 @@ public enum SpeciesAgency
     //prEN TC(1113-1),
     Supplier,
 }
+
+public enum GradeType
+{
+    //#1,
+
+    //#1 and #2 
+    //#1 and #2 Clear 
+    //#1 (SRB) 
+    //#1 Box 
+    //#1 Commons 
+    //#1 Cuts 
+    //#1 Cuttings 
+    //#1 Dense 
+    //#1 Dense Stadium Grade 
+    //#1 Dense Structural 
+    //#1 Door Cuttings 
+    //#1 Fencing (Select) 
+    //#1 Furniture 
+    //#1 Lath 
+    //#1 Mining 
+    //#1 Non Dense 
+    //#1 Pencil Stock 
+    //#1 Prime 
+    //#1 Sash Cuttings 
+    //#1 Shop
+    //#1 Stadium Grade 
+    //#1 Structural 
+    //#1 and Btr 
+    //#2 
+    //#2 (SRB) 
+    //#2 Box 
+    //#2 Common 
+    //#2 Cuts 
+    //#2 Cuttings 
+    //#2 Dense 
+    //#2 Door Cuttings 
+    //#2 Fencing (Quality) 
+    //#2 Foundation 
+    //#2 Furniture 
+    //#2 Lath 
+    //#2 Mining 
+    //#2 Non Dense 
+    //#2 Pencil Stock 
+    //#2 Prime 
+    //#2 Sash Cuttings 
+    //#2 Shop 
+    //#2 Structural 
+    //#2 and Btr 
+    //#2 and Btr Common 
+    //#2 and Btr Fencing(Rustic) 
+    //#3 
+    //#3 (SRB) 
+    //#3 Clear 
+    //#3 Common 
+    //#3 Cuttings 
+    //#3 Fencing 
+    //#3 Fencing (Rustic) 
+    //#3 Lath
+    //#3 Pencil Stock 
+    //#3 Shop 
+    //#3 Shop or Sash 
+    //#3 and Btr 
+    //#3 and Btr Common 
+    //#4 
+    //#4 Common 
+    //#5 Common 
+    //1.5E LAM 
+    //1.6E LAM 
+    //1.7E LAM 
+    //1.8E LAM 
+    //1.9E LAM 
+    //1200f 
+    //1350f 
+    //1400f 
+    //1450f 
+    //1500f 
+    //1600f 
+    //1650f 
+    //1800f 
+    //1950f 
+    //2.0E LAM 
+    //2.1E LAM 
+    //2.2E LAM 
+    //2.3E LAM 
+    //2.4E LAM 
+    //2.5E LAM 
+    //2.6E LAM 
+    //2000f 
+    //2100f 
+    //2200f Scaffold Plank 
+    //2250f 
+    //2400f 
+    //2400f Scaffold Plank 
+    //2550f 
+    //26002-83 
+    //2700f 
+    //2850f 
+    //3000f 
+    //302-20 
+    //302-22 
+    //302-24 
+    //3150f 
+    //3300f 
+    //8486
+    //900f
+    A,
+    //A and Btr
+    //Appearance Knotty
+    //Architect Clear
+    //Architect Knotty
+    B,
+    //B and B
+    //B Grade
+    //B Laminating
+    //B and Btr
+    //B and Btr - 1 and 2 Clear
+    //B.F.Laminating
+    //Barge Framing
+    //Barge Planking and Decking
+    Battens,
+    C,
+    //C Laminating
+    //C Select
+    //C Ship Decking
+    //C and Btr
+    //C and Btr Dimension
+    //C and Btr Select
+    //C and Btr-VG Stepping
+    //California Fencing
+    Choice,
+    //Choice and Btr
+    Clear,
+    //Clear All Heart
+    //Clear Door
+    //Clear Door Rip
+    //Clear Finger Joint
+    //Clear Gutter
+    //Clear Heart
+    //Clear VG Heart
+    Colonial,
+    //Commercial Decking
+    //Commercial Dex
+    //Commercial Patio
+    //Construction
+    //Construction (SRB) 
+    //Construction Common
+    //Construction Heart
+    Crossarms,
+    //Custom Clear
+    //Custom knotty
+    //Cut Door Stock
+    D,
+    //D Dimension
+    //D Laminating
+    //D Select
+    //D and Btr
+    //D and Btr Select
+    //Deck Common
+    //Deck Heart
+    //Dense Commercial Decking
+    //Dense Industrial Scaffold plank 65 
+    //Dense Industrial Scaffold Plank 72 
+    //Dense Premium
+    //Dense Select Decking
+    //Dense Select Structural
+    //Dense Standard Decking
+    Dunnage,
+    //D0VD Stepping
+    E,
+    Economy,
+    //Economy Fencing
+    //Economy Stud
+    //Factory Flitches
+    //Factory Select
+    //FG or MG Ladder Rails
+    //Fingerjoint Shop Common
+    Finish,
+    Foundation,
+    Gutter,
+    //Heart B
+    //Heart Clear
+    Industrial,
+    //Industrial 26 
+    //Industrial 45 
+    //Industrial 55 
+    Knotty,
+    //Knotty Finger Joint
+    //L1 Dense Laminating
+    //L1 Laminating
+    //L1-c Laminating
+    //L2 Laminating
+    //L2-d Dense Laminating
+    //L3 Laminating
+    //Ladder and Pole Stock
+    //Ladder Rail Stock
+    //M-10 
+    //M-11 
+    //M-12 
+    //M-13 
+    //M-14 
+    //M-15 
+    //M-16 
+    //M-17 
+    //M-18 
+    //M-19 
+    //M-20 
+    //M-21 
+    //M-22 
+    //M-23 
+    //M-24 
+    //M-25 
+    //M-26 
+    //M-27 
+    //M-28 
+    //M-29 
+    //M-30 
+    //M-31 
+    //M-5 
+    //M-6 
+    //M-7 
+    //M-8
+    //M-9 
+    //Margin Plank
+    //Mast Spar and Boat Two and One-Fourth Inch and Thicker
+    //Mast Spar and Boat One to Two Inch
+    Merchantable,
+    //Merchantable Heart
+    MillGrade,
+    //Moulding Stock (A) 
+    //Moulding Stock (B) 
+    //Moulding and Btr
+    Mouldings,
+    //NeLMA # 1A Furniture 
+    //NeLMA # 2A Furniture 
+    None,
+    //NSLB #1 
+    //NSLB #2 
+    Par99,
+    //Patio 1 
+    //Patio 2 
+    //Pipe Stave Stock
+    //Plank Wall
+    Premium,
+    //Premium and Btr
+    Prime,
+    Quality,
+    //Quality Fencing
+    //Quality Knotty
+    //RadiusEdgeDecking 1 
+    //RadiusEdgeDecking 2 
+    Rustic,
+    //Rustic Fencing
+    //Rustic Knotty
+    Sash,
+    //Sash Cuttings
+    //Sawn Railroad Ties
+    //Scaffold #1 
+    //Scaffold #2 
+    Select,
+    //Select and Quality Knotty
+    //Select Decking
+    //Select Dex
+    //Select Fencing
+    //Select Heart
+    //Select Knotty
+    //Select Merchantable
+    //Select Patio
+    //Select Shop
+    //Select Structural
+    //Select Structural (SRB) 
+    //Select Structural Non Dense
+    Selected,
+    //Selected #2 Common 
+    //Selected #3 Common 
+    //Selected Decking
+    //Selected Gutter
+    //Ship Decking
+    //Ship Plank
+    //Shop Flitches
+    Short,
+    //Short Select
+    //SPS 1 Certified Fingerjointed
+    //SPS 3 Certified Fingerjointed
+    //Stadium Plank Seats
+    //Stadium Plank Walk boards
+    //Stadium Planks
+    //Stained Selects
+    Standard,
+    //Standard (SRB) 
+    //Standard Mouldings
+    //Standard and Btr
+    Sterling,
+    Stud,
+    //Stud (SRB) 
+    Superior,
+    Supreme,
+    //Tank Stock Inch and Thicker
+    //Tank Stock Under Four Inch
+    Utility,
+    //Utility (#2 Mining) 
+    //Utility (SRB) 
+    //Utility and Btr
+    //VG Ladder Rails
+}

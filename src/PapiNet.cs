@@ -191,19 +191,15 @@ public class SoftwoodLumber
 public class SoftwoodLumberCharacteristics
 {
     public LumberSpecies LumberSpecies = new();
-
+    public LumberGrade LumberGrade = new();
 }
 
-public class LumberSpecies : LumberSpeciesBase
+public class LumberGrade
 {
-    public LumberSpecies() : base() { }
-
-    public LumberSpecies(XElement root) : base(root) { }
-
-    public override string LocalName => "LumberSpecies";
+    public GradeType? GradeType = null;
 }
 
-public abstract class LumberSpeciesBase
+public class LumberSpecies
 {
     public SpeciesType? SpeciesType = null;
     public SpeciesOrigin? SpeciesOrigin = null;
@@ -212,11 +208,9 @@ public abstract class LumberSpeciesBase
     public List<string> AdditionalText = [];
     public string Value = string.Empty;
 
-    public abstract string LocalName { get; }
+    public LumberSpecies() { }
 
-    public LumberSpeciesBase() { }
-
-    public LumberSpeciesBase(XElement root)
+    public LumberSpecies(XElement root)
     {
         SpeciesType = root.Attribute("SpeciesType") is { Value: var st } ? Enum.Parse<SpeciesType>(st) : SpeciesType;
         SpeciesOrigin = root.Attribute("SpeciesOrigin") is { Value: var so } ? Enum.Parse<SpeciesOrigin>(so) : SpeciesOrigin;
@@ -228,7 +222,7 @@ public abstract class LumberSpeciesBase
 
     public override string ToString()
     {
-        return new XElement(LocalName,
+        return new XElement("LumberSpecies",
             SpeciesType != null ? new XAttribute("SpeciesType", SpeciesType) : null,
             SpeciesOrigin != null ? new XAttribute("SpeciesOrigin", SpeciesOrigin) : null,
             SpeciesAgency != null ? new XAttribute("SpeciesAgency", SpeciesAgency) : null,
