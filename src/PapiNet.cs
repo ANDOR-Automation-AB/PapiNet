@@ -201,6 +201,40 @@ public class LumberGrade
     public LumberAgency? GradeAgency = null;
     public ModulusElasticity? ModulusElasticity = null;
     public Face? Face = null;
+    public string? GradeName = null;
+    public string? GradeCode = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public LumberGrade() { }
+
+    public LumberGrade(XElement root)
+    {
+        GradeType = root.Attribute("GradeType") is { Value: var gt } ? gt.ToEnum<GradeType>() : GradeType;
+        GradingRule = root.Attribute("GradingRule") is { Value: var gr } ? gr.ToEnum<GradingRule>() : GradingRule;
+        GradeAgency = root.Attribute("GradeAgency") is { Value: var ga } ? ga.ToEnum<LumberAgency>() : GradeAgency;
+        ModulusElasticity = root.Attribute("ModulusElasticity") is { Value: var me } ? me.ToEnum<ModulusElasticity>() : ModulusElasticity;
+        Face = root.Attribute("Face") is { Value: var f } ? f.ToEnum<Face>() : Face;
+        GradeName = root.Element("GradeName")?.Value ?? GradeName;
+        GradeCode = root.Element("GradeCode")?.Value ?? GradeCode;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("LumberGrade",
+            GradeType != null ? new XAttribute("GradeType", GradeType) : null,
+            GradingRule != null ? new XAttribute("GradingRule", GradingRule) : null,
+            GradeAgency != null ? new XAttribute("GradeAgency", GradeAgency) : null,
+            ModulusElasticity != null ? new XAttribute("ModulusElasticity", ModulusElasticity) : null,
+            Face != null ? new XAttribute("Face", Face) : null,
+            GradeName != null ? new XElement("GradeName", GradeName) : null,
+            GradeCode != null ? new XElement("GradeCode", GradeCode) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class LumberSpecies
@@ -991,6 +1025,7 @@ public abstract class MeasurementBase
     public Value Value = new();
     public RangeMin? RangeMin = null;
     public RangeMax? RangeMax = null;
+    public List<string> AdditionalText = [];
 
     public abstract string LocalName { get; }
 
@@ -1003,6 +1038,7 @@ public abstract class MeasurementBase
         Value = root.Element("Value") is { } value ? new(value) : Value;
         RangeMin = root.Element("RangeMin") is { } min ? new(min) : RangeMin;
         RangeMax = root.Element("RangeMax") is { } max ? new(max) : RangeMax;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
     }
 
     public override string ToString()
@@ -1012,7 +1048,8 @@ public abstract class MeasurementBase
             WithGrain != null ? new XAttribute("WithGrain", WithGrain) : null,
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
-            RangeMax != null ? XElement.Parse($"{RangeMax}") : null
+            RangeMax != null ? XElement.Parse($"{RangeMax}") : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
     }
 }
