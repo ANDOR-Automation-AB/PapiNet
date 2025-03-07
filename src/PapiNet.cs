@@ -198,7 +198,8 @@ public class LumberGrade
 {
     public GradeType? GradeType = null;
     public GradingRule? GradingRule = null;
-
+    public LumberAgency? GradeAgency = null;
+    public ModulusElasticity? ModulusElasticity = null;
 }
 
 public class LumberSpecies

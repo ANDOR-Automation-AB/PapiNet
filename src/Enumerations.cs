@@ -3229,3 +3229,67 @@ public enum GradingRule
     Supplier,
     Other,
 }
+
+public enum LumberAgency
+{
+    BS,
+    [EnumMember(Value = "BS-EN")]
+    BS_EN,
+    CEN,
+    DIN,
+    EN338,
+    EN1912,
+    [EnumMember(Value = "EN1611-1")]
+    EN1611_1,
+    EDISAW,
+    Generic,
+    GOST,
+    ISO,
+    JAS,
+    NELMA,
+    NLGA,
+    NS,
+    NSLB,
+    RIS,
+    RT,
+    SIS,
+    SPIB,
+    WCLIB,
+    WRCLA,
+    WWPA,
+    Supplier,
+}
+
+public enum ModulusElasticity
+{
+    [EnumMember(Value = "1.0E")]
+    E1_0,
+    [EnumMember(Value = "1.1E")]
+    E1_1,
+    [EnumMember(Value = "1.2E")]
+    E1_2,
+    [EnumMember(Value = "1.3E")]
+    E1_3,
+    [EnumMember(Value = "1.4E")]
+    E1_4,
+    [EnumMember(Value = "1.5E")]
+    E1_5,
+    [EnumMember(Value = "1.6E")]
+    E1_6,
+    [EnumMember(Value = "1.7E")]
+    E1_7,
+    [EnumMember(Value = "1.8E")]
+    E1_8,
+    [EnumMember(Value = "1.9E")]
+    E1_9,
+    [EnumMember(Value = "2.0E")]
+    E2_0,
+    [EnumMember(Value = "2.1E")]
+    E2_1,
+    [EnumMember(Value = "2.2E")]
+    E2_2,
+    [EnumMember(Value = "2.3E")]
+    E2_3,
+    [EnumMember(Value = "2.4E")]
+    E2_4,
+}
