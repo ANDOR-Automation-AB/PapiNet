@@ -191,11 +191,16 @@ public class SoftwoodLumber
 public class SoftwoodLumberCharacteristics
 {
     public LumberSpecies LumberSpecies = new();
+
 }
 
-public class LumberSpecies
+public class LumberSpecies : LumberSpeciesBase
 {
+    public LumberSpecies() : base() { }
 
+    public LumberSpecies(XElement root) : base(root) { }
+
+    public override string LocalName => "LumberSpecies";
 }
 
 public abstract class LumberSpeciesBase
