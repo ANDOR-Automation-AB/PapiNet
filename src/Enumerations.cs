@@ -2672,3 +2672,12 @@ public enum SampleType
     Target,
     Top,
 }
+
+public enum ResultSource
+{
+    AutoLab,
+    Calculated,
+    ManualLab,
+    OnMachine,
+    Predicted,
+}
