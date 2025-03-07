@@ -200,8 +200,14 @@ public class Abrasion
     public TestMethod? TestMethod = null;
     public TestAgency? TestAgency = null;
     public SampleType? SampleType = null;
+    Value value;
     public ResultSource? ResultSource = null;
     public DetailValue? DetailValue = null;
+    public DetailRangeMin? DetailRangeMin = null;
+}
+
+public class DetailRangeMin
+{
 }
 
 public class DetailValue
@@ -818,7 +824,7 @@ public class DeliveryMessageWoodHeader
         TransactionHistoryNumber = root.Element("TransactionHistoryNumber")?.Value ?? TransactionHistoryNumber;
         DeliveryMessageDate = root.Element("DeliveryMessageDate") is { } dmd ? new(dmd) : DeliveryMessageDate;
         DeliveryMessageReference = [.. root.Elements("DeliveryMessageReference").Select(e => new DeliveryMessageReference(e))];
-        DocumentReferenceInformation = [.. root.Elements("DocumentReferenceInformation").Select(e => new DocumentReferenceInformation(e)];
+        DocumentReferenceInformation = [.. root.Elements("DocumentReferenceInformation").Select(e => new DocumentReferenceInformation(e))];
         BuyerParty = root.Element("BuyerParty") is { } bp ? new(bp) : BuyerParty;
         BillToParty = root.Element("BillToParty") is { } btp ? new(btp) : BillToParty;
         SupplierParty = root.Element("SupplierParty") is { } supa ? new(supa) : SupplierParty;
@@ -2874,54 +2880,53 @@ public class Quantity
     }
 }
 
-public class RangeMin : Value 
+public class RangeMin : ValueBase
 {
     public RangeMin() : base() { }
 
     public RangeMin(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("RangeMin",
-            new XAttribute("UOM", UOM),
-            Text
-        ).ToString();
-    }
+    public override string LocalName => "RangeMin";
 }
 
-public class RangeMax : Value
+public class RangeMax : ValueBase
 {
     public RangeMax() : base() { }
 
     public RangeMax(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("RangeMax",
-            new XAttribute("UOM", UOM),
-            Text
-        ).ToString();
-    }
+    public override string LocalName => "RangeMax";
 }
 
-public class Value
+public class Value : ValueBase
+{
+    public Value() : base() { }
+
+    public Value(XElement root) : base(root) { }
+
+    public override string LocalName => "Value";
+}
+
+public abstract class ValueBase
 {
     public UOM UOM = UOM.Unit;
-    public string Text = string.Empty;
+    public string Value = string.Empty;
 
-    public Value() { }
+    public abstract string LocalName { get; }
 
-    public Value(XElement root)
+    public ValueBase() { }
+
+    public ValueBase(XElement root)
     {
         UOM = root.Attribute("UOM") is { Value: var uom } ? Enum.Parse<UOM>(uom) : UOM;
-        Text = root.Value;
+        Value = root.Value;
     }
 
     public override string ToString()
     {
-        return new XElement("Value",
+        return new XElement(LocalName,
             new XAttribute("UOM", UOM),
-            Text
+            Value
         ).ToString();
     }
 }
