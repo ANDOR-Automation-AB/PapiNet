@@ -2888,3 +2888,10 @@ public enum SpeciesOrigin
     Inland,
     Other,
 }
+
+public enum SpeciesAgency
+{
+    ISO,
+    //prEN TC(1113-1),
+    Supplier,
+}
