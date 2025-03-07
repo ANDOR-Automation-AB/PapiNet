@@ -208,6 +208,43 @@ public class Abrasion
     public SampleSize? SampleSize = null;
     public TwoSigmaLower? TwoSigmaLower = null;
     public TwoSigmaUpper? TwoSigmaUpper = null;
+    public string Value = string.Empty;
+
+    public Abrasion() { }
+
+    public Abrasion(XElement root)
+    {
+        TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
+        TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
+        SampleType = root.Attribute("SampleType") is { Value: var st } ? Enum.Parse<SampleType>(st) : SampleType;
+        ResultSource = root.Attribute("ResultSource") is { Value: var rs } ? Enum.Parse<ResultSource>(rs) : ResultSource;
+        DetailValue = root.Element("DetailValue") is { } dv ? new(dv) : DetailValue;
+        DetailRangeMin = root.Element("DetailRangeMin") is { } drmin ? new(drmin) : DetailRangeMin;
+        DetailRangeMax = root.Element("DetailRangeMax") is { } drmax ? new(drmax) : DetailRangeMax;
+        StandardDeviation = root.Element("StandardDeviation") is { } sd ? new(sd) : StandardDeviation;
+        SampleSize = root.Element("SampleSize") is { } ss ? new(ss) : SampleSize;
+        TwoSigmaLower = root.Element("TwoSigmaLower") is { } tsl ? new(tsl) : TwoSigmaLower;
+        TwoSigmaUpper = root.Element("TwoSigmaUpper") is { } tsu ? new(tsu) : TwoSigmaUpper;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Abrasion",
+            TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
+            TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
+            SampleType != null ? new XAttribute("SampleType", SampleType) : null,
+            ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
+            DetailValue != null ? XElement.Parse($"{DetailValue}") : null,
+            DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
+            DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
+            StandardDeviation != null ? XElement.Parse($"{StandardDeviation}") : null,
+            SampleSize != null ? XElement.Parse($"{SampleSize}") : null,
+            TwoSigmaLower != null ? XElement.Parse($"{TwoSigmaLower}") : null,
+            TwoSigmaUpper != null ? XElement.Parse($"{TwoSigmaUpper}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class TwoSigmaUpper : ValueBase
