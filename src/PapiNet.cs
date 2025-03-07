@@ -204,6 +204,14 @@ public class Abrasion
     public DetailValue? DetailValue = null;
     public DetailRangeMin? DetailRangeMin = null;
     public DetailRangeMax? DetailRangeMax = null;
+    public StandardDeviation? StandardDeviation = null;
+}
+
+public class StandardDeviation : ValueBase
+{
+    public StandardDeviation(XElement root) : base(root) { }
+
+    public override string LocalName => throw new NotImplementedException();
 }
 
 public class DetailRangeMax : ValueBase
