@@ -180,6 +180,25 @@ public class ProductIdentifier
 {
     public Agency Agency = Agency.Other;
     public ProductIdentifierType ProductIdentifierType = ProductIdentifierType.Other;
+    public string Value = string.Empty;
+
+    public ProductIdentifier() { }
+
+    public ProductIdentifier(XElement root)
+    {
+        Agency = root.Attribute("Agency") is { Value: var a } ? Enum.Parse<Agency>(a) : Agency;
+        ProductIdentifierType = root.Attribute("ProductIdentifierType") is { Value: var pit } ? Enum.Parse<ProductIdentifierType>(pit) : ProductIdentifierType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductIdentifier",
+            new XAttribute("Agency", Agency),
+            new XAttribute("ProductIdentifierType", ProductIdentifierType),
+            Value
+        ).ToString();
+    }
 }
 
 public class PrepInformation
