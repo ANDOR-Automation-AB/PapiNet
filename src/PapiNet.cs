@@ -200,36 +200,31 @@ public class Abrasion
     public TestMethod? TestMethod = null;
     public TestAgency? TestAgency = null;
     public SampleType? SampleType = null;
-    Value value;
     public ResultSource? ResultSource = null;
     public DetailValue? DetailValue = null;
     public DetailRangeMin? DetailRangeMin = null;
+    public DetailRangeMax? DetailRangeMax = null;
 }
 
-public class DetailRangeMin
+public class DetailRangeMax : ValueBase
 {
+    public DetailRangeMax(XElement root) : base(root) { }
+
+    public override string LocalName => "DetailRangeMax";
 }
 
-public class DetailValue
+public class DetailRangeMin : ValueBase
 {
-    public UOM UOM = UOM.None;
-    public string Value = string.Empty;
+    public DetailRangeMin(XElement root) : base(root) { }
 
-    public DetailValue() { }
+    public override string LocalName => "DetailRangeMin";
+}
 
-    public DetailValue(XElement root)
-    {
-        UOM = root.Attribute("UOM") is { Value: var uom } ? Enum.Parse<UOM>(uom) : UOM;
-        Value = root.Value;
-    }
+public class DetailValue : ValueBase
+{
+    public DetailValue(XElement root) : base(root) { }
 
-    public override string ToString()
-    {
-        return new XElement("DetailValue",
-            new XAttribute("UOM", UOM),
-            Value
-        ).ToString();
-    }
+    public override string LocalName => "DetailValue";
 }
 
 public class ProductDescription
