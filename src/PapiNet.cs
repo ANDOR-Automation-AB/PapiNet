@@ -192,6 +192,12 @@ public class PaperCharacteristics
     public CoatingBottom? CoatingBottom = null;
     public FinishType? FinishType = null;
     public PrintType? PrintType = null;
+    public List<Abrasion> Abrasion = [];
+}
+
+public class Abrasion
+{
+    public TestMethod? TestMethod = null;
 
 }
 

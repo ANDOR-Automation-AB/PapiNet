@@ -2635,3 +2635,8 @@ public enum PrintType
     SilkScreen,
     WebOffset,
 }
+
+public enum TestMethod
+{
+
+}
