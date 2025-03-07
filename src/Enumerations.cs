@@ -3217,3 +3217,15 @@ public enum WithGrain
     Yes,
     No,
 }
+
+public enum GradingRule
+{
+    [EnumMember(Value = "European 1611-1")]
+    European_1611_1,
+    GSSS,
+    Nordic,
+    [EnumMember(Value = "SS EN 230120")]
+    SS_EN_230120,
+    Supplier,
+    Other,
+}

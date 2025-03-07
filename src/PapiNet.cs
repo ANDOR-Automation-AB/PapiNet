@@ -197,6 +197,8 @@ public class SoftwoodLumberCharacteristics
 public class LumberGrade
 {
     public GradeType? GradeType = null;
+    public GradingRule? GradingRule = null;
+
 }
 
 public class LumberSpecies
