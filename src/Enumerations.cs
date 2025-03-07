@@ -2658,3 +2658,17 @@ public enum TestAgency
     //SS-EN,
     TAPPI,
 }
+
+public enum SampleType
+{
+    Average,
+    Bottom,
+    CDAverage,
+    CDBottom,
+    CDTop,
+    MDAverage,
+    MDBottom,
+    MDTop,
+    Target,
+    Top,
+}

@@ -199,6 +199,7 @@ public class Abrasion
 {
     public TestMethod? TestMethod = null;
     public TestAgency? TestAgency = null;
+    public SampleType? SampleType = null;
 }
 
 public class ProductDescription
