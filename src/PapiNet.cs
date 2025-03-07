@@ -38,8 +38,17 @@ public class DeliveryMessageWood
 
 public class DeliveryMessageWoodSummary
 {
+    public string Value = string.Empty;
+
     public DeliveryMessageWoodSummary(XElement root)
     {
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DeliveryMessageWoodSummary",
+            Value
+        ).ToString();
     }
 }
 
@@ -160,6 +169,38 @@ public class Product
     public List<string> ProductDescription = [];
     public List<Classification> Classification = [];
     public BookManufacturing? BookManufacturing = null;
+    public WoodProducts? WoodProducts = null;
+}
+
+public class WoodProducts
+{
+    public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards = null;
+}
+
+public class WoodTimbersDimensionalLumberBoards
+{
+    public SoftwoodLumber? SoftwoodLumber = null;
+
+}
+
+public class SoftwoodLumber
+{
+    public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics = new();
+}
+
+public class SoftwoodLumberCharacteristics
+{
+    public LumberSpecies LumberSpecies = new();
+}
+
+public class LumberSpecies
+{
+
+}
+
+public abstract class LumberSpeciesBase
+{
+    public SpeciesType? SpeciesType = null;
 }
 
 public class BookManufacturing
