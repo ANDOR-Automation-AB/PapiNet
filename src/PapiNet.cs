@@ -193,6 +193,59 @@ public class PaperCharacteristics
     public FinishType? FinishType = null;
     public PrintType? PrintType = null;
     public List<Abrasion> Abrasion = [];
+    public List<AbsorptionInk> AbsorptionInk = [];
+}
+
+public class AbsorptionInk
+{
+    public TestMethod? TestMethod = null;
+    public TestAgency? TestAgency = null;
+    public SampleType? SampleType = null;
+    public ResultSource? ResultSource = null;
+    public DetailValue DetailValue = new();
+    public DetailRangeMin? DetailRangeMin = null;
+    public DetailRangeMax? DetailRangeMax = null;
+    public StandardDeviation? StandardDeviation = null;
+    public SampleSize? SampleSize = null;
+    public TwoSigmaLower? TwoSigmaLower = null;
+    public TwoSigmaUpper? TwoSigmaUpper = null;
+    public string Value = string.Empty;
+
+    public AbsorptionInk() { }
+
+    public AbsorptionInk(XElement root)
+    {
+        TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
+        TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
+        SampleType = root.Attribute("SampleType") is { Value: var st } ? Enum.Parse<SampleType>(st) : SampleType;
+        ResultSource = root.Attribute("ResultSource") is { Value: var rs } ? Enum.Parse<ResultSource>(rs) : ResultSource;
+        DetailValue = root.Element("DetailValue") is { } dv ? new(dv) : DetailValue;
+        DetailRangeMin = root.Element("DetailRangeMin") is { } drmin ? new(drmin) : DetailRangeMin;
+        DetailRangeMax = root.Element("DetailRangeMax") is { } drmax ? new(drmax) : DetailRangeMax;
+        StandardDeviation = root.Element("StandardDeviation") is { } sd ? new(sd) : StandardDeviation;
+        SampleSize = root.Element("SampleSize") is { } ss ? new(ss) : SampleSize;
+        TwoSigmaLower = root.Element("TwoSigmaLower") is { } tsl ? new(tsl) : TwoSigmaLower;
+        TwoSigmaUpper = root.Element("TwoSigmaUpper") is { } tsu ? new(tsu) : TwoSigmaUpper;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("AbsorptionInk",
+            TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
+            TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
+            SampleType != null ? new XAttribute("SampleType", SampleType) : null,
+            ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
+            XElement.Parse($"{DetailValue}"),
+            DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
+            DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
+            StandardDeviation != null ? XElement.Parse($"{StandardDeviation}") : null,
+            SampleSize != null ? XElement.Parse($"{SampleSize}") : null,
+            TwoSigmaLower != null ? XElement.Parse($"{TwoSigmaLower}") : null,
+            TwoSigmaUpper != null ? XElement.Parse($"{TwoSigmaUpper}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class Abrasion
@@ -201,7 +254,7 @@ public class Abrasion
     public TestAgency? TestAgency = null;
     public SampleType? SampleType = null;
     public ResultSource? ResultSource = null;
-    public DetailValue? DetailValue = null;
+    public DetailValue DetailValue = new();
     public DetailRangeMin? DetailRangeMin = null;
     public DetailRangeMax? DetailRangeMax = null;
     public StandardDeviation? StandardDeviation = null;
@@ -235,7 +288,7 @@ public class Abrasion
             TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
             SampleType != null ? new XAttribute("SampleType", SampleType) : null,
             ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
-            DetailValue != null ? XElement.Parse($"{DetailValue}") : null,
+            XElement.Parse($"{DetailValue}"),
             DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
             DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
             StandardDeviation != null ? XElement.Parse($"{StandardDeviation}") : null,
@@ -249,6 +302,8 @@ public class Abrasion
 
 public class TwoSigmaUpper : ValueBase
 {
+    public TwoSigmaUpper() : base() { }
+
     public TwoSigmaUpper(XElement root) : base(root) { }
 
     public override string LocalName => "TwoSigmaUpper";
@@ -256,6 +311,8 @@ public class TwoSigmaUpper : ValueBase
 
 public class TwoSigmaLower : ValueBase
 {
+    public TwoSigmaLower() : base() { }
+
     public TwoSigmaLower(XElement root) : base(root) { }
 
     public override string LocalName => "TwoSigmaLower";
@@ -280,6 +337,8 @@ public class SampleSize
 
 public class StandardDeviation : ValueBase
 {
+    public StandardDeviation() : base() { }
+
     public StandardDeviation(XElement root) : base(root) { }
 
     public override string LocalName => throw new NotImplementedException();
@@ -287,6 +346,8 @@ public class StandardDeviation : ValueBase
 
 public class DetailRangeMax : ValueBase
 {
+    public DetailRangeMax() : base() { }
+
     public DetailRangeMax(XElement root) : base(root) { }
 
     public override string LocalName => "DetailRangeMax";
@@ -294,6 +355,8 @@ public class DetailRangeMax : ValueBase
 
 public class DetailRangeMin : ValueBase
 {
+    public DetailRangeMin() : base() { }
+
     public DetailRangeMin(XElement root) : base(root) { }
 
     public override string LocalName => "DetailRangeMin";
@@ -301,6 +364,8 @@ public class DetailRangeMin : ValueBase
 
 public class DetailValue : ValueBase
 {
+    public DetailValue() : base() { }
+
     public DetailValue(XElement root) : base(root) { }
 
     public override string LocalName => "DetailValue";
