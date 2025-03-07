@@ -196,7 +196,16 @@ public class PaperCharacteristics
     public List<AbsorptionInk> AbsorptionInk = [];
     public List<AbsorptionWater> AbsorptionWater = [];
     public List<Appearance> Appearance = [];
+    public List<Ash> Ash = [];
+}
 
+public class Ash : PaperCharacteristicsBase
+{
+    public Ash() : base() { }
+
+    public Ash(XElement root) : base(root) { }
+
+    public override string LocalName => "Ash";
 }
 
 public class Appearance : PaperCharacteristicsBase
