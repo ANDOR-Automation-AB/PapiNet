@@ -2640,3 +2640,21 @@ public enum TestMethod
 {
 
 }
+
+public enum TestAgency
+{
+    ASTM,
+    BS,
+    CIE,
+    DuPont,
+    EN,
+    GE,
+    ImageXpert,
+    ISO,
+    //NS-EN,
+    PAPTAC,
+    //SCAN-test,
+    //SFS-EN,
+    //SS-EN,
+    TAPPI,
+}

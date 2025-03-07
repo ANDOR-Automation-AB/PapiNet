@@ -198,7 +198,7 @@ public class PaperCharacteristics
 public class Abrasion
 {
     public TestMethod? TestMethod = null;
-
+    public TestAgency? TestAgency = null;
 }
 
 public class ProductDescription
