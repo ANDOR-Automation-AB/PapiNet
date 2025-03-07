@@ -192,6 +192,18 @@ public class SoftwoodLumberCharacteristics
 {
     public LumberSpecies LumberSpecies = new();
     public LumberGrade LumberGrade = new();
+    public Length? Length = null;
+    public Width? Width = null;
+    public Thickness? Thickness = null;
+}
+
+public class Thickness : MeasurementBase
+{
+    public Thickness() { }
+
+    public Thickness(XElement root) : base(root) { }
+
+    public override string LocalName => "Thickness";
 }
 
 public class LumberGrade
