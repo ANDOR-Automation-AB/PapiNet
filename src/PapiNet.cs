@@ -199,6 +199,16 @@ public class PaperCharacteristics
     public List<Ash> Ash = [];
     public List<BasisWeight> BasisWeight = [];
     public List<BendingResistance> BendingResistance = [];
+    public List<BendingStiffness> BendingStiffness = [];
+}
+
+public class BendingStiffness : PaperCharacteristicsBase
+{
+    public BendingStiffness() : base() { }
+
+    public BendingStiffness(XElement root) : base(root) { }
+
+    public override string LocalName => "BendingStiffness";
 }
 
 public class BendingResistance : PaperCharacteristicsBase
