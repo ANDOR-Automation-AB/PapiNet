@@ -201,6 +201,16 @@ public class PaperCharacteristics
     public List<BendingResistance> BendingResistance = [];
     public List<BendingStiffness> BendingStiffness = [];
     public List<Brightness> Brightness = [];
+    public List<Bulk> Bulk = [];
+}
+
+public class Bulk : PaperCharacteristicsBase
+{
+    public Bulk() : base() { }
+
+    public Bulk(XElement root) : base(root) { }
+
+    public override string LocalName => "Bulk";
 }
 
 public class Brightness : PaperCharacteristicsBase
