@@ -2610,3 +2610,28 @@ public enum FinishType
     Vellum,
     Velvet,
 }
+
+public enum PrintType
+{
+    ColdsetOffset,
+    ContinuousForms,
+    Digital,
+    Flexography,
+    FoilPrint,
+    Forms,
+    Gravure,
+    HeatsetOffset,
+    InkJet,
+    InstantOffset,
+    Laser,
+    Letterpress,
+    LightPrint,
+    MiniWeb,
+    RotoFlexography,
+    RotoGravure,
+    RotoLetterpress,
+    RotoSilkScreen,
+    SheetfedOffset,
+    SilkScreen,
+    WebOffset,
+}
