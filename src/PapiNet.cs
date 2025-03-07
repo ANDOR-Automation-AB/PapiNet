@@ -174,7 +174,21 @@ public class SuppliedComponentInformation
 {
     public Party SupplierParty = new Party() { LocalName = "SupplierParty" };
     public ProductIdentifier ProductIdentifier = new();
-    public ProductDescription? ProductDescription = null;
+    public List<ProductDescription>? ProductDescription = [];
+    public List<Classification> Classification = [];
+    public List<BookClassification> BookClassification = [];
+    public Paper? Paper = null;
+
+}
+
+public class Paper
+{
+    public PaperCharacteristics? PaperCharacteristics = null;
+}
+
+public class PaperCharacteristics
+{
+    public CoatingTop? CoatingTop = null;
 }
 
 public class ProductDescription

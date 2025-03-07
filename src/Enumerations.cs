@@ -2543,3 +2543,23 @@ public enum ProductIdentifierType
     UPC,
     Other,
 }
+
+public enum CoatingTop
+{
+    Acrylic,
+    Flexolyn,
+    FoilCoated,
+    GreaseBarrier,
+    Metallic,
+    MetalizedPolyester,
+    MoistureBarrier,
+    MoldInhibitor,
+    None,
+    OilBarrier,
+    OxygenBarrier,
+    Plastic,
+    PolyCoating,
+    Polyethylene,
+    Pyroxylin,
+    Silicone,
+}
