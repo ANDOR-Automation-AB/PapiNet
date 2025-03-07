@@ -3293,3 +3293,10 @@ public enum ModulusElasticity
     [EnumMember(Value = "2.4E")]
     E2_4,
 }
+
+public enum Face
+{
+    Face1,
+    Face2,
+    Both,
+}

@@ -200,6 +200,7 @@ public class LumberGrade
     public GradingRule? GradingRule = null;
     public LumberAgency? GradeAgency = null;
     public ModulusElasticity? ModulusElasticity = null;
+    public Face? Face = null;
 }
 
 public class LumberSpecies
