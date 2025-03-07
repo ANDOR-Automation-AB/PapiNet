@@ -257,6 +257,7 @@ public abstract class PaperCharacteristicsBase
     public SampleSize? SampleSize = null;
     public TwoSigmaLower? TwoSigmaLower = null;
     public TwoSigmaUpper? TwoSigmaUpper = null;
+    public IncrementalValue? IncrementalValue = null;
     public string Value = string.Empty;
 
     public abstract string LocalName { get; }
@@ -276,6 +277,7 @@ public abstract class PaperCharacteristicsBase
         SampleSize = root.Element("SampleSize") is { } ss ? new(ss) : SampleSize;
         TwoSigmaLower = root.Element("TwoSigmaLower") is { } tsl ? new(tsl) : TwoSigmaLower;
         TwoSigmaUpper = root.Element("TwoSigmaUpper") is { } tsu ? new(tsu) : TwoSigmaUpper;
+        IncrementalValue = root.Element("IncrementalValue") is { } iv ? new(iv) : IncrementalValue;
         Value = root.Value;
     }
 
@@ -293,9 +295,19 @@ public abstract class PaperCharacteristicsBase
             SampleSize != null ? XElement.Parse($"{SampleSize}") : null,
             TwoSigmaLower != null ? XElement.Parse($"{TwoSigmaLower}") : null,
             TwoSigmaUpper != null ? XElement.Parse($"{TwoSigmaUpper}") : null,
+            IncrementalValue != null ? XElement.Parse($"{IncrementalValue}") : null,
             Value
         ).ToString();
     }
+}
+
+public class IncrementalValue : ValueBase
+{
+    public IncrementalValue() : base() { }
+
+    public IncrementalValue(XElement root) : base(root) { }
+
+    public override string LocalName => throw new NotImplementedException();
 }
 
 public class TwoSigmaUpper : ValueBase
