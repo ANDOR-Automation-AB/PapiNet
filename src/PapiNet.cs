@@ -195,6 +195,59 @@ public class PaperCharacteristics
     public List<Abrasion> Abrasion = [];
     public List<AbsorptionInk> AbsorptionInk = [];
     public List<AbsorptionWater> AbsorptionWater = [];
+    public List<Appearance> Appearance = [];
+}
+
+public class Appearance
+{
+    public TestMethod? TestMethod = null;
+    public TestAgency? TestAgency = null;
+    public SampleType? SampleType = null;
+    public ResultSource? ResultSource = null;
+    public DetailValue DetailValue = new();
+    public DetailRangeMin? DetailRangeMin = null;
+    public DetailRangeMax? DetailRangeMax = null;
+    public StandardDeviation? StandardDeviation = null;
+    public SampleSize? SampleSize = null;
+    public TwoSigmaLower? TwoSigmaLower = null;
+    public TwoSigmaUpper? TwoSigmaUpper = null;
+    public string Value = string.Empty;
+
+    public Appearance() { }
+
+    public Appearance(XElement root)
+    {
+        TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
+        TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
+        SampleType = root.Attribute("SampleType") is { Value: var st } ? Enum.Parse<SampleType>(st) : SampleType;
+        ResultSource = root.Attribute("ResultSource") is { Value: var rs } ? Enum.Parse<ResultSource>(rs) : ResultSource;
+        DetailValue = root.Element("DetailValue") is { } dv ? new(dv) : DetailValue;
+        DetailRangeMin = root.Element("DetailRangeMin") is { } drmin ? new(drmin) : DetailRangeMin;
+        DetailRangeMax = root.Element("DetailRangeMax") is { } drmax ? new(drmax) : DetailRangeMax;
+        StandardDeviation = root.Element("StandardDeviation") is { } sd ? new(sd) : StandardDeviation;
+        SampleSize = root.Element("SampleSize") is { } ss ? new(ss) : SampleSize;
+        TwoSigmaLower = root.Element("TwoSigmaLower") is { } tsl ? new(tsl) : TwoSigmaLower;
+        TwoSigmaUpper = root.Element("TwoSigmaUpper") is { } tsu ? new(tsu) : TwoSigmaUpper;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Appearance",
+            TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
+            TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
+            SampleType != null ? new XAttribute("SampleType", SampleType) : null,
+            ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
+            XElement.Parse($"{DetailValue}"),
+            DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
+            DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
+            StandardDeviation != null ? XElement.Parse($"{StandardDeviation}") : null,
+            SampleSize != null ? XElement.Parse($"{SampleSize}") : null,
+            TwoSigmaLower != null ? XElement.Parse($"{TwoSigmaLower}") : null,
+            TwoSigmaUpper != null ? XElement.Parse($"{TwoSigmaUpper}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class AbsorptionWater
