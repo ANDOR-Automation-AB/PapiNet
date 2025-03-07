@@ -201,6 +201,7 @@ public class LumberSpecies
 public abstract class LumberSpeciesBase
 {
     public SpeciesType? SpeciesType = null;
+    public SpeciesOrigin? SpeciesOrigin = null;
 }
 
 public class BookManufacturing

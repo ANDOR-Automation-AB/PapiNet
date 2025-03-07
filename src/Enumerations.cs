@@ -2860,3 +2860,31 @@ public enum SpeciesType
     Zebrano,
     Other,
 }
+
+public enum SpeciesOrigin
+{
+    Africa,
+    America,
+    Austria,
+    Bavaria,
+    Brasil,
+    Canada,
+    Estonia,
+    European,
+    Finland,
+    French,
+    Germany,
+    Indian,
+    Latvia,
+    Lithuania,
+    Norway,
+    Russia,
+    Sweden,
+    North,
+    South,
+    Eastern,
+    Western,
+    Coast,
+    Inland,
+    Other,
+}
