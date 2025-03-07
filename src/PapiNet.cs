@@ -197,6 +197,16 @@ public class PaperCharacteristics
     public List<AbsorptionWater> AbsorptionWater = [];
     public List<Appearance> Appearance = [];
     public List<Ash> Ash = [];
+    public List<BasisWeight> BasisWeight = [];
+}
+
+public class BasisWeight : PaperCharacteristicsBase
+{
+    public BasisWeight() : base() { }
+
+    public BasisWeight(XElement root) : base(root) { }
+
+    public override string LocalName => "BasisWeight";
 }
 
 public class Ash : PaperCharacteristicsBase
