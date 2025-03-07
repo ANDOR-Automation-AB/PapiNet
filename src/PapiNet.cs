@@ -202,9 +202,20 @@ public class PaperCharacteristics
     public List<BendingStiffness> BendingStiffness = [];
     public List<Brightness> Brightness = [];
     public List<Bulk> Bulk = [];
+    public List<Burst> Burst = [];
+
 }
 
-public class Bulk : PaperCharacteristicsBase
+public class Burst : DetailMeasurementBase
+{
+    public Burst() : base() { }
+
+    public Burst(XElement root) : base(root) { }
+
+    public override string LocalName => "Burst";
+}
+
+public class Bulk : DetailMeasurementBase
 {
     public Bulk() : base() { }
 
@@ -213,7 +224,7 @@ public class Bulk : PaperCharacteristicsBase
     public override string LocalName => "Bulk";
 }
 
-public class Brightness : PaperCharacteristicsBase
+public class Brightness : DetailMeasurementBase
 {
     public Brightness() : base() { }
 
@@ -222,7 +233,7 @@ public class Brightness : PaperCharacteristicsBase
     public override string LocalName => "Brightness";
 }
 
-public class BendingStiffness : PaperCharacteristicsBase
+public class BendingStiffness : DetailMeasurementBase
 {
     public BendingStiffness() : base() { }
 
@@ -231,7 +242,7 @@ public class BendingStiffness : PaperCharacteristicsBase
     public override string LocalName => "BendingStiffness";
 }
 
-public class BendingResistance : PaperCharacteristicsBase
+public class BendingResistance : DetailMeasurementBase
 {
     public BendingResistance() : base() { }
 
@@ -240,7 +251,7 @@ public class BendingResistance : PaperCharacteristicsBase
     public override string LocalName => "BendingResistance";
 }
 
-public class BasisWeight : PaperCharacteristicsBase
+public class BasisWeight : DetailMeasurementBase
 {
     public BasisWeight() : base() { }
 
@@ -249,7 +260,7 @@ public class BasisWeight : PaperCharacteristicsBase
     public override string LocalName => "BasisWeight";
 }
 
-public class Ash : PaperCharacteristicsBase
+public class Ash : DetailMeasurementBase
 {
     public Ash() : base() { }
 
@@ -258,7 +269,7 @@ public class Ash : PaperCharacteristicsBase
     public override string LocalName => "Ash";
 }
 
-public class Appearance : PaperCharacteristicsBase
+public class Appearance : DetailMeasurementBase
 {
     public Appearance() : base() { }
 
@@ -267,7 +278,7 @@ public class Appearance : PaperCharacteristicsBase
     public override string LocalName => "Appearance";
 }
 
-public class AbsorptionWater : PaperCharacteristicsBase
+public class AbsorptionWater : DetailMeasurementBase
 {
     public AbsorptionWater() : base() { }
 
@@ -276,7 +287,7 @@ public class AbsorptionWater : PaperCharacteristicsBase
     public override string LocalName => "AbsorptionWater";
 }
 
-public class AbsorptionInk : PaperCharacteristicsBase
+public class AbsorptionInk : DetailMeasurementBase
 {
     public AbsorptionInk() : base() { }
 
@@ -285,7 +296,7 @@ public class AbsorptionInk : PaperCharacteristicsBase
     public override string LocalName => "AbsorptionInk";
 }
 
-public class Abrasion : PaperCharacteristicsBase
+public class Abrasion : DetailMeasurementBase
 {
     public Abrasion() : base() { }
 
@@ -294,7 +305,7 @@ public class Abrasion : PaperCharacteristicsBase
     public override string LocalName => "Abrasion";
 }
 
-public abstract class PaperCharacteristicsBase
+public abstract class DetailMeasurementBase
 {
     public TestMethod? TestMethod = null;
     public TestAgency? TestAgency = null;
@@ -312,9 +323,9 @@ public abstract class PaperCharacteristicsBase
 
     public abstract string LocalName { get; }
 
-    public PaperCharacteristicsBase() { }
+    public DetailMeasurementBase() { }
 
-    public PaperCharacteristicsBase(XElement root)
+    public DetailMeasurementBase(XElement root)
     {
         TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
         TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
