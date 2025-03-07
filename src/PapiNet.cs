@@ -201,6 +201,29 @@ public class Abrasion
     public TestAgency? TestAgency = null;
     public SampleType? SampleType = null;
     public ResultSource? ResultSource = null;
+    public DetailValue? DetailValue = null;
+}
+
+public class DetailValue
+{
+    public UOM UOM = UOM.None;
+    public string Value = string.Empty;
+
+    public DetailValue() { }
+
+    public DetailValue(XElement root)
+    {
+        UOM = root.Attribute("UOM") is { Value: var uom } ? Enum.Parse<UOM>(uom) : UOM;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("DetailValue",
+            new XAttribute("UOM", UOM),
+            Value
+        ).ToString();
+    }
 }
 
 public class ProductDescription
