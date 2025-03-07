@@ -3300,3 +3300,15 @@ public enum Face
     Face2,
     Both,
 }
+
+public enum SeasoningType
+{
+    Dry,
+    Green,
+    KD,
+    KDAT,
+    PAD,
+    ShippingDry,
+    SurfacedDry,
+    SurfacedGreen,
+}

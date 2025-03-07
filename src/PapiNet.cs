@@ -195,6 +195,12 @@ public class SoftwoodLumberCharacteristics
     public Length? Length = null;
     public Width? Width = null;
     public Thickness? Thickness = null;
+    public Seasoning? Seasoning = null;
+}
+
+public class Seasoning
+{
+    public SeasoningType? SeasoningType = null;
 }
 
 public class Thickness : MeasurementBase
