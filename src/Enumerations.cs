@@ -1,4 +1,6 @@
-﻿namespace PapiNet;
+﻿using System.Runtime.Serialization;
+
+namespace PapiNet;
 
 public enum DeliveryMessageType
 {
@@ -2896,11 +2898,13 @@ public enum SpeciesAgency
     Supplier,
 }
 
+// TODO :  Write enum member value
 public enum GradeType
 {
-    //#1,
-
-    //#1 and #2 
+    [EnumMember(Value = "#1")]
+    Num1,
+    [EnumMember(Value = "#1 and #2")]
+    Num1AndNum2,
     //#1 and #2 Clear 
     //#1 (SRB) 
     //#1 Box 
@@ -3198,4 +3202,12 @@ public enum GradeType
     //Utility (SRB) 
     //Utility and Btr
     //VG Ladder Rails
+}
+
+public enum ActualNominal
+{
+    Actual,
+    Covering,
+    Modal,
+    Nominal,
 }

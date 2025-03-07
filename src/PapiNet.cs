@@ -813,7 +813,7 @@ public class SafetyAndEnvironmentalInformation
     }
 }
 
-public class SafetyAndEnvironmentalCertification : RangeValueBase
+public class SafetyAndEnvironmentalCertification : MeasurementBase
 {
     public SafetyAndEnvironmentalCertification() : base() { }
 
@@ -901,7 +901,7 @@ public class QuantityOrderedInformation
     public Quantity Quantity = new();
     public List<InformationalQuantity> InformationalQuantity = [];
     public List<string> AdditionalText = [];
-    public List<Length_Object> Length = [];
+    public List<Length> Length = [];
     public string Value = string.Empty;
 
     public QuantityOrderedInformation() { }
@@ -911,7 +911,7 @@ public class QuantityOrderedInformation
         Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
         InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(iq => new InformationalQuantity(iq))];
         AdditionalText = [.. root.Elements("AdditionalText").Select(t => t.Value)];
-        Length = [.. root.Elements("Length").Select(l => new Length_Object(l))];
+        Length = [.. root.Elements("Length").Select(l => new Length(l))];
         Value = root.Value;
     }
 
@@ -980,17 +980,18 @@ public class MillCharacteristics
     }
 }
 
-public abstract class RangeValueBase
+public abstract class MeasurementBase
 {
+    public ActualNominal? ActualNominal = null;
     public Value Value = new();
     public RangeMin? RangeMin = null;
     public RangeMax? RangeMax = null;
 
     public abstract string LocalName { get; }
 
-    public RangeValueBase() { }
+    public MeasurementBase() { }
 
-    public RangeValueBase(XElement root)
+    public MeasurementBase(XElement root)
     {
         Value = root.Element("Value") is { } value ? new(value) : Value;
         RangeMin = root.Element("RangeMin") is { } min ? new(min) : RangeMin;
@@ -1007,7 +1008,7 @@ public abstract class RangeValueBase
     }
 }
 
-public class TotalNumberOfUnits : RangeValueBase
+public class TotalNumberOfUnits : MeasurementBase
 {
     public override string LocalName => "TotalNumberOfUnits";
     public TotalNumberOfUnits() { }
@@ -1726,7 +1727,7 @@ public class RoadObstruction
     public List<MapCoordinates> MapCoordinates = [];
     public string? RoadSlopePercent = null;
     public List<RoadBearingCapacity> RoadBearingCapacity = [];
-    public Length_Object? Length = null;
+    public Length? Length = null;
     public Width? Width = null;
     public Height? Height = null;
     public eAttachment? eAttachment = null;
@@ -1767,7 +1768,7 @@ public class RoadObstruction
     }
 }
 
-public class Height : RangeValueBase
+public class Height : MeasurementBase
 {
     public Height() { }
 
@@ -1776,7 +1777,7 @@ public class Height : RangeValueBase
     public override string LocalName => "Height";
 }
 
-public class Width : RangeValueBase
+public class Width : MeasurementBase
 {
     public Width() { }
 
@@ -1785,11 +1786,11 @@ public class Width : RangeValueBase
     public override string LocalName => "Width";
 }
 
-public class Length_Object : RangeValueBase
+public class Length : MeasurementBase
 {
-    public Length_Object() { }
+    public Length() { }
 
-    public Length_Object(XElement root) : base(root) { }
+    public Length(XElement root) : base(root) { }
 
     public override string LocalName => "Length";
 }
@@ -1847,7 +1848,7 @@ public class RoadClassification
     }
 }
 
-public class RouteLegLength : RangeValueBase
+public class RouteLegLength : MeasurementBase
 {
     public RouteLegLength() { }
 
@@ -2269,7 +2270,7 @@ public class TransportUnitMeasurements
     }
 }
 
-public class TransportUnitWeight : RangeValueBase
+public class TransportUnitWeight : MeasurementBase
 {
     public TransportUnitWeight() { }
 
@@ -2278,7 +2279,7 @@ public class TransportUnitWeight : RangeValueBase
     public override string LocalName => "TransportUnitWeight";
 }
 
-public class TransportUnitHeight : RangeValueBase
+public class TransportUnitHeight : MeasurementBase
 {
     public TransportUnitHeight() { }
 
@@ -2287,7 +2288,7 @@ public class TransportUnitHeight : RangeValueBase
     public override string LocalName => "TransportUnitHeight";
 }
 
-public class TransportUnitWidth : RangeValueBase
+public class TransportUnitWidth : MeasurementBase
 {
     public TransportUnitWidth() { }
 
@@ -2296,7 +2297,7 @@ public class TransportUnitWidth : RangeValueBase
     public override string LocalName => "TransportUnitWidth";
 }
 
-public class TransportUnitLength : RangeValueBase
+public class TransportUnitLength : MeasurementBase
 {
     public TransportUnitLength() { }
 
@@ -2460,7 +2461,7 @@ public class TransportVehicleMeasurements
     }
 }
 
-public class TransportVehicleWeight : RangeValueBase
+public class TransportVehicleWeight : MeasurementBase
 {
     public TransportVehicleWeight() { }
 
@@ -2469,7 +2470,7 @@ public class TransportVehicleWeight : RangeValueBase
     public override string LocalName => "TransportVehicleWeight";
 }
 
-public class TransportVehicleHeight : RangeValueBase
+public class TransportVehicleHeight : MeasurementBase
 {
     public TransportVehicleHeight() { }
 
@@ -2478,7 +2479,7 @@ public class TransportVehicleHeight : RangeValueBase
     public override string LocalName => "TransportVehicleHeight";
 }
 
-public class TransportVehicleWidth : RangeValueBase
+public class TransportVehicleWidth : MeasurementBase
 {
     public TransportVehicleWidth() { }
 
@@ -2487,7 +2488,7 @@ public class TransportVehicleWidth : RangeValueBase
     public override string LocalName => "TransportVehicleWidth";
 }
 
-public class TransportVehicleLength : RangeValueBase
+public class TransportVehicleLength : MeasurementBase
 {
     public TransportVehicleLength() { }
 
@@ -2887,7 +2888,7 @@ public class PriceAdjustment
     }
 }
 
-public class AdjustmentValue : RangeValueBase
+public class AdjustmentValue : MeasurementBase
 {
     public CurrencyValue CurrencyValue = new();
 
@@ -2911,7 +2912,7 @@ public class AdjustmentValue : RangeValueBase
     }
 }
 
-public class AdjustmentPercentage : RangeValueBase
+public class AdjustmentPercentage : MeasurementBase
 {
     public AdjustmentPercentage() { }
 
@@ -2920,7 +2921,7 @@ public class AdjustmentPercentage : RangeValueBase
     public override string LocalName => "AdjustmentPercentage";
 }
 
-public class MonetaryAdjustmentStartQuantity : RangeValueBase
+public class MonetaryAdjustmentStartQuantity : MeasurementBase
 {
     public MonetaryAdjustmentStartQuantity() { }
 
@@ -3028,7 +3029,7 @@ public abstract class CurrencyValueBase
     }
 }
 
-public class InformationalPricePerUnit : RangeValueBase
+public class InformationalPricePerUnit : MeasurementBase
 {
     public InformationalPricePerUnitType InformationalPricePerUnitType = InformationalPricePerUnitType.ProductPrice;
     public CurrencyValue CurrencyValue = new();
@@ -3054,7 +3055,7 @@ public class InformationalPricePerUnit : RangeValueBase
     }
 }
 
-public class PricePerUnit : RangeValueBase
+public class PricePerUnit : MeasurementBase
 {
     public CurrencyValue CurrencyValue = new();
 
