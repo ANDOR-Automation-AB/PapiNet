@@ -190,6 +190,8 @@ public class PaperCharacteristics
 {
     public CoatingTop? CoatingTop = null;
     public CoatingBottom? CoatingBottom = null;
+    public FinishType? FinishType = null;
+
 }
 
 public class ProductDescription

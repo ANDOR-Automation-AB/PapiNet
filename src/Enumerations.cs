@@ -2583,3 +2583,30 @@ public enum CoatingBottom
     Pyroxylin,
     Silicone,
 }
+
+public enum FinishType
+{
+    Bond,
+    Clear,
+    CustomTint,
+    Dull,
+    English,
+    Gloss,
+    Hazy,
+    Laid,
+    Linen,
+    Machine,
+    Matte,
+    Metalized,
+    Satin,
+    SCA,
+    SCB,
+    SCC,
+    Silk,
+    Silver,
+    Smooth,
+    SoftGloss,
+    TransparentBlue,
+    Vellum,
+    Velvet,
+}
