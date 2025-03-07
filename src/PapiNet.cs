@@ -994,6 +994,8 @@ public abstract class MeasurementBase
 
     public MeasurementBase(XElement root)
     {
+        ActualNominal = root.Attribute("ActualNominal") is { Value: var an } ? an.ToEnum<ActualNominal>() : ActualNominal;
+        WithGrain = root.Attribute("WithGrain") is { Value: var wg } ? wg.ToEnum<WithGrain>() : WithGrain;
         Value = root.Element("Value") is { } value ? new(value) : Value;
         RangeMin = root.Element("RangeMin") is { } min ? new(min) : RangeMin;
         RangeMax = root.Element("RangeMax") is { } max ? new(max) : RangeMax;
@@ -1002,6 +1004,8 @@ public abstract class MeasurementBase
     public override string ToString()
     {
         return new XElement(LocalName,
+            ActualNominal != null ? new XAttribute("ActualNominal", ActualNominal) : null,
+            WithGrain != null ? new XAttribute("WithGrain", WithGrain) : null,
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
             RangeMax != null ? XElement.Parse($"{RangeMax}") : null
