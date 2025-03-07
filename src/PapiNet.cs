@@ -176,7 +176,33 @@ public class PrepInformation
     public PrepShipDate? PrepShipDate = null;
     public PrepDueDate? PrepDueDate = null;
     public PrepNeededDate? PrepNeededDate = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
 
+    public PrepInformation() { }
+
+    public PrepInformation(XElement root)
+    {
+        PrepType = root.Element("PrepType") is { Value: var pt } ? Enum.Parse<PrepType>(pt) : PrepType;
+        SupplierParty = root.Element("SupplierParty") is { } sp ? new(sp) : SupplierParty;
+        PrepShipDate = root.Element("PrepShipDate") is { } psd ? new(psd) : PrepShipDate;
+        PrepDueDate = root.Element("PrepDueDate") is { } pdd ? new(pdd) : PrepDueDate;
+        PrepNeededDate = root.Element("PrepNeededDate") is { } pnd ? new(pnd) : PrepNeededDate;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PrepInformation",
+            PrepType != null ? new XAttribute("PrepType", PrepType) : null,
+            XElement.Parse($"{SupplierParty}"),
+            PrepShipDate != null ? XElement.Parse($"{PrepShipDate}") : null,
+            PrepDueDate != null ? XElement.Parse($"{PrepDueDate}") : null,
+            PrepNeededDate != null ? XElement.Parse($"{PrepNeededDate}") : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class PrepNeededDate : DateTimeBase
