@@ -983,6 +983,7 @@ public class MillCharacteristics
 public abstract class MeasurementBase
 {
     public ActualNominal? ActualNominal = null;
+    public WithGrain? WithGrain = null;
     public Value Value = new();
     public RangeMin? RangeMin = null;
     public RangeMax? RangeMax = null;

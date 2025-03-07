@@ -3211,3 +3211,9 @@ public enum ActualNominal
     Modal,
     Nominal,
 }
+
+public enum WithGrain
+{
+    Yes,
+    No,
+}
