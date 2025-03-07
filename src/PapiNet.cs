@@ -686,54 +686,22 @@ public class DeliveryMessageWoodHeader
     {
         DeliveryMessageNumber = root.Element("DeliveryMessageNumber")?.Value ?? DeliveryMessageNumber;
         TransactionHistoryNumber = root.Element("TransactionHistoryNumber")?.Value ?? TransactionHistoryNumber;
-        DeliveryMessageDate = root.Element("DeliveryMessageDate") is XElement deliveryMessageDate 
-            ? new DeliveryMessageDate(deliveryMessageDate) 
-            : DeliveryMessageDate;
-        DeliveryMessageReference = root.Elements("DeliveryMessageReference")
-            .Select(reference => new DeliveryMessageReference(reference))
-            .ToList();
-        DocumentReferenceInformation = root.Elements("DocumentReferenceInformation")
-            .Select(information => new DocumentReferenceInformation(information))
-            .ToList();
-        BuyerParty = root.Element("BuyerParty") is XElement buyerParty
-            ? new Party(buyerParty) { LocalName = "BuyerParty" }
-            : BuyerParty;
-        BillToParty = root.Element("BillToParty") is XElement billToParty
-            ? new Party(billToParty) { LocalName = "BillToParty" }
-            : BillToParty;
-        SupplierParty = root.Element("SupplierParty") is XElement supplierParty
-            ? new Party(supplierParty) { LocalName = "SupplierParty" }
-            : SupplierParty;
-        OtherParty = root.Elements("OtherParty")
-            .Select(party => new Party(party) { LocalName = "OtherParty" })
-            .ToList();
-        SenderParty = root.Element("SenderParty") is XElement senderParty
-            ? new Party(senderParty) { LocalName = "SenderParty" }
-            : SenderParty;
-        ReceiverParty = root.Element("ReceiverParty") is XElement receiverParty
-            ? new Party(receiverParty) { LocalName = "ReceiverParty" }
-            : ReceiverParty;
-        ShipToInformation = root.Elements("ShipToInformation")
-            .Select(information => new ShipToInformation(information))
-            .ToList();
-        CountryOfOrigin = root.Element("CountryOfOrigin") is XElement countryOfOrigin
-            ? new CountryOfOrigin(countryOfOrigin)
-            : CountryOfOrigin;
-        CountryOfDestination = root.Element("CountryOfDestination") is XElement countryOfDestination
-            ? new CountryOfDestination(countryOfDestination)
-            : CountryOfDestination;
-        CountryOfConsumption = root.Element("CountryOfConsumption") is XElement countryOfConsumption
-            ? new CountryOfConsumption(countryOfConsumption)
-            : CountryOfConsumption;
-        Insurance = root.Element("Insurance") is XElement insurance
-            ? new Insurance(insurance)
-            : Insurance;
-        AdditionalText = root.Elements("AdditionalText")
-            .Select(text => text.Value)
-            .ToList();
-        DocumentInformation = root.Elements("DocumentInformation")
-            .Select(information => new DocumentInformation(information))
-            .ToList();
+        DeliveryMessageDate = root.Element("DeliveryMessageDate") is { } dmd ? new(dmd) : DeliveryMessageDate;
+        DeliveryMessageReference = [.. root.Elements("DeliveryMessageReference").Select(e => new DeliveryMessageReference(e))];
+        DocumentReferenceInformation = [.. root.Elements("DocumentReferenceInformation").Select(e => new DocumentReferenceInformation(e)];
+        BuyerParty = root.Element("BuyerParty") is { } bp ? new(bp) : BuyerParty;
+        BillToParty = root.Element("BillToParty") is { } btp ? new(btp) : BillToParty;
+        SupplierParty = root.Element("SupplierParty") is { } supa ? new(supa) : SupplierParty;
+        OtherParty = [.. root.Elements("OtherParty").Select(e => new Party(e))];
+        SenderParty = root.Element("SenderParty") is { } sepa ? new(sepa) : SenderParty;
+        ReceiverParty = root.Element("ReceiverParty") is { } rp ? new(rp) : ReceiverParty;
+        ShipToInformation = [.. root.Elements("ShipToInformation").Select(e => new ShipToInformation(e))];
+        CountryOfOrigin = root.Element("CountryOfOrigin") is { } coo ? new(coo) : CountryOfOrigin;
+        CountryOfDestination = root.Element("CountryOfDestination") is { } cod ? new(cod) : CountryOfDestination;
+        CountryOfConsumption = root.Element("CountryOfConsumption") is { } coc ? new(coc) : CountryOfConsumption;
+        Insurance = root.Element("Insurance") is { } i ? new(i) : Insurance;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        DocumentInformation = [.. root.Elements("DocumentInformation").Select(e => new DocumentInformation(e))];
         Value = root.Value;
     }
 
