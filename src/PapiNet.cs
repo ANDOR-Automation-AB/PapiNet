@@ -203,7 +203,35 @@ public abstract class LumberSpeciesBase
     public SpeciesType? SpeciesType = null;
     public SpeciesOrigin? SpeciesOrigin = null;
     public SpeciesAgency? SpeciesAgency = null;
+    public string? SpeciesCode = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
 
+    public abstract string LocalName { get; }
+
+    public LumberSpeciesBase() { }
+
+    public LumberSpeciesBase(XElement root)
+    {
+        SpeciesType = root.Attribute("SpeciesType") is { Value: var st } ? Enum.Parse<SpeciesType>(st) : SpeciesType;
+        SpeciesOrigin = root.Attribute("SpeciesOrigin") is { Value: var so } ? Enum.Parse<SpeciesOrigin>(so) : SpeciesOrigin;
+        SpeciesAgency = root.Attribute("SpeciesAgency") is { Value: var sa } ? Enum.Parse<SpeciesAgency>(sa) : SpeciesAgency;
+        SpeciesCode = root.Element("SpeciesCode")?.Value ?? SpeciesCode;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement(LocalName,
+            SpeciesType != null ? new XAttribute("SpeciesType", SpeciesType) : null,
+            SpeciesOrigin != null ? new XAttribute("SpeciesOrigin", SpeciesOrigin) : null,
+            SpeciesAgency != null ? new XAttribute("SpeciesAgency", SpeciesAgency) : null,
+            SpeciesCode != null ? new XElement("SpeciesCode", SpeciesCode) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class BookManufacturing
