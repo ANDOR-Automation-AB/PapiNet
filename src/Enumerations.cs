@@ -2516,3 +2516,8 @@ public enum PrepType
     Transparencies,
 }
 
+public enum SuppliedComponentType
+{
+    Component,
+    RawMaterial,
+}
