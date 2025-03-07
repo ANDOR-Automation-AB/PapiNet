@@ -2521,3 +2521,25 @@ public enum SuppliedComponentType
     Component,
     RawMaterial,
 }
+
+public enum ProductIdentifierType
+{
+    BrandName,
+    CatalogueNumber,
+    CustomsTariffNumber,
+    EAN8,
+    EAN13,
+    ExportHarmonisedSystemCode,
+    FinishedGoodIdentifier,
+    GradeCode,
+    GradeName,
+    ImportHarmonisedSystemCode,
+    ManufacturingGradeCode,
+    ManufacturingGradeName,
+    Ondule,
+    PartNumber,
+    RFQPartNumber,
+    SKU,
+    UPC,
+    Other,
+}

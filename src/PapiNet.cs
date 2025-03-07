@@ -167,6 +167,19 @@ public class BookManufacturing
     public List<BookClassification> BookClassification = [];
     public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
     public List<PrepInformation> PrepInformation = [];
+    public List<SuppliedComponentInformation> SuppliedComponentInformation = [];
+}
+
+public class SuppliedComponentInformation
+{
+    public Party SupplierParty = new Party() { LocalName = "SupplierParty" };
+    public ProductIdentifier ProductIdentifier = new();
+}
+
+public class ProductIdentifier
+{
+    public Agency Agency = Agency.Other;
+    public ProductIdentifierType ProductIdentifierType = ProductIdentifierType.Other;
 }
 
 public class PrepInformation
