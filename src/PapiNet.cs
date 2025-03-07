@@ -196,9 +196,46 @@ public class PaperCharacteristics
     public List<AbsorptionInk> AbsorptionInk = [];
     public List<AbsorptionWater> AbsorptionWater = [];
     public List<Appearance> Appearance = [];
+
 }
 
-public class Appearance
+public class Appearance : PaperCharacteristicsBase
+{
+    public Appearance() : base() { }
+
+    public Appearance(XElement root) : base(root) { }
+
+    public override string LocalName => "Appearance";
+}
+
+public class AbsorptionWater : PaperCharacteristicsBase
+{
+    public AbsorptionWater() : base() { }
+
+    public AbsorptionWater(XElement root) : base(root) { }
+
+    public override string LocalName => "AbsorptionWater";
+}
+
+public class AbsorptionInk : PaperCharacteristicsBase
+{
+    public AbsorptionInk() : base() { }
+
+    public AbsorptionInk(XElement root) : base(root) { }
+
+    public override string LocalName => "AbsorptionInk";
+}
+
+public class Abrasion : PaperCharacteristicsBase
+{
+    public Abrasion() : base() { }
+
+    public Abrasion(XElement root) : base(root) { }
+
+    public override string LocalName => "Abrasion";
+}
+
+public abstract class PaperCharacteristicsBase
 {
     public TestMethod? TestMethod = null;
     public TestAgency? TestAgency = null;
@@ -213,9 +250,11 @@ public class Appearance
     public TwoSigmaUpper? TwoSigmaUpper = null;
     public string Value = string.Empty;
 
-    public Appearance() { }
+    public abstract string LocalName { get; }
 
-    public Appearance(XElement root)
+    public PaperCharacteristicsBase() { }
+
+    public PaperCharacteristicsBase(XElement root)
     {
         TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
         TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
@@ -233,163 +272,7 @@ public class Appearance
 
     public override string ToString()
     {
-        return new XElement("Appearance",
-            TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
-            TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
-            SampleType != null ? new XAttribute("SampleType", SampleType) : null,
-            ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
-            XElement.Parse($"{DetailValue}"),
-            DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
-            DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
-            StandardDeviation != null ? XElement.Parse($"{StandardDeviation}") : null,
-            SampleSize != null ? XElement.Parse($"{SampleSize}") : null,
-            TwoSigmaLower != null ? XElement.Parse($"{TwoSigmaLower}") : null,
-            TwoSigmaUpper != null ? XElement.Parse($"{TwoSigmaUpper}") : null,
-            Value
-        ).ToString();
-    }
-}
-
-public class AbsorptionWater
-{
-    public TestMethod? TestMethod = null;
-    public TestAgency? TestAgency = null;
-    public SampleType? SampleType = null;
-    public ResultSource? ResultSource = null;
-    public DetailValue DetailValue = new();
-    public DetailRangeMin? DetailRangeMin = null;
-    public DetailRangeMax? DetailRangeMax = null;
-    public StandardDeviation? StandardDeviation = null;
-    public SampleSize? SampleSize = null;
-    public TwoSigmaLower? TwoSigmaLower = null;
-    public TwoSigmaUpper? TwoSigmaUpper = null;
-    public string Value = string.Empty;
-
-    public AbsorptionWater() { }
-
-    public AbsorptionWater(XElement root)
-    {
-        TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
-        TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
-        SampleType = root.Attribute("SampleType") is { Value: var st } ? Enum.Parse<SampleType>(st) : SampleType;
-        ResultSource = root.Attribute("ResultSource") is { Value: var rs } ? Enum.Parse<ResultSource>(rs) : ResultSource;
-        DetailValue = root.Element("DetailValue") is { } dv ? new(dv) : DetailValue;
-        DetailRangeMin = root.Element("DetailRangeMin") is { } drmin ? new(drmin) : DetailRangeMin;
-        DetailRangeMax = root.Element("DetailRangeMax") is { } drmax ? new(drmax) : DetailRangeMax;
-        StandardDeviation = root.Element("StandardDeviation") is { } sd ? new(sd) : StandardDeviation;
-        SampleSize = root.Element("SampleSize") is { } ss ? new(ss) : SampleSize;
-        TwoSigmaLower = root.Element("TwoSigmaLower") is { } tsl ? new(tsl) : TwoSigmaLower;
-        TwoSigmaUpper = root.Element("TwoSigmaUpper") is { } tsu ? new(tsu) : TwoSigmaUpper;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("AbsorptionWater",
-            TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
-            TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
-            SampleType != null ? new XAttribute("SampleType", SampleType) : null,
-            ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
-            XElement.Parse($"{DetailValue}"),
-            DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
-            DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
-            StandardDeviation != null ? XElement.Parse($"{StandardDeviation}") : null,
-            SampleSize != null ? XElement.Parse($"{SampleSize}") : null,
-            TwoSigmaLower != null ? XElement.Parse($"{TwoSigmaLower}") : null,
-            TwoSigmaUpper != null ? XElement.Parse($"{TwoSigmaUpper}") : null,
-            Value
-        ).ToString();
-    }
-}
-
-public class AbsorptionInk
-{
-    public TestMethod? TestMethod = null;
-    public TestAgency? TestAgency = null;
-    public SampleType? SampleType = null;
-    public ResultSource? ResultSource = null;
-    public DetailValue DetailValue = new();
-    public DetailRangeMin? DetailRangeMin = null;
-    public DetailRangeMax? DetailRangeMax = null;
-    public StandardDeviation? StandardDeviation = null;
-    public SampleSize? SampleSize = null;
-    public TwoSigmaLower? TwoSigmaLower = null;
-    public TwoSigmaUpper? TwoSigmaUpper = null;
-    public string Value = string.Empty;
-
-    public AbsorptionInk() { }
-
-    public AbsorptionInk(XElement root)
-    {
-        TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
-        TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
-        SampleType = root.Attribute("SampleType") is { Value: var st } ? Enum.Parse<SampleType>(st) : SampleType;
-        ResultSource = root.Attribute("ResultSource") is { Value: var rs } ? Enum.Parse<ResultSource>(rs) : ResultSource;
-        DetailValue = root.Element("DetailValue") is { } dv ? new(dv) : DetailValue;
-        DetailRangeMin = root.Element("DetailRangeMin") is { } drmin ? new(drmin) : DetailRangeMin;
-        DetailRangeMax = root.Element("DetailRangeMax") is { } drmax ? new(drmax) : DetailRangeMax;
-        StandardDeviation = root.Element("StandardDeviation") is { } sd ? new(sd) : StandardDeviation;
-        SampleSize = root.Element("SampleSize") is { } ss ? new(ss) : SampleSize;
-        TwoSigmaLower = root.Element("TwoSigmaLower") is { } tsl ? new(tsl) : TwoSigmaLower;
-        TwoSigmaUpper = root.Element("TwoSigmaUpper") is { } tsu ? new(tsu) : TwoSigmaUpper;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("AbsorptionInk",
-            TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
-            TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
-            SampleType != null ? new XAttribute("SampleType", SampleType) : null,
-            ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
-            XElement.Parse($"{DetailValue}"),
-            DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
-            DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
-            StandardDeviation != null ? XElement.Parse($"{StandardDeviation}") : null,
-            SampleSize != null ? XElement.Parse($"{SampleSize}") : null,
-            TwoSigmaLower != null ? XElement.Parse($"{TwoSigmaLower}") : null,
-            TwoSigmaUpper != null ? XElement.Parse($"{TwoSigmaUpper}") : null,
-            Value
-        ).ToString();
-    }
-}
-
-public class Abrasion
-{
-    public TestMethod? TestMethod = null;
-    public TestAgency? TestAgency = null;
-    public SampleType? SampleType = null;
-    public ResultSource? ResultSource = null;
-    public DetailValue DetailValue = new();
-    public DetailRangeMin? DetailRangeMin = null;
-    public DetailRangeMax? DetailRangeMax = null;
-    public StandardDeviation? StandardDeviation = null;
-    public SampleSize? SampleSize = null;
-    public TwoSigmaLower? TwoSigmaLower = null;
-    public TwoSigmaUpper? TwoSigmaUpper = null;
-    public string Value = string.Empty;
-
-    public Abrasion() { }
-
-    public Abrasion(XElement root)
-    {
-        TestMethod = root.Attribute("TestMethod") is { Value: var tm } ? Enum.Parse<TestMethod>(tm) : TestMethod;
-        TestAgency = root.Attribute("TestAgency") is { Value: var ta } ? Enum.Parse<TestAgency>(ta) : TestAgency;
-        SampleType = root.Attribute("SampleType") is { Value: var st } ? Enum.Parse<SampleType>(st) : SampleType;
-        ResultSource = root.Attribute("ResultSource") is { Value: var rs } ? Enum.Parse<ResultSource>(rs) : ResultSource;
-        DetailValue = root.Element("DetailValue") is { } dv ? new(dv) : DetailValue;
-        DetailRangeMin = root.Element("DetailRangeMin") is { } drmin ? new(drmin) : DetailRangeMin;
-        DetailRangeMax = root.Element("DetailRangeMax") is { } drmax ? new(drmax) : DetailRangeMax;
-        StandardDeviation = root.Element("StandardDeviation") is { } sd ? new(sd) : StandardDeviation;
-        SampleSize = root.Element("SampleSize") is { } ss ? new(ss) : SampleSize;
-        TwoSigmaLower = root.Element("TwoSigmaLower") is { } tsl ? new(tsl) : TwoSigmaLower;
-        TwoSigmaUpper = root.Element("TwoSigmaUpper") is { } tsu ? new(tsu) : TwoSigmaUpper;
-        Value = root.Value;
-    }
-
-    public override string ToString()
-    {
-        return new XElement("Abrasion",
+        return new XElement(LocalName,
             TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
             TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
             SampleType != null ? new XAttribute("SampleType", SampleType) : null,
