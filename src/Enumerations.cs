@@ -2563,3 +2563,23 @@ public enum CoatingTop
     Pyroxylin,
     Silicone,
 }
+
+public enum CoatingBottom
+{
+    Acrylic,
+    Flexolyn,
+    FoilCoated,
+    GreaseBarrier,
+    Metallic,
+    MetalizedPolyester,
+    MoistureBarrier,
+    MoldInhibitor,
+    None,
+    OilBarrier,
+    OxygenBarrier,
+    Plastic,
+    PolyCoating,
+    Polyethylene,
+    Pyroxylin,
+    Silicone,
+}

@@ -189,6 +189,7 @@ public class Paper
 public class PaperCharacteristics
 {
     public CoatingTop? CoatingTop = null;
+    public CoatingBottom? CoatingBottom = null;
 }
 
 public class ProductDescription
