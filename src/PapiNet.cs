@@ -211,10 +211,30 @@ public class SoftwoodLumberCharacteristics
 
 public class ClassIdentifier
 {
-    public IdentifierCodeType IdentifierCodeType;
-    public IdentifierType IdentifierType;
+    public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
+    public IdentifierType IdentifierType = IdentifierType.Primary;
     public IdentifierFormatType? IdentifierFormatType = null;
     public string Value = string.Empty;
+
+    public ClassIdentifier() { }
+
+    public ClassIdentifier(XElement root)
+    {
+        IdentifierCodeType = root.Attribute("IdentifierCodeType") is { Value: var ict } ? ict.ToEnum<IdentifierCodeType>() : IdentifierCodeType;
+        IdentifierType = root.Attribute("IdentifierType") is { Value: var it } ? it.ToEnum<IdentifierType>() : IdentifierType;
+        IdentifierFormatType = root.Attribute("IdentifierFormatType") is { Value: var ift } ? ift.ToEnum<IdentifierFormatType>() : IdentifierFormatType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ClassIdentifier",
+            new XAttribute("IdentifierCodeType", IdentifierCodeType.GetMemberValue()),
+            new XAttribute("IdentifierType", IdentifierType.GetMemberValue()),
+            IdentifierFormatType != null ? new XAttribute("IdentifierFormatType", IdentifierFormatType.GetMemberValue()) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class ExLog
