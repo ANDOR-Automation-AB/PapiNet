@@ -201,6 +201,35 @@ public class SoftwoodLumberCharacteristics
     public PatternProfile? PatternProfile = null;
     public Trim? Trim = null;
     public Joining? Joining = null;
+    public PressureTreatment? PressureTreatment = null;
+}
+
+public class PressureTreatment
+{
+    public string? CompoundType = null;
+    public string? CompoundAgency = null;   
+    public Value? Value = null;
+    public List<string> AdditionalText = [];
+
+    public PressureTreatment() { }
+
+    public PressureTreatment(XElement root)
+    {
+        CompoundType = root.Attribute("CompoundType")?.Value ?? CompoundType;
+        CompoundAgency = root.Attribute("CompoundAgency")?.Value ?? CompoundAgency;
+        Value = root.Element("Value") is { } v ? new(v) : null;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PressureTreatment",
+            CompoundType != null ? new XAttribute("CompoundType", CompoundType) : null,
+            CompoundAgency != null ? new XAttribute("CompoundAgency", CompoundAgency) : null,
+            Value != null ? XElement.Parse($"{Value}") : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at))
+        ).ToString();
+    }
 }
 
 public class Joining

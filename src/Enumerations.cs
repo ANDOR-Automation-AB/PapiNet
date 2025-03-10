@@ -3508,7 +3508,7 @@ public enum PatternProfileType
     [EnumMember(Value = "EasedEdge")] EasedEdge,
     [EnumMember(Value = "Rabbeted")] Rabbeted,
     [EnumMember(Value = "RadiusEdge")] RadiusEdge,
-    [EnumMember(Value = "Beaded Shelving 2 Bead,")] Beaded_Shelving_2_Bead,,
+    [EnumMember(Value = "Beaded Shelving 2 Bead,")] Beaded_Shelving_2_Bead,
     [EnumMember(Value = "Beaded Shelving 3 Bead")] Beaded_Shelving_3_Bead,
     [EnumMember(Value = "Casket Stock S3S G1E")] Casket_Stock_S3S_G1E,
     [EnumMember(Value = "Casket Stock S3S T1E")] Casket_Stock_S3S_T1E,
