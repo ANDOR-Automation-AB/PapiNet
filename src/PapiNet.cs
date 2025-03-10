@@ -203,6 +203,26 @@ public class SoftwoodLumberCharacteristics
 public class HeatTreatment
 {
     public HeatTreatmentType? HeatTreatmentType = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public HeatTreatment() { }
+
+    public HeatTreatment(XElement root)
+    {
+        HeatTreatmentType = root.Attribute("HeatTreatmentType") is { Value: var htt } ? htt.ToEnum<HeatTreatmentType>() : HeatTreatmentType;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("HeatTreatment",
+            HeatTreatmentType?.GetMemberValue(),
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class MoistureContent
