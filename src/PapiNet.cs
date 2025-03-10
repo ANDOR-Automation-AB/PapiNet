@@ -198,6 +198,12 @@ public class SoftwoodLumberCharacteristics
     public MoistureContent? MoistureContent = null;
     public HeatTreatment? HeatTreatment = null;
     public ManufacturingProcess? ManufacturingProcess = null;
+    public PatternProfile? PatternProfile = null;
+}
+
+public class PatternProfile
+{
+
 }
 
 public class ManufacturingProcess
