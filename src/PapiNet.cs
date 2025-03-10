@@ -208,6 +208,7 @@ public class PressureTreatment
 {
     public PressureTreatmentCompound PressureTreatmentCompound = new();
     public PressureTreatmentConcentration PressureTreatmentConcentration = new();
+    public PressureTreatmentComStdorUseCategory PressureTreatmentComStdorUseCategory;
 }
 
 public class PressureTreatmentConcentration
