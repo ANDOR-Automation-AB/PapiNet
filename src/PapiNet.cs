@@ -212,7 +212,25 @@ public class GradeStamp
     public GradeStamped? GradeStamped = null;
     public string? GradeStampMillNumber = null;
     public GradeStampLocation? GradeStampLocation = null;
+    public string Value = string.Empty;
 
+    public GradeStamp() { }
+
+    public GradeStamp(XElement root)
+    {
+        GradeStamped = root.Attribute("GradeStamped") is { Value: var gs } ? gs.ToEnum<GradeStamped>() : GradeStamped;
+        GradeStampMillNumber = root.Element("GradeStampMillNumber")?.Value ?? GradeStampMillNumber;
+        GradeStampLocation = root.Element("GradeStampLocation") is { Value: var gsl } ? gsl.ToEnum<GradeStampLocation>() : GradeStampLocation;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("GradeStamp",
+
+            Value
+        ).ToString();
+    }
 }
 
 public class OtherTreatment
