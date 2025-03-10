@@ -206,6 +206,26 @@ public class SoftwoodLumberCharacteristics
 public class Joining
 {
     public JoiningType? JoiningType = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public Joining() { }
+
+    public Joining(XElement root)
+    {
+        JoiningType = root.Attribute("JoiningType") is { Value: var jt } ? jt.ToEnum<JoiningType>() : null;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Joining",
+            JoiningType != null ? new XAttribute("JoiningType", JoiningType.GetMemberValue()) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class Trim
