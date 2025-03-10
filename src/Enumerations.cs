@@ -3370,3 +3370,70 @@ public enum HeatTreatmentType
     [EnumMember(Value = "KD56/30")]
     KD56_30,
 }
+
+public enum ManufacturingProcessType
+{
+    Chamfered,
+    Combed,
+    Compressed,
+    Cut,
+    DrySplitted,
+    EndMatched,
+    Finesawn,
+    [EnumMember(Value = "FJ-Lam")]
+    FJ_Lam,
+    [EnumMember(Value = "FJ-Blank")]
+    FJ_Blank,
+    FurtherProcess,
+    FingerJointed,
+    GlueLamBeam,
+    GreenSplitted,
+    [EnumMember(Value = "H and M")]
+    H_and_M,
+    [EnumMember(Value = "H or M")]
+    H_or_M,
+    HeatTreated,
+    Impregnated,
+    ImpregnatedA,
+    ImpregnatedWolmanitAB,
+    [EnumMember(Value = "KD56/30")]
+    KD56_30,
+    Lacquered,
+    Lamwood,
+    MachineStrengthGraded,
+    NorthFloor,
+    Notched,
+    OilTreated,
+    [EnumMember(Value = "Opti-Blank")]
+    Opti_Blank,
+    Painted,
+    Planed,
+    [EnumMember(Value = "Pro-Lam")]
+    Pro_Lam,
+    Resawn,
+    Rough,
+    [EnumMember(Value = "Rougher Headed")]
+    Rougher_Headed,
+    RoughSawn,
+    S1E,
+    S1S,
+    [EnumMember(Value = "S1S EdgeRgh")]
+    S1S_EdgeRgh,
+    S1S1E,
+    S1S2E,
+    S2E,
+    S2S,
+    [EnumMember(Value = "S2S EdgeRgh")]
+    S2S_EdgeRgh,
+    S2S1E,
+    S4S,
+    S4SEE,
+    Sawn,
+    SawTexture,
+    Smooth,
+    Split,
+    StrengthGraded,
+    Treated,
+    Vstol,
+    Other,
+}
