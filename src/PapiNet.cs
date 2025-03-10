@@ -219,6 +219,15 @@ public class FireTreatment
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
         Value = root.Value;
     }
+
+    public override string ToString()
+    {
+        return new XElement("FireTreatment",
+            FireTreatmentType != null ? new XAttribute("FireTreatmentType", FireTreatmentType.GetMemberValue()) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class PressureTreatment
