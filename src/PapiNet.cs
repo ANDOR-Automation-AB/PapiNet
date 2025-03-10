@@ -203,7 +203,8 @@ public class SoftwoodLumberCharacteristics
 
 public class PatternProfile
 {
-
+    public PatternProfileType? PatternProfileType = null;
+    public PatternProfileAgency? PatternProfileAgency = null;
 }
 
 public class ManufacturingProcess
