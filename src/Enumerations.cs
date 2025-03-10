@@ -3714,3 +3714,13 @@ public enum GradeStamped
     [EnumMember(Value = "Yes")] Yes,
     [EnumMember(Value = "No")] No,
 }
+
+public enum GradeStampLocation
+{
+    [EnumMember(Value = "Face")] Face,
+    [EnumMember(Value = "Back")] Back,
+    [EnumMember(Value = "Good Side")] Good_Side,
+    [EnumMember(Value = "Bad Side")] Bad_Side,
+    [EnumMember(Value = "Edge")] Edge,
+    [EnumMember(Value = "End")] End,
+}

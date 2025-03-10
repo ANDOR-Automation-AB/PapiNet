@@ -210,6 +210,9 @@ public class SoftwoodLumberCharacteristics
 public class GradeStamp
 {
     public GradeStamped? GradeStamped = null;
+    public string? GradeStampMillNumber = null;
+    public GradeStampLocation? GradeStampLocation = null;
+
 }
 
 public class OtherTreatment
