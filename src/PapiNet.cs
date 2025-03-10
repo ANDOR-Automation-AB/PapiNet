@@ -200,6 +200,12 @@ public class SoftwoodLumberCharacteristics
     public ManufacturingProcess? ManufacturingProcess = null;
     public PatternProfile? PatternProfile = null;
     public Trim? Trim = null;
+    public Joining? Joining = null;
+}
+
+public class Joining
+{
+    public JoiningType? JoiningType = null;
 }
 
 public class Trim

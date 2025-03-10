@@ -3652,3 +3652,11 @@ public enum TrimType
     [EnumMember(Value = "SquareEndTrim")] SquareEndTrim,
     [EnumMember(Value = "Other")] Other,
 }
+
+public enum JoiningType
+{
+    [EnumMember(Value = "FingerJointed")] FingerJointed,
+    [EnumMember(Value = "FingerJointed-VertUseOnly")] FingerJointed_VertUseOnly,
+    [EnumMember(Value = "Glued-Up")] Glued_Up,
+    [EnumMember(Value = "Other")] Other,
+}
