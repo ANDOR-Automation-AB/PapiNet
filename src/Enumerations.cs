@@ -3437,3 +3437,11 @@ public enum ManufacturingProcessType
     Vstol,
     Other,
 }
+
+public enum ManufacturingProcessAgency
+{
+    ISO,
+    [EnumMember(Value = "prEN TC(1113-1)")]
+    prEN_TC_1113_1,
+    Supplier,
+}

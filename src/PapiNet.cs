@@ -198,6 +198,13 @@ public class SoftwoodLumberCharacteristics
     public Seasoning? Seasoning = null;
     public MoistureContent? MoistureContent = null;
     public HeatTreatment? HeatTreatment = null;
+    public ManufacturingProcess? ManufacturingProcess = null;
+}
+
+public class ManufacturingProcess
+{
+    public ManufacturingProcessType? ManufacturingProcessType = null;
+    public HttpKeepAlivePingPolicy? ManufacturingProcessAgency = null;
 }
 
 public class HeatTreatment
