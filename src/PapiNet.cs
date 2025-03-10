@@ -209,6 +209,27 @@ public class PressureTreatment
     public PressureTreatmentCompound PressureTreatmentCompound = new();
     public PressureTreatmentConcentration PressureTreatmentConcentration = new();
     public PressureTreatmentComStdorUseCategory PressureTreatmentComStdorUseCategory;
+    public string Value = string.Empty;
+
+    public PressureTreatment() { }
+
+    public PressureTreatment(XElement root)
+    {
+        PressureTreatmentCompound = root.Element("PressureTreatmentCompound") is { } ptcom ? new(ptcom) : PressureTreatmentCompound;
+        PressureTreatmentConcentration = root.Element("PressureTreatmentConcentration") is { } ptcon ? new(ptcon) : PressureTreatmentConcentration;
+        PressureTreatmentComStdorUseCategory = root.Element("PressureTreatmentComStdorUseCategory")?.Value.ToEnum<PressureTreatmentComStdorUseCategory>() ?? PressureTreatmentComStdorUseCategory;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PressureTreatment",
+            XElement.Parse($"{PressureTreatmentCompound}"),
+            XElement.Parse($"{PressureTreatmentConcentration}"),
+            new XElement("PressureTreatmentComStdorUseCategory", PressureTreatmentComStdorUseCategory.GetMemberValue()),
+            Value
+        ).ToString();
+    }
 }
 
 public class PressureTreatmentConcentration
