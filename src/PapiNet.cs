@@ -205,6 +205,31 @@ public class PatternProfile
 {
     public PatternProfileType? PatternProfileType = null;
     public PatternProfileAgency? PatternProfileAgency = null;
+    public string? PatternProfileCode = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public PatternProfile() { }
+
+    public PatternProfile(XElement root)
+    {
+        PatternProfileType = root.Attribute("PatternProfileType") is { Value: var ppt } ? ppt.ToEnum<PatternProfileType>() : null;
+        PatternProfileAgency = root.Attribute("PatternProfileAgency") is { Value: var ppa } ? ppa.ToEnum<PatternProfileAgency>() : null;
+        PatternProfileCode = root.Element("PatternProfileCode")?.Value ?? PatternProfileCode;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PatternProfile",
+            PatternProfileType != null ? new XAttribute("PatternProfileType", PatternProfileType.GetMemberValue()) : null,
+            PatternProfileAgency != null ? new XAttribute("PatternProfileAgency", PatternProfileAgency.GetMemberValue()) : null,
+            PatternProfileCode != null ? new XElement("PatternProfileCode", PatternProfileCode) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class ManufacturingProcess
