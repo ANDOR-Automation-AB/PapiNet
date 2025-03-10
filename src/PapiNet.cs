@@ -205,6 +205,26 @@ public class SoftwoodLumberCharacteristics
     public FireTreatment? FireTreatment = null;
     public OtherTreatment? OtherTreatment = null;
     public GradeStamp? GradeStamp = null;
+    public ExLog? ExLog = null;
+}
+
+public class ExLog
+{
+    public Value Value = new();
+
+    public ExLog() { }
+
+    public ExLog(XElement root)
+    {
+        Value = root.Element("Value") is { } v ? new(v) : Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ExLog",
+            XElement.Parse($"{Value}")
+        ).ToString();
+    }
 }
 
 public class GradeStamp
