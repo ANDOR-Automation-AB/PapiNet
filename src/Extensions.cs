@@ -16,7 +16,17 @@ public static class Extensions
             ?.GetCustomAttribute<EnumMemberAttribute>(false)
             ?.Value ?? $"{value}";
     }
-    
+
+    public static string GetMemberValue<T>(this T value) where T : struct, Enum
+    {
+        return typeof(T)
+            .GetTypeInfo()
+            .DeclaredMembers
+            .SingleOrDefault(mi => mi.Name == $"{value}")
+            ?.GetCustomAttribute<EnumMemberAttribute>(false)
+            ?.Value ?? $"{value}";
+    }
+
     public static T ToEnum<T>(this string value) where T : struct, Enum
     {
         return (T)Enum.Parse(typeof(T),
