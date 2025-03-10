@@ -14,7 +14,7 @@ public static class Extensions
             ?.GetCustomAttribute<EnumMemberAttribute>(false)
             ?.Value ?? $"{value}";
     }
-
+    
     public static T ToEnum<T>(this string value) where T : struct, Enum
     {
         return (T)Enum.Parse(typeof(T),

@@ -196,6 +196,32 @@ public class SoftwoodLumberCharacteristics
     public Width? Width = null;
     public Thickness? Thickness = null;
     public Seasoning? Seasoning = null;
+    public MoistureContent? MoistureContent = null;
+}
+
+public class MoistureContent
+{
+    public MoistureContentPercentage? MoistureContentPercentage = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public MoistureContent() { }
+
+    public MoistureContent(XElement root)
+    {
+        MoistureContentPercentage = root.Attribute("MoistureContentPercentage") is { Value: var mcp } ? mcp.ToEnum<MoistureContentPercentage>() : MoistureContentPercentage;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("MoistureContent",
+            MoistureContentPercentage?.GetMemberValue(),
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class Seasoning
