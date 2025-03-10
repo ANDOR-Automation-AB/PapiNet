@@ -197,6 +197,12 @@ public class SoftwoodLumberCharacteristics
     public Thickness? Thickness = null;
     public Seasoning? Seasoning = null;
     public MoistureContent? MoistureContent = null;
+    public HeatTreatment? HeatTreatment = null;
+}
+
+public class HeatTreatment
+{
+    public HeatTreatmentType? HeatTreatmentType = null;
 }
 
 public class MoistureContent

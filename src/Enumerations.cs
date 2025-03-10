@@ -3361,3 +3361,12 @@ public enum MoistureContentPercentage
     _23,
     Other,
 }
+
+public enum HeatTreatmentType
+{
+    HT,
+    [EnumMember(Value = "HTC/NHTNC")]
+    HTC_NHTNC,
+    [EnumMember(Value = "KD56/30")]
+    KD56_30,
+}
