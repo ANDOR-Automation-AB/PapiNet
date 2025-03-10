@@ -205,6 +205,26 @@ public class SoftwoodLumberCharacteristics
 public class Trim
 {
     public TrimType? TrimType = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public Trim() { }
+
+    public Trim(XElement root)
+    {
+        TrimType = root.Attribute("TrimType") is { Value: var tt } ? tt.ToEnum<TrimType>() : TrimType;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Trim",
+            TrimType != null ? new XAttribute("TrimType", TrimType.GetMemberValue()) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class PatternProfile
