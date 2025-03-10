@@ -208,7 +208,17 @@ public class SoftwoodLumberCharacteristics
 public class FireTreatment
 {
     public FireTreatmentType? FireTreatmentType = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
 
+    public FireTreatment() { }
+
+    public FireTreatment(XElement root)
+    {
+        FireTreatmentType = root.Attribute("FireTreatmentType") is { Value: var ftt } ? ftt.ToEnum<FireTreatmentType>() : FireTreatmentType;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
 }
 
 public class PressureTreatment
