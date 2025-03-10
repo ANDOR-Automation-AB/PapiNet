@@ -206,7 +206,30 @@ public class SoftwoodLumberCharacteristics
 
 public class PressureTreatment
 {
+    public PressureTreatmentCompound PressureTreatmentCompound = new();
+    public PressureTreatmentConcentration PressureTreatmentConcentration = new();
+}
 
+public class PressureTreatmentConcentration
+{
+    public UOM? UOM = null;
+    public string Value = string.Empty;
+
+    public PressureTreatmentConcentration() { }
+
+    public PressureTreatmentConcentration(XElement root)
+    {
+        UOM = root.Attribute("UOM") is { Value: var uom } ? uom.ToEnum<UOM>() : null;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PressureTreatmentConcentration",
+            UOM != null ? new XAttribute("UOM", UOM.GetMemberValue()) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class PressureTreatmentCompound
