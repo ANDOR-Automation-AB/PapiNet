@@ -3644,3 +3644,11 @@ public enum PatternProfileAgency
     [EnumMember(Value = "WWPA")] WWPA,
     [EnumMember(Value = "Supplier")] Supplier,
 }
+
+public enum TrimType
+{
+    [EnumMember(Value = "DET")] DET,
+    [EnumMember(Value = "PET")] PET,
+    [EnumMember(Value = "SquareEndTrim")] SquareEndTrim,
+    [EnumMember(Value = "Other")] Other,
+}

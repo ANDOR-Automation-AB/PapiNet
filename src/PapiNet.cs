@@ -199,6 +199,12 @@ public class SoftwoodLumberCharacteristics
     public HeatTreatment? HeatTreatment = null;
     public ManufacturingProcess? ManufacturingProcess = null;
     public PatternProfile? PatternProfile = null;
+    public Trim? Trim = null;
+}
+
+public class Trim
+{
+    public TrimType? TrimType = null;
 }
 
 public class PatternProfile
