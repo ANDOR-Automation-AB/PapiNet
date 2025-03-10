@@ -204,7 +204,12 @@ public class SoftwoodLumberCharacteristics
     public PressureTreatment? PressureTreatment = null;
     public FireTreatment? FireTreatment = null;
     public OtherTreatment? OtherTreatment = null;
+    public GradeStamp? GradeStamp = null;
+}
 
+public class GradeStamp
+{
+    public GradeStamped? GradeStamped = null;
 }
 
 public class OtherTreatment

@@ -3708,3 +3708,9 @@ public enum FireTreatmentType
     [EnumMember(Value = "FireTreated")] FireTreated,
     [EnumMember(Value = "Other")] Other,
 }
+
+public enum GradeStamped
+{
+    [EnumMember(Value = "Yes")] Yes,
+    [EnumMember(Value = "No")] No,
+}
