@@ -1,6 +1,5 @@
-﻿using System.Net.Http.Headers;
-using System.Runtime;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace PapiNet;
 
@@ -204,7 +203,29 @@ public class SoftwoodLumberCharacteristics
 public class ManufacturingProcess
 {
     public ManufacturingProcessType? ManufacturingProcessType = null;
-    public HttpKeepAlivePingPolicy? ManufacturingProcessAgency = null;
+    public ManufacturingProcessAgency? ManufacturingProcessAgency = null;
+    public Value? Value = null;
+    public List<string> AdditionalText = [];
+
+    public ManufacturingProcess() { }
+
+    public ManufacturingProcess(XElement root)
+    {
+        ManufacturingProcessType = root.Attribute("ManufacturingProcessType") is { Value: var mpt } ? mpt.ToEnum<ManufacturingProcessType>() : null;
+        ManufacturingProcessAgency = root.Attribute("ManufacturingProcessAgency") is { Value: var mpa } ? mpa.ToEnum<ManufacturingProcessAgency>() : null;
+        Value = root.Element("Value") is { } v ? new(v) : null;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ManufacturingProcess",
+            ManufacturingProcessType != null ? new XAttribute("ManufacturingProcessType", ManufacturingProcessType?.GetMemberValue()) : null,
+            ManufacturingProcessAgency != null ? new XAttribute("ManufacturingProcessAgency", ManufacturingProcessAgency?.GetMemberValue()) : null,
+            Value != null ? XElement.Parse($"{Value}") : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at))
+        ).ToString();
+    }
 }
 
 public class HeatTreatment
