@@ -5,8 +5,10 @@ namespace PapiNet;
 
 public static class Extensions
 {
-    public static string GetMemberValue<T>(this T value) where T : Enum
+    public static string GetMemberValue<T>(this T? value) where T : struct, Enum
     {
+        if (value == null)
+            return string.Empty;
         return typeof(T)
             .GetTypeInfo()
             .DeclaredMembers

@@ -220,8 +220,8 @@ public class ManufacturingProcess
     public override string ToString()
     {
         return new XElement("ManufacturingProcess",
-            ManufacturingProcessType != null ? new XAttribute("ManufacturingProcessType", ManufacturingProcessType?.GetMemberValue()) : null,
-            ManufacturingProcessAgency != null ? new XAttribute("ManufacturingProcessAgency", ManufacturingProcessAgency?.GetMemberValue()) : null,
+            ManufacturingProcessType != null ? new XAttribute("ManufacturingProcessType", ManufacturingProcessType.GetMemberValue()) : null,
+            ManufacturingProcessAgency != null ? new XAttribute("ManufacturingProcessAgency", ManufacturingProcessAgency.GetMemberValue()) : null,
             Value != null ? XElement.Parse($"{Value}") : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
@@ -246,7 +246,7 @@ public class HeatTreatment
     public override string ToString()
     {
         return new XElement("HeatTreatment",
-            HeatTreatmentType?.GetMemberValue(),
+            HeatTreatmentType != null ? new XAttribute("HeatTreatmentType", HeatTreatmentType.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -271,7 +271,7 @@ public class MoistureContent
     public override string ToString()
     {
         return new XElement("MoistureContent",
-            MoistureContentPercentage?.GetMemberValue(),
+            MoistureContentPercentage != null ? new XAttribute("MoistureContentPercentage", MoistureContentPercentage.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
