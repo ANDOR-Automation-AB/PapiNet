@@ -206,6 +206,15 @@ public class SoftwoodLumberCharacteristics
     public OtherTreatment? OtherTreatment = null;
     public GradeStamp? GradeStamp = null;
     public ExLog? ExLog = null;
+    public List<ClassIdentifier> ClassIdentifier = [];
+}
+
+public class ClassIdentifier
+{
+    public IdentifierCodeType IdentifierCodeType;
+    public IdentifierType IdentifierType;
+    public IdentifierFormatType? IdentifierFormatType = null;
+    public string Value = string.Empty;
 }
 
 public class ExLog
