@@ -206,14 +206,19 @@ public class SoftwoodLumberCharacteristics
 
 public class PressureTreatment
 {
+
+}
+
+public class PressureTreatmentCompound
+{
     public string? CompoundType = null;
     public string? CompoundAgency = null;   
     public Value? Value = null;
     public List<string> AdditionalText = [];
 
-    public PressureTreatment() { }
+    public PressureTreatmentCompound() { }
 
-    public PressureTreatment(XElement root)
+    public PressureTreatmentCompound(XElement root)
     {
         CompoundType = root.Attribute("CompoundType")?.Value ?? CompoundType;
         CompoundAgency = root.Attribute("CompoundAgency")?.Value ?? CompoundAgency;
@@ -223,7 +228,7 @@ public class PressureTreatment
 
     public override string ToString()
     {
-        return new XElement("PressureTreatment",
+        return new XElement("PressureTreatmentCompound",
             CompoundType != null ? new XAttribute("CompoundType", CompoundType) : null,
             CompoundAgency != null ? new XAttribute("CompoundAgency", CompoundAgency) : null,
             Value != null ? XElement.Parse($"{Value}") : null,
