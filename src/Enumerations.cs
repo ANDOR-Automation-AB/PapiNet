@@ -3315,27 +3315,49 @@ public enum SeasoningType
 
 public enum MoistureContentPercentage
 {
+    [EnumMember(Value = "1")]
     _1,
+    [EnumMember(Value = "2")]
     _2,
+    [EnumMember(Value = "3")]
     _3,
+    [EnumMember(Value = "4")]
     _4,
+    [EnumMember(Value = "5")]
     _5,
+    [EnumMember(Value = "6")]
     _6,
+    [EnumMember(Value = "7")]
     _7,
+    [EnumMember(Value = "8")]
     _8,
+    [EnumMember(Value = "9")]
     _9,
+    [EnumMember(Value = "10")]
     _10,
+    [EnumMember(Value = "11")]
     _11,
+    [EnumMember(Value = "12")]
     _12,
+    [EnumMember(Value = "13")]
     _13,
+    [EnumMember(Value = "14")]
     _14,
+    [EnumMember(Value = "15")]
     _15,
+    [EnumMember(Value = "16")]
     _16,
+    [EnumMember(Value = "18")]
     _18,
+    [EnumMember(Value = "19")]
     _19,
+    [EnumMember(Value = "20")]
     _20,
+    [EnumMember(Value = "21")]
     _21,
+    [EnumMember(Value = "22")]
     _22,
+    [EnumMember(Value = "23")]
     _23,
     Other,
 }
