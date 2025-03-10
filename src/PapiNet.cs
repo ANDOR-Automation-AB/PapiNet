@@ -202,6 +202,13 @@ public class SoftwoodLumberCharacteristics
     public Trim? Trim = null;
     public Joining? Joining = null;
     public PressureTreatment? PressureTreatment = null;
+    public FireTreatment? FireTreatment = null;
+}
+
+public class FireTreatment
+{
+    public FireTreatmentType? FireTreatmentType = null;
+
 }
 
 public class PressureTreatment

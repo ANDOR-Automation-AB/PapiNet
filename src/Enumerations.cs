@@ -3702,3 +3702,9 @@ public enum PressureTreatmentComStdorUseCategory
     [EnumMember(Value = "UCFA")] UCFA,
     [EnumMember(Value = "UCFB")] UCFB,
 }
+
+public enum FireTreatmentType
+{
+    [EnumMember(Value = "FireTreated")] FireTreated,
+    [EnumMember(Value = "Other")] Other,
+}
