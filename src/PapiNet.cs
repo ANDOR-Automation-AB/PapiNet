@@ -203,6 +203,30 @@ public class SoftwoodLumberCharacteristics
     public Joining? Joining = null;
     public PressureTreatment? PressureTreatment = null;
     public FireTreatment? FireTreatment = null;
+    public OtherTreatment? OtherTreatment = null;
+
+}
+
+public class OtherTreatment
+{
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public OtherTreatment() { }
+
+    public OtherTreatment(XElement root)
+    {
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("OtherTreatment",
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class FireTreatment
