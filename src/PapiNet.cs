@@ -202,6 +202,13 @@ public class ProductPackaging
     public List<LabelCharacteristics> LabelCharacteristics = [];
     public List<StencilCharacteristics> StencilCharacteristics = [];
     public List<BandCharacteristics> BandCharacteristics = [];
+    public List<PalletCharacteristics> PalletCharacteristics = [];
+}
+
+public class PalletCharacteristics
+{
+    public YesNo? MixedProductPalletIndicator = null;
+
 }
 
 public class BandCharacteristics

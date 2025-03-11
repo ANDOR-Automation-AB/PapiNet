@@ -3996,3 +3996,12 @@ public enum BandDirection
     [EnumMember(Value = "Short")] Short,
     [EnumMember(Value = "Both")] Both,
 }
+
+public enum PalletType
+{
+    [EnumMember(Value = "Euro")] Euro,
+    [EnumMember(Value = "Export")] Export,
+    [EnumMember(Value = "NonPalletised")] NonPalletised,
+    [EnumMember(Value = "NonStop")] NonStop,
+    [EnumMember(Value = "Twinned")] Twinned,
+}
