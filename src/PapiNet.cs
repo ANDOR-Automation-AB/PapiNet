@@ -208,13 +208,14 @@ public class SoftwoodLumberCharacteristics
     public ExLog? ExLog = null;
     public List<ClassIdentifier> ClassIdentifier = [];
     public Weight? Weight = null;
+
 }
 
 public class Weight : MeasurementBase
 {
-    public Weight() { }
+    public Weight() : base() { }
 
-    public Weight(XElement root) { }
+    public Weight(XElement root) : base(root) { }
 
     public override string LocalName => "Weight";
 }
