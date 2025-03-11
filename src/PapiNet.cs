@@ -219,7 +219,37 @@ public class StencilCharacteristics
     public StencilLocation? StencilLocation = null;
     public StencilFormat? StencilFormat = null;
     public StencilContent? StencilContent = null;
+    public AssignedBy? AssignedBy = null;
+    public List<string> StencilText = [];
+    public string Value = string.Empty;
 
+    public StencilCharacteristics() { }
+
+    public StencilCharacteristics(XElement root)
+    {
+        StencilType = root.Attribute("StencilType") is { Value: var st } ? st.ToEnum<StencilType>() : StencilType;
+        StencilInkType = root.Attribute("StencilInkType") is { Value: var sit } ? sit.ToEnum<StencilInkType>() : StencilInkType;
+        StencilLocation = root.Attribute("StencilLocation") is { Value: var sl } ? sl.ToEnum<StencilLocation>() : StencilLocation;
+        StencilFormat = root.Attribute("StencilFormat") is { Value: var sf } ? sf.ToEnum<StencilFormat>() : StencilFormat;
+        StencilContent = root.Attribute("StencilContent") is { Value: var sc } ? sc.ToEnum<StencilContent>() : StencilContent;
+        AssignedBy = root.Attribute("AssignedBy") is { Value: var ab } ? ab.ToEnum<AssignedBy>() : AssignedBy;
+        StencilText = [.. root.Elements("StencilText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("StencilCharacteristics",
+            StencilType != null ? new XAttribute("StencilType", StencilType) : null,
+            StencilInkType != null ? new XAttribute("StencilInkType", StencilInkType) : null,
+            StencilLocation != null ? new XAttribute("StencilLocation", StencilLocation) : null,
+            StencilFormat != null ? new XAttribute("StencilFormat", StencilFormat) : null,
+            StencilContent != null ? new XAttribute("StencilContent", StencilContent) : null,
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            StencilText.Select(st => new XElement("StencilText", st)),
+            Value
+        ).ToString();
+    }
 }
 
 public class LabelCharacteristics
