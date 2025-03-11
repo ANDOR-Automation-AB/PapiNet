@@ -218,6 +218,33 @@ public class Wrap
     public WrapType? WrapType = null;
     public WrapProperties? WrapProperties = null;
     public WrapLocation? WrapLocation = null;
+    public string? NumberOfWraps = null;
+    public string? Brand = null;
+    public string Value = string.Empty;
+
+    public Wrap() { }
+
+    public Wrap(XElement root)
+    {
+        WrapType = root.Attribute("WrapType") is { Value: var wt } ? wt.ToEnum<WrapType>() : WrapType;
+        WrapProperties = root.Attribute("WrapProperties") is { Value: var wp } ? wp.ToEnum<WrapProperties>() : WrapProperties;
+        WrapLocation = root.Attribute("WrapLocation") is { Value: var wl } ? wl.ToEnum<WrapLocation>() : WrapLocation;
+        NumberOfWraps = root.Element("NumberOfWraps")?.Value ?? NumberOfWraps;
+        Brand = root.Element("Brand")?.Value ?? Brand;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Wrap",
+            WrapType != null ? new XAttribute("WrapType", WrapType) : null,
+            WrapProperties != null ? new XAttribute("WrapProperties", WrapProperties) : null,
+            WrapLocation != null ? new XAttribute("WrapLocation", WrapLocation) : null,
+            NumberOfWraps != null ? new XElement("NumberOfWraps", NumberOfWraps) : null,
+            Brand != null ? new XElement("Brand", Brand) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class StencilCharacteristics
