@@ -207,6 +207,16 @@ public class SoftwoodLumberCharacteristics
     public GradeStamp? GradeStamp = null;
     public ExLog? ExLog = null;
     public List<ClassIdentifier> ClassIdentifier = [];
+    public Weight? Weight = null;
+}
+
+public class Weight : MeasurementBase
+{
+    public Weight() { }
+
+    public Weight(XElement root) { }
+
+    public override string LocalName => "Weight";
 }
 
 public class ClassIdentifier
