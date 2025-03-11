@@ -3854,3 +3854,9 @@ public enum StencilLocation
     [EnumMember(Value = "UnwrappedReelEnd")] UnwrappedReelEnd,
     [EnumMember(Value = "WrappedReelBilge")] WrappedReelBilge,
 }
+
+public enum StencilFormat
+{
+    [EnumMember(Value = "Barcode")] Barcode,
+    [EnumMember(Value = "Text")] Text,
+}

@@ -217,7 +217,7 @@ public class StencilCharacteristics
     public StencilType? StencilType = null;
     public StencilInkType? StencilInkType = null;
     public StencilLocation? StencilLocation = null;
-
+    public StencilFormat? StencilFormat = null;
 }
 
 public class LabelCharacteristics
