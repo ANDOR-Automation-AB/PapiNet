@@ -207,6 +207,32 @@ public class ProductPackaging
 public class BandCharacteristics
 {
     public BandType? BandType = null;
+    public YesNo? BandsRequired = null;
+    public string? NumberOfBands = null;
+    public string? BandColour = null;
+    public string Value = string.Empty;
+
+    public BandCharacteristics() { }
+
+    public BandCharacteristics(XElement root)
+    {
+        BandType = root.Attribute("BandType") is { Value: var bt } ? bt.ToEnum<BandType>() : BandType;
+        BandsRequired = root.Attribute("BandsRequired") is { Value: var br } ? br.ToEnum<YesNo>() : BandsRequired;
+        NumberOfBands = root.Element("NumberOfBands")?.Value ?? NumberOfBands;
+        BandColour = root.Element("BandColour")?.Value ?? BandColour;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("BandCharacteristics",
+            BandType != null ? new XAttribute("BandType", BandType) : null,
+            BandsRequired != null ? new XAttribute("BandsRequired", BandsRequired) : null,
+            NumberOfBands != null ? new XElement("NumberOfBands", NumberOfBands) : null,
+            BandColour != null ? new XElement("BandColour", BandColour) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class PackageIDInformation

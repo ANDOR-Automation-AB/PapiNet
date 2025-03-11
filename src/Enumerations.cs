@@ -3983,3 +3983,16 @@ public enum BandType
     [EnumMember(Value = "Plastic")] Plastic,
     [EnumMember(Value = "Standard")] Standard,
 }
+
+public enum YesNo
+{
+    [EnumMember(Value = "Yes")] Yes,
+    [EnumMember(Value = "No")] No,
+}
+
+public enum BandDirection
+{
+    [EnumMember(Value = "Long")] Long,
+    [EnumMember(Value = "Short")] Short,
+    [EnumMember(Value = "Both")] Both,
+}
