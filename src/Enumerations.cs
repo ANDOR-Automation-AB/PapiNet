@@ -4033,3 +4033,19 @@ public enum PalletAdditionsType
     [EnumMember(Value = "Reinforced")] Reinforced,
     [EnumMember(Value = "TrimmedEdges")] TrimmedEdges,
 }
+
+public enum PalletTopType
+{
+    [EnumMember(Value = "CartonboardCover")] CartonboardCover,
+    [EnumMember(Value = "Chipboard")] Chipboard,
+    [EnumMember(Value = "Corrugated")] Corrugated,
+    [EnumMember(Value = "EdgeProtection")] EdgeProtection,
+    [EnumMember(Value = "FiveStripsOfWood")] FiveStripsOfWood,
+    [EnumMember(Value = "FullyCoverThreeCrossBoards")] FullyCoverThreeCrossBoards,
+    [EnumMember(Value = "FungicTreatWoodFrame")] FungicTreatWoodFrame,
+    [EnumMember(Value = "OneStripOfWood")] OneStripOfWood,
+    [EnumMember(Value = "PlywoodCover")] PlywoodCover,
+    [EnumMember(Value = "TwoStripsOfWood")] TwoStripsOfWood,
+    [EnumMember(Value = "ThreeStripsOfWood")] ThreeStripsOfWood,
+    [EnumMember(Value = "WoodenFrame")] WoodenFrame,
+}

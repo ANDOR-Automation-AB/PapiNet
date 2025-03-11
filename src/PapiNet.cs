@@ -212,6 +212,7 @@ public class PalletCharacteristics
     public PalletLedgeType? PalletLedgeType = null;
     public PalletCoverType? PalletCoverType = null;
     public PalletAdditionsType? PalletAdditionsType = null;
+    public PalletTopType? PalletTopType = null;
 
 }
 
