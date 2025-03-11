@@ -199,6 +199,14 @@ public class ProductPackaging
     public UnitDimension? UnitDimension = null;
     public Weight? Weight = null;
     public PackageIDInformation? PackageIDInformation = null;
+    public List<LabelCharacteristics> LabelCharacteristics = [];
+    public List<StencilCharacteristics> StencilCharacteristics = [];
+    public List<BandCharacteristics> BandCharacteristics = [];
+}
+
+public class BandCharacteristics
+{
+    public BandType? BandType = null;
 }
 
 public class PackageIDInformation

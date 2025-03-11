@@ -3975,3 +3975,11 @@ public enum PackageAgency
     [EnumMember(Value = "WWPA")] WWPA,
     [EnumMember(Value = "Supplier")] Supplier,
 }
+
+public enum BandType
+{
+    [EnumMember(Value = "Metal")] Metal,
+    [EnumMember(Value = "Nylon")] Nylon,
+    [EnumMember(Value = "Plastic")] Plastic,
+    [EnumMember(Value = "Standard")] Standard,
+}
