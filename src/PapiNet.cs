@@ -180,6 +180,25 @@ public class WoodTimbersDimensionalLumberBoards
 {
     public SoftwoodLumber? SoftwoodLumber = null;
     public HardwoodLumber? HardwoodLumber = null;
+    public string Value = string.Empty;
+
+    public WoodTimbersDimensionalLumberBoards() { }
+
+    public WoodTimbersDimensionalLumberBoards(XElement root)
+    {
+        SoftwoodLumber = root.Element("SoftwoodLumber") is { } sl ? new(sl) : SoftwoodLumber;
+        HardwoodLumber = root.Element("HardwoodLumber") is { } hl ? new(hl) : HardwoodLumber;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("WoodTimbersDimensionalLumberBoards",
+            SoftwoodLumber != null ? XElement.Parse($"{SoftwoodLumber}") : null,
+            HardwoodLumber != null ? XElement.Parse($"{HardwoodLumber}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class HardwoodLumber
