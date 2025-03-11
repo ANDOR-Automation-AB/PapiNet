@@ -3937,3 +3937,13 @@ public enum WrapLocation
     [EnumMember(Value = "Ends")] Ends,
     [EnumMember(Value = "LongSides")] LongSides,
 }
+
+public enum LengthCutType
+{
+    [EnumMember(Value = "ExactLength")] ExactLength,
+    [EnumMember(Value = "FreeCut")] FreeCut,
+    [EnumMember(Value = "SpecialLength")] SpecialLength,
+    [EnumMember(Value = "Untrimmed")] Untrimmed,
+    [EnumMember(Value = "1DecimeterCut")] _1DecimeterCut,
+    [EnumMember(Value = "3DecimeterCut")] _3DecimeterCut,
+}

@@ -211,6 +211,14 @@ public class SoftwoodLumberCharacteristics
     public LabelCharacteristics? LabelCharacteristics = null;
     public StencilCharacteristics? StencilCharacteristics = null;
     public Wrap? Wrap = null;
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+    public List<string> AdditionalText = [];
+    public LengthCutDescription? LengthCutDescription = null;
+}
+
+public class LengthCutDescription
+{
+    public LengthCutType? LengthCutType = null;
 }
 
 public class Wrap
