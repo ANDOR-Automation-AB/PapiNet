@@ -179,7 +179,56 @@ public class WoodProducts
 public class WoodTimbersDimensionalLumberBoards
 {
     public SoftwoodLumber? SoftwoodLumber = null;
+    public HardwoodLumber? HardwoodLumber = null;
+}
 
+public class HardwoodLumber
+{
+    public HardwoodLumberCharacteristics HardwoodLumberCharacteristics = new();
+
+}
+
+public class HardwoodLumberCharacteristics
+{
+    public AnyType? AnyType = null;
+    public string Value = string.Empty;
+
+    public HardwoodLumberCharacteristics() { }
+
+    public HardwoodLumberCharacteristics(XElement root)
+    {
+        AnyType = root.HasElements ? root.Elements().FirstOrDefault() is { } at ? new(at) : null : AnyType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("HardwoodLumberCharacteristics",
+            AnyType != null ? XElement.Parse($"{AnyType}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class AnyType
+{
+    public string LocalName = string.Empty;
+    public string Value = string.Empty;
+
+    public AnyType() { }
+
+    public AnyType(XElement root)
+    {
+        LocalName = root.Name.LocalName;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement(LocalName,
+            Value
+        ).ToString();
+    }
 }
 
 public class SoftwoodLumber
