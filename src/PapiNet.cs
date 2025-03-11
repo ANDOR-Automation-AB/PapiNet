@@ -216,6 +216,7 @@ public class SoftwoodLumberCharacteristics
 public class Wrap
 {
     public WrapType? WrapType = null;
+    public WrapProperties? WrapProperties = null;
 }
 
 public class StencilCharacteristics

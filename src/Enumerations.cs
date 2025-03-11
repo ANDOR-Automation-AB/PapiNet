@@ -3917,3 +3917,11 @@ public enum WrapType
     [EnumMember(Value = "StretchWrap")] StretchWrap,
     [EnumMember(Value = "Timber")] Timber,
 }
+
+public enum WrapProperties
+{
+    [EnumMember(Value = "Bleached")] Bleached,
+    [EnumMember(Value = "Unbleached")] Unbleached,
+    [EnumMember(Value = "MoistureBarrier")] MoistureBarrier,
+    [EnumMember(Value = "Pulpable")] Pulpable,
+}
