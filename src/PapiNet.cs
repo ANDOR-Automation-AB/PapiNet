@@ -219,6 +219,23 @@ public class SoftwoodLumberCharacteristics
 public class LengthCutDescription
 {
     public LengthCutType? LengthCutType = null;
+    public string Value = string.Empty;
+
+    public LengthCutDescription() { }
+
+    public LengthCutDescription(XElement root)
+    {
+        LengthCutType = root.Attribute("LengthCutType") is { Value: var lct } ? lct.ToEnum<LengthCutType>() : LengthCutType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("LengthCutDescription",
+            LengthCutType != null ? new XAttribute("LengthCutType", LengthCutType) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class Wrap
