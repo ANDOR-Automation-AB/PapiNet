@@ -191,6 +191,23 @@ public class SoftwoodLumber
 public class Packaging
 {
     public ProductPackaging ProductPackaging = new();
+    public string Value = string.Empty;
+
+    public Packaging() { }
+
+    public Packaging(XElement root)
+    {
+        ProductPackaging = root.Element("ProductPackaging") is { } pp ? new(pp) : ProductPackaging;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Packaging",
+            XElement.Parse($"{ProductPackaging}"),
+            Value
+        ).ToString();
+    }
 }
 
 public class ProductPackaging
