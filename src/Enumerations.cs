@@ -4023,3 +4023,13 @@ public enum PalletCoverType
     [EnumMember(Value = "WoodStripWithPE")] WoodStripWithPE,
     [EnumMember(Value = "WoodStripWithoutPE")] WoodStripWithoutPE,
 }
+
+public enum PalletAdditionsType
+{
+    [EnumMember(Value = "FullPerimeter")] FullPerimeter,
+    [EnumMember(Value = "FungicideTreatment")] FungicideTreatment,
+    [EnumMember(Value = "LongSlats")] LongSlats,
+    [EnumMember(Value = "NoBlockOffset")] NoBlockOffset,
+    [EnumMember(Value = "Reinforced")] Reinforced,
+    [EnumMember(Value = "TrimmedEdges")] TrimmedEdges,
+}

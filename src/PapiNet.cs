@@ -211,6 +211,7 @@ public class PalletCharacteristics
     public PalletType? PalletType = null;
     public PalletLedgeType? PalletLedgeType = null;
     public PalletCoverType? PalletCoverType = null;
+    public PalletAdditionsType? PalletAdditionsType = null;
 
 }
 
