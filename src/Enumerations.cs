@@ -3947,3 +3947,31 @@ public enum LengthCutType
     [EnumMember(Value = "1DecimeterCut")] _1DecimeterCut,
     [EnumMember(Value = "3DecimeterCut")] _3DecimeterCut,
 }
+
+public enum PackageAgency
+{
+    [EnumMember(Value = "BS")] BS,
+    [EnumMember(Value = "BS-EN")] BS_EN,
+    [EnumMember(Value = "CEN")] CEN,
+    [EnumMember(Value = "DIN")] DIN,
+    [EnumMember(Value = "EN338")] EN338,
+    [EnumMember(Value = "EN1912")] EN1912,
+    [EnumMember(Value = "EN1611-1 ")] EN1611_1_,
+    [EnumMember(Value = "EDISAW")] EDISAW,
+    [EnumMember(Value = "Generic")] Generic,
+    [EnumMember(Value = "GOST")] GOST,
+    [EnumMember(Value = "ISO")] ISO,
+    [EnumMember(Value = "JAS")] JAS,
+    [EnumMember(Value = "NELMA")] NELMA,
+    [EnumMember(Value = "NLGA")] NLGA,
+    [EnumMember(Value = "NS")] NS,
+    [EnumMember(Value = "NSLB")] NSLB,
+    [EnumMember(Value = "RIS")] RIS,
+    [EnumMember(Value = "RT")] RT,
+    [EnumMember(Value = "SIS")] SIS,
+    [EnumMember(Value = "SPIB")] SPIB,
+    [EnumMember(Value = "WCLIB")] WCLIB,
+    [EnumMember(Value = "WRCLA")] WRCLA,
+    [EnumMember(Value = "WWPA")] WWPA,
+    [EnumMember(Value = "Supplier")] Supplier,
+}

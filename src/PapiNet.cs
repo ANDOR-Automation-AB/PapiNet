@@ -197,6 +197,13 @@ public class ProductPackaging
 {
     public QuantityInUnit? QuantityInUnit = null;
     public UnitDimension? UnitDimension = null;
+    public Weight? Weight = null;
+    public PackageIDInformation? PackageIDInformation = null;
+}
+
+public class PackageIDInformation
+{
+    public PackageAgency? PackageAgency = null;
 }
 
 public class UnitDimension
@@ -230,8 +237,6 @@ public class UnitDimension
             RowsPerUnit != null ? new XElement("RowsPerUnit", RowsPerUnit) : null,
             Value
         ).ToString();
-
-
     }
 }
 
