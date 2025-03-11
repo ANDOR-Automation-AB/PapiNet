@@ -204,6 +204,29 @@ public class ProductPackaging
 public class PackageIDInformation
 {
     public PackageAgency? PackageAgency = null;
+    public string? PackageCode = null;
+    public string? PackageName = null;
+    public string Value = string.Empty;
+
+    public PackageIDInformation() { }
+
+    public PackageIDInformation(XElement root)
+    {
+        PackageAgency = root.Attribute("PackageAgency") is { Value: var pa } ? pa.ToEnum<PackageAgency>() : PackageAgency;
+        PackageCode = root.Element("PackageCode")?.Value ?? PackageCode;
+        PackageName = root.Element("PackageName")?.Value ?? PackageName;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PackageIDInformation",
+            PackageAgency != null ? new XAttribute("PackageAgency", PackageAgency) : null,
+            PackageCode != null ? new XElement("PackageCode", PackageCode) : null,
+            PackageName != null ? new XElement("PackageName", PackageName) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class UnitDimension
