@@ -217,6 +217,7 @@ public class Wrap
 {
     public WrapType? WrapType = null;
     public WrapProperties? WrapProperties = null;
+    public WrapLocation? WrapLocation = null;
 }
 
 public class StencilCharacteristics

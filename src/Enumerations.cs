@@ -3925,3 +3925,15 @@ public enum WrapProperties
     [EnumMember(Value = "MoistureBarrier")] MoistureBarrier,
     [EnumMember(Value = "Pulpable")] Pulpable,
 }
+
+public enum WrapLocation
+{
+    [EnumMember(Value = "None")] None,
+    [EnumMember(Value = "Entire")] Entire,
+    [EnumMember(Value = "Top")] Top,
+    [EnumMember(Value = "Bottom")] Bottom,
+    [EnumMember(Value = "FiveSides")] FiveSides,
+    [EnumMember(Value = "TopAndEnds")] TopAndEnds,
+    [EnumMember(Value = "Ends")] Ends,
+    [EnumMember(Value = "LongSides")] LongSides,
+}
