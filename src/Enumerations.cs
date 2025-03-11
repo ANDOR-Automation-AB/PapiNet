@@ -4049,3 +4049,29 @@ public enum PalletTopType
     [EnumMember(Value = "ThreeStripsOfWood")] ThreeStripsOfWood,
     [EnumMember(Value = "WoodenFrame")] WoodenFrame,
 }
+
+public enum PackageType
+{
+    [EnumMember(Value = "Bag")] Bag,
+    [EnumMember(Value = "Bale")] Bale,
+    [EnumMember(Value = "Barrel")] Barrel,
+    [EnumMember(Value = "Box")] Box,
+    [EnumMember(Value = "Bundle")] Bundle,
+    [EnumMember(Value = "Container")] Container,
+    [EnumMember(Value = "Crate")] Crate,
+    [EnumMember(Value = "Drum")] Drum,
+    [EnumMember(Value = "FullWoodPackage")] FullWoodPackage,
+    [EnumMember(Value = "HalfWoodPackage")] HalfWoodPackage,
+    [EnumMember(Value = "LengthPackage")] LengthPackage,
+    [EnumMember(Value = "Lift")] Lift,
+    [EnumMember(Value = "LogPile")] LogPile,
+    [EnumMember(Value = "Pail")] Pail,
+    [EnumMember(Value = "Pallet")] Pallet,
+    [EnumMember(Value = "Piece")] Piece,
+    [EnumMember(Value = "PulpUnit")] PulpUnit,
+    [EnumMember(Value = "ReelPackage")] ReelPackage,
+    [EnumMember(Value = "StepPackage")] StepPackage,
+    [EnumMember(Value = "TruckPackage")] TruckPackage,
+    [EnumMember(Value = "UnformedPulp")] UnformedPulp,
+    [EnumMember(Value = "Vehicle")] Vehicle,
+}

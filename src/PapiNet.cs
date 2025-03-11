@@ -203,7 +203,46 @@ public class ProductPackaging
     public List<StencilCharacteristics> StencilCharacteristics = [];
     public List<BandCharacteristics> BandCharacteristics = [];
     public List<PalletCharacteristics> PalletCharacteristics = [];
+    public List<Wrap> Wrap = [];
+    public List<string> AdditionalText = [];
+    public PackageType? PackageType = null;
+    public string Value = string.Empty;
 
+    public ProductPackaging() { }
+
+    public ProductPackaging(XElement root)
+    {
+        QuantityInUnit = root.Element("QuantityInUnit") is { } qiu ? new(qiu) : QuantityInUnit;
+        UnitDimension = root.Element("UnitDimension") is { } ud ? new(ud) : UnitDimension;
+        Weight = root.Element("Weight") is { } w ? new(w) : Weight;
+        PackageIDInformation = root.Element("PackageIDInformation") is { } pidi ? new(pidi) : PackageIDInformation;
+        LabelCharacteristics = [.. root.Elements("LabelCharacteristics").Select(e => new LabelCharacteristics(e))];
+        StencilCharacteristics = [.. root.Elements("StencilCharacteristics").Select(e => new StencilCharacteristics(e))];
+        BandCharacteristics = [.. root.Elements("BandCharacteristics").Select(e => new BandCharacteristics(e))];
+        PalletCharacteristics = [.. root.Elements("PalletCharacteristics").Select(e => new PalletCharacteristics(e))];
+        Wrap = [.. root.Elements("Wrap").Select(e => new Wrap(e))];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(at => at.Value)];
+        PackageType = root.Element("PackageType") is { Value: var pt } ? pt.ToEnum<PackageType>() : PackageType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductPackaging",
+            QuantityInUnit != null ? XElement.Parse($"{QuantityInUnit}") : null,
+            UnitDimension != null ? XElement.Parse($"{UnitDimension}") : null,
+            Weight != null ? XElement.Parse($"{Weight}") : null,
+            PackageIDInformation != null ? XElement.Parse($"{PackageIDInformation}") : null,
+            LabelCharacteristics.Select(lc => XElement.Parse($"{lc}")),
+            StencilCharacteristics.Select(sc => XElement.Parse($"{sc}")),
+            BandCharacteristics.Select(bc => XElement.Parse($"{bc}")),
+            PalletCharacteristics.Select(pc => XElement.Parse($"{pc}")),
+            Wrap.Select(w => XElement.Parse($"{w}")),
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            PackageType != null ? new XElement("PackageType", PackageType) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class PalletCharacteristics
