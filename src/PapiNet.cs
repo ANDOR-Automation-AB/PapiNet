@@ -208,7 +208,53 @@ public class SoftwoodLumberCharacteristics
     public ExLog? ExLog = null;
     public List<ClassIdentifier> ClassIdentifier = [];
     public Weight? Weight = null;
+    public LabelCharacteristics? LabelCharacteristics = null;
+}
 
+public class LabelCharacteristics
+{
+    public List<string> CustomerMarks = [];
+    public string? LabelStyle = null;
+    public string? LabelBrandName = null;
+    public string? LabelPosition = null;
+    public string? NumberOfLabels = null;
+    public Length? Length = null;
+    public Width? Width = null;
+    public string? ColourCode = null;
+    public string? ColourDescription = null;
+    public string Value = string.Empty;
+
+    public LabelCharacteristics() { }
+
+    public LabelCharacteristics(XElement root)
+    {
+        CustomerMarks = [.. root.Elements("CustomerMarks").Select(e => e.Value)];
+        LabelStyle = root.Element("LabelStyle")?.Value ?? LabelStyle;
+        LabelBrandName = root.Element("LabelBrandName")?.Value ?? LabelBrandName;
+        LabelPosition = root.Element("LabelPosition")?.Value ?? LabelPosition;
+        NumberOfLabels = root.Element("NumberOfLabels")?.Value ?? NumberOfLabels;
+        Length = root.Element("Length") is { } l ? new(l) : Length;
+        Width = root.Element("Width") is { } w ? new(w) : Width;
+        ColourCode = root.Element("ColourCode")?.Value ?? ColourCode;
+        ColourDescription = root.Element("ColourDescription")?.Value ?? ColourDescription;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("LabelCharacteristics",
+            CustomerMarks.Select(cm => new XElement("CustomerMarks", cm)),
+            LabelStyle != null ? new XElement("LabelStyle", LabelStyle) : null,
+            LabelBrandName != null ? new XElement("LabelBrandName", LabelBrandName) : null,
+            LabelPosition != null ? new XElement("LabelPosition", LabelPosition) : null,
+            NumberOfLabels != null ? new XElement("NumberOfLabels", NumberOfLabels) : null,
+            Length != null ? XElement.Parse($"{Length}") : null,
+            Width != null ? XElement.Parse($"{Width}") : null,
+            ColourCode != null ? new XElement("ColourCode", ColourCode) : null,
+            ColourDescription != null ? new XElement("ColourDescription", ColourDescription) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class Weight : MeasurementBase
