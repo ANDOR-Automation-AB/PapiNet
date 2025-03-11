@@ -186,6 +186,25 @@ public class SoftwoodLumber
 {
     public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics = new();
     public Packaging? Packaging = null;
+    public string Value = string.Empty;
+
+    public SoftwoodLumber() { }
+
+    public SoftwoodLumber(XElement root)
+    {
+        SoftwoodLumberCharacteristics = root.Element("SoftwoodLumberCharacteristics") is { } slc ? new(slc) : SoftwoodLumberCharacteristics;
+        Packaging = root.Element("Packaging") is { } p ? new(p) : Packaging;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SoftwoodLumber",
+            XElement.Parse($"{SoftwoodLumberCharacteristics}"),
+            Packaging != null ? XElement.Parse($"{Packaging}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class Packaging
