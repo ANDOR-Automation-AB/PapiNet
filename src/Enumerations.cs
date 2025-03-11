@@ -3828,3 +3828,10 @@ public enum IdentifierFormatType
     [EnumMember(Value = "UPC_ShippingContainer")] UPC_ShippingContainer,
     [EnumMember(Value = "Other")] Other,
 }
+
+public enum StencilType
+{
+    [EnumMember(Value = "CutOut")] CutOut,
+    [EnumMember(Value = "InkJet")] InkJet,
+    [EnumMember(Value = "Rubber")] Rubber,
+}

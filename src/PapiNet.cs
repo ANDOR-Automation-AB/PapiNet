@@ -209,6 +209,12 @@ public class SoftwoodLumberCharacteristics
     public List<ClassIdentifier> ClassIdentifier = [];
     public Weight? Weight = null;
     public LabelCharacteristics? LabelCharacteristics = null;
+    public StencilCharacteristics? StencilCharacteristics = null;
+}
+
+public class StencilCharacteristics
+{
+    public StencilType? StencilType = null;
 }
 
 public class LabelCharacteristics
