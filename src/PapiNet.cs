@@ -185,6 +185,63 @@ public class WoodTimbersDimensionalLumberBoards
 public class SoftwoodLumber
 {
     public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics = new();
+    public Packaging? Packaging = null;
+}
+
+public class Packaging
+{
+    public ProductPackaging ProductPackaging = new();
+}
+
+public class ProductPackaging
+{
+    public QuantityInUnit? QuantityInUnit = null;
+    public UnitDimension? UnitDimension = null;
+}
+
+public class UnitDimension
+{
+    public Length? Length = null;
+    public Width? Width = null;
+    public Height? Height = null;
+    public string? PiecesPerRow = null;
+    public string? RowsPerUnit = null;
+    public string Value = string.Empty;
+
+    public UnitDimension() { }
+
+    public UnitDimension(XElement root)
+    {
+        Length = root.Element("Length") is { } l ? new(l) : Length;
+        Width = root.Element("Width") is { } w ? new(w) : Width;
+        Height = root.Element("Height") is { } h ? new(h) : Height;
+        PiecesPerRow = root.Element("PiecesPerRow")?.Value ?? PiecesPerRow;
+        RowsPerUnit = root.Element("RowsPerUnit")?.Value ?? RowsPerUnit;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("UnitDimension",
+            Length != null ? XElement.Parse($"{Length}") : null,
+            Width != null ? XElement.Parse($"{Width}") : null,
+            Height != null ? XElement.Parse($"{Height}") : null,
+            PiecesPerRow != null ? new XElement("PiecesPerRow", PiecesPerRow) : null,
+            RowsPerUnit != null ? new XElement("RowsPerUnit", RowsPerUnit) : null,
+            Value
+        ).ToString();
+
+
+    }
+}
+
+public class QuantityInUnit : MeasurementBase
+{
+    public QuantityInUnit() : base() { }
+
+    public QuantityInUnit(XElement root) : base(root) { }
+
+    public override string LocalName => "QuantityInUnit";
 }
 
 public class SoftwoodLumberCharacteristics
