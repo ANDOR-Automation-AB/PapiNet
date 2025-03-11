@@ -203,6 +203,7 @@ public class ProductPackaging
     public List<StencilCharacteristics> StencilCharacteristics = [];
     public List<BandCharacteristics> BandCharacteristics = [];
     public List<PalletCharacteristics> PalletCharacteristics = [];
+
 }
 
 public class PalletCharacteristics
@@ -215,6 +216,88 @@ public class PalletCharacteristics
     public PalletTopType? PalletTopType = null;
     public YesNo? IsPartialPalletsAllowed = null;
     public ProductIdentification? ProductIdentification = null;
+    public PalletLength? PalletLength = null;
+    public PalletWidth? PalletWidth = null;
+    public string? ItemsPerPallet = null;
+    public string? StacksPerPallet = null;
+    public string? TiersPerPallet = null;
+    public MaximumHeight? MaximumHeight = null;
+    public string? StackingMethod = null;
+    public LabelCharacteristics? LabelCharacteristics = null;
+    public string Value = string.Empty;
+
+    public PalletCharacteristics() { }
+
+    public PalletCharacteristics(XElement root)
+    {
+        MixedProductPalletIndicator = root.Attribute("MixedProductPalletIndicator") is { Value: var mppi } ? mppi.ToEnum<YesNo>() : MixedProductPalletIndicator;
+        PalletType = root.Attribute("PalletType") is { Value: var pt } ? pt.ToEnum<PalletType>() : PalletType;
+        PalletLedgeType = root.Attribute("PalletLedgeType") is { Value: var plt } ? plt.ToEnum<PalletLedgeType>() : PalletLedgeType;
+        PalletCoverType = root.Attribute("PalletCoverType") is { Value: var pct } ? pct.ToEnum<PalletCoverType>() : PalletCoverType;
+        PalletAdditionsType = root.Attribute("PalletAdditionsType") is { Value: var pat } ? pat.ToEnum<PalletAdditionsType>() : PalletAdditionsType;
+        PalletTopType = root.Attribute("PalletTopType") is { Value: var ptt } ? ptt.ToEnum<PalletTopType>() : PalletTopType;
+        IsPartialPalletsAllowed = root.Attribute("IsPartialPalletsAllowed") is { Value: var ippa } ? ippa.ToEnum<YesNo>() : IsPartialPalletsAllowed;
+        ProductIdentification = root.Element("ProductIdentification") is { } pi ? new(pi) : ProductIdentification;
+        PalletLength = root.Element("PalletLength") is { } pl ? new(pl) : PalletLength;
+        PalletWidth = root.Element("PalletWidth") is { } pw ? new(pw) : PalletWidth;
+        ItemsPerPallet = root.Element("ItemsPerPallet")?.Value ?? ItemsPerPallet;
+        StacksPerPallet = root.Element("StacksPerPallet")?.Value ?? StacksPerPallet;
+        TiersPerPallet = root.Element("TiersPerPallet")?.Value ?? TiersPerPallet;
+        MaximumHeight = root.Element("MaximumHeight") is { } mh ? new(mh) : MaximumHeight;
+        StackingMethod = root.Element("StackingMethod")?.Value ?? StackingMethod;
+        LabelCharacteristics = root.Element("LabelCharacteristics") is { } lc ? new(lc) : LabelCharacteristics;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PalletCharacteristics",
+            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator) : null,
+            PalletType != null ? new XAttribute("PalletType", PalletType) : null,
+            PalletLedgeType != null ? new XAttribute("PalletLedgeType", PalletLedgeType) : null,
+            PalletCoverType != null ? new XAttribute("PalletCoverType", PalletCoverType) : null,
+            PalletAdditionsType != null ? new XAttribute("PalletAdditionsType", PalletAdditionsType) : null,
+            PalletTopType != null ? new XAttribute("PalletTopType", PalletTopType) : null,
+            IsPartialPalletsAllowed != null ? new XAttribute("IsPartialPalletsAllowed", IsPartialPalletsAllowed) : null,
+            ProductIdentification != null ? XElement.Parse($"{ProductIdentification}") : null,
+            PalletLength != null ? XElement.Parse($"{PalletLength}") : null,
+            PalletWidth != null ? XElement.Parse($"{PalletWidth}") : null,
+            ItemsPerPallet != null ? new XElement("ItemsPerPallet", ItemsPerPallet) : null,
+            StacksPerPallet != null ? new XElement("StacksPerPallet", StacksPerPallet) : null,
+            TiersPerPallet != null ? new XElement("TiersPerPallet", TiersPerPallet) : null,
+            MaximumHeight != null ? XElement.Parse($"{MaximumHeight}") : null,
+            StackingMethod != null ? new XElement("StackingMethod", StackingMethod) : null,
+            LabelCharacteristics != null ? XElement.Parse($"{LabelCharacteristics}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class MaximumHeight : Height
+{
+    public MaximumHeight() : base() { }
+
+    public MaximumHeight(XElement root) : base(root) { }
+
+    public override string LocalName => "MaximumHeight";
+}
+
+public class PalletWidth : Width
+{
+    public PalletWidth() : base() { }
+
+    public PalletWidth(XElement root) : base(root) { }
+
+    public override string LocalName => "PalletWidth";
+}
+
+public class PalletLength : Length
+{
+    public PalletLength() : base() { }
+
+    public PalletLength(XElement root) : base(root) { }
+
+    public override string LocalName => "PalletLength";
 }
 
 public class ProductIdentification
