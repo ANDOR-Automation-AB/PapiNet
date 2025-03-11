@@ -185,26 +185,45 @@ public class WoodTimbersDimensionalLumberBoards
 public class HardwoodLumber
 {
     public HardwoodLumberCharacteristics HardwoodLumberCharacteristics = new();
+    public Packaging? Packaging = null;
+    public string Value = string.Empty;
 
+    public HardwoodLumber() { }
+
+    public HardwoodLumber(XElement root)
+    {
+        HardwoodLumberCharacteristics = root.Element("HardwoodLumberCharacteristics") is { } hlc ? new(hlc) : HardwoodLumberCharacteristics;
+        Packaging = root.Element("Packaging") is { } p ? new(p) : Packaging;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("HardwoodLumber",
+            XElement.Parse($"{HardwoodLumberCharacteristics}"),
+            Packaging != null ? XElement.Parse($"{Packaging}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class HardwoodLumberCharacteristics
 {
-    public AnyType? AnyType = null;
+    public List<AnyType> AnyType = [];
     public string Value = string.Empty;
 
     public HardwoodLumberCharacteristics() { }
 
     public HardwoodLumberCharacteristics(XElement root)
     {
-        AnyType = root.HasElements ? root.Elements().FirstOrDefault() is { } at ? new(at) : null : AnyType;
+        AnyType = [.. root.Elements().Select(e => new AnyType(e))];
         Value = root.Value;
     }
 
     public override string ToString()
     {
         return new XElement("HardwoodLumberCharacteristics",
-            AnyType != null ? XElement.Parse($"{AnyType}") : null,
+            AnyType.Select(at => XElement.Parse($"{at}")),
             Value
         ).ToString();
     }
