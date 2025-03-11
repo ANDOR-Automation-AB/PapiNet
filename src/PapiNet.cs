@@ -213,7 +213,33 @@ public class PalletCharacteristics
     public PalletCoverType? PalletCoverType = null;
     public PalletAdditionsType? PalletAdditionsType = null;
     public PalletTopType? PalletTopType = null;
+    public YesNo? IsPartialPalletsAllowed = null;
+    public ProductIdentification? ProductIdentification = null;
+}
 
+public class ProductIdentification
+{
+    public ProductIdentifier ProductIdentifier = new();
+    public List<string> ProductDescription = [];
+    public string Value = string.Empty; 
+
+    public ProductIdentification() { }
+
+    public ProductIdentification(XElement root)
+    {
+        ProductIdentifier = root.Element("ProductIdentifier") is { } pi ? new(pi) : ProductIdentifier;
+        ProductDescription = [.. root.Elements("ProductDescription").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductIdentification",
+            XElement.Parse($"{ProductIdentifier}"),
+            ProductDescription.Select(pd => new XElement("ProductDescription", pd)),
+            Value
+        ).ToString();
+    }
 }
 
 public class BandCharacteristics
