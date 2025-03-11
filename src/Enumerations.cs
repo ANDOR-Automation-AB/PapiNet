@@ -3835,3 +3835,22 @@ public enum StencilType
     [EnumMember(Value = "InkJet")] InkJet,
     [EnumMember(Value = "Rubber")] Rubber,
 }
+
+public enum StencilInkType
+{
+    [EnumMember(Value = "EdibleNotWaterSoluble")] EdibleNotWaterSoluble,
+    [EnumMember(Value = "EdibleWaterSoluble")] EdibleWaterSoluble,
+    [EnumMember(Value = "InedibleNotWaterSoluble")] InedibleNotWaterSoluble,
+    [EnumMember(Value = "InedibleWaterSoluble")] InedibleWaterSoluble,
+    [EnumMember(Value = "Unknown")] Unknown,
+}
+
+public enum StencilLocation
+{
+    [EnumMember(Value = "End")] End,
+    [EnumMember(Value = "Top")] Top,
+    [EnumMember(Value = "Side")] Side,
+    [EnumMember(Value = "UnwrappedReelBilge")] UnwrappedReelBilge,
+    [EnumMember(Value = "UnwrappedReelEnd")] UnwrappedReelEnd,
+    [EnumMember(Value = "WrappedReelBilge")] WrappedReelBilge,
+}
