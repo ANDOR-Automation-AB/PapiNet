@@ -4013,3 +4013,13 @@ public enum PalletLedgeType
     [EnumMember(Value = "ShortWay")] ShortWay,
     [EnumMember(Value = "ShortWayWithBelt")] ShortWayWithBelt,
 }
+
+public enum PalletCoverType
+{
+    [EnumMember(Value = "MetalPlateWithPE")] MetalPlateWithPE,
+    [EnumMember(Value = "WithoutPE")] WithoutPE,
+    [EnumMember(Value = "WithPE")] WithPE,
+    [EnumMember(Value = "WithPEUnderCover")] WithPEUnderCover,
+    [EnumMember(Value = "WoodStripWithPE")] WoodStripWithPE,
+    [EnumMember(Value = "WoodStripWithoutPE")] WoodStripWithoutPE,
+}

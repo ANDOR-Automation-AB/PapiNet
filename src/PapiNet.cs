@@ -210,6 +210,7 @@ public class PalletCharacteristics
     public YesNo? MixedProductPalletIndicator = null;
     public PalletType? PalletType = null;
     public PalletLedgeType? PalletLedgeType = null;
+    public PalletCoverType? PalletCoverType = null;
 
 }
 
