@@ -4005,3 +4005,11 @@ public enum PalletType
     [EnumMember(Value = "NonStop")] NonStop,
     [EnumMember(Value = "Twinned")] Twinned,
 }
+
+public enum PalletLedgeType
+{
+    [EnumMember(Value = "LongWay")] LongWay,
+    [EnumMember(Value = "LongWayWithBelt")] LongWayWithBelt,
+    [EnumMember(Value = "ShortWay")] ShortWay,
+    [EnumMember(Value = "ShortWayWithBelt")] ShortWayWithBelt,
+}
