@@ -210,6 +210,12 @@ public class SoftwoodLumberCharacteristics
     public Weight? Weight = null;
     public LabelCharacteristics? LabelCharacteristics = null;
     public StencilCharacteristics? StencilCharacteristics = null;
+    public Wrap? Wrap = null;
+}
+
+public class Wrap
+{
+    public WrapType? WrapType = null;
 }
 
 public class StencilCharacteristics

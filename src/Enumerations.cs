@@ -3897,3 +3897,23 @@ public enum StencilContent
     [EnumMember(Value = "VendorGradeCode")] VendorGradeCode,
     [EnumMember(Value = "VendorGradeName")] VendorGradeName,
 }
+
+public enum WrapType
+{
+    [EnumMember(Value = "Cardboard")] Cardboard,
+    [EnumMember(Value = "Chipboard")] Chipboard,
+    [EnumMember(Value = "Fibreboard")] Fibreboard,
+    [EnumMember(Value = "KraftPaper")] KraftPaper,
+    [EnumMember(Value = "Laminatedboard")] Laminatedboard,
+    [EnumMember(Value = "Metal")] Metal,
+    [EnumMember(Value = "None")] None,
+    [EnumMember(Value = "Paper")] Paper,
+    [EnumMember(Value = "Peelercores")] Peelercores,
+    [EnumMember(Value = "Plastic")] Plastic,
+    [EnumMember(Value = "PlasticBag")] PlasticBag,
+    [EnumMember(Value = "Plywood")] Plywood,
+    [EnumMember(Value = "Self")] Self,
+    [EnumMember(Value = "ShrinkWrap")] ShrinkWrap,
+    [EnumMember(Value = "StretchWrap")] StretchWrap,
+    [EnumMember(Value = "Timber")] Timber,
+}
