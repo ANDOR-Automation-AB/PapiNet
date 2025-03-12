@@ -238,7 +238,7 @@ public class Surface
     public override string ToString()
     {
         return new XElement("Surface",
-            SurfaceType != null ? new XAttribute("SurfaceType", SurfaceType) : null,
+            SurfaceType != null ? new XAttribute("SurfaceType", SurfaceType.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -265,9 +265,9 @@ public class PlywoodOSBGrade
     public override string ToString()
     {
         return new XElement("PlywoodOSBGrade",
-            Face != null ? new XAttribute("Face", Face) : null,
-            SpanRating != null ? new XElement("SpanRating", SpanRating) : null,
-            StrengthGroup != null ? new XElement("StrengthGroup", StrengthGroup) : null,
+            Face != null ? new XAttribute("Face", Face.GetMemberValue()) : null,
+            SpanRating != null ? new XElement("SpanRating", SpanRating.GetMemberValue()) : null,
+            StrengthGroup != null ? new XElement("StrengthGroup", StrengthGroup.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -692,7 +692,7 @@ public class ProductPackaging
             PalletCharacteristics.Select(pc => XElement.Parse($"{pc}")),
             Wrap.Select(w => XElement.Parse($"{w}")),
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
-            PackageType != null ? new XElement("PackageType", PackageType) : null,
+            PackageType != null ? new XElement("PackageType", PackageType.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -744,13 +744,13 @@ public class PalletCharacteristics
     public override string ToString()
     {
         return new XElement("PalletCharacteristics",
-            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator) : null,
-            PalletType != null ? new XAttribute("PalletType", PalletType) : null,
-            PalletLedgeType != null ? new XAttribute("PalletLedgeType", PalletLedgeType) : null,
-            PalletCoverType != null ? new XAttribute("PalletCoverType", PalletCoverType) : null,
-            PalletAdditionsType != null ? new XAttribute("PalletAdditionsType", PalletAdditionsType) : null,
-            PalletTopType != null ? new XAttribute("PalletTopType", PalletTopType) : null,
-            IsPartialPalletsAllowed != null ? new XAttribute("IsPartialPalletsAllowed", IsPartialPalletsAllowed) : null,
+            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
+            PalletType != null ? new XAttribute("PalletType", PalletType.GetMemberValue()) : null,
+            PalletLedgeType != null ? new XAttribute("PalletLedgeType", PalletLedgeType.GetMemberValue()) : null,
+            PalletCoverType != null ? new XAttribute("PalletCoverType", PalletCoverType.GetMemberValue()) : null,
+            PalletAdditionsType != null ? new XAttribute("PalletAdditionsType", PalletAdditionsType.GetMemberValue()) : null,
+            PalletTopType != null ? new XAttribute("PalletTopType", PalletTopType.GetMemberValue()) : null,
+            IsPartialPalletsAllowed != null ? new XAttribute("IsPartialPalletsAllowed", IsPartialPalletsAllowed.GetMemberValue()) : null,
             ProductIdentification != null ? XElement.Parse($"{ProductIdentification}") : null,
             PalletLength != null ? XElement.Parse($"{PalletLength}") : null,
             PalletWidth != null ? XElement.Parse($"{PalletWidth}") : null,
@@ -839,8 +839,8 @@ public class BandCharacteristics
     public override string ToString()
     {
         return new XElement("BandCharacteristics",
-            BandType != null ? new XAttribute("BandType", BandType) : null,
-            BandsRequired != null ? new XAttribute("BandsRequired", BandsRequired) : null,
+            BandType != null ? new XAttribute("BandType", BandType.GetMemberValue()) : null,
+            BandsRequired != null ? new XAttribute("BandsRequired", BandsRequired.GetMemberValue()) : null,
             NumberOfBands != null ? new XElement("NumberOfBands", NumberOfBands) : null,
             BandColour != null ? new XElement("BandColour", BandColour) : null,
             Value
@@ -868,7 +868,7 @@ public class PackageIDInformation
     public override string ToString()
     {
         return new XElement("PackageIDInformation",
-            PackageAgency != null ? new XAttribute("PackageAgency", PackageAgency) : null,
+            PackageAgency != null ? new XAttribute("PackageAgency", PackageAgency.GetMemberValue()) : null,
             PackageCode != null ? new XElement("PackageCode", PackageCode) : null,
             PackageName != null ? new XElement("PackageName", PackageName) : null,
             Value
@@ -1032,7 +1032,7 @@ public class LengthCutDescription
     public override string ToString()
     {
         return new XElement("LengthCutDescription",
-            LengthCutType != null ? new XAttribute("LengthCutType", LengthCutType) : null,
+            LengthCutType != null ? new XAttribute("LengthCutType", LengthCutType.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -1062,9 +1062,9 @@ public class Wrap
     public override string ToString()
     {
         return new XElement("Wrap",
-            WrapType != null ? new XAttribute("WrapType", WrapType) : null,
-            WrapProperties != null ? new XAttribute("WrapProperties", WrapProperties) : null,
-            WrapLocation != null ? new XAttribute("WrapLocation", WrapLocation) : null,
+            WrapType != null ? new XAttribute("WrapType", WrapType.GetMemberValue()) : null,
+            WrapProperties != null ? new XAttribute("WrapProperties", WrapProperties.GetMemberValue()) : null,
+            WrapLocation != null ? new XAttribute("WrapLocation", WrapLocation.GetMemberValue()) : null,
             NumberOfWraps != null ? new XElement("NumberOfWraps", NumberOfWraps) : null,
             Brand != null ? new XElement("Brand", Brand) : null,
             Value
@@ -1100,12 +1100,12 @@ public class StencilCharacteristics
     public override string ToString()
     {
         return new XElement("StencilCharacteristics",
-            StencilType != null ? new XAttribute("StencilType", StencilType) : null,
-            StencilInkType != null ? new XAttribute("StencilInkType", StencilInkType) : null,
-            StencilLocation != null ? new XAttribute("StencilLocation", StencilLocation) : null,
-            StencilFormat != null ? new XAttribute("StencilFormat", StencilFormat) : null,
-            StencilContent != null ? new XAttribute("StencilContent", StencilContent) : null,
-            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            StencilType != null ? new XAttribute("StencilType", StencilType.GetMemberValue()) : null,
+            StencilInkType != null ? new XAttribute("StencilInkType", StencilInkType.GetMemberValue()) : null,
+            StencilLocation != null ? new XAttribute("StencilLocation", StencilLocation.GetMemberValue()) : null,
+            StencilFormat != null ? new XAttribute("StencilFormat", StencilFormat.GetMemberValue()) : null,
+            StencilContent != null ? new XAttribute("StencilContent", StencilContent.GetMemberValue()) : null,
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy.GetMemberValue()) : null,
             StencilText.Select(st => new XElement("StencilText", st)),
             Value
         ).ToString();
