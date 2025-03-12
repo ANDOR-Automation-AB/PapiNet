@@ -176,11 +176,22 @@ public class WoodProducts
     public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards = null;
     public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
     public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels = null;
+
 }
+
 
 public class CompositeAndVeneerWoodPanels
 {
     public SoftwoodPlywood? SoftwoodPlywood = null;
+    public WoodPanelProducts? WoodPanelProducts = null;
+    public Packaging? Packaging = null;
+
+    public CompositeAndVeneerWoodPanels() { throw new NotImplementedException(); }
+}
+
+public class WoodPanelProducts
+{
+    public WoodPanelProducts() { throw new NotImplementedException(); }
 }
 
 public class SoftwoodPlywood
