@@ -181,6 +181,46 @@ public class RoofingSidingDeckingFencing
 {
     public NaturalWoodSiding? NaturalWoodSiding = null;
     public NaturalWoodSidingOther? NaturalWoodSidingOther = null;
+    public DeckAndPorchFlooringMaterialsNaturalWood? DeckAndPorchFlooringMaterialsNaturalWood = null;
+    public string Value = string.Empty;
+
+
+}
+
+public class DeckAndPorchFlooringMaterialsNaturalWood
+{
+    public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics = new();
+    public Packaging? Packaging = null;
+    public string Value = string.Empty;
+
+    public string LocalName => "DeckAndPorchFlooringMaterials-NaturalWood";
+
+    public DeckAndPorchFlooringMaterialsNaturalWood() { }
+
+    public DeckAndPorchFlooringMaterialsNaturalWood(XElement root)
+    {
+        DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics = root.Element("DeckAndPorchFlooringMaterials-NaturalWoodCharacteristics") is { } dapfmnwc ? new(dapfmnwc) : DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics;
+        Packaging = root.Element("Packaging") is { } p ? new(p) : Packaging;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement(LocalName,
+            XElement.Parse($"{DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics}"),
+            Packaging != null ? XElement.Parse($"{Packaging}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics : SoftwoodLumberCharacteristicsBase
+{
+    public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics() : base() { }
+
+    public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics(XElement root) : base(root) { }
+
+    public override string LocalName => "DeckAndPorchFlooringMaterials-NaturalWoodCharacteristics";
 }
 
 public class NaturalWoodSidingOther
@@ -202,7 +242,7 @@ public class NaturalWoodSidingOther
 
     public override string ToString()
     {
-        return new XElement("NaturalWoodSidingOther",
+        return new XElement(LocalName,
             XElement.Parse($"{NaturalWoodSidingOtherCharacteristics}"),
             Packaging != null ? XElement.Parse($"{Packaging}") : null,
             Value
