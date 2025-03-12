@@ -1810,12 +1810,110 @@ public class SuppliedComponentInformation
 {
     public Party SupplierParty = new Party() { LocalName = "SupplierParty" };
     public ProductIdentifier ProductIdentifier = new();
-    public List<ProductDescription>? ProductDescription = [];
+    public List<ProductDescription> ProductDescription = [];
     public List<Classification> Classification = [];
     public List<BookClassification> BookClassification = [];
     public Paper? Paper = null;
     public SuppliedComponentReference? SuppliedComponentReference = null;
+    public Quantity? Quantity = null;
+    public ComponentShipDate? ComponentShipDate = null;
+    public ComponentDueDate? ComponentDueDate = null;
+    public ComponentNeededDate? ComponentNeededDate = null;
+    public OrderStatusInformation? OrderStatusInformation = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
 
+    public SuppliedComponentInformation() { }
+
+    public SuppliedComponentInformation(XElement root)
+    {
+        SupplierParty = root.Element("SupplierParty") is { } sp ? new(sp) : SupplierParty;
+        ProductIdentifier = root.Element("ProductIdentifier") is { } pi ? new(pi) : ProductIdentifier;
+        ProductDescription = [.. root.Elements("ProductDescription").Select(e => new ProductDescription(e))];
+        Classification = [.. root.Elements("Classification").Select(e => new Classification(e))];
+        BookClassification = [.. root.Elements("BookClassification").Select(e => new BookClassification(e))];
+        Paper = root.Element("Paper") is { } p ? new(p) : Paper;
+        SuppliedComponentReference = root.Element("SuppliedComponentReference") is { } scr ? new(scr) : SuppliedComponentReference;
+        Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
+        ComponentShipDate = root.Element("ComponentShipDate") is { } csd ? new(csd) : ComponentShipDate;
+        ComponentDueDate = root.Element("ComponentDueDate") is { } cdd ? new(cdd) : ComponentDueDate;
+        ComponentNeededDate = root.Element("ComponentNeededDate") is { } cnd ? new(cnd) : ComponentNeededDate;
+        OrderStatusInformation = root.Element("OrderStatusInformation") is { } osi ? new(osi) : OrderStatusInformation;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SuppliedComponentInformation",
+            XElement.Parse($"{SupplierParty}"),
+            XElement.Parse($"{ProductIdentifier}"),
+            ProductDescription.Select(pd => XElement.Parse($"{pd}")),
+            Classification.Select(c => XElement.Parse($"{c}")),
+            BookClassification.Select(bc => XElement.Parse($"{bc}")),
+            Paper != null ? XElement.Parse($"{Paper}") : null,
+            SuppliedComponentReference != null ? XElement.Parse($"{SuppliedComponentReference}") : null,
+            Quantity != null ? XElement.Parse($"{Quantity}") : null,
+            ComponentShipDate != null ? XElement.Parse($"{ComponentShipDate}") : null,
+            ComponentDueDate != null ? XElement.Parse($"{ComponentDueDate}") : null,
+            ComponentNeededDate != null ? XElement.Parse($"{ComponentNeededDate}") : null,
+            OrderStatusInformation != null ? XElement.Parse($"{OrderStatusInformation}") : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
+}
+
+public class OrderStatusInformation
+{
+    public string OrderPrimaryStatus = string.Empty;
+    public string? OrderSecondaryStatus = null;
+    public string Value = string.Empty;
+
+    public OrderStatusInformation() { }
+
+    public OrderStatusInformation(XElement root)
+    {
+        OrderPrimaryStatus = root.Element("OrderPrimaryStatus")?.Value ?? OrderPrimaryStatus;
+        OrderSecondaryStatus = root.Element("OrderSecondaryStatus")?.Value ?? OrderSecondaryStatus;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("OrderStatusInformation",
+            new XElement("OrderPrimaryStatus", OrderPrimaryStatus),
+            OrderSecondaryStatus != null ? new XElement("OrderSecondaryStatus", OrderSecondaryStatus) : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class ComponentNeededDate : DateTimeBase
+{
+    public ComponentNeededDate() : base() { }
+
+    public ComponentNeededDate(XElement root) : base(root) { }
+
+    public override string LocalName => "ComponentNeededDate";
+}
+
+public class ComponentDueDate : DateTimeBase
+{
+    public ComponentDueDate() : base() { }
+
+    public ComponentDueDate(XElement root) : base(root) { }
+
+    public override string LocalName => "ComponentDueDate";
+}
+
+public class ComponentShipDate : DateTimeBase
+{
+    public ComponentShipDate() : base() { }
+
+    public ComponentShipDate(XElement root) : base(root) { }
+
+    public override string LocalName => "ComponentShipDate";
 }
 
 public class SuppliedComponentReference
@@ -1846,6 +1944,10 @@ public class SuppliedComponentReference
 public class Paper
 {
     public PaperCharacteristics? PaperCharacteristics = null;
+
+    public Paper() { throw new NotImplementedException(); }
+
+    public Paper(XElement root) { throw new NotImplementedException(); }
 }
 
 public class PaperCharacteristics
