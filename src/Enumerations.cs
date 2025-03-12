@@ -4137,3 +4137,11 @@ public enum OverlaySide
     [EnumMember(Value = "1")] _1,
     [EnumMember(Value = "2")] _2,
 }
+
+public enum GlueExposure
+{
+    [EnumMember(Value = "Exterior")] Exterior,
+    [EnumMember(Value = "Interior")] Interior,
+    [EnumMember(Value = "Exposure1")] Exposure1,
+    [EnumMember(Value = "Exposure2")] Exposure2,
+}

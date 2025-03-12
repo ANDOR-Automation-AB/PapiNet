@@ -193,6 +193,7 @@ public class SoftwoodPlywood
     public string? PlyNumber = null;
     public Surface? Surface = null;
     public Overlay? Overlay = null;
+    public GlueExposure? GlueExposure = null;
 }
 
 public class Overlay
