@@ -197,6 +197,26 @@ public class SoftwoodPlywood
 public class Surface
 {
     public SurfaceType? SurfaceType = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public Surface() { }
+
+    public Surface(XElement root)
+    {
+        SurfaceType = root.Attribute("SurfaceType") is { Value: var st } ? st.ToEnum<SurfaceType>() : SurfaceType;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Surface",
+            SurfaceType != null ? new XAttribute("SurfaceType", SurfaceType) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class PlywoodOSBGrade
