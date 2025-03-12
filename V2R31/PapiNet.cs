@@ -171,6 +171,35 @@ public class PackageInformation
     public string? PackageLevel = null;
     public Identifier? Identifier = null;
     public List<SupplierMarks> SupplierMarks = [];
+    public List<RawMaterialSet> RawMaterialSet = [];
+}
+
+public class RawMaterialSet
+{
+    public IdentifierCodeType IdentifierCodeType;
+    public IdentifierType IdentifierType;
+    public IdentifierFormatType? IdentifierFormatType = null;
+    public string Value = string.Empty;
+
+    public RawMaterialSet() { }
+
+    public RawMaterialSet(XElement root)
+    {
+        IdentifierCodeType = root.Attribute("IdentifierCodeType") is { Value: var ict } ? ict.ToEnum<IdentifierCodeType>() : IdentifierCodeType;
+        IdentifierType = root.Attribute("IdentifierType") is { Value: var it } ? it.ToEnum<IdentifierType>() : IdentifierType;
+        IdentifierFormatType = root.Attribute("IdentifierFormatType") is { Value: var ift } ? ift.ToEnum<IdentifierFormatType>() : IdentifierFormatType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RawMaterialSet",
+            new XAttribute("IdentifierCodeType", IdentifierCodeType),
+            new XAttribute("IdentifierType", IdentifierType),
+            IdentifierFormatType != null ? new XAttribute("IdentifierFormatType", IdentifierFormatType) : IdentifierFormatType,
+            Value
+        ).ToString();
+    }
 }
 
 public class SupplierMarks
@@ -196,7 +225,7 @@ public class Identifier
 {
     public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
     public IdentifierType IdentifierType = IdentifierType.Primary;
-    public IdentifierFormatType IdentifierFormatType = IdentifierFormatType.Other;
+    public IdentifierFormatType? IdentifierFormatType = null;
     public string Value = string.Empty;
 
     public Identifier() { }
@@ -214,7 +243,7 @@ public class Identifier
         return new XElement("Identifier",
             new XAttribute("IdentifierCodeType", IdentifierCodeType),
             new XAttribute("IdentifierType", IdentifierType),
-            new XAttribute("IdentifierFormatType", IdentifierFormatType),
+            IdentifierFormatType != null ? new XAttribute("IdentifierFormatType", IdentifierFormatType) : null,
             Value
         ).ToString();
     }
