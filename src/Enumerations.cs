@@ -4161,3 +4161,13 @@ public enum EdgeLocation
     [EnumMember(Value = "East")] East,
     [EnumMember(Value = "West")] West,
 }
+
+public enum SupplementalSpecification
+{
+    [EnumMember(Value = "EdgeSealed")] EdgeSealed,
+    [EnumMember(Value = "Overlay-1Side")] Overlay_1Side,
+    [EnumMember(Value = "Overlay-2Side")] Overlay_2Side,
+    [EnumMember(Value = "B-X-band")] B_X_band,
+    [EnumMember(Value = "Plugged-X-Band")] Plugged_X_Band,
+    [EnumMember(Value = "PluggedInnerPlies")] PluggedInnerPlies,
+}

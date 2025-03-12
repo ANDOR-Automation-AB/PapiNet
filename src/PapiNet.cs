@@ -195,6 +195,14 @@ public class SoftwoodPlywood
     public Overlay? Overlay = null;
     public GlueExposure? GlueExposure = null;
     public Edge? Edge = null;
+    public PressureTreatment? PressureTreatment = null;
+    public FireTreatment? FireTreatment = null;
+    public List<Supplemental> Supplemental = [];
+}
+
+public class Supplemental
+{
+    public SupplementalSpecification? SupplementalSpecification = null;
 }
 
 public class Edge
