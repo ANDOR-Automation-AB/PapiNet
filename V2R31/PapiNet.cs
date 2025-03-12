@@ -174,11 +174,40 @@ public class Product
 public class WoodProducts
 {
     public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards = null;
-    public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
-    public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels = null;
+    //public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
+    //public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels = null;
+    //public ConstructionPackagesAndPreFabPanels? ConstructionPackagesAndPreFabPanels = null;
+    //public Millwork? Millwork = null;
+    //public Gypsum? Gypsum = null;
+    public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
+    public List<SuppliedComponentInformation> SuppliedComponentInformation = [];
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+    public string Value = string.Empty;
 
+    public WoodProducts() { }
+
+    public WoodProducts(XElement root)
+    {
+        WoodTimbersDimensionalLumberBoards = root.Element("WoodTimbersDimensionalLumberBoards") is { } wtdlb ? new(wtdlb) : WoodTimbersDimensionalLumberBoards;
+        ProofInformationalQuantity = [.. root.Elements("ProofInformationalQuantity").Select(e => new ProofInformationalQuantity(e))];
+        SuppliedComponentInformation = [.. root.Elements("SuppliedComponentInformation").Select(e => new SuppliedComponentInformation(e))];
+    }
 }
 
+public class Gypsum
+{
+    public Gypsum() { throw new NotImplementedException(); }
+}
+
+public class Millwork
+{
+    public Millwork() { throw new NotImplementedException(); }
+}
+
+public class ConstructionPackagesAndPreFabPanels
+{
+    public ConstructionPackagesAndPreFabPanels() { throw new NotImplementedException(); }
+}
 
 public class CompositeAndVeneerWoodPanels
 {
@@ -1785,7 +1814,33 @@ public class SuppliedComponentInformation
     public List<Classification> Classification = [];
     public List<BookClassification> BookClassification = [];
     public Paper? Paper = null;
+    public SuppliedComponentReference? SuppliedComponentReference = null;
 
+}
+
+public class SuppliedComponentReference
+{
+    public ReferenceType? SuppliedComponentReferenceType = null;
+    public AssignedBy? AssignedBy = null;
+    public string Value = string.Empty;
+
+    public SuppliedComponentReference() { }
+
+    public SuppliedComponentReference(XElement root)
+    {
+        SuppliedComponentReferenceType = root.Attribute("SuppliedComponentReferenceType") is { Value: var scrt } ? scrt.ToEnum<ReferenceType>() : SuppliedComponentReferenceType;
+        AssignedBy = root.Attribute("AssignedBy") is { Value: var ab } ? ab.ToEnum<AssignedBy>() : AssignedBy;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SuppliedComponentReference",
+            SuppliedComponentReferenceType != null ? new XAttribute("SuppliedComponentReferenceType", SuppliedComponentReferenceType.GetMemberValue()) : null,
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy.GetMemberValue()) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class Paper
@@ -2592,13 +2647,13 @@ public class PurchaseOrderInformation
 
 public class PurchaseOrderReference : AssignedByReferenceValueBase
 {
-    public PurchaseOrderReferenceType PurchaseOrderReferenceType = PurchaseOrderReferenceType.Other;
+    public ReferenceType PurchaseOrderReferenceType = ReferenceType.Other;
 
     public PurchaseOrderReference() : base() { }
 
     public PurchaseOrderReference(XElement root) : base(root)
     {
-        PurchaseOrderReferenceType = root.Attribute("PurchaseOrderReferenceType") is { Value: var v } ? Enum.Parse<PurchaseOrderReferenceType>(v) : PurchaseOrderReferenceType;
+        PurchaseOrderReferenceType = root.Attribute("PurchaseOrderReferenceType") is { Value: var v } ? Enum.Parse<ReferenceType>(v) : PurchaseOrderReferenceType;
     }
 
     public override string LocalName => "PurchaseOrderReference";
@@ -2606,7 +2661,7 @@ public class PurchaseOrderReference : AssignedByReferenceValueBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            new XAttribute("PurchaseOrderReferenceType", PurchaseOrderReferenceType),
+            new XAttribute("PurchaseOrderReferenceType", PurchaseOrderReferenceType.GetMemberValue()),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
         ).ToString();
@@ -2928,13 +2983,13 @@ public class DeliverySchedule
 
 public class DeliveryScheduleReference : AssignedByReferenceValueBase
 {
-    public DeliveryScheduleReferenceType DeliveryScheduleReferenceType = DeliveryScheduleReferenceType.Other;
+    public ReferenceType DeliveryScheduleReferenceType = ReferenceType.Other;
 
     public DeliveryScheduleReference() : base() { }
 
     public DeliveryScheduleReference(XElement root) : base(root)
     {
-        DeliveryScheduleReferenceType = root.Attribute("DeliveryScheduleReferenceType") is { Value: var dsrt } ? Enum.Parse<DeliveryScheduleReferenceType>(dsrt) : DeliveryScheduleReferenceType;
+        DeliveryScheduleReferenceType = root.Attribute("DeliveryScheduleReferenceType") is { Value: var dsrt } ? Enum.Parse<ReferenceType>(dsrt) : DeliveryScheduleReferenceType;
     }
 
     public override string LocalName => "DeliveryScheduleReference";
@@ -2942,7 +2997,7 @@ public class DeliveryScheduleReference : AssignedByReferenceValueBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            new XAttribute("DeliveryScheduleReferenceType", DeliveryScheduleReferenceType),
+            new XAttribute("DeliveryScheduleReferenceType", DeliveryScheduleReferenceType.GetMemberValue()),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
         ).ToString();
@@ -3049,13 +3104,13 @@ public class TermsOfChartering
 
 public class DeliveryLegReference : AssignedByReferenceValueBase
 {
-    public DeliveryLegReferenceType DeliveryLegReferenceType = DeliveryLegReferenceType.Other;
+    public ReferenceType DeliveryLegReferenceType = ReferenceType.Other;
 
     public DeliveryLegReference() : base() { }
 
     public DeliveryLegReference(XElement root) : base(root)
     {
-        DeliveryLegReferenceType = root.Attribute("DeliveryLegReferenceType") is { Value: var dlft } ? Enum.Parse<DeliveryLegReferenceType>(dlft) : DeliveryLegReferenceType;
+        DeliveryLegReferenceType = root.Attribute("DeliveryLegReferenceType") is { Value: var dlft } ? Enum.Parse<ReferenceType>(dlft) : DeliveryLegReferenceType;
     }
 
     public override string LocalName => "DeliveryLegReference";
@@ -3063,7 +3118,7 @@ public class DeliveryLegReference : AssignedByReferenceValueBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            new XAttribute("DeliveryLegReferenceType", DeliveryLegReferenceType),
+            new XAttribute("DeliveryLegReferenceType", DeliveryLegReferenceType.GetMemberValue()),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
         ).ToString();
@@ -5345,13 +5400,13 @@ public class DocumentReferenceInformation
 
 public class DeliveryMessageReference : AssignedByReferenceValueBase
 {
-    public DeliveryMessageReferenceType DeliveryMessageReferenceType = DeliveryMessageReferenceType.Other;
+    public ReferenceType DeliveryMessageReferenceType = ReferenceType.Other;
 
     public DeliveryMessageReference() : base() { }
 
     public DeliveryMessageReference(XElement root) : base(root)
     {
-        DeliveryMessageReferenceType = root.Attribute("DeliveryMessageReferenceType") is { Value: var dmrt } ? Enum.Parse<DeliveryMessageReferenceType>(dmrt) : DeliveryMessageReferenceType;
+        DeliveryMessageReferenceType = root.Attribute("DeliveryMessageReferenceType") is { Value: var dmrt } ? Enum.Parse<ReferenceType>(dmrt) : DeliveryMessageReferenceType;
     }
 
     public override string LocalName => "DeliveryMessageReference";
