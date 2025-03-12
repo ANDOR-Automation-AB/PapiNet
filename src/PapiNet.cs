@@ -192,7 +192,28 @@ public class PlywoodOSBGrade
 {
     public Face? Face = null;
     public SpanRating? SpanRating = null;
+    public StrengthGroup? StrengthGroup = null;
+    public string Value = string.Empty;
 
+    public PlywoodOSBGrade() { }
+
+    public PlywoodOSBGrade(XElement root)
+    {
+        Face = root.Attribute("Face") is { Value: var f } ? f.ToEnum<Face>() : Face;
+        SpanRating = root.Element("SpanRating") is { Value: var sr } ? sr.ToEnum<SpanRating>() : SpanRating;
+        StrengthGroup = root.Element("StrengthGroup") is { Value: var sg } ? sg.ToEnum<StrengthGroup>() : StrengthGroup;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PlywoodOSBGrade",
+            Face != null ? new XAttribute("Face", Face) : null,
+            SpanRating != null ? new XElement("SpanRating", SpanRating) : null,
+            StrengthGroup != null ? new XElement("StrengthGroup", StrengthGroup) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class RoofingSidingDeckingFencing
