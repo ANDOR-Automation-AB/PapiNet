@@ -185,6 +185,18 @@ public class InventoryClass
     public InventoryStatusType? InventoryStatusType = null;
     public OwnedBy? InventoryOwnedBy = null;
     public InventoryClassCode InventoryClassCode = new();
+    public List<InventoryClassDescription> InventoryClassDescription = [];
+}
+
+public class InventoryClassDescription
+{
+    public string Value = string.Empty;
+
+    public InventoryClassDescription() { }
+
+    public InventoryClassDescription(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("InventoryClassDescription", Value).ToString();
 }
 
 public class InventoryClassCode
