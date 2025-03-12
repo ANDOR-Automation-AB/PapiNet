@@ -186,6 +186,28 @@ public class RoofingSidingDeckingFencing
 public class NaturalWoodSidingOther
 {
     public NaturalWoodSidingOtherCharacteristics NaturalWoodSidingOtherCharacteristics = new();
+    public Packaging? Packaging = null;
+    public string Value = string.Empty;
+
+    public string LocalName => "NaturalWoodSiding-Other";
+
+    public NaturalWoodSidingOther() { }
+
+    public NaturalWoodSidingOther(XElement root)
+    {
+        NaturalWoodSidingOtherCharacteristics = root.Element("NaturalWoodSiding-OtherCharacteristics") is { } nwsoc ? new(nwsoc) : NaturalWoodSidingOtherCharacteristics;
+        Packaging = root.Element("Packaging") is { } p ? new(p) : Packaging;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("NaturalWoodSidingOther",
+            XElement.Parse($"{NaturalWoodSidingOtherCharacteristics}"),
+            Packaging != null ? XElement.Parse($"{Packaging}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class NaturalWoodSidingOtherCharacteristics : SoftwoodLumberCharacteristicsBase
