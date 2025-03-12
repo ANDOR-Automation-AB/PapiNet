@@ -175,6 +175,23 @@ public class WoodProducts
 {
     public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards = null;
     public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
+    public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels = null;
+}
+
+public class CompositeAndVeneerWoodPanels
+{
+    public SoftwoodPlywood? SoftwoodPlywood = null;
+}
+
+public class SoftwoodPlywood
+{
+    public PlywoodOSBGrade PlywoodOSBGrade = new();
+}
+
+public class PlywoodOSBGrade
+{
+    public Face? Face = null;
+
 }
 
 public class RoofingSidingDeckingFencing

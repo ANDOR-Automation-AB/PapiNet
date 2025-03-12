@@ -4075,3 +4075,21 @@ public enum PackageType
     [EnumMember(Value = "UnformedPulp")] UnformedPulp,
     [EnumMember(Value = "Vehicle")] Vehicle,
 }
+
+public enum SpanRating
+{
+    [EnumMember(Value = "16oc")] _16oc,
+    [EnumMember(Value = "20oc")] _20oc,
+    [EnumMember(Value = "24oc")] _24oc,
+    [EnumMember(Value = "32oc")] _32oc,
+    [EnumMember(Value = "48oc")] _48oc,
+    [EnumMember(Value = "20/0")] _20_by_0,
+    [EnumMember(Value = "24/0")] _24_by_0,
+    [EnumMember(Value = "24/16")] _24_by_16,
+    [EnumMember(Value = "32/16")] _32_by_16,
+    [EnumMember(Value = "40/20")] _40_by_20,
+    [EnumMember(Value = "48/24")] _48_by_24,
+    [EnumMember(Value = "54/32")] _54_by_32,
+    [EnumMember(Value = "60/32")] _60_by_32,
+    [EnumMember(Value = "60/48")] _60_by_48,
+}
