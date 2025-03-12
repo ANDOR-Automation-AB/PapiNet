@@ -189,7 +189,14 @@ public class SoftwoodPlywood
     public Thickness Thickness = new();
     public Width Width = new();
     public Length Length = new();
+    public PlywoodOSBSpecies? PlywoodOSBSpecies = null;
+    public string? PlyNumber = null;
+    public Surface? Surface = null;
+}
 
+public class Surface
+{
+    public SurfaceType? SurfaceType = null;
 }
 
 public class PlywoodOSBGrade

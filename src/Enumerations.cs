@@ -4116,3 +4116,18 @@ public enum PlywoodOSBSpecies
     [EnumMember(Value = "Larch")] Larch,
     [EnumMember(Value = "WhiteFir")] WhiteFir,
 }
+
+public enum SurfaceType
+{
+    [EnumMember(Value = "Oiled")] Oiled,
+    [EnumMember(Value = "PluggedAndTouchSanded")] PluggedAndTouchSanded,
+    [EnumMember(Value = "Rough")] Rough,
+    [EnumMember(Value = "RoughSawn")] RoughSawn,
+    [EnumMember(Value = "S1S")] S1S,
+    [EnumMember(Value = "S2S")] S2S,
+    [EnumMember(Value = "Sanded")] Sanded,
+    [EnumMember(Value = "ScratchSanded")] ScratchSanded,
+    [EnumMember(Value = "Smooth")] Smooth,
+    [EnumMember(Value = "TouchSanded")] TouchSanded,
+    [EnumMember(Value = "Unsanded")] Unsanded,
+}
