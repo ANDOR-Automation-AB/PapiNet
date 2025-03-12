@@ -194,6 +194,38 @@ public class SoftwoodPlywood
     public Surface? Surface = null;
     public Overlay? Overlay = null;
     public GlueExposure? GlueExposure = null;
+    public Edge? Edge = null;
+}
+
+public class Edge
+{
+    public EdgeTypePlywood? EdgeType = null;
+    public EdgeLocation? EdgeLocation = null;
+    public string? EdgeMachiningProfile = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public Edge() { }
+
+    public Edge(XElement root)
+    {
+        EdgeType = root.Attribute("EdgeType") is { Value: var et } ? et.ToEnum<EdgeTypePlywood>() : EdgeType;
+        EdgeLocation = root.Attribute("EdgeLocation") is { Value: var el } ? el.ToEnum<EdgeLocation>() : EdgeLocation;
+        EdgeMachiningProfile = root.Element("EdgeMachiningProfile")?.Value ?? EdgeMachiningProfile;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Edge",
+            EdgeType != null ? new XAttribute("EdgeType", EdgeType.GetMemberValue()) : null,
+            EdgeLocation != null ? new XAttribute("EdgeLocation", EdgeLocation.GetMemberValue()) : null,
+            EdgeMachiningProfile != null ? new XElement("EdgeMachiningProfile", EdgeMachiningProfile) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class Overlay

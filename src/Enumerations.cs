@@ -4145,3 +4145,19 @@ public enum GlueExposure
     [EnumMember(Value = "Exposure1")] Exposure1,
     [EnumMember(Value = "Exposure2")] Exposure2,
 }
+
+public enum EdgeTypePlywood
+{
+    [EnumMember(Value = "ShipLap")] ShipLap,
+    [EnumMember(Value = "SquareEdge")] SquareEdge,
+    [EnumMember(Value = "TongueAndGroove-FullFace")] TongueAndGroove_FullFace,
+    [EnumMember(Value = "TongueAndGroove-ScantFace")] TongueAndGroove_ScantFace,
+}
+
+public enum EdgeLocation
+{
+    [EnumMember(Value = "North")] North,
+    [EnumMember(Value = "South")] South,
+    [EnumMember(Value = "East")] East,
+    [EnumMember(Value = "West")] West,
+}
