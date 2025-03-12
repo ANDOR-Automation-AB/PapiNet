@@ -186,6 +186,10 @@ public class CompositeAndVeneerWoodPanels
 public class SoftwoodPlywood
 {
     public PlywoodOSBGrade PlywoodOSBGrade = new();
+    public Thickness Thickness = new();
+    public Width Width = new();
+    public Length Length = new();
+
 }
 
 public class PlywoodOSBGrade

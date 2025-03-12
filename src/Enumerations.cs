@@ -4105,3 +4105,14 @@ public enum StrengthGroup
     [EnumMember(Value = "Struc-I")] Struc_I,
     [EnumMember(Value = "Decorative")] Decorative,
 } 
+
+public enum PlywoodOSBSpecies
+{
+    [EnumMember(Value = "Southern")] Southern,
+    [EnumMember(Value = "Western")] Western,
+    [EnumMember(Value = "Aspen")] Aspen,
+    [EnumMember(Value = "DF")] DF,
+    [EnumMember(Value = "Hemlock")] Hemlock,
+    [EnumMember(Value = "Larch")] Larch,
+    [EnumMember(Value = "WhiteFir")] WhiteFir,
+}
