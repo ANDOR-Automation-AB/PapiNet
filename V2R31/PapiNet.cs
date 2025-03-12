@@ -160,6 +160,44 @@ public class DeliveryShipmentLineItem
     public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
     public Party? BillToParty = null;
     public Product? Product = null;
+    public PackageInformation? PackageInformation = null;
+
+}
+
+public class PackageInformation
+{
+    public PackageType? PackageType = null;
+    public YesNo? MixedProductPalletIndicator = null;
+    public string? PackageLevel = null;
+    public Identifier? Identifier = null;
+}
+
+public class Identifier
+{
+    public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
+    public IdentifierType IdentifierType = IdentifierType.Primary;
+    public IdentifierFormatType IdentifierFormatType = IdentifierFormatType.Other;
+    public string Value = string.Empty;
+
+    public Identifier() { }
+
+    public Identifier(XElement root)
+    {
+        IdentifierCodeType = root.Attribute("IdentifierCodeType") is { Value: var ict } ? ict.ToEnum<IdentifierCodeType>() : IdentifierCodeType;
+        IdentifierType = root.Attribute("IdentifierType") is { Value: var it } ? it.ToEnum<IdentifierType>() : IdentifierType;
+        IdentifierFormatType = root.Attribute("IdentifierFormatType") is { Value: var ift } ? ift.ToEnum<IdentifierFormatType>() : IdentifierFormatType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Identifier",
+            new XAttribute("IdentifierCodeType", IdentifierCodeType),
+            new XAttribute("IdentifierType", IdentifierType),
+            new XAttribute("IdentifierFormatType", IdentifierFormatType),
+            Value
+        ).ToString();
+    }
 }
 
 public class Product
