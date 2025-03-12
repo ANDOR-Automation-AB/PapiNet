@@ -184,7 +184,25 @@ public class RoofingSidingDeckingFencing
     public DeckAndPorchFlooringMaterialsNaturalWood? DeckAndPorchFlooringMaterialsNaturalWood = null;
     public string Value = string.Empty;
 
+    public RoofingSidingDeckingFencing() { }
 
+    public RoofingSidingDeckingFencing(XElement root)
+    {
+        NaturalWoodSiding = root.Element("NaturalWoodSiding") is { } nws ? new(nws) : null;
+        NaturalWoodSidingOther = root.Element("NaturalWoodSidingOther") is { } nwso ? new(nwso) : null;
+        DeckAndPorchFlooringMaterialsNaturalWood = root.Element("DeckAndPorchFlooringMaterialsNaturalWood") is { } dapfmnw ? new(dapfmnw) : DeckAndPorchFlooringMaterialsNaturalWood;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("RoofingSidingDeckingFencing",
+            NaturalWoodSiding != null ? XElement.Parse($"{NaturalWoodSiding}") : null,
+            NaturalWoodSidingOther != null ? XElement.Parse($"{NaturalWoodSidingOther}") : null,
+            DeckAndPorchFlooringMaterialsNaturalWood != null ? XElement.Parse($"{DeckAndPorchFlooringMaterialsNaturalWood}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class DeckAndPorchFlooringMaterialsNaturalWood
