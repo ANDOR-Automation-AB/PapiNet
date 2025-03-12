@@ -192,6 +192,32 @@ public class SoftwoodPlywood
     public PlywoodOSBSpecies? PlywoodOSBSpecies = null;
     public string? PlyNumber = null;
     public Surface? Surface = null;
+    public Overlay? Overlay = null;
+}
+
+public class Overlay
+{
+    public OverlaySide? OverlaySide = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public Overlay() { }
+
+    public Overlay(XElement root)
+    {
+        OverlaySide = root.Attribute("OverlaySide") is { Value: var os } ? os.ToEnum<OverlaySide>() : OverlaySide;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Overlay",
+            OverlaySide != null ? new XAttribute("OverlaySide", OverlaySide.GetMemberValue()) : null,
+            AdditionalText.Select(at => new XAttribute("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class Surface

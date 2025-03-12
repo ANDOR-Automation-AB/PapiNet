@@ -4131,3 +4131,9 @@ public enum SurfaceType
     [EnumMember(Value = "TouchSanded")] TouchSanded,
     [EnumMember(Value = "Unsanded")] Unsanded,
 }
+
+public enum OverlaySide
+{
+    [EnumMember(Value = "1")] _1,
+    [EnumMember(Value = "2")] _2,
+}
