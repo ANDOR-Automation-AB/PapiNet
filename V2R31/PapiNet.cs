@@ -170,6 +170,26 @@ public class PackageInformation
     public YesNo? MixedProductPalletIndicator = null;
     public string? PackageLevel = null;
     public Identifier? Identifier = null;
+    public List<SupplierMarks> SupplierMarks = [];
+}
+
+public class SupplierMarks
+{
+    public string Value = string.Empty;
+
+    public SupplierMarks() { }
+
+    public SupplierMarks(XElement root)
+    {
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SupplierMarks",
+            Value
+        ).ToString();
+    }
 }
 
 public class Identifier
