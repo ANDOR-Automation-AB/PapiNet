@@ -164,11 +164,79 @@ public class DeliveryShipmentLineItem
 
 public class Product
 {
-    public string ProductIdentifier = string.Empty;
-    public List<string> ProductDescription = [];
+    public ProductIdentifier ProductIdentifier = new();
+    public List<ProductDescription> ProductDescription = [];
     public List<Classification> Classification = [];
     public BookManufacturing? BookManufacturing = null;
+    public LabelStock? LabelStock = null;
+    public Paper? Paper = null;
+    public Pulp? Pulp = null;
+    public RecoveredPaper? RecoveredPaper = null;
+    public VirginFibre? VirginFibre = null;
     public WoodProducts? WoodProducts = null;
+    public string Value = string.Empty;
+
+    public Product() { }
+
+    public Product(XElement root)
+    {
+        ProductIdentifier = root.Element("ProductIdentifier") is { } pi ? new(pi) : ProductIdentifier;
+        ProductDescription = [.. root.Elements("ProductDescription").Select(e => new ProductDescription(e))];
+        Classification = [.. root.Elements("Classification").Select(c => new Classification(c))];
+        BookManufacturing = root.Element("BookManufacturing") is { } bm ? new(bm) : BookManufacturing;
+        LabelStock = root.Element("LabelStock") is { } ls ? new(ls) : LabelStock;
+        Paper = root.Element("Paper") is { } pa ? new(pa) : Paper;
+        Pulp = root.Element("Pulp") is { } pu ? new(pu) : Pulp;
+        RecoveredPaper = root.Element("RecoveredPaper") is { } rp ? new(rp) : RecoveredPaper;
+        VirginFibre = root.Element("VirginFibre") is { } vf ? new(vf) : VirginFibre;
+        WoodProducts = root.Element("WoodProducts") is { } wp ? new(wp) : WoodProducts;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Product",
+            XElement.Parse($"{ProductIdentifier}"),
+            ProductDescription.Select(pd => XElement.Parse($"{pd}")),
+            Classification.Select(c => XElement.Parse($"{c}")),
+            BookManufacturing != null ? XElement.Parse($"{BookManufacturing}") : null,
+            LabelStock != null ? XElement.Parse($"{LabelStock}") : null,
+            Paper != null ? XElement.Parse($"{Paper}") : null,
+            Pulp != null ? XElement.Parse($"{Pulp}") : null,
+            RecoveredPaper != null ? XElement.Parse($"{RecoveredPaper}") : null,
+            VirginFibre != null ? XElement.Parse($"{VirginFibre}") : null,
+            WoodProducts != null ? XElement.Parse($"{WoodProducts}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class VirginFibre
+{
+    public VirginFibre() { throw new NotImplementedException(); }
+
+    public VirginFibre(XElement root) { throw new NotImplementedException(); }
+}
+
+public class RecoveredPaper
+{
+    public RecoveredPaper() { throw new NotImplementedException(); }
+
+    public RecoveredPaper(XElement root) { throw new NotImplementedException(); }
+}
+
+public class Pulp
+{
+    public Pulp() { throw new NotImplementedException(); }
+
+    public Pulp(XElement root) { throw new NotImplementedException(); }
+}
+
+public class LabelStock
+{
+    public LabelStock() { throw new NotImplementedException(); }
+
+    public LabelStock(XElement root) { throw new NotImplementedException(); }
 }
 
 public class WoodProducts
@@ -1837,6 +1905,10 @@ public class BookManufacturing
     public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
     public List<PrepInformation> PrepInformation = [];
     public List<SuppliedComponentInformation> SuppliedComponentInformation = [];
+
+    public BookManufacturing() { throw new NotImplementedException(); }
+
+    public BookManufacturing(XElement root) { throw new NotImplementedException(); }
 }
 
 public class SuppliedComponentInformation
