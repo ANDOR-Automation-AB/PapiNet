@@ -172,6 +172,19 @@ public class PackageInformation
     public Identifier? Identifier = null;
     public List<SupplierMarks> SupplierMarks = [];
     public List<RawMaterialSet> RawMaterialSet = [];
+    public List<PartyIdentifier> PartyIdentifier = [];
+    public MachineID? MachineID = null;
+}
+
+public class MachineID
+{
+    public string Value = string.Empty;
+
+    public MachineID() { }
+
+    public MachineID(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("MachineID", Value).ToString();
 }
 
 public class RawMaterialSet
