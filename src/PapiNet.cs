@@ -191,6 +191,7 @@ public class SoftwoodPlywood
 public class PlywoodOSBGrade
 {
     public Face? Face = null;
+    public SpanRating? SpanRating = null;
 
 }
 

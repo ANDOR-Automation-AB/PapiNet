@@ -4093,3 +4093,15 @@ public enum SpanRating
     [EnumMember(Value = "60/32")] _60_by_32,
     [EnumMember(Value = "60/48")] _60_by_48,
 }
+
+public enum StrengthGroup
+{
+    [EnumMember(Value = "Class-I")] Class_I,
+    [EnumMember(Value = "Class-II")] Class_II,
+    [EnumMember(Value = "Group1")] Group1,
+    [EnumMember(Value = "Group2")] Group2,
+    [EnumMember(Value = "Group3")] Group3,
+    [EnumMember(Value = "Group4")] Group4,
+    [EnumMember(Value = "Struc-I")] Struc_I,
+    [EnumMember(Value = "Decorative")] Decorative,
+} 
