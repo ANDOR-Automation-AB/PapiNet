@@ -180,7 +180,21 @@ public class WoodProducts
 public class RoofingSidingDeckingFencing
 {
     public NaturalWoodSiding? NaturalWoodSiding = null;
+    public NaturalWoodSidingOther? NaturalWoodSidingOther = null;
+}
 
+public class NaturalWoodSidingOther
+{
+    public NaturalWoodSidingOtherCharacteristics NaturalWoodSidingOtherCharacteristics = new();
+}
+
+public class NaturalWoodSidingOtherCharacteristics : SoftwoodLumberCharacteristicsBase
+{
+    public NaturalWoodSidingOtherCharacteristics() : base() { }
+
+    public NaturalWoodSidingOtherCharacteristics(XElement root) : base(root) { }
+
+    public override string LocalName => "NaturalWoodSiding-OtherCharacteristics";
 }
 
 public class NaturalWoodSiding
