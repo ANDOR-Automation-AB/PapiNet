@@ -203,6 +203,26 @@ public class SoftwoodPlywood
 public class Supplemental
 {
     public SupplementalSpecification? SupplementalSpecification = null;
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public Supplemental() { }
+
+    public Supplemental(XElement root)
+    {
+        SupplementalSpecification = root.Attribute("SupplementalSpecification") is { Value: var ss } ? ss.ToEnum<SupplementalSpecification>() : SupplementalSpecification;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("Supplemental",
+            SupplementalSpecification != null ? new XAttribute("SupplementalSpecification", SupplementalSpecification.GetMemberValue()) : null,
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class Edge
