@@ -174,6 +174,114 @@ public class Product
 public class WoodProducts
 {
     public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards = null;
+    public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
+}
+
+public class RoofingSidingDeckingFencing
+{
+    public NaturalWoodSiding? NaturalWoodSiding = null;
+}
+
+public class NaturalWoodSiding
+{
+    public NaturalWoodSidingCharacteristics NaturalWoodSidingCharacteristics = new();
+}
+
+public class NaturalWoodSidingCharacteristics
+{
+    public LumberSpecies LumberSpecies = new();
+    public LumberGrade LumberGrade = new();
+    public Length? Length = null;
+    public Width? Width = null;
+    public Thickness? Thickness = null;
+    public Seasoning? Seasoning = null;
+    public MoistureContent? MoistureContent = null;
+    public HeatTreatment? HeatTreatment = null;
+    public List<ManufacturingProcess> ManufacturingProcess = [];
+    public PatternProfile? PatternProfile = null;
+    public Trim? Trim = null;
+    public Joining? Joining = null;
+    public PressureTreatment? PressureTreatment = null;
+    public FireTreatment? FireTreatment = null;
+    public OtherTreatment? OtherTreatment = null;
+    public GradeStamp? GradeStamp = null;
+    public ExLog? ExLog = null;
+    public ClassIdentifier? ClassIdentifier = null;
+    public Weight? Weight = null;
+    public LabelCharacteristics? LabelCharacteristics = null;
+    public StencilCharacteristics? StencilCharacteristics = null;
+    public Wrap? Wrap = null;
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+    public List<string> AdditionalText = [];
+    public LengthCutDescription? LengthCutDescription = null;
+    public string? ShippingMark = null;
+    public string Value = string.Empty;
+
+    public NaturalWoodSidingCharacteristics() { }
+
+    public NaturalWoodSidingCharacteristics(XElement root)
+    {
+        LumberSpecies = root.Element("LumberSpecies") is { } ls ? new(ls) : LumberSpecies;
+        LumberGrade = root.Element("LumberGrade") is { } lg ? new(lg) : LumberGrade;
+        Length = root.Element("Length") is { } l ? new(l) : Length;
+        Width = root.Element("Width") is { } wi ? new(wi) : Width;
+        Thickness = root.Element("Thickness") is { } th ? new(th) : Thickness;
+        Seasoning = root.Element("Seasoning") is { } s ? new(s) : Seasoning;
+        MoistureContent = root.Element("MoistureContent") is { } mc ? new(mc) : MoistureContent;
+        HeatTreatment = root.Element("HeatTreatment") is { } ht ? new(ht) : HeatTreatment;
+        ManufacturingProcess = [.. root.Elements("ManufacturingProcess").Select(e => new ManufacturingProcess(e))];
+        PatternProfile = root.Element("PatternProfile") is { } pp ? new(pp) : PatternProfile;
+        Trim = root.Element("Trim") is { } tr ? new(tr) : Trim;
+        Joining = root.Element("Joining") is { } j ? new(j) : Joining;
+        PressureTreatment = root.Element("PressureTreatment") is { } pt ? new(pt) : PressureTreatment;
+        FireTreatment = root.Element("FireTreatment") is { } ft ? new(ft) : FireTreatment;
+        OtherTreatment = root.Element("OtherTreatment") is { } ot ? new(ot) : OtherTreatment;
+        GradeStamp = root.Element("GradeStamp") is { } gs ? new(gs) : GradeStamp;
+        ExLog = root.Element("ExLog") is { } el ? new(el) : ExLog;
+        ClassIdentifier = root.Element("ClassIdentifier") is { } ci ? new(ci) : ClassIdentifier;
+        Weight = root.Element("Weight") is { } we ? new(we) : Weight;
+        LabelCharacteristics = root.Element("LabelCharacteristics") is { } lc ? new(lc) : LabelCharacteristics;
+        StencilCharacteristics = root.Element("StencilCharacteristics") is { } sc ? new(sc) : StencilCharacteristics;
+        Wrap = root.Element("Wrap") is { } wr ? new(wr) : Wrap;
+        SafetyAndEnvironmentalInformation = [.. root.Elements("SafetyAndEnvironmentalInformation").Select(e => new SafetyAndEnvironmentalInformation(e))];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        LengthCutDescription = root.Element("LengthCutDescription") is { } lcd ? new(lcd) : LengthCutDescription;
+        ShippingMark = root.Element("ShippingMark")?.Value ?? ShippingMark;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("NaturalWoodSidingCharacteristics",
+            XElement.Parse($"{LumberSpecies}"),
+            XElement.Parse($"{LumberGrade}"),
+            Length != null ? XElement.Parse($"{Length}") : null,
+            Width != null ? XElement.Parse($"{Width}") : null,
+            Thickness != null ? XElement.Parse($"{Thickness}") : null,
+            Seasoning != null ? XElement.Parse($"{Seasoning}") : null,
+            MoistureContent != null ? XElement.Parse($"{MoistureContent}") : null,
+            HeatTreatment != null ? XElement.Parse($"{HeatTreatment}") : null,
+            ManufacturingProcess.Select(mp => XElement.Parse($"{mp}")),
+            PatternProfile != null ? XElement.Parse($"{PatternProfile}") : null,
+            Trim != null ? XElement.Parse($"{Trim}") : null,
+            Joining != null ? XElement.Parse($"{Joining}") : null,
+            PressureTreatment != null ? XElement.Parse($"{PressureTreatment}") : null,
+            FireTreatment != null ? XElement.Parse($"{FireTreatment}") : null,
+            OtherTreatment != null ? XElement.Parse($"{OtherTreatment}") : null,
+            GradeStamp != null ? XElement.Parse($"{GradeStamp}") : null,
+            ExLog != null ? XElement.Parse($"{ExLog}") : null,
+            ClassIdentifier != null ? XElement.Parse($"{ClassIdentifier}") : null,
+            Weight != null ? XElement.Parse($"{Weight}") : null,
+            LabelCharacteristics != null ? XElement.Parse($"{LabelCharacteristics}") : null,
+            StencilCharacteristics != null ? XElement.Parse($"{StencilCharacteristics}") : null,
+            Wrap != null ? XElement.Parse($"{Wrap}") : null,
+            SafetyAndEnvironmentalInformation.Select(saei => XElement.Parse($"{saei}")),
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            LengthCutDescription != null ? XElement.Parse($"{LengthCutDescription}") : null,
+            ShippingMark != null ? new XElement("ShippingMark", ShippingMark) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class WoodTimbersDimensionalLumberBoards
