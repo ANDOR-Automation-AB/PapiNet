@@ -174,6 +174,51 @@ public class PackageInformation
     public List<RawMaterialSet> RawMaterialSet = [];
     public List<PartyIdentifier> PartyIdentifier = [];
     public MachineID? MachineID = null;
+    public ItemCount? ItemCount = null;
+    public Quantity? Quantity = null;
+    public List<InformationalQuantity> InformationalQuantity = [];
+    public InventoryClass? InventoryClass = null;
+}
+
+public class InventoryClass
+{
+    public InventoryStatusType? InventoryStatusType = null;
+    public OwnedBy? InventoryOwnedBy = null;
+    public InventoryClassCode InventoryClassCode = new();
+}
+
+public class InventoryClassCode
+{
+    public Agency Agency = Agency.Other;
+    public string InventoryClassLevel = "1";
+    public string Value = string.Empty;
+
+    public InventoryClassCode() { }
+
+    public InventoryClassCode(XElement root)
+    {
+        Agency = root.Attribute("Agency")?.Value.ToEnum<Agency>() ?? Agency;
+        InventoryClassLevel = root.Attribute("InventoryClassLevel")?.Value ?? InventoryClassLevel;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("InventoryClassCode",
+            new XAttribute("Agency", Agency.GetMemberValue()),
+            new XAttribute("InventoryClassLevel", InventoryClassLevel),
+            Value
+        ).ToString();
+    }
+}
+
+public class ItemCount : MeasurementBase
+{
+    public ItemCount() : base() { }
+
+    public ItemCount(XElement root) : base(root) { }
+
+    public override string LocalName => "ItemCount";
 }
 
 public class MachineID

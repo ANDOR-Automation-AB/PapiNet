@@ -3511,3 +3511,15 @@ public enum GradeAgency
     [EnumMember(Value = "MillCertified")] MillCertified,
     [EnumMember(Value = "None")] None,
 }
+
+public enum InventoryStatusType
+{
+    Sound,
+    Unsound,
+}
+
+public enum OwnedBy
+{
+    Buyer,
+    Seller,
+}
