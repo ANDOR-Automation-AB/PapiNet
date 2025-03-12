@@ -180,6 +180,7 @@ public class WoodProducts
 public class RoofingSidingDeckingFencing
 {
     public NaturalWoodSiding? NaturalWoodSiding = null;
+
 }
 
 public class NaturalWoodSiding
@@ -207,7 +208,7 @@ public class NaturalWoodSiding
     }
 }
 
-public class NaturalWoodSidingCharacteristics
+public abstract class SoftwoodLumberCharacteristicsBase
 {
     public LumberSpecies LumberSpecies = new();
     public LumberGrade LumberGrade = new();
@@ -236,10 +237,12 @@ public class NaturalWoodSidingCharacteristics
     public LengthCutDescription? LengthCutDescription = null;
     public string? ShippingMark = null;
     public string Value = string.Empty;
+    
+    public abstract string LocalName { get; }
 
-    public NaturalWoodSidingCharacteristics() { }
+    public SoftwoodLumberCharacteristicsBase() { }
 
-    public NaturalWoodSidingCharacteristics(XElement root)
+    public SoftwoodLumberCharacteristicsBase(XElement root)
     {
         LumberSpecies = root.Element("LumberSpecies") is { } ls ? new(ls) : LumberSpecies;
         LumberGrade = root.Element("LumberGrade") is { } lg ? new(lg) : LumberGrade;
@@ -272,7 +275,7 @@ public class NaturalWoodSidingCharacteristics
 
     public override string ToString()
     {
-        return new XElement("NaturalWoodSidingCharacteristics",
+        return new XElement(LocalName,
             XElement.Parse($"{LumberSpecies}"),
             XElement.Parse($"{LumberGrade}"),
             Length != null ? XElement.Parse($"{Length}") : null,
@@ -302,6 +305,15 @@ public class NaturalWoodSidingCharacteristics
             Value
         ).ToString();
     }
+}
+
+public class NaturalWoodSidingCharacteristics : SoftwoodLumberCharacteristicsBase
+{
+    public NaturalWoodSidingCharacteristics() : base() { }
+
+    public NaturalWoodSidingCharacteristics(XElement root) : base(root) { }
+
+    public override string LocalName => "NaturalWoodSidingCharacteristics";
 }
 
 public class WoodTimbersDimensionalLumberBoards
