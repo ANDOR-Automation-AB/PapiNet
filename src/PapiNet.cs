@@ -198,6 +198,68 @@ public class SoftwoodPlywood
     public PressureTreatment? PressureTreatment = null;
     public FireTreatment? FireTreatment = null;
     public List<Supplemental> Supplemental = [];
+    public string? Brand = null;
+    public GradeAgency? GradeAgency = null;
+    public GradeStamp? GradeStamp = null;
+    public ClassIdentifier? ClassIdentifier = null;
+    public List<LabelCharacteristics> LabelCharacteristics = [];
+    public List<StencilCharacteristics> StencilCharacteristics = [];
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+    public string Value = string.Empty;
+
+    public SoftwoodPlywood() { }
+
+    public SoftwoodPlywood(XElement root)
+    {
+        PlywoodOSBGrade = root.Element("PlywoodOSBGrade") is { } posbg ? new(posbg) : PlywoodOSBGrade;
+        Thickness = root.Element("Thickness") is { } t ? new(t) : Thickness;
+        Width = root.Element("Width") is { } w ? new(w) : Width;
+        Length = root.Element("Length") is { } l ? new(l) : Length;
+        PlywoodOSBSpecies = root.Element("PlywoodOSBSpecies") is { Value: var posbs } ? posbs.ToEnum<PlywoodOSBSpecies>() : PlywoodOSBSpecies;
+        PlyNumber = root.Element("PlyNumber")?.Value ?? PlyNumber;
+        Surface = root.Element("Surface") is { } s ? new(s) : Surface;
+        Overlay = root.Element("Overlay") is { } o ? new(o) : Overlay;
+        GlueExposure = root.Element("GlueExposure") is { Value: var ge } ? ge.ToEnum<GlueExposure>() : GlueExposure;
+        Edge = root.Element("Edge") is { } e ? new(e) : Edge;
+        PressureTreatment = root.Element("PressureTreatment") is { } pt ? new(pt) : PressureTreatment;
+        FireTreatment = root.Element("FireTreatment") is { } ft ? new(ft) : FireTreatment;
+        Supplemental = [.. root.Elements("Supplemental").Select(e => new Supplemental(e))];
+        Brand = root.Element("Brand")?.Value ?? Brand;
+        GradeAgency = root.Element("GradeAgency") is { Value: var ga } ? ga.ToEnum<GradeAgency>() : GradeAgency;
+        GradeStamp = root.Element("GradeStamp") is { } gs ? new(gs) : GradeStamp;
+        ClassIdentifier = root.Element("ClassIdentifier") is { } ci ? new(ci) : ClassIdentifier;
+        LabelCharacteristics = [.. root.Elements("LabelCharacteristics").Select(e => new LabelCharacteristics(e))];
+        StencilCharacteristics = [.. root.Elements("StencilCharacteristics").Select(e => new StencilCharacteristics(e))];
+        SafetyAndEnvironmentalInformation = [.. root.Elements("SafetyAndEnvironmentalInformation").Select(e => new SafetyAndEnvironmentalInformation(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SoftwoodPlywood",
+            XElement.Parse($"{PlywoodOSBGrade}"),
+            XElement.Parse($"{Thickness}"),
+            XElement.Parse($"{Width}"),
+            XElement.Parse($"{Length}"),
+            PlywoodOSBSpecies != null ? new XElement("PlywoodOSBSpecies", PlywoodOSBSpecies.GetMemberValue()) : null,
+            PlyNumber != null ? new XElement("PlyNumber", PlyNumber) : null,
+            Surface != null ? XElement.Parse($"{Surface}") : null,
+            Overlay != null ? XElement.Parse($"{Overlay}") : null,
+            GlueExposure != null ? XElement.Parse($"{GlueExposure}") : null,
+            Edge != null ? XElement.Parse($"{Edge}") : null,
+            PressureTreatment != null ? XElement.Parse($"{PressureTreatment}") : null,
+            FireTreatment != null ? XElement.Parse($"{FireTreatment}") : null,
+            Supplemental.Select(s => XElement.Parse($"{s}")),
+            Brand != null ? new XElement("Brand", Brand) : null,
+            GradeAgency != null ? new XElement("GradeAgency", GradeAgency.GetMemberValue()) : null,
+            GradeStamp != null ? XElement.Parse($"{GradeStamp}") : null,
+            ClassIdentifier != null ? XElement.Parse($"{ClassIdentifier}") : null,
+            LabelCharacteristics.Select(lc => XElement.Parse($"{lc}")),
+            StencilCharacteristics.Select(sc => XElement.Parse($"{sc}")),
+            SafetyAndEnvironmentalInformation.Select(saei => XElement.Parse($"{saei}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class Supplemental

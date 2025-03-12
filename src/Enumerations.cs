@@ -4171,3 +4171,12 @@ public enum SupplementalSpecification
     [EnumMember(Value = "Plugged-X-Band")] Plugged_X_Band,
     [EnumMember(Value = "PluggedInnerPlies")] PluggedInnerPlies,
 }
+
+public enum GradeAgency
+{
+    [EnumMember(Value = "APA")] APA,
+    [EnumMember(Value = "PITTSBURG")] PITTSBURG,
+    [EnumMember(Value = "TECO")] TECO,
+    [EnumMember(Value = "MillCertified")] MillCertified,
+    [EnumMember(Value = "None")] None,
+}
