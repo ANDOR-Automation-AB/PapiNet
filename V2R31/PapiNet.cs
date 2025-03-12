@@ -186,6 +186,32 @@ public class InventoryClass
     public OwnedBy? InventoryOwnedBy = null;
     public InventoryClassCode InventoryClassCode = new();
     public List<InventoryClassDescription> InventoryClassDescription = [];
+    public List<string> AdditionalText = [];
+    public string Value = string.Empty;
+
+    public InventoryClass() { }
+
+    public InventoryClass(XElement root)
+    {
+        InventoryStatusType = root.Attribute("InventoryStatusType")?.Value.ToEnum<InventoryStatusType>() ?? InventoryStatusType;
+        InventoryOwnedBy = root.Attribute("InventoryOwnedBy")?.Value.ToEnum<OwnedBy>() ?? InventoryOwnedBy;
+        InventoryClassCode = root.Element("InventoryClassCode") is { } icc ? new(icc) : InventoryClassCode;
+        InventoryClassDescription = [.. root.Elements("InventoryClassDescription").Select(e => new InventoryClassDescription(e))];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("InventoryClass",
+            InventoryStatusType != null ? new XAttribute("InventoryStatusType", InventoryStatusType.GetMemberValue()) : null,
+            InventoryOwnedBy != null ? new XAttribute("InventoryOwnedBy", InventoryOwnedBy.GetMemberValue()) : null,
+            XElement.Parse($"{InventoryClassCode}"),
+            InventoryClassDescription.Select(icd => XElement.Parse($"{icd}")),
+            AdditionalText.Select(at => new XElement("AdditionalText", at)),
+            Value
+        ).ToString();
+    }
 }
 
 public class InventoryClassDescription
