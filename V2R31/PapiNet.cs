@@ -174,11 +174,11 @@ public class Product
 public class WoodProducts
 {
     public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards = null;
-    //public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
-    //public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels = null;
-    //public ConstructionPackagesAndPreFabPanels? ConstructionPackagesAndPreFabPanels = null;
-    //public Millwork? Millwork = null;
-    //public Gypsum? Gypsum = null;
+    public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
+    public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels = null;
+    public ConstructionPackagesAndPreFabPanels? ConstructionPackagesAndPreFabPanels = null;
+    public Millwork? Millwork = null;
+    public Gypsum? Gypsum = null;
     public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
     public List<SuppliedComponentInformation> SuppliedComponentInformation = [];
     public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
@@ -189,24 +189,53 @@ public class WoodProducts
     public WoodProducts(XElement root)
     {
         WoodTimbersDimensionalLumberBoards = root.Element("WoodTimbersDimensionalLumberBoards") is { } wtdlb ? new(wtdlb) : WoodTimbersDimensionalLumberBoards;
+        RoofingSidingDeckingFencing = root.Element("RoofingSidingDeckingFencing") is { } rsdf ? new(rsdf) : RoofingSidingDeckingFencing;
+        CompositeAndVeneerWoodPanels = root.Element("CompositeAndVeneerWoodPanels") is { } cavwp ? new(cavwp) : CompositeAndVeneerWoodPanels;
+        ConstructionPackagesAndPreFabPanels = root.Element("ConstructionPackagesAndPreFabPanels") is { } cpapfp ? new(cpapfp) : ConstructionPackagesAndPreFabPanels;
+        Millwork = root.Element("Millwork") is { } m ? new(m) : Millwork;
+        Gypsum = root.Element("Gypsum") is { } g ? new(g) : Gypsum;
         ProofInformationalQuantity = [.. root.Elements("ProofInformationalQuantity").Select(e => new ProofInformationalQuantity(e))];
         SuppliedComponentInformation = [.. root.Elements("SuppliedComponentInformation").Select(e => new SuppliedComponentInformation(e))];
+        SafetyAndEnvironmentalInformation = [.. root.Elements("SafetyAndEnvironmentalInformation").Select(e => new SafetyAndEnvironmentalInformation(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("WoodProducts",
+            WoodTimbersDimensionalLumberBoards != null ? XElement.Parse($"{WoodTimbersDimensionalLumberBoards}") : null,
+            RoofingSidingDeckingFencing != null ? XElement.Parse($"{RoofingSidingDeckingFencing}") : null,
+            CompositeAndVeneerWoodPanels != null ? XElement.Parse($"{CompositeAndVeneerWoodPanels}") : null,
+            ConstructionPackagesAndPreFabPanels != null ? XElement.Parse($"{ConstructionPackagesAndPreFabPanels}") : null,
+            Millwork != null ? XElement.Parse($"{Millwork}") : null,
+            Gypsum != null ? XElement.Parse($"{Gypsum}") : null,
+            ProofInformationalQuantity.Select(piq => XElement.Parse($"{piq}")),
+            SuppliedComponentInformation.Select(sci => XElement.Parse($"{sci}")),
+            SafetyAndEnvironmentalInformation.Select(saei => XElement.Parse($"{saei}")),
+            Value
+        ).ToString();
     }
 }
 
 public class Gypsum
 {
     public Gypsum() { throw new NotImplementedException(); }
+
+    public Gypsum(XElement root) { throw new NotImplementedException(); }
 }
 
 public class Millwork
 {
     public Millwork() { throw new NotImplementedException(); }
+
+    public Millwork(XElement root) { throw new NotImplementedException(); }
 }
 
 public class ConstructionPackagesAndPreFabPanels
 {
     public ConstructionPackagesAndPreFabPanels() { throw new NotImplementedException(); }
+
+    public ConstructionPackagesAndPreFabPanels(XElement root) { throw new NotImplementedException(); }
 }
 
 public class CompositeAndVeneerWoodPanels
@@ -216,11 +245,15 @@ public class CompositeAndVeneerWoodPanels
     public Packaging? Packaging = null;
 
     public CompositeAndVeneerWoodPanels() { throw new NotImplementedException(); }
+
+    public CompositeAndVeneerWoodPanels(XElement root) { throw new NotImplementedException(); }
 }
 
 public class WoodPanelProducts
 {
     public WoodPanelProducts() { throw new NotImplementedException(); }
+
+    public WoodPanelProducts(XElement root) { throw new NotImplementedException(); }
 }
 
 public class SoftwoodPlywood
