@@ -161,7 +161,91 @@ public class DeliveryShipmentLineItem
     public Party? BillToParty = null;
     public Product? Product = null;
     public PackageInformation? PackageInformation = null;
+    public TransportPackageInformation? TransportPackageInformation = null;
+}
 
+public class TransportPackageInformation
+{
+    public PackageType? PackageType = null;
+    public YesNo? MixedProductPalletIndicator = null;
+    public PackageLevel? PackageLevel = null;
+    public Identifier? Identifier = null;
+    public List<RawMaterialSet> RawMaterialSet = [];
+    public List<PartyIdentifier> PartyIdentifier = [];
+    public MachineID? MachineID = null;
+    public ItemCount? ItemCount = null;
+    public Quantity? Quantity = null;
+    public List<InformationalQuantity> InformationalQuantity = [];
+    public InventoryClass? InventoryClass = null;
+    public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
+    public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
+    public PackageCharacteristics? PackageCharacteristics = null;
+    public BaleItem? BaleItem = null;
+    public BoxItem? BoxItem = null;
+    public ReelItem? ReelItem = null;
+    public ReamItem? ReamItem = null;
+    public SheetItem? SheetItem = null;
+    public UnitItem? UnitItem = null;
+    public WoodItem? WoodItem = null;
+    public List<OtherDate> OtherDate = [];
+    public string Value = string.Empty;
+
+    public TransportPackageInformation() { }
+
+    public TransportPackageInformation(XElement root)
+    {
+        PackageType = root.Attribute("PackageType")?.Value.ToEnum<PackageType>() ?? PackageType;
+        MixedProductPalletIndicator = root.Attribute("MixedProductPalletIndicator")?.Value.ToEnum<YesNo>() ?? MixedProductPalletIndicator;
+        PackageLevel = root.Attribute("PackageLevel") is { } pl ? new(pl) : PackageLevel;
+        Identifier = root.Element("Identifier") is { } i ? new(i) : Identifier;
+        RawMaterialSet = [.. root.Elements("RawMaterialSet").Select(e => new RawMaterialSet(e))];
+        PartyIdentifier = [.. root.Elements("PartyIdentifier").Select(e => new PartyIdentifier(e))];
+        MachineID = root.Element("MachineID") is { } mid ? new(mid) : MachineID;
+        ItemCount = root.Element("ItemCount") is { } ico ? new(ico) : ItemCount;
+        Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
+        InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(e => new InformationalQuantity(e))];
+        InventoryClass = root.Element("InventoryClass") is { } icl ? new(icl) : InventoryClass;
+        TransportVehicleCharacteristics = root.Element("TransportVehicleCharacteristics") is { } tvc ? new(tvc) : TransportVehicleCharacteristics;
+        TransportUnitCharacteristics = root.Element("TransportUnitCharacteristics") is { } tuc ? new(tuc) : TransportUnitCharacteristics;
+        PackageCharacteristics = root.Element("PackageCharacteristics") is { } pc ? new(pc) : PackageCharacteristics;
+        BaleItem = root.Element("BaleItem") is { } bai ? new(bai) : BaleItem;
+        BoxItem = root.Element("BoxItem") is { } boi ? new(boi) : BoxItem;
+        ReelItem = root.Element("ReelItem") is { } reei ? new(reei) : ReelItem;
+        ReamItem = root.Element("ReamItem") is { } reai ? new(reai) : ReamItem;
+        SheetItem = root.Element("SheetItem") is { } si ? new(si) : SheetItem;
+        UnitItem = root.Element("UnitItem") is { } ui ? new(ui) : UnitItem;
+        WoodItem = root.Element("WoodItem") is { } wi ? new(wi) : WoodItem;
+        OtherDate = [.. root.Elements("OtherDate").Select(e => new OtherDate(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TransportPackageInformation",
+            PackageType != null ? new XAttribute("PackageType", PackageType.GetMemberValue()) : null,
+            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
+            PackageLevel != null ? new XAttribute("PackageLevel", $"{PackageLevel}") : null,
+            RawMaterialSet.Select(obj => XElement.Parse($"{obj}")),
+            PartyIdentifier.Select(obj => XElement.Parse($"{obj}")),
+            MachineID != null ? XElement.Parse($"{MachineID}") : null,
+            ItemCount != null ? XElement.Parse($"{ItemCount}") : null,
+            Quantity != null ? XElement.Parse($"{Quantity}") : null,
+            InformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
+            InventoryClass != null ? XElement.Parse($"{InventoryClass}") : null,
+            TransportVehicleCharacteristics != null ? XElement.Parse($"{TransportVehicleCharacteristics}") : null,
+            TransportUnitCharacteristics != null ? XElement.Parse($"{TransportUnitCharacteristics}") : null,
+            PackageCharacteristics != null ? XElement.Parse($"{PackageCharacteristics}") : null,
+            BaleItem != null ? XElement.Parse($"{BaleItem}") : null,
+            BoxItem != null ? XElement.Parse($"{BoxItem}") : null,
+            ReelItem != null ? XElement.Parse($"{ReelItem}") : null,
+            ReamItem != null ? XElement.Parse($"{ReamItem}") : null,
+            SheetItem != null ? XElement.Parse($"{SheetItem}") : null,
+            UnitItem != null ? XElement.Parse($"{UnitItem}") : null,
+            WoodItem != null ? XElement.Parse($"{WoodItem}") : null,
+            OtherDate.Select(obj => XElement.Parse($"{obj}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class PackageInformation
