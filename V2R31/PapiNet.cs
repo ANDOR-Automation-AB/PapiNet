@@ -194,6 +194,29 @@ public class WoodItem
     public PackagingInformation? PackagingInformation = null;
     public ProductSummary? ProductSummary = null;
     public List<LengthSpecification> LengthSpecification = [];
+    public string Value = string.Empty;
+
+    public WoodItem() { }
+
+    public WoodItem(XElement root)
+    {
+        Product = root.Element("Product") is { } p ? new(p) : Product;
+        PackagingInformation = root.Element("PackagingInformation") is { } pi ? new(pi) : PackagingInformation;
+        ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
+        LengthSpecification = [.. root.Elements("LengthSpecification").Select(e => new LengthSpecification(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("WoodItem",
+            Product != null ? XElement.Parse($"{Product}") : null,
+            PackagingInformation != null ? XElement.Parse($"{PackagingInformation}") : null,
+            ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
+            LengthSpecification != null ? XElement.Parse($"{LengthSpecification}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class LengthSpecification
