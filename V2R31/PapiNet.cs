@@ -178,6 +178,38 @@ public class PackageInformation
     public Quantity? Quantity = null;
     public List<InformationalQuantity> InformationalQuantity = [];
     public InventoryClass? InventoryClass = null;
+    public PackageCharacteristics? PackageCharacteristics = null;
+}
+
+public class PackageCharacteristics
+{
+    public Height? Height = null;
+    public Width? Width = null;
+    public Length? Length = null;
+    public LengthCutDescription? LengthCutDescription = null;
+    public string Value = string.Empty;
+
+    public PackageCharacteristics() { }
+
+    public PackageCharacteristics(XElement root)
+    {
+        Height = root.Element("Height") is { } h ? new(h) : Height;
+        Width = root.Element("Width") is { } w ? new(w) : Width;
+        Length = root.Element("Length") is { } l ? new(l) : Length;
+        LengthCutDescription = root.Element("LengthCutDescription") is { } lcd ? new(lcd) : LengthCutDescription;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PackageCharacteristics",
+            Height != null ? XElement.Parse($"{Height}") : null,
+            Width != null ? XElement.Parse($"{Width}") : null,
+            Length != null ? XElement.Parse($"{Length}") : null,
+            LengthCutDescription != null ? XElement.Parse($"{LengthCutDescription}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class InventoryClass
