@@ -192,7 +192,50 @@ public class WoodItem
 {
     public Product? Product = null;
     public PackagingInformation? PackagingInformation = null;
+    public ProductSummary? ProductSummary = null;
+}
 
+public class ProductSummary
+{
+    public TotalQuantity? TotalQuantity = null;
+    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
+    public string Value = string.Empty;
+
+    public ProductSummary() { }
+
+    public ProductSummary(XElement root)
+    {
+        TotalQuantity = root.Element("TotalQuantity") is { } tq ? new(tq) : TotalQuantity;
+        TotalInformationalQuantity = [.. root.Elements("TotalInformationalQuantity").Select(e => new TotalInformationalQuantity(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductSummary",
+            TotalQuantity != null ? XElement.Parse($"{TotalQuantity}") : null,
+            TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
+            Value
+        ).ToString();
+    }
+}
+
+public class TotalInformationalQuantity : MeasurementBase
+{
+    public TotalInformationalQuantity() : base() { }
+
+    public TotalInformationalQuantity(XElement root) : base(root) { }
+
+    public override string LocalName => "TotalInformationalQuantity";
+}
+
+public class TotalQuantity : MeasurementBase
+{
+    public TotalQuantity() : base() { }
+
+    public TotalQuantity(XElement root) : base(root) { }
+
+    public override string LocalName => "TotalQuantity";
 }
 
 public class PackagingInformation
