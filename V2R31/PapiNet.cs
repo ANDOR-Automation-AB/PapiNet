@@ -190,7 +190,68 @@ public class PackageInformation
     public e_Attachment? e_Attachment = null;
     public List<AdditionalText> AdditionalText = [];
     public PackageReference? PackageReference = null;
+    public string Value = string.Empty;
 
+    public PackageInformation() { }
+
+    public PackageInformation(XElement root)
+    {
+        PackageType = root.Attribute("PackageType")?.Value.ToEnum<PackageType>() ?? PackageType;
+        MixedProductPalletIndicator = root.Attribute("MixedProductPalletIndicator")?.Value.ToEnum<YesNo>() ?? MixedProductPalletIndicator;
+        PackageLevel = root.Attribute("PackageLevel") is { } pl ? new(pl) : PackageLevel;
+        Identifier = root.Element("Identifier") is { } i ? new(i) : Identifier;
+        SupplierMarks = [.. root.Elements("SupplierMarks").Select(e => new SupplierMarks(e))];
+        RawMaterialSet = [.. root.Elements("RawMaterialSet").Select(e => new RawMaterialSet(e))];
+        PartyIdentifier = [.. root.Elements("PartyIdentifier").Select(e => new PartyIdentifier(e))];
+        MachineID = root.Element("MachineID") is { } mid ? new(mid) : MachineID;
+        ItemCount = root.Element("ItemCount") is { } ico ? new(ico) : ItemCount;
+        Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
+        InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(e => new InformationalQuantity(e))];
+        InventoryClass = root.Element("InventoryClass") is { } icl ? new(icl) : InventoryClass;
+        PackageCharacteristics = root.Element("PackageCharacteristics") is { } pc ? new(pc) : PackageCharacteristics;
+        BaleItem = root.Element("BaleItem") is { } bai ? new(bai) : BaleItem;
+        BoxItem = root.Element("BoxItem") is { } boi ? new(boi) : BoxItem;
+        ReelItem = root.Element("ReelItem") is { } reei ? new(reei) : ReelItem;
+        ReamItem = root.Element("ReamItem") is { } reai ? new(reai) : ReamItem;
+        SheetItem = root.Element("SheetItem") is { } si ? new(si) : SheetItem;
+        UnitItem = root.Element("UnitItem") is { } ui ? new(ui) : UnitItem;
+        WoodItem = root.Element("WoodItem") is { } wi ? new(wi) : WoodItem;
+        OtherDate = [.. root.Elements("OtherDate").Select(e => new OtherDate(e))];
+        e_Attachment = root.Element("e-Attachment") is { } ea ? new(ea) : e_Attachment;
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => new AdditionalText(e))];
+        PackageReference = root.Element("PackageReference") is { } pr ? new(pr) : PackageReference;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PackageInformation",
+            PackageType != null ? new XAttribute("PackageType", PackageType.GetMemberValue()) : null,
+            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
+            PackageLevel != null ? new XAttribute("PackageLevel", $"{PackageLevel}") : null,
+            SupplierMarks.Select(obj => XElement.Parse($"{obj}")),
+            RawMaterialSet.Select(obj => XElement.Parse($"{obj}")),
+            PartyIdentifier.Select(obj => XElement.Parse($"{obj}")),
+            MachineID != null ? XElement.Parse($"{MachineID}") : null,
+            ItemCount != null ? XElement.Parse($"{ItemCount}") : null,
+            Quantity != null ? XElement.Parse($"{Quantity}") : null,
+            InformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
+            InventoryClass != null ? XElement.Parse($"{InventoryClass}") : null,
+            PackageCharacteristics != null ? XElement.Parse($"{PackageCharacteristics}") : null,
+            BaleItem != null ? XElement.Parse($"{BaleItem}") : null,
+            BoxItem != null ? XElement.Parse($"{BoxItem}") : null,
+            ReelItem != null ? XElement.Parse($"{ReelItem}") : null,
+            ReamItem != null ? XElement.Parse($"{ReamItem}") : null,
+            SheetItem != null ? XElement.Parse($"{SheetItem}") : null,
+            UnitItem != null ? XElement.Parse($"{UnitItem}") : null,
+            WoodItem != null ? XElement.Parse($"{WoodItem}") : null,
+            OtherDate.Select(obj => XElement.Parse($"{obj}")),
+            e_Attachment != null ? XElement.Parse($"{e_Attachment}") : null,
+            AdditionalText.Select(obj => XElement.Parse($"{obj}")),
+            PackageReference != null ? XElement.Parse($"{PackageReference}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class PackageLevel
@@ -199,9 +260,9 @@ public class PackageLevel
 
     public PackageLevel() { }
 
-    public PackageLevel(XElement root) { Value = root.Value; }
+    public PackageLevel(XAttribute root) { Value = root.Value; }
 
-    public override string ToString() => new XElement("PackageLevel", Value).ToString();
+    public override string ToString() => Value;
 }
 
 public class PackageReference

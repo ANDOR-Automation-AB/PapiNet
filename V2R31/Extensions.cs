@@ -1,10 +1,18 @@
 ﻿using System.Reflection;
 using System.Runtime.Serialization;
+using System.Xml.Linq;
 
 namespace PapiNet;
 
 public static class Extensions
 {
+    public static XElement? ToXElement(this object? obj)
+    {
+        if (obj == null)
+            return null;
+        return new XElement(obj.GetType().Name);
+    }
+
     public static string GetMemberValue<T>(this T? value) where T : struct, Enum
     {
         if (value == null)
