@@ -142,9 +142,9 @@ public class DeliveryMessageProductGroup
 
 public class DeliveryShipmentLineItem
 {
-    public string DeliveryShipmentLineItemNumber = string.Empty;
+    public DeliveryShipmentLineItemNumber DeliveryShipmentLineItemNumber = new();
     public PurchaseOrderInformation PurchaseOrderInformation = new();
-    public string? PurchaseOrderLineItemNumber = null;
+    public PurchaseOrderLineItemNumber? PurchaseOrderLineItemNumber = null;
     public List<DeliveryMessageReference> DeliveryMessageReference = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
     public CountryOfOrigin? CountryOfOrigin = null;
@@ -165,6 +165,54 @@ public class DeliveryShipmentLineItem
     public ProductSummary? ProductSummary = null;
     public List<LengthSpecification> LengthSpecification = [];
     public QuantityDeviation? QuantityDeviation = null;
+    public string Value = string.Empty;
+
+    public DeliveryShipmentLineItem() { }
+
+    public DeliveryShipmentLineItem(XElement root)
+    {
+        DeliveryShipmentLineItemNumber = root.Element("DeliveryShipmentLineItemNumber") is { } dslin ? new(dslin) : DeliveryShipmentLineItemNumber;
+        PurchaseOrderInformation = root.Element("PurchaseOrderInformation") is { } poi ? new(poi) : PurchaseOrderInformation;
+        PurchaseOrderLineItemNumber = root.Element("PurchaseOrderLineItemNumber") is { } polin ? new(polin) : PurchaseOrderLineItemNumber;
+        DeliveryMessageReference = [.. root.Elements("DeliveryMessageReference").Select(e => new DeliveryMessageReference(e))];
+        DocumentReferenceInformation = [.. root.Elements("DocumentReferenceInformation").Select(e => new DocumentReferenceInformation(e))];
+        CountryOfOrigin = root.Element("CountryOfOrigin") is { } coo ? new(coo) : CountryOfOrigin;
+        CountryOfDestination = root.Element("CountryOfDestination") is { } cod ? new(cod) : CountryOfDestination;
+        CountryOfConsumption = root.Element("CountryOfConsumption") is { } coc ? new(coc) : CountryOfConsumption;
+        TotalNumberOfUnits = root.Element("TotalNumberOfUnits") is { } tnou ? new(tnou) : TotalNumberOfUnits;
+        DeliveryDateWindow = [.. root.Elements("DeliveryDateWindow").Select(e => new DeliveryDateWindow(e))];
+        MillProductionInformation = root.Element("MillProductionInformation") is { } mpi ? new(mpi) : MillProductionInformation;
+        QuantityOrderedInformation = root.Element("QuantityOrderedInformation") is { } qoi ? new(qoi) : QuantityOrderedInformation;
+        TransportLoadingCharacteristics = [.. root.Elements("TransportLoadingCharacteristics").Select(e => new TransportLoadingCharacteristics(e))];
+        TransportUnloadingCharacteristics = root.Element("TransportUnloadingCharacteristics") is { } tuc ? new(tuc) : TransportUnloadingCharacteristics;
+        TransportOtherInstructions = [.. root.Elements("TransportOtherInstructions").Select(e => new TransportOtherInstructions(e))];
+        SafetyAndEnvironmentalInformation = [.. root.Elements("SafetyAndEnvironmentalInformation").Select(e => new SafetyAndEnvironmentalInformation(e))];
+
+
+
+    }
+}
+
+public class PurchaseOrderLineItemNumber
+{
+    public string Value = string.Empty;
+
+    public PurchaseOrderLineItemNumber() { }
+
+    public PurchaseOrderLineItemNumber(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("PurchaseOrderLineItemNumber", Value).ToString();
+}
+
+public class DeliveryShipmentLineItemNumber
+{
+    public string Value = string.Empty;
+
+    public DeliveryShipmentLineItemNumber() { }
+
+    public DeliveryShipmentLineItemNumber(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("DeliveryShipmentLineItemNumber", Value).ToString();
 }
 
 public class QuantityDeviation : MeasurementBase
