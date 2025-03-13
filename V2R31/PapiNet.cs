@@ -187,6 +187,45 @@ public class PackageInformation
     public UnitItem? UnitItem = null;
     public WoodItem? WoodItem = null;
     public List<OtherDate> OtherDate = [];
+    public e_Attachment? e_Attachment = null;
+    public List<AdditionalText> AdditionalText = [];
+    public PackageReference? PackageReference = null;
+}
+
+public class PackageReference
+{
+    public ReferenceType PackageReferenceType = ReferenceType.Other;
+    public AssignedBy AssignedBy = AssignedBy.Other;
+    public string Value = string.Empty;
+
+    public PackageReference() { }
+
+    public PackageReference(XElement root)
+    {
+        PackageReferenceType = root.Attribute("PackageReferenceType")?.Value.ToEnum<ReferenceType>() ?? PackageReferenceType;
+        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>() ?? AssignedBy;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PackageReference",
+            new XAttribute("PackageReferenceType", PackageReferenceType),
+            new XAttribute("AssignedBy", AssignedBy),
+            Value
+        ).ToString();
+    }
+}
+
+public class AdditionalText
+{
+    public string Value = string.Empty;
+
+    public AdditionalText() { }
+
+    public AdditionalText(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("AdditionalText", Value).ToString();
 }
 
 public class OtherDate
