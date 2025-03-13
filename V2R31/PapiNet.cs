@@ -193,6 +193,41 @@ public class WoodItem
     public Product? Product = null;
     public PackagingInformation? PackagingInformation = null;
     public ProductSummary? ProductSummary = null;
+    public List<LengthSpecification> LengthSpecification = [];
+}
+
+public class LengthSpecification
+{
+    public LengthCategory? LengthCategory = null;
+    public TotalNumberOfUnits? TotalNumberOfUnits = null;
+    public string Value = string.Empty;
+
+    public LengthSpecification() { }
+
+    public LengthSpecification(XElement root)
+    {
+        LengthCategory = root.Element("LengthCategory") is { } lc ? new(lc) : LengthCategory;
+        TotalNumberOfUnits = root.Element("TotalNumberOfUnits") is { } tnou ? new(tnou) : TotalNumberOfUnits;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("LengthSpecification",
+            LengthCategory != null ? XElement.Parse($"{LengthCategory}") : null,
+            TotalNumberOfUnits != null ? XElement.Parse($"{TotalNumberOfUnits}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class LengthCategory : ValueBase
+{
+    public LengthCategory() : base() { }
+
+    public LengthCategory(XElement root) : base(root) { }
+
+    public override string LocalName => "LengthCategory";
 }
 
 public class ProductSummary
