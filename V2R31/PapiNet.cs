@@ -162,6 +162,18 @@ public class DeliveryShipmentLineItem
     public Product? Product = null;
     public PackageInformation? PackageInformation = null;
     public TransportPackageInformation? TransportPackageInformation = null;
+    public ProductSummary? ProductSummary = null;
+    public List<LengthSpecification> LengthSpecification = [];
+    public QuantityDeviation? QuantityDeviation = null;
+}
+
+public class QuantityDeviation : MeasurementBase
+{
+    public QuantityDeviation() : base() { }
+
+    public QuantityDeviation(XElement root) : base(root) { }
+
+    public override string LocalName => "QuantityDeviation";
 }
 
 public class TransportPackageInformation
