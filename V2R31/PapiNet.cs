@@ -179,6 +179,114 @@ public class PackageInformation
     public List<InformationalQuantity> InformationalQuantity = [];
     public InventoryClass? InventoryClass = null;
     public PackageCharacteristics? PackageCharacteristics = null;
+    public BaleItem? BaleItem = null;
+    public BoxItem? BoxItem = null;
+    public ReelItem? ReelItem = null;
+    public ReamItem? ReamItem = null;
+    public SheetItem? SheetItem = null;
+    public UnitItem? UnitItem = null;
+    public WoodItem? WoodItem = null;
+}
+
+public class WoodItem
+{
+    public Product? Product = null;
+    public PackagingInformation? PackagingInformation = null;
+
+}
+
+public class PackagingInformation
+{
+    public QuantityInUnit? QuantityInUnit = null;
+    public UnitDimension? UnitDimension = null;
+    public Weight? Weight = null;
+    public PackageIDInformation? PackageIDInformation = null;
+    public List<LabelCharacteristics> LabelCharacteristics = [];
+    public List<StencilCharacteristics> StencilCharacteristics = [];
+    public List<BandCharacteristics> BandCharacteristics = [];
+    public List<PalletCharacteristics> PalletCharacteristics = [];
+    public List<Wrap> Wrap = [];
+    public List<string> AdditionalText = [];
+    public PackageType? PackageType = null;
+    public string Value = string.Empty;
+
+    public PackagingInformation() { }
+
+    public PackagingInformation(XElement root)
+    {
+        QuantityInUnit = root.Element("QuantityInUnit") is { } qiu ? new(qiu) : QuantityInUnit;
+        UnitDimension = root.Element("UnitDimension") is { } ud ? new(ud) : UnitDimension;
+        Weight = root.Element("Weight") is { } w ? new(w) : Weight;
+        PackageIDInformation = root.Element("PackageIDInformation") is { } pidi ? new(pidi) : PackageIDInformation;
+        LabelCharacteristics = [.. root.Elements("LabelCharacteristics").Select(e => new LabelCharacteristics(e))];
+        StencilCharacteristics = [.. root.Elements("StencilCharacteristics").Select(e => new StencilCharacteristics(e))];
+        BandCharacteristics = [.. root.Elements("BandCharacteristics").Select(e => new BandCharacteristics(e))];
+        PalletCharacteristics = [.. root.Elements("PalletCharacteristics").Select(e => new PalletCharacteristics(e))];
+        Wrap = [.. root.Elements("Wrap").Select(e => new Wrap(e))];
+        AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
+        PackageType = root.Element("PackageType")?.Value.ToEnum<PackageType>() ?? PackageType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("PackagingInformation",
+            QuantityInUnit != null ? new XElement("QuantityInUnit", QuantityInUnit) : null,
+            UnitDimension != null ? new XElement("UnitDimension", UnitDimension) : null,
+            Weight != null ? new XElement("Weight", Weight) : null,
+            PackageIDInformation != null ? new XElement("PackageIDInformation", PackageIDInformation) : null,
+            LabelCharacteristics.Select(obj => XElement.Parse($"{obj}")),
+            StencilCharacteristics.Select(obj => XElement.Parse($"{obj}")),
+            BandCharacteristics.Select(obj => XElement.Parse($"{obj}")),
+            PalletCharacteristics.Select(obj => XElement.Parse($"{obj}")),
+            Wrap.Select(obj => XElement.Parse($"{obj}")),
+            AdditionalText.Select(obj => new XElement("AdditionalText", obj)),
+            PackageType != null ? new XElement("PackageType", PackageType) : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class UnitItem
+{
+    public UnitItem() { throw new NotImplementedException(); }
+
+    public UnitItem(XElement root) { throw new NotImplementedException(); }
+}
+
+public class SheetItem
+{
+    public SheetItem() { throw new NotImplementedException(); }
+
+    public SheetItem(XElement root) { throw new NotImplementedException(); }
+}
+
+public class ReamItem
+{
+    public ReamItem() { throw new NotImplementedException(); }
+
+    public ReamItem(XElement root) { throw new NotImplementedException(); }
+}
+
+public class ReelItem
+{
+    public ReelItem() { throw new NotImplementedException(); }
+
+    public ReelItem(XElement root) { throw new NotImplementedException(); }
+}
+
+public class BoxItem
+{
+    public BoxItem() { throw new NotImplementedException(); }
+
+    public BoxItem(XElement root) { throw new NotImplementedException(); }
+}
+
+public class BaleItem
+{
+    public BaleItem() { throw new NotImplementedException(); }
+
+    public BaleItem(XElement root) { throw new NotImplementedException(); }
 }
 
 public class PackageCharacteristics
