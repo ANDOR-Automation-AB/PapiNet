@@ -168,7 +168,7 @@ public class PackageInformation
 {
     public PackageType? PackageType = null;
     public YesNo? MixedProductPalletIndicator = null;
-    public string? PackageLevel = null;
+    public PackageLevel? PackageLevel = null;
     public Identifier? Identifier = null;
     public List<SupplierMarks> SupplierMarks = [];
     public List<RawMaterialSet> RawMaterialSet = [];
@@ -190,6 +190,18 @@ public class PackageInformation
     public e_Attachment? e_Attachment = null;
     public List<AdditionalText> AdditionalText = [];
     public PackageReference? PackageReference = null;
+
+}
+
+public class PackageLevel
+{
+    public string Value = string.Empty;
+
+    public PackageLevel() { }
+
+    public PackageLevel(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("PackageLevel", Value).ToString();
 }
 
 public class PackageReference
