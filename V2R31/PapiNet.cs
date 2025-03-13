@@ -191,7 +191,47 @@ public class PackageInformation
 
 public class OtherDate
 {
-    public DateType? DateType;
+    public DateType DateType = DateType.Other;
+    public Date Date = new();
+    public Time? Time = null;
+    public Week? Week = null;
+    public DateTimeRange? DateTimeRange = null;
+    public string Value = string.Empty;
+
+    public OtherDate() { }
+
+    public OtherDate(XElement root)
+    {
+        DateType = root.Attribute("DateType")?.Value.ToEnum<DateType>() ?? DateType;
+        Date = root.Element("Date") is { } d ? new(d) : Date;
+        Time = root.Element("Time") is { } t ? new(t) : Time;
+        Week = root.Element("Week") is { } w ? new(w) : Week;
+        DateTimeRange = root.Element("DateTimeRange") is { } dtr ? new(dtr) : DateTimeRange;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("OtherDate",
+            new XAttribute("DateType", DateType.GetMemberValue()),
+            XElement.Parse($"{Date}"),
+            Time != null ? XElement.Parse($"{Date}") : null,
+            Week != null ? XElement.Parse($"{Week}") : null,
+            DateTimeRange != null ? XElement.Parse($"{DateTimeRange}") : null,
+            Value
+        ).ToString();
+    }
+}
+
+public class Week
+{
+    public string Value = string.Empty;
+
+    public Week() { }
+
+    public Week(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("Week", Value).ToString();
 }
 
 public class WoodItem
