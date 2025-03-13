@@ -186,6 +186,12 @@ public class PackageInformation
     public SheetItem? SheetItem = null;
     public UnitItem? UnitItem = null;
     public WoodItem? WoodItem = null;
+    public List<OtherDate> OtherDate = [];
+}
+
+public class OtherDate
+{
+    public DateType? DateType;
 }
 
 public class WoodItem

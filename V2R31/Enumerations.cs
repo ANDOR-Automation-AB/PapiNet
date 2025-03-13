@@ -1,4 +1,15 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Numerics;
+using System.Reflection.Metadata;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Security.AccessControl;
+using System.Threading.Channels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Diagnostics.Contracts;
 
 namespace PapiNet;
 
@@ -3514,12 +3525,64 @@ public enum GradeAgency
 
 public enum InventoryStatusType
 {
-    Sound,
-    Unsound,
+    [EnumMember(Value = "Sound")] Sound,
+    [EnumMember(Value = "Unsound")] Unsound,
 }
 
 public enum OwnedBy
 {
-    Buyer,
-    Seller,
+    [EnumMember(Value = "Buyer")] Buyer,
+    [EnumMember(Value = "Seller")] Seller,
+}
+
+public enum DateType
+{
+    [EnumMember(Value = "ActualArrivalDate")] ActualArrivalDate,
+    [EnumMember(Value = "ActualDepartureDate")] ActualDepartureDate,
+    [EnumMember(Value = "AvailableToShipDate")] AvailableToShipDate,
+    [EnumMember(Value = "BoundBookDate")] BoundBookDate,
+    [EnumMember(Value = "CancelAfterDate")] CancelAfterDate,
+    [EnumMember(Value = "ComponentDueDate")] ComponentDueDate,
+    [EnumMember(Value = "ComponentShipDate")] ComponentShipDate,
+    [EnumMember(Value = "ConsumptionDate")] ConsumptionDate,
+    [EnumMember(Value = "DateOfLastChange")] DateOfLastChange,
+    [EnumMember(Value = "DateOfTrading")] DateOfTrading,
+    [EnumMember(Value = "DeliveryDate")] DeliveryDate,
+    [EnumMember(Value = "DeliveryPriorToDate")] DeliveryPriorToDate,
+    [EnumMember(Value = "DeliveryRequestedDate")] DeliveryRequestedDate,
+    [EnumMember(Value = "DespatchDate")] DespatchDate,
+    [EnumMember(Value = "DoNotDeliverAfterDate")] DoNotDeliverAfterDate,
+    [EnumMember(Value = "DoNotShipAfterDate")] DoNotShipAfterDate,
+    [EnumMember(Value = "DrawDate")] DrawDate,
+    [EnumMember(Value = "EarliestDate")] EarliestDate,
+    [EnumMember(Value = "EndCallOffDate")] EndCallOffDate,
+    [EnumMember(Value = "EndOfDeliveryMonth")] EndOfDeliveryMonth,
+    [EnumMember(Value = "EndOfDespatchMonth")] EndOfDespatchMonth,
+    [EnumMember(Value = "EndOfInvoiceMonth")] EndOfInvoiceMonth,
+    [EnumMember(Value = "EstimatedTimeOfArrival")] EstimatedTimeOfArrival,
+    [EnumMember(Value = "EstimatedTimeOfDeparture")] EstimatedTimeOfDeparture,
+    [EnumMember(Value = "ExMillDate")] ExMillDate,
+    [EnumMember(Value = "InvoiceDate")] InvoiceDate,
+    [EnumMember(Value = "LastChangeDate")] LastChangeDate,
+    [EnumMember(Value = "LoadingDate")] LoadingDate,
+    [EnumMember(Value = "OnPressDate")] OnPressDate,
+    [EnumMember(Value = "OnSalesDate")] OnSalesDate,
+    [EnumMember(Value = "OrderConfirmationDate")] OrderConfirmationDate,
+    [EnumMember(Value = "OrderFirmedDate")] OrderFirmedDate,
+    [EnumMember(Value = "PickUpDate")] PickUpDate,
+    [EnumMember(Value = "PlannedShipDate")] PlannedShipDate,
+    [EnumMember(Value = "PrintDate")] PrintDate,
+    [EnumMember(Value = "ProductionDate")] ProductionDate,
+    [EnumMember(Value = "PublicationDate")] PublicationDate,
+    [EnumMember(Value = "ReferencePeriod")] ReferencePeriod,
+    [EnumMember(Value = "RequiredByDate")] RequiredByDate,
+    [EnumMember(Value = "ShipEvenlyThroughout ")] ShipEvenlyThroughout_,
+    [EnumMember(Value = "ShipmentPriorToDate")] ShipmentPriorToDate,
+    [EnumMember(Value = "ShipmentRequestedDate")] ShipmentRequestedDate,
+    [EnumMember(Value = "SpecificationVersionDate")] SpecificationVersionDate,
+    [EnumMember(Value = "StartCallOffDate")] StartCallOffDate,
+    [EnumMember(Value = "TheWeekBeginning")] TheWeekBeginning,
+    [EnumMember(Value = "TheWeekEnding")] TheWeekEnding,
+    [EnumMember(Value = "WarehouseDate")] WarehouseDate,
+    [EnumMember(Value = "Other")] Other,
 }
