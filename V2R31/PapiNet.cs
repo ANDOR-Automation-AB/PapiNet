@@ -152,6 +152,23 @@ public class DeliveryMessageProductGroup
 public class ProductGroupID
 {
     public ProductGroupIDType? ProductGroupIDType = null;
+    public string Value = string.Empty;
+
+    public ProductGroupID() { }
+
+    public ProductGroupID(XElement root)
+    {
+        ProductGroupIDType = root.Attribute("ProductGroupIDType")?.Value.ToEnum<ProductGroupIDType>() ?? ProductGroupIDType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductGroupID",
+            ProductGroupIDType != null ? new XAttribute("ProductGroupIDType", ProductGroupIDType) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class ProductGroupSummary
