@@ -6456,7 +6456,7 @@ public class ShipToCharacteristics
 public class ShipToParty : Party
 {
     public ShipToParty() : base() { }
-
+    
     public ShipToParty(XElement root) : base(root) { }
 
     public override string LocalName => "ShipToParty";
@@ -6566,6 +6566,7 @@ public abstract class Party
     public NameAddress NameAddress { get; } = new();
     public string? URL { get; set; } = null;
     public CommonContact? CommonContact { get; set; } = null;
+    public string Value = string.Empty;
 
     public abstract string LocalName { get; }
 
@@ -6579,6 +6580,7 @@ public abstract class Party
         NameAddress = root.Element("NameAddress") is { } na ? new(na) : NameAddress;
         URL = root.Element("URL")?.Value ?? URL;
         CommonContact = root.Element("CommonContact") is { } cc ? new(cc) : CommonContact;
+        Value = root.Value;
     }
 
     public override string ToString()
@@ -6589,7 +6591,8 @@ public abstract class Party
             PartyIdentifier.Select(identifier => XElement.Parse($"{identifier}")),
             XElement.Parse($"{NameAddress}"),
             URL != null ? new XElement("URL", URL) : null,
-            CommonContact != null ? XElement.Parse($"{CommonContact}") : null
+            CommonContact != null ? XElement.Parse($"{CommonContact}") : null,
+            Value
         ).ToString();
     }
 }
