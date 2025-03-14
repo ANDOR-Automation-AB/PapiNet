@@ -68,8 +68,35 @@ public class CustomsStampInformation
     public SupplierCustomsReference? SupplierCustomsReference = null;
     public MillParty? MillParty = null;
     public CustomsStampTrailerText? CustomsStampTrailerText = null;
+    public string Value = string.Empty;
 
+    public CustomsStampInformation() { }
 
+    public CustomsStampInformation(XElement root)
+    {
+        CustomsStampHeaderText = [.. root.Elements("CustomsStampHeaderText").Select(e => new CustomsStampHeaderText(e))];
+        CustomsParty = root.Element("CustomsParty") is { } cp ? new(cp) : CustomsParty;
+        CustomsStampDate = root.Element("CustomsStampDate") is { } csd ? new(csd) : CustomsStampDate;
+        CustomsReferenceNumber = root.Element("CustomsReferenceNumber") is { } crn ? new(crn) : CustomsReferenceNumber;
+        SupplierCustomsReference = root.Element("SupplierCustomsReference") is { } scr ? new(scr) : SupplierCustomsReference;
+        MillParty = root.Element("MillParty") is { } mp ? new(mp) : MillParty;
+        CustomsStampTrailerText = root.Element("CustomsStampTrailerText") is { } cstt ? new(cstt) : CustomsStampTrailerText;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("CustomsStampInformation",
+            CustomsStampHeaderText.Select(obj => XElement.Parse($"{obj}")),
+            CustomsParty != null ? XElement.Parse($"{CustomsParty}") : null,
+            CustomsStampDate != null ? XElement.Parse($"{CustomsStampDate}") : null,
+            CustomsReferenceNumber != null ? XElement.Parse($"{CustomsReferenceNumber}") : null,
+            SupplierCustomsReference != null ? XElement.Parse($"{SupplierCustomsReference}") : null,
+            MillParty != null ? XElement.Parse($"{MillParty}") : null,
+            CustomsStampTrailerText != null ? XElement.Parse($"{CustomsStampTrailerText}") : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class CustomsStampTrailerText
