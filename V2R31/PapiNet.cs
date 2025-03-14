@@ -75,7 +75,7 @@ public class MillParty : Party
 
     public MillParty(XElement root) : base(root) { }
 
-    public new static string LocalName => "MillParty";
+    public override string LocalName => "MillParty";
 }
 
 public class SupplierCustomsReference
@@ -140,7 +140,7 @@ public class CustomsParty : Party
 
     public CustomsParty(XElement root) : base(root) { }
 
-    public new static string LocalName => "CustomsParty";
+    public override string LocalName => "CustomsParty";
 }
 
 public class CustomsStampHeaderText
@@ -448,7 +448,7 @@ public class DeliveryShipmentLineItem
     public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
     public List<TransportOtherInstructions> TransportOtherInstructions = [];
     public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
-    public Party? BillToParty = null;
+    public BillToParty? BillToParty = null;
     public Product? Product = null;
     public PackageInformation? PackageInformation = null;
     public TransportPackageInformation? TransportPackageInformation = null;
@@ -2964,7 +2964,7 @@ public class BookManufacturing
 
 public class SuppliedComponentInformation
 {
-    public Party SupplierParty = new Party() { LocalName = "SupplierParty" };
+    public SupplierParty SupplierParty = new();
     public ProductIdentifier ProductIdentifier = new();
     public List<ProductDescription> ProductDescription = [];
     public List<Classification> Classification = [];
@@ -3412,7 +3412,7 @@ public class ProductIdentifier
 public class PrepInformation
 {
     public PrepType? PrepType = null;
-    public Party SupplierParty = new() { LocalName = "SupplierParty" };
+    public SupplierParty SupplierParty = new();
     public PrepShipDate? PrepShipDate = null;
     public PrepDueDate? PrepDueDate = null;
     public PrepNeededDate? PrepNeededDate = null;
@@ -3498,7 +3498,7 @@ public class ProofInformationalQuantity
     public ProofType? ProofType = null;
     public Quantity Quantity = new();
     public List<InformationalQuantity> InformationalQuantity = [];
-    public Party? OtherParty = null;
+    public OtherParty? OtherParty = null;
     public ProofApprovalDate? ProofApprovalDate = null;
     public ProofDueDate? ProofDueDate = null;
     public List<string> AdditionalText = [];
@@ -3511,7 +3511,7 @@ public class ProofInformationalQuantity
         ProofType = root.Attribute("ProofType") is { Value: var pt } ? Enum.Parse<ProofType>(pt) : ProofType;
         Quantity = root.Element("Quantity") is { } q ? new(q) : Quantity;
         InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(iq => new InformationalQuantity(iq))];
-        OtherParty = root.Element("OtherParty") is { } op ? new(op) { LocalName = "OtherParty" } : OtherParty;
+        OtherParty = root.Element("OtherParty") is { } op ? new(op) : OtherParty;
         ProofApprovalDate = root.Element("ProofApprovalDate") is { } pad ? new(pad) : ProofApprovalDate;
         ProofDueDate = root.Element("ProofDueDate") is { } pdd ? new(pdd) : ProofDueDate;
         AdditionalText = [.. root.Elements("AdditionalText").Select(at => at.Value)];
@@ -3806,7 +3806,7 @@ public class MillProductionInformation
 
 public class MillCharacteristics
 {
-    public Party? MillParty = null;
+    public MillParty? MillParty = null;
     public string? MachineID = null;
     public string Value = string.Empty;
 
@@ -3814,7 +3814,7 @@ public class MillCharacteristics
 
     public MillCharacteristics(XElement root)
     {
-        MillParty = root.Element("MillParty") is { } party ? new(party) { LocalName = "MillParty" } : MillParty;
+        MillParty = root.Element("MillParty") is { } party ? new(party) : MillParty;
         MachineID = root.Element("MachineID")?.Value ?? MachineID;
         Value = root.Value;
     }
@@ -3940,12 +3940,12 @@ public class DeliveryMessageWoodHeader
     public DeliveryMessageDate DeliveryMessageDate = new();
     public List<DeliveryMessageReference> DeliveryMessageReference = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
-    public Party BuyerParty = new() { LocalName = "BuyerParty" };
-    public Party? BillToParty = new() { LocalName = "BillToParty" };
-    public Party SupplierParty = new() { LocalName = "SupplierParty" };
-    public List<Party> OtherParty = [];
-    public Party? SenderParty = new() { LocalName = "SenderParty" };
-    public Party? ReceiverParty = new() { LocalName = "ReceiverParty" };
+    public BuyerParty BuyerParty = new();
+    public BillToParty? BillToParty = new();
+    public SupplierParty SupplierParty = new();
+    public List<OtherParty> OtherParty = [];
+    public SenderParty? SenderParty = new();
+    public ReceiverParty? ReceiverParty = new();
     public List<ShipToInformation> ShipToInformation = [];
     public CountryOfOrigin? CountryOfOrigin = null;
     public CountryOfDestination? CountryOfDestination = null;
@@ -3967,7 +3967,7 @@ public class DeliveryMessageWoodHeader
         BuyerParty = root.Element("BuyerParty") is { } bp ? new(bp) : BuyerParty;
         BillToParty = root.Element("BillToParty") is { } btp ? new(btp) : BillToParty;
         SupplierParty = root.Element("SupplierParty") is { } supa ? new(supa) : SupplierParty;
-        OtherParty = [.. root.Elements("OtherParty").Select(e => new Party(e))];
+        OtherParty = [.. root.Elements("OtherParty").Select(e => new OtherParty(e))];
         SenderParty = root.Element("SenderParty") is { } sepa ? new(sepa) : SenderParty;
         ReceiverParty = root.Element("ReceiverParty") is { } rp ? new(rp) : ReceiverParty;
         ShipToInformation = [.. root.Elements("ShipToInformation").Select(e => new ShipToInformation(e))];
@@ -4004,6 +4004,51 @@ public class DeliveryMessageWoodHeader
             Value
         ).ToString();
     }
+}
+
+public class ReceiverParty : Party
+{
+    public ReceiverParty() : base() { }
+
+    public ReceiverParty(XElement root) : base(root) { }
+
+    public override string LocalName => "ReceiverParty";
+}
+
+public class SenderParty : Party
+{
+    public SenderParty() : base() { }
+
+    public SenderParty(XElement root) : base(root) { }
+
+    public override string LocalName => "SenderParty";
+}
+
+public class SupplierParty : Party
+{
+    public SupplierParty() : base() { }
+
+    public SupplierParty(XElement root) : base(root) { }
+
+    public override string LocalName => "SupplierParty";
+}
+
+public class BillToParty : Party
+{
+    public BillToParty() : base() { }
+
+    public BillToParty(XElement root) : base(root) { }
+
+    public override string LocalName => "BillToParty";
+}
+
+public class BuyerParty : Party
+{
+    public BuyerParty() : base() { }
+
+    public BuyerParty(XElement root) : base(root) { }
+
+    public override string LocalName => "BuyerParty";
 }
 
 public class DocumentInformation
@@ -4270,8 +4315,8 @@ public class DeliveryLeg
     public LegStageType? LegStageType = null;
     public string DeliveryLegSequenceNumber = string.Empty;
     public DeliveryOrigin DeliveryOrigin = new();
-    public Party? CarrierParty = new Party() { LocalName = "CarrierParty" };
-    public List<Party> OtherParty = [];
+    public CarrierParty? CarrierParty = new();
+    public List<OtherParty> OtherParty = [];
     public TransportModeCharacteristics? TransportModeCharacteristics = null;
     public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
     public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
@@ -4296,7 +4341,7 @@ public class DeliveryLeg
         DeliveryLegSequenceNumber = root.Element("DeliveryLegSequenceNumber")?.Value ?? DeliveryLegSequenceNumber;
         DeliveryOrigin = root.Element("DeliveryOrigin") is { } deo ? new(deo) : DeliveryOrigin;
         CarrierParty = root.Element("CarrierParty") is { } cp ? new(cp) : CarrierParty;
-        OtherParty = [.. root.Elements("OtherParty").Select(e => new Party(e))];
+        OtherParty = [.. root.Elements("OtherParty").Select(e => new OtherParty(e))];
         TransportModeCharacteristics = root.Element("TransportModeCharacteristics") is { } tmc ? new(tmc) : TransportModeCharacteristics;
         TransportVehicleCharacteristics = root.Element("TransportVehicleCharacteristics") is { } tvc ? new(tvc) : TransportVehicleCharacteristics;
         TransportUnitCharacteristics = root.Element("TransportUnitCharacteristics") is { } tunic ? new(tunic) : TransportUnitCharacteristics;
@@ -4336,6 +4381,15 @@ public class DeliveryLeg
             Value
         ).ToString();
     }
+}
+
+public class CarrierParty : Party
+{
+    public CarrierParty() : base() { }
+
+    public CarrierParty(XElement root) : base(root) { }
+
+    public override string LocalName => "CarrierParty";
 }
 
 public class TermsOfChartering
@@ -4387,7 +4441,7 @@ public class DeliveryDestination
 {
     public Date? Date = null;
     public Time? Time = null;
-    public Party LocationParty = new() { LocalName = "LocationParty" };
+    public LocationParty LocationParty = new();
     public SupplyPoint? SupplyPoint = null;
     public LocationCode? LocationCode = null;
     public GPSCoordinates? GPSCoordinates = null;
@@ -4488,7 +4542,7 @@ public class RouteLeg
 {
     public string RouteLegNumber = string.Empty;
     public string? RouteLegName = null;
-    public List<Party> OtherParty = [];
+    public List<OtherParty> OtherParty = [];
     public MapPoint? MapPoint = null;
     public RouteLegLength? RouteLegLength = null;
     public RoadCharacteristics? RoadCharacteristics = null;
@@ -4501,7 +4555,7 @@ public class RouteLeg
     {
         RouteLegNumber = root.Element("RouteLegNumber")?.Value ?? RouteLegNumber;
         RouteLegName = root.Element("RouteLegName")?.Value ?? RouteLegName;
-        OtherParty = [.. root.Elements("OtherParty").Select(e => new Party(e))];
+        OtherParty = [.. root.Elements("OtherParty").Select(e => new OtherParty(e))];
         MapPoint = root.Element("MapPoint") is { } mp ? new(mp) : MapPoint;
         RouteLegLength = root.Element("RouteLegLength") is { } rll ? new(rll) : RouteLegLength;
         RoadCharacteristics = root.Element("RoadCharacteristics") is { } rc ? new(rc) : RoadCharacteristics;
@@ -4522,6 +4576,15 @@ public class RouteLeg
             AdditionalText.Select(text => new XElement("AdditionalText", text))
         ).ToString();
     }
+}
+
+public class OtherParty : Party
+{
+    public OtherParty() : base() { }
+
+    public OtherParty(XElement root) : base(root) { }
+
+    public override string LocalName => "OtherParty";
 }
 
 public class RoadCharacteristics
@@ -5401,7 +5464,7 @@ public class DeliveryOrigin
 {
     public Date? Date = null;
     public Time? Time = null;
-    public Party LocationParty = new() { LocalName = "LocationParty" };
+    public LocationParty LocationParty = new();
     public SupplyPoint? SupplyPoint = null;
     public LocationCode? LocationCode = null;
     public GPSCoordinates? GPSCoordinates = null;
@@ -5430,6 +5493,15 @@ public class DeliveryOrigin
             MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null
         ).ToString();
     }
+}
+
+public class LocationParty : Party
+{
+    public LocationParty() : base() { }
+
+    public LocationParty(XElement root) : base(root) { }
+
+    public override string LocalName => "LocationParty";
 }
 
 public class SupplyPoint
@@ -6260,7 +6332,7 @@ public class ProductionLastDateOfChange
 
 public class ShipToCharacteristics
 {
-    public Party ShipToParty = new() { LocalName = "ShipToParty" };
+    public ShipToParty ShipToParty = new();
     public LocationCode? LocationCode = null;
     public TermsOfDelivery? TermsOfDelivery = null;
     public DeliveryRouteCode? DeliveryRouteCode = null;
@@ -6284,6 +6356,15 @@ public class ShipToCharacteristics
             DeliveryRouteCode != null ? XElement.Parse($"{DeliveryRouteCode}") : null
         ).ToString();
     }
+}
+
+public class ShipToParty : Party
+{
+    public ShipToParty() : base() { }
+
+    public ShipToParty(XElement root) : base(root) { }
+
+    public override string LocalName => "ShipToParty";
 }
 
 public class LocationCode : AgencyValueBase
@@ -6382,9 +6463,8 @@ public class IncotermsLocation
     }
 }
 
-public class Party
+public abstract class Party
 {
-    public string LocalName = "OtherParty";
     public PartyType? PartyType = null;
     public LogisticsRole? LogisticsRole = null;
     public List<PartyIdentifier> PartyIdentifier = [];
@@ -6392,11 +6472,12 @@ public class Party
     public string? URL = null;
     public CommonContact? CommonContact = null;
 
+    public abstract string LocalName { get; }
+
     public Party() { }
 
     public Party(XElement root)
     {
-        LocalName = root.Name.LocalName;
         PartyType = root.Attribute("PartyType") is { Value: var pt } ? Enum.Parse<PartyType>(pt) : PartyType;
         LogisticsRole = root.Attribute("LogisticsRole") is { Value: var lr } ? Enum.Parse<LogisticsRole>(lr) : LogisticsRole;
         PartyIdentifier = [.. root.Elements("PartyIdentifier").Select(e => new PartyIdentifier(e))];
