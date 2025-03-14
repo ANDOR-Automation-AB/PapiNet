@@ -126,13 +126,19 @@ public class DeliveryMessageShipment
 
     public DeliveryMessageShipment(XElement root)
     {
-        
+        ShipmentID = root.Element("ShipmentID") is { } sid ? new(sid) : ShipmentID;
+        DeliveryMessageProductGroup = [.. root.Elements("DeliveryMessageProductGroup").Select(e => new DeliveryMessageProductGroup(e))];
+        ShipmentSummary = root.Element("ShipmentSummary") is { } ss ? new(ss) : ShipmentSummary;
+        Value = root.Value;
     }
 
     public override string ToString()
     {
         return new XElement("DeliveryMessageShipment"
-            
+            ShipmentID != null ? XElement.Parse($"{ShipmentID}") : null,
+            DeliveryMessageProductGroup.Select(obj => XElement.Parse($"{obj}")),
+            ShipmentSummary != null ? XElement.Parse($"{ShipmentSummary}") : null,
+            Value
         ).ToString();
     }
 }
