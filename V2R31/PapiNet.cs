@@ -65,6 +65,32 @@ public class CustomsStampInformation
     public CustomsParty? CustomsParty = null;
     public CustomsStampDate? CustomsStampDate = null;
     public CustomsReferenceNumber? CustomsReferenceNumber = null;
+    public SupplierCustomsReference? SupplierCustomsReference = null;
+}
+
+public class SupplierCustomsReference
+{
+    public ReferenceType SupplierCustomsReferenceType = ReferenceType.Other;
+    public AssignedBy AssignedBy = AssignedBy.Other;
+    public string Value = string.Empty;
+
+    public SupplierCustomsReference() { }
+
+    public SupplierCustomsReference(XElement root)
+    {
+        SupplierCustomsReferenceType = root.Attribute("SupplierCustomsReferenceType")?.Value.ToEnum<ReferenceType>() ?? SupplierCustomsReferenceType;
+        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>() ?? AssignedBy;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("SupplierCustomsReference",
+            new XAttribute("SupplierCustomsReferenceType", SupplierCustomsReferenceType),
+            new XAttribute("AssignedBy", AssignedBy),
+            Value
+        ).ToString();
+    }
 }
 
 public class CustomsReferenceNumber
