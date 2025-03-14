@@ -66,6 +66,16 @@ public class CustomsStampInformation
     public CustomsStampDate? CustomsStampDate = null;
     public CustomsReferenceNumber? CustomsReferenceNumber = null;
     public SupplierCustomsReference? SupplierCustomsReference = null;
+    public MillParty? MillParty = null;
+}
+
+public class MillParty : Party
+{
+    public MillParty() : base() { }
+
+    public MillParty(XElement root) : base(root) { }
+
+    public new static string LocalName => "MillParty";
 }
 
 public class SupplierCustomsReference
@@ -277,7 +287,7 @@ public class DeliveryMessageShipment
 
     public override string ToString()
     {
-        return new XElement("DeliveryMessageShipment"
+        return new XElement("DeliveryMessageShipment",
             ShipmentID != null ? XElement.Parse($"{ShipmentID}") : null,
             DeliveryMessageProductGroup.Select(obj => XElement.Parse($"{obj}")),
             ShipmentSummary != null ? XElement.Parse($"{ShipmentSummary}") : null,
