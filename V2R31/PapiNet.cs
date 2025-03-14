@@ -5,14 +5,14 @@ namespace PapiNet;
 
 public class DeliveryMessageWood
 {
-    public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
-    public DeliveryMessageStatusType DeliveryMessageStatusType = DeliveryMessageStatusType.Original;
-    public DeliveryMessageContextType? DeliveryMessageContextType = null;
-    public YesNo? Reissued = null;
-    public Language? Language = null;
-    public DeliveryMessageWoodHeader DeliveryMessageWoodHeader = new();
-    public List<DeliveryMessageShipment> DeliveryMessageShipment = [];
-    public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary = null;
+    public DeliveryMessageType DeliveryMessageType { get; set; } = DeliveryMessageType.DeliveryMessage;
+    public DeliveryMessageStatusType DeliveryMessageStatusType { get; set; } = DeliveryMessageStatusType.Original;
+    public DeliveryMessageContextType? DeliveryMessageContextType { get; set; } = null;
+    public YesNo? Reissued { get; set; } = null;
+    public Language? Language { get; set; } = null;
+    public DeliveryMessageWoodHeader DeliveryMessageWoodHeader { get; } = new();
+    public List<DeliveryMessageShipment> DeliveryMessageShipment { get; } = [];
+    public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary { get; set; } = null;
     public string Value = string.Empty;
 
     public DeliveryMessageWood() { }
@@ -47,15 +47,15 @@ public class DeliveryMessageWood
 
 public class DeliveryMessageWoodSummary
 {
-    public TotalNumberOfShipments TotalNumberOfShipments = new();
-    public TotalQuantity TotalQuantity = new();
-    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
-    public ProductSummary? ProductSummary = null;
-    public LengthSpecification? LengthSpecification = null;
-    public QuantityDeviation? QuantityDeviation = null;
-    public CustomsTotals? CustomsTotals = null;
-    public List<CustomsStampInformation> CustomsStampInformation = [];
-    public List<TermsAndDisclaimers> TermsAndDisclaimers = [];
+    public TotalNumberOfShipments TotalNumberOfShipments { get; } = new();
+    public TotalQuantity TotalQuantity { get; } = new();
+    public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
+    public ProductSummary? ProductSummary { get; set; } = null;
+    public LengthSpecification? LengthSpecification { get; set; } = null;
+    public QuantityDeviation? QuantityDeviation { get; set; } = null;
+    public CustomsTotals? CustomsTotals { get; set; } = null;
+    public List<CustomsStampInformation> CustomsStampInformation { get; } = [];
+    public List<TermsAndDisclaimers> TermsAndDisclaimers { get; } = [];
     public string Value = string.Empty;
 
     public DeliveryMessageWoodSummary() { }
@@ -93,7 +93,7 @@ public class DeliveryMessageWoodSummary
 
 public class TermsAndDisclaimers
 {
-    public Language? Language = null;
+    public Language? Language { get; set; } = null;
     public string Value = string.Empty;
 
     public TermsAndDisclaimers() { }
@@ -115,13 +115,13 @@ public class TermsAndDisclaimers
 
 public class CustomsStampInformation
 {
-    public List<CustomsStampHeaderText> CustomsStampHeaderText = [];
-    public CustomsParty? CustomsParty = null;
-    public CustomsStampDate? CustomsStampDate = null;
-    public CustomsReferenceNumber? CustomsReferenceNumber = null;
-    public SupplierCustomsReference? SupplierCustomsReference = null;
-    public MillParty? MillParty = null;
-    public CustomsStampTrailerText? CustomsStampTrailerText = null;
+    public List<CustomsStampHeaderText> CustomsStampHeaderText { get; } = [];
+    public CustomsParty? CustomsParty { get; set; } = null;
+    public CustomsStampDate? CustomsStampDate { get; set; } = null;
+    public CustomsReferenceNumber? CustomsReferenceNumber { get; set; } = null;
+    public SupplierCustomsReference? SupplierCustomsReference { get; set; } = null;
+    public MillParty? MillParty { get; set; } = null;
+    public CustomsStampTrailerText? CustomsStampTrailerText { get; set; } = null;
     public string Value = string.Empty;
 
     public CustomsStampInformation() { }
@@ -251,9 +251,9 @@ public class CustomsStampHeaderText
 
 public class CustomsTotals
 {
-    public CustomsTariffCode CustomsTariffCode = new();
-    public TotalQuantity TotalQuantity = new();
-    public List<InformationalQuantity> InformationalQuantity = [];
+    public CustomsTariffCode CustomsTariffCode { get; } = new();
+    public TotalQuantity TotalQuantity { get; } = new();
+    public List<InformationalQuantity> InformationalQuantity { get; } = [];
     public string Value = string.Empty;
 
     public CustomsTotals() { }
@@ -301,7 +301,7 @@ public class TotalNumberOfShipments
 
 public class DeliveryMessageDate
 {
-    public Date Date = new();
+    public Date Date { get; } = new();
 
     public DeliveryMessageDate() { }
 
@@ -365,9 +365,9 @@ public class Time
 
 public class DeliveryMessageShipment
 {
-    public ShipmentID? ShipmentID = null;
-    public List<DeliveryMessageProductGroup> DeliveryMessageProductGroup = [];
-    public ShipmentSummary? ShipmentSummary = null;
+    public ShipmentID? ShipmentID { get; set; } = null;
+    public List<DeliveryMessageProductGroup> DeliveryMessageProductGroup { get; } = [];
+    public ShipmentSummary? ShipmentSummary { get; set; } = null;
     public string Value = string.Empty;
 
     public DeliveryMessageShipment() { }
@@ -393,7 +393,7 @@ public class DeliveryMessageShipment
 
 public class ShipmentID
 {
-    public ShipmentIDType? ShipmentIDType = null;
+    public ShipmentIDType? ShipmentIDType { get; set; } = null;
     public string Value = string.Empty;
 
     public ShipmentID() { }
@@ -415,10 +415,10 @@ public class ShipmentID
 
 public class ShipmentSummary
 {
-    public TotalQuantity? TotalQuantity = null;
-    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
-    public ProductSummary? ProductSummary = null;
-    public List<LengthSpecification> LengthSpecification = [];
+    public TotalQuantity? TotalQuantity { get; set; } = null;
+    public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
+    public ProductSummary? ProductSummary { get; set; } = null;
+    public List<LengthSpecification> LengthSpecification { get; } = [];
     public string Value = string.Empty;
 
     public ShipmentSummary() { }
@@ -446,9 +446,9 @@ public class ShipmentSummary
 
 public class DeliveryMessageProductGroup
 {
-    public ProductGroupID? ProductGroupID = null;
-    public List<DeliveryShipmentLineItem> DeliveryShipmentLineItem = [];
-    public ProductGroupSummary? ProductGroupSummary = null;
+    public ProductGroupID? ProductGroupID { get; set; } = null;
+    public List<DeliveryShipmentLineItem> DeliveryShipmentLineItem { get; } = [];
+    public ProductGroupSummary? ProductGroupSummary { get; set; } = null;
     public string Value = string.Empty;
 
     public DeliveryMessageProductGroup() { }
@@ -474,7 +474,7 @@ public class DeliveryMessageProductGroup
 
 public class ProductGroupID
 {
-    public ProductGroupIDType? ProductGroupIDType = null;
+    public ProductGroupIDType? ProductGroupIDType { get; set; } = null;
     public string Value = string.Empty;
 
     public ProductGroupID() { }
@@ -496,10 +496,10 @@ public class ProductGroupID
 
 public class ProductGroupSummary
 {
-    public TotalQuantity? TotalQuantity = null;
-    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
-    public ProductSummary? ProductSummary = null;
-    public List<LengthSpecification> LengthSpecification = [];
+    public TotalQuantity? TotalQuantity { get; set; } = null;
+    public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
+    public ProductSummary? ProductSummary { get; set; } = null;
+    public List<LengthSpecification> LengthSpecification { get; } = [];
     public string Value = string.Empty;
 
     public ProductGroupSummary() { }
@@ -527,29 +527,29 @@ public class ProductGroupSummary
 
 public class DeliveryShipmentLineItem
 {
-    public DeliveryShipmentLineItemNumber DeliveryShipmentLineItemNumber = new();
-    public PurchaseOrderInformation PurchaseOrderInformation = new();
-    public PurchaseOrderLineItemNumber? PurchaseOrderLineItemNumber = null;
-    public List<DeliveryMessageReference> DeliveryMessageReference = [];
-    public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
-    public CountryOfOrigin? CountryOfOrigin = null;
-    public CountryOfDestination? CountryOfDestination = null;
-    public CountryOfConsumption? CountryOfConsumption = null;
-    public TotalNumberOfUnits? TotalNumberOfUnits = null;
-    public List<DeliveryDateWindow> DeliveryDateWindow = [];
-    public MillProductionInformation? MillProductionInformation = null;
-    public QuantityOrderedInformation? QuantityOrderedInformation = null;
-    public List<TransportLoadingCharacteristics> TransportLoadingCharacteristics = [];
-    public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
-    public List<TransportOtherInstructions> TransportOtherInstructions = [];
-    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
-    public BillToParty? BillToParty = null;
-    public Product? Product = null;
-    public PackageInformation? PackageInformation = null;
-    public TransportPackageInformation? TransportPackageInformation = null;
-    public ProductSummary? ProductSummary = null;
-    public List<LengthSpecification> LengthSpecification = [];
-    public QuantityDeviation? QuantityDeviation = null;
+    public DeliveryShipmentLineItemNumber DeliveryShipmentLineItemNumber { get; } = new();
+    public PurchaseOrderInformation PurchaseOrderInformation { get; } = new();
+    public PurchaseOrderLineItemNumber? PurchaseOrderLineItemNumber { get; set; } = null;
+    public List<DeliveryMessageReference> DeliveryMessageReference { get; } = [];
+    public List<DocumentReferenceInformation> DocumentReferenceInformation { get; } = [];
+    public CountryOfOrigin? CountryOfOrigin { get; set; } = null;
+    public CountryOfDestination? CountryOfDestination { get; set; } = null;
+    public CountryOfConsumption? CountryOfConsumption { get; set; } = null;
+    public TotalNumberOfUnits? TotalNumberOfUnits { get; set; } = null;
+    public List<DeliveryDateWindow> DeliveryDateWindow { get; } = [];
+    public MillProductionInformation? MillProductionInformation { get; set; } = null;
+    public QuantityOrderedInformation? QuantityOrderedInformation { get; set; } = null;
+    public List<TransportLoadingCharacteristics> TransportLoadingCharacteristics { get; } = [];
+    public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics { get; set; } = null;
+    public List<TransportOtherInstructions> TransportOtherInstructions { get; } = [];
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation { get; } = [];
+    public BillToParty? BillToParty { get; set; } = null;
+    public Product? Product { get; set; } = null;
+    public PackageInformation? PackageInformation { get; set; } = null;
+    public TransportPackageInformation? TransportPackageInformation { get; set; } = null;
+    public ProductSummary? ProductSummary { get; set; } = null;
+    public List<LengthSpecification> LengthSpecification { get; } = [];
+    public QuantityDeviation? QuantityDeviation { get; set; } = null;
     public string Value = string.Empty;
 
     public DeliveryShipmentLineItem() { }
@@ -646,28 +646,28 @@ public class QuantityDeviation : MeasurementBase
 
 public class TransportPackageInformation
 {
-    public PackageType? PackageType = null;
-    public YesNo? MixedProductPalletIndicator = null;
-    public PackageLevel? PackageLevel = null;
-    public Identifier? Identifier = null;
-    public List<RawMaterialSet> RawMaterialSet = [];
-    public List<PartyIdentifier> PartyIdentifier = [];
-    public MachineID? MachineID = null;
-    public ItemCount? ItemCount = null;
-    public Quantity? Quantity = null;
-    public List<InformationalQuantity> InformationalQuantity = [];
-    public InventoryClass? InventoryClass = null;
-    public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
-    public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
-    public PackageCharacteristics? PackageCharacteristics = null;
-    public BaleItem? BaleItem = null;
-    public BoxItem? BoxItem = null;
-    public ReelItem? ReelItem = null;
-    public ReamItem? ReamItem = null;
-    public SheetItem? SheetItem = null;
-    public UnitItem? UnitItem = null;
-    public WoodItem? WoodItem = null;
-    public List<OtherDate> OtherDate = [];
+    public PackageType? PackageType { get; set; } = null;
+    public YesNo? MixedProductPalletIndicator { get; set; } = null;
+    public PackageLevel? PackageLevel { get; set; } = null;
+    public Identifier? Identifier { get; set; } = null;
+    public List<RawMaterialSet> RawMaterialSet { get; } = [];
+    public List<PartyIdentifier> PartyIdentifier { get; } = [];
+    public MachineID? MachineID { get; set; } = null;
+    public ItemCount? ItemCount { get; set; } = null;
+    public Quantity? Quantity { get; set; } = null;
+    public List<InformationalQuantity> InformationalQuantity { get; } = [];
+    public InventoryClass? InventoryClass { get; set; } = null;
+    public TransportVehicleCharacteristics? TransportVehicleCharacteristics { get; set; } = null;
+    public TransportUnitCharacteristics? TransportUnitCharacteristics { get; set; } = null;
+    public PackageCharacteristics? PackageCharacteristics { get; set; } = null;
+    public BaleItem? BaleItem { get; set; } = null;
+    public BoxItem? BoxItem { get; set; } = null;
+    public ReelItem? ReelItem { get; set; } = null;
+    public ReamItem? ReamItem { get; set; } = null;
+    public SheetItem? SheetItem { get; set; } = null;
+    public UnitItem? UnitItem { get; set; } = null;
+    public WoodItem? WoodItem { get; set; } = null;
+    public List<OtherDate> OtherDate { get; } = [];
     public string Value = string.Empty;
 
     public TransportPackageInformation() { }
@@ -730,30 +730,30 @@ public class TransportPackageInformation
 
 public class PackageInformation
 {
-    public PackageType? PackageType = null;
-    public YesNo? MixedProductPalletIndicator = null;
-    public PackageLevel? PackageLevel = null;
-    public Identifier? Identifier = null;
-    public List<SupplierMarks> SupplierMarks = [];
-    public List<RawMaterialSet> RawMaterialSet = [];
-    public List<PartyIdentifier> PartyIdentifier = [];
-    public MachineID? MachineID = null;
-    public ItemCount? ItemCount = null;
-    public Quantity? Quantity = null;
-    public List<InformationalQuantity> InformationalQuantity = [];
-    public InventoryClass? InventoryClass = null;
-    public PackageCharacteristics? PackageCharacteristics = null;
-    public BaleItem? BaleItem = null;
-    public BoxItem? BoxItem = null;
-    public ReelItem? ReelItem = null;
-    public ReamItem? ReamItem = null;
-    public SheetItem? SheetItem = null;
-    public UnitItem? UnitItem = null;
-    public WoodItem? WoodItem = null;
-    public List<OtherDate> OtherDate = [];
-    public e_Attachment? e_Attachment = null;
-    public List<AdditionalText> AdditionalText = [];
-    public PackageReference? PackageReference = null;
+    public PackageType? PackageType { get; set; } = null;
+    public YesNo? MixedProductPalletIndicator { get; set; } = null;
+    public PackageLevel? PackageLevel { get; set; } = null;
+    public Identifier? Identifier { get; set; } = null;
+    public List<SupplierMarks> SupplierMarks { get; } = [];
+    public List<RawMaterialSet> RawMaterialSet { get; } = [];
+    public List<PartyIdentifier> PartyIdentifier { get; } = [];
+    public MachineID? MachineID { get; set; } = null;
+    public ItemCount? ItemCount { get; set; } = null;
+    public Quantity? Quantity { get; set; } = null;
+    public List<InformationalQuantity> InformationalQuantity { get; } = [];
+    public InventoryClass? InventoryClass { get; set; } = null;
+    public PackageCharacteristics? PackageCharacteristics { get; set; } = null;
+    public BaleItem? BaleItem { get; set; } = null;
+    public BoxItem? BoxItem { get; set; } = null;
+    public ReelItem? ReelItem { get; set; } = null;
+    public ReamItem? ReamItem { get; set; } = null;
+    public SheetItem? SheetItem { get; set; } = null;
+    public UnitItem? UnitItem { get; set; } = null;
+    public WoodItem? WoodItem { get; set; } = null;
+    public List<OtherDate> OtherDate { get; } = [];
+    public e_Attachment? e_Attachment { get; set; } = null;
+    public List<AdditionalText> AdditionalText { get; } = [];
+    public PackageReference? PackageReference { get; set; } = null;
     public string Value = string.Empty;
 
     public PackageInformation() { }
@@ -868,10 +868,10 @@ public class AdditionalText
 public class OtherDate
 {
     public DateType DateType = DateType.Other;
-    public Date Date = new();
-    public Time? Time = null;
-    public Week? Week = null;
-    public DateTimeRange? DateTimeRange = null;
+    public Date Date { get; } = new();
+    public Time? Time { get; set; } = null;
+    public Week? Week { get; set; } = null;
+    public DateTimeRange? DateTimeRange { get; set; } = null;
     public string Value = string.Empty;
 
     public OtherDate() { }
@@ -912,10 +912,10 @@ public class Week
 
 public class WoodItem
 {
-    public Product? Product = null;
-    public PackagingInformation? PackagingInformation = null;
-    public ProductSummary? ProductSummary = null;
-    public List<LengthSpecification> LengthSpecification = [];
+    public Product? Product { get; set; } = null;
+    public PackagingInformation? PackagingInformation { get; set; } = null;
+    public ProductSummary? ProductSummary { get; set; } = null;
+    public List<LengthSpecification> LengthSpecification { get; } = [];
     public string Value = string.Empty;
 
     public WoodItem() { }
@@ -935,7 +935,7 @@ public class WoodItem
             Product != null ? XElement.Parse($"{Product}") : null,
             PackagingInformation != null ? XElement.Parse($"{PackagingInformation}") : null,
             ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
-            LengthSpecification != null ? XElement.Parse($"{LengthSpecification}") : null,
+            LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
             Value
         ).ToString();
     }
@@ -943,8 +943,8 @@ public class WoodItem
 
 public class LengthSpecification
 {
-    public LengthCategory? LengthCategory = null;
-    public TotalNumberOfUnits? TotalNumberOfUnits = null;
+    public LengthCategory? LengthCategory { get; set; } = null;
+    public TotalNumberOfUnits? TotalNumberOfUnits { get; set; } = null;
     public string Value = string.Empty;
 
     public LengthSpecification() { }
@@ -977,8 +977,8 @@ public class LengthCategory : ValueBase
 
 public class ProductSummary
 {
-    public TotalQuantity? TotalQuantity = null;
-    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
+    public TotalQuantity? TotalQuantity { get; set; } = null;
+    public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
     public string Value = string.Empty;
 
     public ProductSummary() { }
@@ -1020,17 +1020,17 @@ public class TotalQuantity : MeasurementBase
 
 public class PackagingInformation
 {
-    public QuantityInUnit? QuantityInUnit = null;
-    public UnitDimension? UnitDimension = null;
-    public Weight? Weight = null;
-    public PackageIDInformation? PackageIDInformation = null;
-    public List<LabelCharacteristics> LabelCharacteristics = [];
-    public List<StencilCharacteristics> StencilCharacteristics = [];
-    public List<BandCharacteristics> BandCharacteristics = [];
-    public List<PalletCharacteristics> PalletCharacteristics = [];
-    public List<Wrap> Wrap = [];
-    public List<string> AdditionalText = [];
-    public PackageType? PackageType = null;
+    public QuantityInUnit? QuantityInUnit { get; set; } = null;
+    public UnitDimension? UnitDimension { get; set; } = null;
+    public Weight? Weight { get; set; } = null;
+    public PackageIDInformation? PackageIDInformation { get; set; } = null;
+    public List<LabelCharacteristics> LabelCharacteristics { get; } = [];
+    public List<StencilCharacteristics> StencilCharacteristics { get; } = [];
+    public List<BandCharacteristics> BandCharacteristics { get; } = [];
+    public List<PalletCharacteristics> PalletCharacteristics { get; } = [];
+    public List<Wrap> Wrap { get; } = [];
+    public List<string> AdditionalText { get; } = [];
+    public PackageType? PackageType { get; set; } = null;
     public string Value = string.Empty;
 
     public PackagingInformation() { }
@@ -1114,10 +1114,10 @@ public class BaleItem
 
 public class PackageCharacteristics
 {
-    public Height? Height = null;
-    public Width? Width = null;
-    public Length? Length = null;
-    public LengthCutDescription? LengthCutDescription = null;
+    public Height? Height { get; set; } = null;
+    public Width? Width { get; set; } = null;
+    public Length? Length { get; set; } = null;
+    public LengthCutDescription? LengthCutDescription { get; set; } = null;
     public string Value = string.Empty;
 
     public PackageCharacteristics() { }
@@ -1145,11 +1145,11 @@ public class PackageCharacteristics
 
 public class InventoryClass
 {
-    public InventoryStatusType? InventoryStatusType = null;
-    public OwnedBy? InventoryOwnedBy = null;
-    public InventoryClassCode InventoryClassCode = new();
-    public List<InventoryClassDescription> InventoryClassDescription = [];
-    public List<string> AdditionalText = [];
+    public InventoryStatusType? InventoryStatusType { get; set; } = null;
+    public OwnedBy? InventoryOwnedBy { get; set; } = null;
+    public InventoryClassCode InventoryClassCode { get; } = new();
+    public List<InventoryClassDescription> InventoryClassDescription { get; } = [];
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public InventoryClass() { }
@@ -1237,7 +1237,7 @@ public class RawMaterialSet
 {
     public IdentifierCodeType IdentifierCodeType;
     public IdentifierType IdentifierType;
-    public IdentifierFormatType? IdentifierFormatType = null;
+    public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
     public string Value = string.Empty;
 
     public RawMaterialSet() { }
@@ -1284,7 +1284,7 @@ public class Identifier
 {
     public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
     public IdentifierType IdentifierType = IdentifierType.Primary;
-    public IdentifierFormatType? IdentifierFormatType = null;
+    public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
     public string Value = string.Empty;
 
     public Identifier() { }
@@ -1310,16 +1310,16 @@ public class Identifier
 
 public class Product
 {
-    public ProductIdentifier ProductIdentifier = new();
-    public List<ProductDescription> ProductDescription = [];
-    public List<Classification> Classification = [];
-    public BookManufacturing? BookManufacturing = null;
-    public LabelStock? LabelStock = null;
-    public Paper? Paper = null;
-    public Pulp? Pulp = null;
-    public RecoveredPaper? RecoveredPaper = null;
-    public VirginFibre? VirginFibre = null;
-    public WoodProducts? WoodProducts = null;
+    public ProductIdentifier ProductIdentifier { get; } = new();
+    public List<ProductDescription> ProductDescription { get; } = [];
+    public List<Classification> Classification { get; } = [];
+    public BookManufacturing? BookManufacturing { get; set; } = null;
+    public LabelStock? LabelStock { get; set; } = null;
+    public Paper? Paper { get; set; } = null;
+    public Pulp? Pulp { get; set; } = null;
+    public RecoveredPaper? RecoveredPaper { get; set; } = null;
+    public VirginFibre? VirginFibre { get; set; } = null;
+    public WoodProducts? WoodProducts { get; set; } = null;
     public string Value = string.Empty;
 
     public Product() { }
@@ -1387,15 +1387,15 @@ public class LabelStock
 
 public class WoodProducts
 {
-    public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards = null;
-    public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing = null;
-    public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels = null;
-    public ConstructionPackagesAndPreFabPanels? ConstructionPackagesAndPreFabPanels = null;
-    public Millwork? Millwork = null;
-    public Gypsum? Gypsum = null;
-    public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
-    public List<SuppliedComponentInformation> SuppliedComponentInformation = [];
-    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+    public WoodTimbersDimensionalLumberBoards? WoodTimbersDimensionalLumberBoards { get; set; } = null;
+    public RoofingSidingDeckingFencing? RoofingSidingDeckingFencing { get; set; } = null;
+    public CompositeAndVeneerWoodPanels? CompositeAndVeneerWoodPanels { get; set; } = null;
+    public ConstructionPackagesAndPreFabPanels? ConstructionPackagesAndPreFabPanels { get; set; } = null;
+    public Millwork? Millwork { get; set; } = null;
+    public Gypsum? Gypsum { get; set; } = null;
+    public List<ProofInformationalQuantity> ProofInformationalQuantity { get; } = [];
+    public List<SuppliedComponentInformation> SuppliedComponentInformation { get; } = [];
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation { get; } = [];
     public string Value = string.Empty;
 
     public WoodProducts() { }
@@ -1454,9 +1454,9 @@ public class ConstructionPackagesAndPreFabPanels
 
 public class CompositeAndVeneerWoodPanels
 {
-    public SoftwoodPlywood? SoftwoodPlywood = null;
-    public WoodPanelProducts? WoodPanelProducts = null;
-    public Packaging? Packaging = null;
+    public SoftwoodPlywood? SoftwoodPlywood { get; set; } = null;
+    public WoodPanelProducts? WoodPanelProducts { get; set; } = null;
+    public Packaging? Packaging { get; set; } = null;
 
     public CompositeAndVeneerWoodPanels() { throw new NotImplementedException(); }
 
@@ -1472,26 +1472,26 @@ public class WoodPanelProducts
 
 public class SoftwoodPlywood
 {
-    public PlywoodOSBGrade PlywoodOSBGrade = new();
-    public Thickness Thickness = new();
-    public Width Width = new();
-    public Length Length = new();
-    public PlywoodOSBSpecies? PlywoodOSBSpecies = null;
-    public string? PlyNumber = null;
-    public Surface? Surface = null;
-    public Overlay? Overlay = null;
-    public GlueExposure? GlueExposure = null;
-    public Edge? Edge = null;
-    public PressureTreatment? PressureTreatment = null;
-    public FireTreatment? FireTreatment = null;
-    public List<Supplemental> Supplemental = [];
-    public string? Brand = null;
-    public GradeAgency? GradeAgency = null;
-    public GradeStamp? GradeStamp = null;
-    public ClassIdentifier? ClassIdentifier = null;
-    public List<LabelCharacteristics> LabelCharacteristics = [];
-    public List<StencilCharacteristics> StencilCharacteristics = [];
-    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
+    public PlywoodOSBGrade PlywoodOSBGrade { get; } = new();
+    public Thickness Thickness { get; } = new();
+    public Width Width { get; } = new();
+    public Length Length { get; } = new();
+    public PlywoodOSBSpecies? PlywoodOSBSpecies { get; set; } = null;
+    public string? PlyNumber { get; set; } = null;
+    public Surface? Surface { get; set; } = null;
+    public Overlay? Overlay { get; set; } = null;
+    public GlueExposure? GlueExposure { get; set; } = null;
+    public Edge? Edge { get; set; } = null;
+    public PressureTreatment? PressureTreatment { get; set; } = null;
+    public FireTreatment? FireTreatment { get; set; } = null;
+    public List<Supplemental> Supplemental { get; } = [];
+    public string? Brand { get; set; } = null;
+    public GradeAgency? GradeAgency { get; set; } = null;
+    public GradeStamp? GradeStamp { get; set; } = null;
+    public ClassIdentifier? ClassIdentifier { get; set; } = null;
+    public List<LabelCharacteristics> LabelCharacteristics { get; } = [];
+    public List<StencilCharacteristics> StencilCharacteristics { get; } = [];
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation { get; } = [];
     public string Value = string.Empty;
 
     public SoftwoodPlywood() { }
@@ -1551,8 +1551,8 @@ public class SoftwoodPlywood
 
 public class Supplemental
 {
-    public SupplementalSpecification? SupplementalSpecification = null;
-    public List<string> AdditionalText = [];
+    public SupplementalSpecification? SupplementalSpecification { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public Supplemental() { }
@@ -1576,10 +1576,10 @@ public class Supplemental
 
 public class Edge
 {
-    public EdgeTypePlywood? EdgeType = null;
-    public EdgeLocation? EdgeLocation = null;
-    public string? EdgeMachiningProfile = null;
-    public List<string> AdditionalText = [];
+    public EdgeTypePlywood? EdgeType { get; set; } = null;
+    public EdgeLocation? EdgeLocation { get; set; } = null;
+    public string? EdgeMachiningProfile { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public Edge() { }
@@ -1607,8 +1607,8 @@ public class Edge
 
 public class Overlay
 {
-    public OverlaySide? OverlaySide = null;
-    public List<string> AdditionalText = [];
+    public OverlaySide? OverlaySide { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public Overlay() { }
@@ -1632,8 +1632,8 @@ public class Overlay
 
 public class Surface
 {
-    public SurfaceType? SurfaceType = null;
-    public List<string> AdditionalText = [];
+    public SurfaceType? SurfaceType { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public Surface() { }
@@ -1657,9 +1657,9 @@ public class Surface
 
 public class PlywoodOSBGrade
 {
-    public Face? Face = null;
-    public SpanRating? SpanRating = null;
-    public StrengthGroup? StrengthGroup = null;
+    public Face? Face { get; set; } = null;
+    public SpanRating? SpanRating { get; set; } = null;
+    public StrengthGroup? StrengthGroup { get; set; } = null;
     public string Value = string.Empty;
 
     public PlywoodOSBGrade() { }
@@ -1685,9 +1685,9 @@ public class PlywoodOSBGrade
 
 public class RoofingSidingDeckingFencing
 {
-    public NaturalWoodSiding? NaturalWoodSiding = null;
-    public NaturalWoodSidingOther? NaturalWoodSidingOther = null;
-    public DeckAndPorchFlooringMaterialsNaturalWood? DeckAndPorchFlooringMaterialsNaturalWood = null;
+    public NaturalWoodSiding? NaturalWoodSiding { get; set; } = null;
+    public NaturalWoodSidingOther? NaturalWoodSidingOther { get; set; } = null;
+    public DeckAndPorchFlooringMaterialsNaturalWood? DeckAndPorchFlooringMaterialsNaturalWood { get; set; } = null;
     public string Value = string.Empty;
 
     public RoofingSidingDeckingFencing() { }
@@ -1713,8 +1713,8 @@ public class RoofingSidingDeckingFencing
 
 public class DeckAndPorchFlooringMaterialsNaturalWood
 {
-    public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics = new();
-    public Packaging? Packaging = null;
+    public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics { get; } = new();
+    public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;
 
     public string LocalName => "DeckAndPorchFlooringMaterials-NaturalWood";
@@ -1749,8 +1749,8 @@ public class DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics : SoftwoodL
 
 public class NaturalWoodSidingOther
 {
-    public NaturalWoodSidingOtherCharacteristics NaturalWoodSidingOtherCharacteristics = new();
-    public Packaging? Packaging = null;
+    public NaturalWoodSidingOtherCharacteristics NaturalWoodSidingOtherCharacteristics { get; } = new();
+    public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;
 
     public string LocalName => "NaturalWoodSiding-Other";
@@ -1785,8 +1785,8 @@ public class NaturalWoodSidingOtherCharacteristics : SoftwoodLumberCharacteristi
 
 public class NaturalWoodSiding
 {
-    public NaturalWoodSidingCharacteristics NaturalWoodSidingCharacteristics = new();
-    public Packaging? Packaging = null;
+    public NaturalWoodSidingCharacteristics NaturalWoodSidingCharacteristics { get; } = new();
+    public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;
 
     public NaturalWoodSiding() { }
@@ -1810,32 +1810,32 @@ public class NaturalWoodSiding
 
 public abstract class SoftwoodLumberCharacteristicsBase
 {
-    public LumberSpecies LumberSpecies = new();
-    public LumberGrade LumberGrade = new();
-    public Length? Length = null;
-    public Width? Width = null;
-    public Thickness? Thickness = null;
-    public Seasoning? Seasoning = null;
-    public MoistureContent? MoistureContent = null;
-    public HeatTreatment? HeatTreatment = null;
-    public List<ManufacturingProcess> ManufacturingProcess = [];
-    public PatternProfile? PatternProfile = null;
-    public Trim? Trim = null;
-    public Joining? Joining = null;
-    public PressureTreatment? PressureTreatment = null;
-    public FireTreatment? FireTreatment = null;
-    public OtherTreatment? OtherTreatment = null;
-    public GradeStamp? GradeStamp = null;
-    public ExLog? ExLog = null;
-    public ClassIdentifier? ClassIdentifier = null;
-    public Weight? Weight = null;
-    public LabelCharacteristics? LabelCharacteristics = null;
-    public StencilCharacteristics? StencilCharacteristics = null;
-    public Wrap? Wrap = null;
-    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
-    public List<string> AdditionalText = [];
-    public LengthCutDescription? LengthCutDescription = null;
-    public string? ShippingMark = null;
+    public LumberSpecies LumberSpecies { get; } = new();
+    public LumberGrade LumberGrade { get; } = new();
+    public Length? Length { get; set; } = null;
+    public Width? Width { get; set; } = null;
+    public Thickness? Thickness { get; set; } = null;
+    public Seasoning? Seasoning { get; set; } = null;
+    public MoistureContent? MoistureContent { get; set; } = null;
+    public HeatTreatment? HeatTreatment { get; set; } = null;
+    public List<ManufacturingProcess> ManufacturingProcess { get; } = [];
+    public PatternProfile? PatternProfile { get; set; } = null;
+    public Trim? Trim { get; set; } = null;
+    public Joining? Joining { get; set; } = null;
+    public PressureTreatment? PressureTreatment { get; set; } = null;
+    public FireTreatment? FireTreatment { get; set; } = null;
+    public OtherTreatment? OtherTreatment { get; set; } = null;
+    public GradeStamp? GradeStamp { get; set; } = null;
+    public ExLog? ExLog { get; set; } = null;
+    public ClassIdentifier? ClassIdentifier { get; set; } = null;
+    public Weight? Weight { get; set; } = null;
+    public LabelCharacteristics? LabelCharacteristics { get; set; } = null;
+    public StencilCharacteristics? StencilCharacteristics { get; set; } = null;
+    public Wrap? Wrap { get; set; } = null;
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation { get; } = [];
+    public List<string> AdditionalText { get; } = [];
+    public LengthCutDescription? LengthCutDescription { get; set; } = null;
+    public string? ShippingMark { get; set; } = null;
     public string Value = string.Empty;
     
     public abstract string LocalName { get; }
@@ -1918,8 +1918,8 @@ public class NaturalWoodSidingCharacteristics : SoftwoodLumberCharacteristicsBas
 
 public class WoodTimbersDimensionalLumberBoards
 {
-    public SoftwoodLumber? SoftwoodLumber = null;
-    public HardwoodLumber? HardwoodLumber = null;
+    public SoftwoodLumber? SoftwoodLumber { get; set; } = null;
+    public HardwoodLumber? HardwoodLumber { get; set; } = null;
     public string Value = string.Empty;
 
     public WoodTimbersDimensionalLumberBoards() { }
@@ -1943,8 +1943,8 @@ public class WoodTimbersDimensionalLumberBoards
 
 public class HardwoodLumber
 {
-    public HardwoodLumberCharacteristics HardwoodLumberCharacteristics = new();
-    public Packaging? Packaging = null;
+    public HardwoodLumberCharacteristics HardwoodLumberCharacteristics { get; } = new();
+    public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;
 
     public HardwoodLumber() { }
@@ -1968,7 +1968,7 @@ public class HardwoodLumber
 
 public class HardwoodLumberCharacteristics
 {
-    public List<AnyType> AnyType = [];
+    public List<AnyType> AnyType { get; } = [];
     public string Value = string.Empty;
 
     public HardwoodLumberCharacteristics() { }
@@ -2011,8 +2011,8 @@ public class AnyType
 
 public class SoftwoodLumber
 {
-    public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics = new();
-    public Packaging? Packaging = null;
+    public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics { get; } = new();
+    public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;
 
     public SoftwoodLumber() { }
@@ -2036,7 +2036,7 @@ public class SoftwoodLumber
 
 public class Packaging
 {
-    public ProductPackaging ProductPackaging = new();
+    public ProductPackaging ProductPackaging { get; } = new();
     public string Value = string.Empty;
 
     public Packaging() { }
@@ -2058,17 +2058,17 @@ public class Packaging
 
 public class ProductPackaging
 {
-    public QuantityInUnit? QuantityInUnit = null;
-    public UnitDimension? UnitDimension = null;
-    public Weight? Weight = null;
-    public PackageIDInformation? PackageIDInformation = null;
-    public List<LabelCharacteristics> LabelCharacteristics = [];
-    public List<StencilCharacteristics> StencilCharacteristics = [];
-    public List<BandCharacteristics> BandCharacteristics = [];
-    public List<PalletCharacteristics> PalletCharacteristics = [];
-    public List<Wrap> Wrap = [];
-    public List<string> AdditionalText = [];
-    public PackageType? PackageType = null;
+    public QuantityInUnit? QuantityInUnit { get; set; } = null;
+    public UnitDimension? UnitDimension { get; set; } = null;
+    public Weight? Weight { get; set; } = null;
+    public PackageIDInformation? PackageIDInformation { get; set; } = null;
+    public List<LabelCharacteristics> LabelCharacteristics { get; } = [];
+    public List<StencilCharacteristics> StencilCharacteristics { get; } = [];
+    public List<BandCharacteristics> BandCharacteristics { get; } = [];
+    public List<PalletCharacteristics> PalletCharacteristics { get; } = [];
+    public List<Wrap> Wrap { get; } = [];
+    public List<string> AdditionalText { get; } = [];
+    public PackageType? PackageType { get; set; } = null;
     public string Value = string.Empty;
 
     public ProductPackaging() { }
@@ -2110,22 +2110,22 @@ public class ProductPackaging
 
 public class PalletCharacteristics
 {
-    public YesNo? MixedProductPalletIndicator = null;
-    public PalletType? PalletType = null;
-    public PalletLedgeType? PalletLedgeType = null;
-    public PalletCoverType? PalletCoverType = null;
-    public PalletAdditionsType? PalletAdditionsType = null;
-    public PalletTopType? PalletTopType = null;
-    public YesNo? IsPartialPalletsAllowed = null;
-    public ProductIdentification? ProductIdentification = null;
-    public PalletLength? PalletLength = null;
-    public PalletWidth? PalletWidth = null;
-    public string? ItemsPerPallet = null;
-    public string? StacksPerPallet = null;
-    public string? TiersPerPallet = null;
-    public MaximumHeight? MaximumHeight = null;
-    public string? StackingMethod = null;
-    public LabelCharacteristics? LabelCharacteristics = null;
+    public YesNo? MixedProductPalletIndicator { get; set; } = null;
+    public PalletType? PalletType { get; set; } = null;
+    public PalletLedgeType? PalletLedgeType { get; set; } = null;
+    public PalletCoverType? PalletCoverType { get; set; } = null;
+    public PalletAdditionsType? PalletAdditionsType { get; set; } = null;
+    public PalletTopType? PalletTopType { get; set; } = null;
+    public YesNo? IsPartialPalletsAllowed { get; set; } = null;
+    public ProductIdentification? ProductIdentification { get; set; } = null;
+    public PalletLength? PalletLength { get; set; } = null;
+    public PalletWidth? PalletWidth { get; set; } = null;
+    public string? ItemsPerPallet { get; set; } = null;
+    public string? StacksPerPallet { get; set; } = null;
+    public string? TiersPerPallet { get; set; } = null;
+    public MaximumHeight? MaximumHeight { get; set; } = null;
+    public string? StackingMethod { get; set; } = null;
+    public LabelCharacteristics? LabelCharacteristics { get; set; } = null;
     public string Value = string.Empty;
 
     public PalletCharacteristics() { }
@@ -2204,8 +2204,8 @@ public class PalletLength : Length
 
 public class ProductIdentification
 {
-    public ProductIdentifier ProductIdentifier = new();
-    public List<string> ProductDescription = [];
+    public ProductIdentifier ProductIdentifier { get; } = new();
+    public List<string> ProductDescription { get; } = [];
     public string Value = string.Empty; 
 
     public ProductIdentification() { }
@@ -2229,10 +2229,10 @@ public class ProductIdentification
 
 public class BandCharacteristics
 {
-    public BandType? BandType = null;
-    public YesNo? BandsRequired = null;
-    public string? NumberOfBands = null;
-    public string? BandColour = null;
+    public BandType? BandType { get; set; } = null;
+    public YesNo? BandsRequired { get; set; } = null;
+    public string? NumberOfBands { get; set; } = null;
+    public string? BandColour { get; set; } = null;
     public string Value = string.Empty;
 
     public BandCharacteristics() { }
@@ -2260,9 +2260,9 @@ public class BandCharacteristics
 
 public class PackageIDInformation
 {
-    public PackageAgency? PackageAgency = null;
-    public string? PackageCode = null;
-    public string? PackageName = null;
+    public PackageAgency? PackageAgency { get; set; } = null;
+    public string? PackageCode { get; set; } = null;
+    public string? PackageName { get; set; } = null;
     public string Value = string.Empty;
 
     public PackageIDInformation() { }
@@ -2288,11 +2288,11 @@ public class PackageIDInformation
 
 public class UnitDimension
 {
-    public Length? Length = null;
-    public Width? Width = null;
-    public Height? Height = null;
-    public string? PiecesPerRow = null;
-    public string? RowsPerUnit = null;
+    public Length? Length { get; set; } = null;
+    public Width? Width { get; set; } = null;
+    public Height? Height { get; set; } = null;
+    public string? PiecesPerRow { get; set; } = null;
+    public string? RowsPerUnit { get; set; } = null;
     public string Value = string.Empty;
 
     public UnitDimension() { }
@@ -2331,32 +2331,32 @@ public class QuantityInUnit : MeasurementBase
 
 public class SoftwoodLumberCharacteristics
 {
-    public LumberSpecies LumberSpecies = new();
-    public LumberGrade LumberGrade = new();
-    public Length? Length = null;
-    public Width? Width = null;
-    public Thickness? Thickness = null;
-    public Seasoning? Seasoning = null;
-    public MoistureContent? MoistureContent = null;
-    public HeatTreatment? HeatTreatment = null;
-    public ManufacturingProcess? ManufacturingProcess = null;
-    public PatternProfile? PatternProfile = null;
-    public Trim? Trim = null;
-    public Joining? Joining = null;
-    public PressureTreatment? PressureTreatment = null;
-    public FireTreatment? FireTreatment = null;
-    public OtherTreatment? OtherTreatment = null;
-    public GradeStamp? GradeStamp = null;
-    public ExLog? ExLog = null;
-    public List<ClassIdentifier> ClassIdentifier = [];
-    public Weight? Weight = null;
-    public LabelCharacteristics? LabelCharacteristics = null;
-    public StencilCharacteristics? StencilCharacteristics = null;
-    public Wrap? Wrap = null;
-    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation = [];
-    public List<string> AdditionalText = [];
-    public LengthCutDescription? LengthCutDescription = null;
-    public string? ShippingMark = null;
+    public LumberSpecies LumberSpecies { get; } = new();
+    public LumberGrade LumberGrade { get; } = new();
+    public Length? Length { get; set; } = null;
+    public Width? Width { get; set; } = null;
+    public Thickness? Thickness { get; set; } = null;
+    public Seasoning? Seasoning { get; set; } = null;
+    public MoistureContent? MoistureContent { get; set; } = null;
+    public HeatTreatment? HeatTreatment { get; set; } = null;
+    public ManufacturingProcess? ManufacturingProcess { get; set; } = null;
+    public PatternProfile? PatternProfile { get; set; } = null;
+    public Trim? Trim { get; set; } = null;
+    public Joining? Joining { get; set; } = null;
+    public PressureTreatment? PressureTreatment { get; set; } = null;
+    public FireTreatment? FireTreatment { get; set; } = null;
+    public OtherTreatment? OtherTreatment { get; set; } = null;
+    public GradeStamp? GradeStamp { get; set; } = null;
+    public ExLog? ExLog { get; set; } = null;
+    public List<ClassIdentifier> ClassIdentifier { get; } = [];
+    public Weight? Weight { get; set; } = null;
+    public LabelCharacteristics? LabelCharacteristics { get; set; } = null;
+    public StencilCharacteristics? StencilCharacteristics { get; set; } = null;
+    public Wrap? Wrap { get; set; } = null;
+    public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation { get; } = [];
+    public List<string> AdditionalText { get; } = [];
+    public LengthCutDescription? LengthCutDescription { get; set; } = null;
+    public string? ShippingMark { get; set; } = null;
     public string Value = string.Empty;
 
     public SoftwoodLumberCharacteristics() { }
@@ -2428,7 +2428,7 @@ public class SoftwoodLumberCharacteristics
 
 public class LengthCutDescription
 {
-    public LengthCutType? LengthCutType = null;
+    public LengthCutType? LengthCutType { get; set; } = null;
     public string Value = string.Empty;
 
     public LengthCutDescription() { }
@@ -2450,11 +2450,11 @@ public class LengthCutDescription
 
 public class Wrap
 {
-    public WrapType? WrapType = null;
-    public WrapProperties? WrapProperties = null;
-    public WrapLocation? WrapLocation = null;
-    public string? NumberOfWraps = null;
-    public string? Brand = null;
+    public WrapType? WrapType { get; set; } = null;
+    public WrapProperties? WrapProperties { get; set; } = null;
+    public WrapLocation? WrapLocation { get; set; } = null;
+    public string? NumberOfWraps { get; set; } = null;
+    public string? Brand { get; set; } = null;
     public string Value = string.Empty;
 
     public Wrap() { }
@@ -2484,13 +2484,13 @@ public class Wrap
 
 public class StencilCharacteristics
 {
-    public StencilType? StencilType = null;
-    public StencilInkType? StencilInkType = null;
-    public StencilLocation? StencilLocation = null;
-    public StencilFormat? StencilFormat = null;
-    public StencilContent? StencilContent = null;
-    public AssignedBy? AssignedBy = null;
-    public List<string> StencilText = [];
+    public StencilType? StencilType { get; set; } = null;
+    public StencilInkType? StencilInkType { get; set; } = null;
+    public StencilLocation? StencilLocation { get; set; } = null;
+    public StencilFormat? StencilFormat { get; set; } = null;
+    public StencilContent? StencilContent { get; set; } = null;
+    public AssignedBy? AssignedBy { get; set; } = null;
+    public List<string> StencilText { get; } = [];
     public string Value = string.Empty;
 
     public StencilCharacteristics() { }
@@ -2524,15 +2524,15 @@ public class StencilCharacteristics
 
 public class LabelCharacteristics
 {
-    public List<string> CustomerMarks = [];
-    public string? LabelStyle = null;
-    public string? LabelBrandName = null;
-    public string? LabelPosition = null;
-    public string? NumberOfLabels = null;
-    public Length? Length = null;
-    public Width? Width = null;
-    public string? ColourCode = null;
-    public string? ColourDescription = null;
+    public List<string> CustomerMarks { get; } = [];
+    public string? LabelStyle { get; set; } = null;
+    public string? LabelBrandName { get; set; } = null;
+    public string? LabelPosition { get; set; } = null;
+    public string? NumberOfLabels { get; set; } = null;
+    public Length? Length { get; set; } = null;
+    public Width? Width { get; set; } = null;
+    public string? ColourCode { get; set; } = null;
+    public string? ColourDescription { get; set; } = null;
     public string Value = string.Empty;
 
     public LabelCharacteristics() { }
@@ -2581,7 +2581,7 @@ public class ClassIdentifier
 {
     public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
     public IdentifierType IdentifierType = IdentifierType.Primary;
-    public IdentifierFormatType? IdentifierFormatType = null;
+    public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
     public string Value = string.Empty;
 
     public ClassIdentifier() { }
@@ -2607,7 +2607,7 @@ public class ClassIdentifier
 
 public class ExLog
 {
-    public Value Value = new();
+    public Value Value { get; } = new();
 
     public ExLog() { }
 
@@ -2626,9 +2626,9 @@ public class ExLog
 
 public class GradeStamp
 {
-    public GradeStamped? GradeStamped = null;
-    public string? GradeStampMillNumber = null;
-    public GradeStampLocation? GradeStampLocation = null;
+    public GradeStamped? GradeStamped { get; set; } = null;
+    public string? GradeStampMillNumber { get; set; } = null;
+    public GradeStampLocation? GradeStampLocation { get; set; } = null;
     public string Value = string.Empty;
 
     public GradeStamp() { }
@@ -2652,7 +2652,7 @@ public class GradeStamp
 
 public class OtherTreatment
 {
-    public List<string> AdditionalText = [];
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public OtherTreatment() { }
@@ -2674,8 +2674,8 @@ public class OtherTreatment
 
 public class FireTreatment
 {
-    public FireTreatmentType? FireTreatmentType = null;
-    public List<string> AdditionalText = [];
+    public FireTreatmentType? FireTreatmentType { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public FireTreatment() { }
@@ -2699,8 +2699,8 @@ public class FireTreatment
 
 public class PressureTreatment
 {
-    public PressureTreatmentCompound PressureTreatmentCompound = new();
-    public PressureTreatmentConcentration PressureTreatmentConcentration = new();
+    public PressureTreatmentCompound PressureTreatmentCompound { get; } = new();
+    public PressureTreatmentConcentration PressureTreatmentConcentration { get; } = new();
     public PressureTreatmentComStdorUseCategory PressureTreatmentComStdorUseCategory;
     public string Value = string.Empty;
 
@@ -2727,7 +2727,7 @@ public class PressureTreatment
 
 public class PressureTreatmentConcentration
 {
-    public UOM? UOM = null;
+    public UOM? UOM { get; set; } = null;
     public string Value = string.Empty;
 
     public PressureTreatmentConcentration() { }
@@ -2749,10 +2749,10 @@ public class PressureTreatmentConcentration
 
 public class PressureTreatmentCompound
 {
-    public string? CompoundType = null;
-    public string? CompoundAgency = null;   
-    public Value? Value = null;
-    public List<string> AdditionalText = [];
+    public string? CompoundType { get; set; } = null;
+    public string? CompoundAgency { get; set; } = null;   
+    public Value? Value { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
 
     public PressureTreatmentCompound() { }
 
@@ -2777,8 +2777,8 @@ public class PressureTreatmentCompound
 
 public class Joining
 {
-    public JoiningType? JoiningType = null;
-    public List<string> AdditionalText = [];
+    public JoiningType? JoiningType { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public Joining() { }
@@ -2802,8 +2802,8 @@ public class Joining
 
 public class Trim
 {
-    public TrimType? TrimType = null;
-    public List<string> AdditionalText = [];
+    public TrimType? TrimType { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public Trim() { }
@@ -2827,10 +2827,10 @@ public class Trim
 
 public class PatternProfile
 {
-    public PatternProfileType? PatternProfileType = null;
-    public PatternProfileAgency? PatternProfileAgency = null;
-    public string? PatternProfileCode = null;
-    public List<string> AdditionalText = [];
+    public PatternProfileType? PatternProfileType { get; set; } = null;
+    public PatternProfileAgency? PatternProfileAgency { get; set; } = null;
+    public string? PatternProfileCode { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public PatternProfile() { }
@@ -2858,10 +2858,10 @@ public class PatternProfile
 
 public class ManufacturingProcess
 {
-    public ManufacturingProcessType? ManufacturingProcessType = null;
-    public ManufacturingProcessAgency? ManufacturingProcessAgency = null;
-    public Value? Value = null;
-    public List<string> AdditionalText = [];
+    public ManufacturingProcessType? ManufacturingProcessType { get; set; } = null;
+    public ManufacturingProcessAgency? ManufacturingProcessAgency { get; set; } = null;
+    public Value? Value { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
 
     public ManufacturingProcess() { }
 
@@ -2886,8 +2886,8 @@ public class ManufacturingProcess
 
 public class HeatTreatment
 {
-    public HeatTreatmentType? HeatTreatmentType = null;
-    public List<string> AdditionalText = [];
+    public HeatTreatmentType? HeatTreatmentType { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public HeatTreatment() { }
@@ -2911,8 +2911,8 @@ public class HeatTreatment
 
 public class MoistureContent
 {
-    public MoistureContentPercentage? MoistureContentPercentage = null;
-    public List<string> AdditionalText = [];
+    public MoistureContentPercentage? MoistureContentPercentage { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public MoistureContent() { }
@@ -2936,8 +2936,8 @@ public class MoistureContent
 
 public class Seasoning
 {
-    public SeasoningType? SeasoningType = null;
-    public List<string> AdditionalText = [];
+    public SeasoningType? SeasoningType { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public Seasoning() { }
@@ -2970,14 +2970,14 @@ public class Thickness : MeasurementBase
 
 public class LumberGrade
 {
-    public GradeType? GradeType = null;
-    public GradingRule? GradingRule = null;
-    public LumberAgency? GradeAgency = null;
-    public ModulusElasticity? ModulusElasticity = null;
-    public Face? Face = null;
-    public string? GradeName = null;
-    public string? GradeCode = null;
-    public List<string> AdditionalText = [];
+    public GradeType? GradeType { get; set; } = null;
+    public GradingRule? GradingRule { get; set; } = null;
+    public LumberAgency? GradeAgency { get; set; } = null;
+    public ModulusElasticity? ModulusElasticity { get; set; } = null;
+    public Face? Face { get; set; } = null;
+    public string? GradeName { get; set; } = null;
+    public string? GradeCode { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public LumberGrade() { }
@@ -3013,11 +3013,11 @@ public class LumberGrade
 
 public class LumberSpecies
 {
-    public SpeciesType? SpeciesType = null;
-    public SpeciesOrigin? SpeciesOrigin = null;
-    public SpeciesAgency? SpeciesAgency = null;
-    public string? SpeciesCode = null;
-    public List<string> AdditionalText = [];
+    public SpeciesType? SpeciesType { get; set; } = null;
+    public SpeciesOrigin? SpeciesOrigin { get; set; } = null;
+    public SpeciesAgency? SpeciesAgency { get; set; } = null;
+    public string? SpeciesCode { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public LumberSpecies() { }
@@ -3047,10 +3047,10 @@ public class LumberSpecies
 
 public class BookManufacturing
 {
-    public List<BookClassification> BookClassification = [];
-    public List<ProofInformationalQuantity> ProofInformationalQuantity = [];
-    public List<PrepInformation> PrepInformation = [];
-    public List<SuppliedComponentInformation> SuppliedComponentInformation = [];
+    public List<BookClassification> BookClassification { get; } = [];
+    public List<ProofInformationalQuantity> ProofInformationalQuantity { get; } = [];
+    public List<PrepInformation> PrepInformation { get; } = [];
+    public List<SuppliedComponentInformation> SuppliedComponentInformation { get; } = [];
 
     public BookManufacturing() { throw new NotImplementedException(); }
 
@@ -3059,19 +3059,19 @@ public class BookManufacturing
 
 public class SuppliedComponentInformation
 {
-    public SupplierParty SupplierParty = new();
-    public ProductIdentifier ProductIdentifier = new();
-    public List<ProductDescription> ProductDescription = [];
-    public List<Classification> Classification = [];
-    public List<BookClassification> BookClassification = [];
-    public Paper? Paper = null;
-    public SuppliedComponentReference? SuppliedComponentReference = null;
-    public Quantity? Quantity = null;
-    public ComponentShipDate? ComponentShipDate = null;
-    public ComponentDueDate? ComponentDueDate = null;
-    public ComponentNeededDate? ComponentNeededDate = null;
-    public OrderStatusInformation? OrderStatusInformation = null;
-    public List<string> AdditionalText = [];
+    public SupplierParty SupplierParty { get; } = new();
+    public ProductIdentifier ProductIdentifier { get; } = new();
+    public List<ProductDescription> ProductDescription { get; } = [];
+    public List<Classification> Classification { get; } = [];
+    public List<BookClassification> BookClassification { get; } = [];
+    public Paper? Paper { get; set; } = null;
+    public SuppliedComponentReference? SuppliedComponentReference { get; set; } = null;
+    public Quantity? Quantity { get; set; } = null;
+    public ComponentShipDate? ComponentShipDate { get; set; } = null;
+    public ComponentDueDate? ComponentDueDate { get; set; } = null;
+    public ComponentNeededDate? ComponentNeededDate { get; set; } = null;
+    public OrderStatusInformation? OrderStatusInformation { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public SuppliedComponentInformation() { }
@@ -3118,7 +3118,7 @@ public class SuppliedComponentInformation
 public class OrderStatusInformation
 {
     public string OrderPrimaryStatus = string.Empty;
-    public string? OrderSecondaryStatus = null;
+    public string? OrderSecondaryStatus { get; set; } = null;
     public string Value = string.Empty;
 
     public OrderStatusInformation() { }
@@ -3169,8 +3169,8 @@ public class ComponentShipDate : DateTimeBase
 
 public class SuppliedComponentReference
 {
-    public ReferenceType? SuppliedComponentReferenceType = null;
-    public AssignedBy? AssignedBy = null;
+    public ReferenceType? SuppliedComponentReferenceType { get; set; } = null;
+    public AssignedBy? AssignedBy { get; set; } = null;
     public string Value = string.Empty;
 
     public SuppliedComponentReference() { }
@@ -3194,7 +3194,7 @@ public class SuppliedComponentReference
 
 public class Paper
 {
-    public PaperCharacteristics? PaperCharacteristics = null;
+    public PaperCharacteristics? PaperCharacteristics { get; set; } = null;
 
     public Paper() { throw new NotImplementedException(); }
 
@@ -3203,21 +3203,21 @@ public class Paper
 
 public class PaperCharacteristics
 {
-    public CoatingTop? CoatingTop = null;
-    public CoatingBottom? CoatingBottom = null;
-    public FinishType? FinishType = null;
-    public PrintType? PrintType = null;
-    public List<Abrasion> Abrasion = [];
-    public List<AbsorptionInk> AbsorptionInk = [];
-    public List<AbsorptionWater> AbsorptionWater = [];
-    public List<Appearance> Appearance = [];
-    public List<Ash> Ash = [];
-    public List<BasisWeight> BasisWeight = [];
-    public List<BendingResistance> BendingResistance = [];
-    public List<BendingStiffness> BendingStiffness = [];
-    public List<Brightness> Brightness = [];
-    public List<Bulk> Bulk = [];
-    public List<Burst> Burst = [];
+    public CoatingTop? CoatingTop { get; set; } = null;
+    public CoatingBottom? CoatingBottom { get; set; } = null;
+    public FinishType? FinishType { get; set; } = null;
+    public PrintType? PrintType { get; set; } = null;
+    public List<Abrasion> Abrasion { get; } = [];
+    public List<AbsorptionInk> AbsorptionInk { get; } = [];
+    public List<AbsorptionWater> AbsorptionWater { get; } = [];
+    public List<Appearance> Appearance { get; } = [];
+    public List<Ash> Ash { get; } = [];
+    public List<BasisWeight> BasisWeight { get; } = [];
+    public List<BendingResistance> BendingResistance { get; } = [];
+    public List<BendingStiffness> BendingStiffness { get; } = [];
+    public List<Brightness> Brightness { get; } = [];
+    public List<Bulk> Bulk { get; } = [];
+    public List<Burst> Burst { get; } = [];
 
 }
 
@@ -3322,18 +3322,18 @@ public class Abrasion : DetailMeasurementBase
 
 public abstract class DetailMeasurementBase
 {
-    public TestMethod? TestMethod = null;
-    public TestAgency? TestAgency = null;
-    public SampleType? SampleType = null;
-    public ResultSource? ResultSource = null;
-    public DetailValue DetailValue = new();
-    public DetailRangeMin? DetailRangeMin = null;
-    public DetailRangeMax? DetailRangeMax = null;
-    public StandardDeviation? StandardDeviation = null;
-    public SampleSize? SampleSize = null;
-    public TwoSigmaLower? TwoSigmaLower = null;
-    public TwoSigmaUpper? TwoSigmaUpper = null;
-    public IncrementalValue? IncrementalValue = null;
+    public TestMethod? TestMethod { get; set; } = null;
+    public TestAgency? TestAgency { get; set; } = null;
+    public SampleType? SampleType { get; set; } = null;
+    public ResultSource? ResultSource { get; set; } = null;
+    public DetailValue DetailValue { get; } = new();
+    public DetailRangeMin? DetailRangeMin { get; set; } = null;
+    public DetailRangeMax? DetailRangeMax { get; set; } = null;
+    public StandardDeviation? StandardDeviation { get; set; } = null;
+    public SampleSize? SampleSize { get; set; } = null;
+    public TwoSigmaLower? TwoSigmaLower { get; set; } = null;
+    public TwoSigmaUpper? TwoSigmaUpper { get; set; } = null;
+    public IncrementalValue? IncrementalValue { get; set; } = null;
     public string Value = string.Empty;
 
     public abstract string LocalName { get; }
@@ -3459,7 +3459,7 @@ public class DetailValue : ValueBase
 
 public class ProductDescription
 {
-    public Language? Language = null;
+    public Language? Language { get; set; } = null;
     public string Value = string.Empty;
 
     public ProductDescription() { }
@@ -3506,12 +3506,12 @@ public class ProductIdentifier
 
 public class PrepInformation
 {
-    public PrepType? PrepType = null;
-    public SupplierParty SupplierParty = new();
-    public PrepShipDate? PrepShipDate = null;
-    public PrepDueDate? PrepDueDate = null;
-    public PrepNeededDate? PrepNeededDate = null;
-    public List<string> AdditionalText = [];
+    public PrepType? PrepType { get; set; } = null;
+    public SupplierParty SupplierParty { get; } = new();
+    public PrepShipDate? PrepShipDate { get; set; } = null;
+    public PrepDueDate? PrepDueDate { get; set; } = null;
+    public PrepNeededDate? PrepNeededDate { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public PrepInformation() { }
@@ -3563,8 +3563,8 @@ public class PrepShipDate : DateTimeBase
 
 public abstract class DateTimeBase
 {
-    public Date Date = new();
-    public Time? Time = null;
+    public Date Date { get; } = new();
+    public Time? Time { get; set; } = null;
     public string Value = string.Empty;
 
     public abstract string LocalName { get; }
@@ -3590,13 +3590,13 @@ public abstract class DateTimeBase
 
 public class ProofInformationalQuantity
 {
-    public ProofType? ProofType = null;
-    public Quantity Quantity = new();
-    public List<InformationalQuantity> InformationalQuantity = [];
-    public OtherParty? OtherParty = null;
-    public ProofApprovalDate? ProofApprovalDate = null;
-    public ProofDueDate? ProofDueDate = null;
-    public List<string> AdditionalText = [];
+    public ProofType? ProofType { get; set; } = null;
+    public Quantity Quantity { get; } = new();
+    public List<InformationalQuantity> InformationalQuantity { get; } = [];
+    public OtherParty? OtherParty { get; set; } = null;
+    public ProofApprovalDate? ProofApprovalDate { get; set; } = null;
+    public ProofDueDate? ProofDueDate { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public ProofInformationalQuantity() { }
@@ -3645,8 +3645,8 @@ public class ProofApprovalDate : DateTimeBase
 public class BookClassification
 {
     public BookClassificationType BookClassificationType = BookClassificationType.Assembly;
-    public List<string> ClassificationDescription = [];
-    public List<BookSubClassification> BookSubClassification = [];
+    public List<string> ClassificationDescription { get; } = [];
+    public List<BookSubClassification> BookSubClassification { get; } = [];
     public string Value = string.Empty;
 
     public BookClassification() { }
@@ -3673,7 +3673,7 @@ public class BookClassification
 public class BookSubClassification
 {
     public BookSubClassificationType BookSubClassificationType;
-    public List<string> ClassificationDescription = [];
+    public List<string> ClassificationDescription { get; } = [];
     public string Value = string.Empty;
 
     public BookSubClassification() { }
@@ -3724,10 +3724,10 @@ public class SafetyAndEnvironmentalInformation
 {
     public SafetyAndEnvironmentalType SafetyAndEnvironmentalType = SafetyAndEnvironmentalType.MaterialSafetyData;
     public Agency Agency = Agency.Other;
-    public string? LicenceNumber = null;
-    public string? ChainOfCustody = null;
-    public SafetyAndEnvironmentalCertification? SafetyAndEnvironmentalCertification = null;
-    public List<string> AdditionalText = [];
+    public string? LicenceNumber { get; set; } = null;
+    public string? ChainOfCustody { get; set; } = null;
+    public SafetyAndEnvironmentalCertification? SafetyAndEnvironmentalCertification { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public SafetyAndEnvironmentalInformation() { }
@@ -3768,16 +3768,16 @@ public class SafetyAndEnvironmentalCertification : MeasurementBase
 
 public class TransportLoadingCharacteristics
 {
-    public MixProductIndicator? MixProductIndicator = null;
-    public TransportLoadingType? TransportLoadingType = null;
-    public TransportDeckOption? TransportDeckOption = null;
-    public LoadingTolerance? LoadingTolerance = null;
-    public DirectLoading? DirectLoading = null;
-    public GoodsLoadingPrinciple? GoodsLoadingPrinciple = null;
-    public LabelOrientation? LabelOrientation = null;
-    public string? TransportLoadingCode = null;
-    public TransportLoadingCodeDescription? TransportLoadingCodeDescription = null;
-    public List<string> TransportLoadingText = [];
+    public MixProductIndicator? MixProductIndicator { get; set; } = null;
+    public TransportLoadingType? TransportLoadingType { get; set; } = null;
+    public TransportDeckOption? TransportDeckOption { get; set; } = null;
+    public LoadingTolerance? LoadingTolerance { get; set; } = null;
+    public DirectLoading? DirectLoading { get; set; } = null;
+    public GoodsLoadingPrinciple? GoodsLoadingPrinciple { get; set; } = null;
+    public LabelOrientation? LabelOrientation { get; set; } = null;
+    public string? TransportLoadingCode { get; set; } = null;
+    public TransportLoadingCodeDescription? TransportLoadingCodeDescription { get; set; } = null;
+    public List<string> TransportLoadingText { get; } = [];
     public string Value = string.Empty;
 
     public TransportLoadingCharacteristics() { }
@@ -3817,8 +3817,8 @@ public class TransportLoadingCharacteristics
 
 public class TransportLoadingCodeDescription
 {
-    public List<string> AdditionalText = [];
-    public e_Attachment? e_Attachment = null;
+    public List<string> AdditionalText { get; } = [];
+    public e_Attachment? e_Attachment { get; set; } = null;
     public string Value = string.Empty;
 
     public TransportLoadingCodeDescription() { }
@@ -3842,10 +3842,10 @@ public class TransportLoadingCodeDescription
 
 public class QuantityOrderedInformation
 {
-    public Quantity Quantity = new();
-    public List<InformationalQuantity> InformationalQuantity = [];
-    public List<string> AdditionalText = [];
-    public List<Length> Length = [];
+    public Quantity Quantity { get; } = new();
+    public List<InformationalQuantity> InformationalQuantity { get; } = [];
+    public List<string> AdditionalText { get; } = [];
+    public List<Length> Length { get; } = [];
     public string Value = string.Empty;
 
     public QuantityOrderedInformation() { }
@@ -3873,9 +3873,9 @@ public class QuantityOrderedInformation
 
 public class MillProductionInformation
 {
-    public MillCharacteristics? MillCharacteristics = null;
-    public string? MillOrderNumber = null;
-    public Quantity? Quantity = null;
+    public MillCharacteristics? MillCharacteristics { get; set; } = null;
+    public string? MillOrderNumber { get; set; } = null;
+    public Quantity? Quantity { get; set; } = null;
     public string Value = string.Empty;
 
     public MillProductionInformation() { }
@@ -3901,8 +3901,8 @@ public class MillProductionInformation
 
 public class MillCharacteristics
 {
-    public MillParty? MillParty = null;
-    public string? MachineID = null;
+    public MillParty? MillParty { get; set; } = null;
+    public string? MachineID { get; set; } = null;
     public string Value = string.Empty;
 
     public MillCharacteristics() { }
@@ -3926,12 +3926,12 @@ public class MillCharacteristics
 
 public abstract class MeasurementBase
 {
-    public ActualNominal? ActualNominal = null;
-    public WithGrain? WithGrain = null;
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
-    public List<string> AdditionalText = [];
+    public ActualNominal? ActualNominal { get; set; } = null;
+    public WithGrain? WithGrain { get; set; } = null;
+    public Value Value { get; } = new();
+    public RangeMin? RangeMin { get; set; } = null;
+    public RangeMax? RangeMax { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
 
     public abstract string LocalName { get; }
 
@@ -3969,10 +3969,10 @@ public class TotalNumberOfUnits : MeasurementBase
 
 public class PurchaseOrderInformation
 {
-    public string? PurchaseOrderNumber = null;
-    public string? PurchaseOrderReleaseNumber = null;
-    public PurchaseOrderIssuedDate? PurchaseOrderIssuedDate = null;
-    public List<PurchaseOrderReference> PurchaseOrderReference = [];
+    public string? PurchaseOrderNumber { get; set; } = null;
+    public string? PurchaseOrderReleaseNumber { get; set; } = null;
+    public PurchaseOrderIssuedDate? PurchaseOrderIssuedDate { get; set; } = null;
+    public List<PurchaseOrderReference> PurchaseOrderReference { get; } = [];
     public string Value = string.Empty;
 
     public PurchaseOrderInformation() { }
@@ -4031,23 +4031,23 @@ public class PurchaseOrderIssuedDate : DateTimeBase
 public class DeliveryMessageWoodHeader
 {
     public string DeliveryMessageNumber = string.Empty;
-    public string? TransactionHistoryNumber = null;
-    public DeliveryMessageDate DeliveryMessageDate = new();
-    public List<DeliveryMessageReference> DeliveryMessageReference = [];
-    public List<DocumentReferenceInformation> DocumentReferenceInformation = [];
-    public BuyerParty BuyerParty = new();
-    public BillToParty? BillToParty = new();
-    public SupplierParty SupplierParty = new();
-    public List<OtherParty> OtherParty = [];
-    public SenderParty? SenderParty = new();
-    public ReceiverParty? ReceiverParty = new();
-    public List<ShipToInformation> ShipToInformation = [];
-    public CountryOfOrigin? CountryOfOrigin = null;
-    public CountryOfDestination? CountryOfDestination = null;
-    public CountryOfConsumption? CountryOfConsumption = null;
-    public Insurance? Insurance = null;
-    public List<string> AdditionalText = [];
-    public List<DocumentInformation> DocumentInformation = [];
+    public string? TransactionHistoryNumber { get; set; } = null;
+    public DeliveryMessageDate DeliveryMessageDate { get; } = new();
+    public List<DeliveryMessageReference> DeliveryMessageReference { get; } = [];
+    public List<DocumentReferenceInformation> DocumentReferenceInformation { get; } = [];
+    public BuyerParty BuyerParty { get; } = new();
+    public BillToParty? BillToParty { get; } = new();
+    public SupplierParty SupplierParty { get; } = new();
+    public List<OtherParty> OtherParty { get; } = [];
+    public SenderParty? SenderParty { get; } = new();
+    public ReceiverParty? ReceiverParty { get; } = new();
+    public List<ShipToInformation> ShipToInformation { get; } = [];
+    public CountryOfOrigin? CountryOfOrigin { get; set; } = null;
+    public CountryOfDestination? CountryOfDestination { get; set; } = null;
+    public CountryOfConsumption? CountryOfConsumption { get; set; } = null;
+    public Insurance? Insurance { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
+    public List<DocumentInformation> DocumentInformation { get; } = [];
     public string Value = string.Empty;
 
     public DeliveryMessageWoodHeader() { }
@@ -4149,8 +4149,8 @@ public class BuyerParty : Party
 public class DocumentInformation
 {
     public DocumentType DocumentType = DocumentType.DeliveryNote;
-    public List<string> NumberOfDocuments = [];
-    public List<string> AdditionalText = [];
+    public List<string> NumberOfDocuments { get; } = [];
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public DocumentInformation() { }
@@ -4176,10 +4176,10 @@ public class DocumentInformation
 
 public class Insurance
 {
-    public string? Insurer = null;
-    public string? InsuranceContractNo = null;
-    public InsuredValue? InsuredValue = null;
-    public string? InsuranceInfo = null;
+    public string? Insurer { get; set; } = null;
+    public string? InsuranceContractNo { get; set; } = null;
+    public InsuredValue? InsuredValue { get; set; } = null;
+    public string? InsuranceInfo { get; set; } = null;
     public string Value = string.Empty;
 
     public Insurance() { }
@@ -4230,7 +4230,7 @@ public class InsuredValue
 public class CountryOfConsumption
 {
     public string Country = string.Empty;
-    public ISOCountryCode? ISOCountryCode = null;
+    public ISOCountryCode? ISOCountryCode { get; set; } = null;
     public string Value = string.Empty;
 
     public CountryOfConsumption() { }
@@ -4255,7 +4255,7 @@ public class CountryOfConsumption
 public class CountryOfDestination
 {
     public string Country = string.Empty;
-    public ISOCountryCode? ISOCountryCode = null;
+    public ISOCountryCode? ISOCountryCode { get; set; } = null;
     public string Value = string.Empty;
 
     public CountryOfDestination() { }
@@ -4280,7 +4280,7 @@ public class CountryOfDestination
 public class CountryOfOrigin
 {
     public string Country = string.Empty;
-    public ISOCountryCode? ISOCountryCode = null;
+    public ISOCountryCode? ISOCountryCode { get; set; } = null;
     public string Value = string.Empty;
 
     public CountryOfOrigin() { }
@@ -4304,8 +4304,8 @@ public class CountryOfOrigin
 
 public class ShipToInformation
 {
-    public ShipToCharacteristics ShipToCharacteristics = new();
-    public List<DeliverySchedule> DeliverySchedule = [];
+    public ShipToCharacteristics ShipToCharacteristics { get; } = new();
+    public List<DeliverySchedule> DeliverySchedule { get; } = [];
     public string Value = string.Empty;
 
     public ShipToInformation() { }
@@ -4330,16 +4330,16 @@ public class ShipToInformation
 public class DeliverySchedule
 {
     public string DeliveryLineNumber = string.Empty;
-    public ProductionStatus? ProductionStatus = null;
-    public DeliveryStatus? DeliveryStatus = null;
-    public List<DeliveryDateWindow> DeliveryDateWindow = [];
-    public Quantity Quantity = new();
-    public List<InformationalQuantity> InformationalQuantity = [];
-    public PriceDetails? PriceDetails = null;
-    public List<MonetaryAdjustment> MonetaryAdjustment = [];
-    public List<DeliveryLeg> DeliveryLeg = [];
-    public List<DeliveryScheduleReference> DeliveryScheduleReference = [];
-    public List<string> AdditionalText = [];
+    public ProductionStatus? ProductionStatus { get; set; } = null;
+    public DeliveryStatus? DeliveryStatus { get; set; } = null;
+    public List<DeliveryDateWindow> DeliveryDateWindow { get; } = [];
+    public Quantity Quantity { get; } = new();
+    public List<InformationalQuantity> InformationalQuantity { get; } = [];
+    public PriceDetails? PriceDetails { get; set; } = null;
+    public List<MonetaryAdjustment> MonetaryAdjustment { get; } = [];
+    public List<DeliveryLeg> DeliveryLeg { get; } = [];
+    public List<DeliveryScheduleReference> DeliveryScheduleReference { get; } = [];
+    public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;
 
     public DeliverySchedule() { }
@@ -4404,25 +4404,25 @@ public class DeliveryScheduleReference : AssignedByReferenceValueBase
 
 public class DeliveryLeg
 {
-    public DeliveryModeType? DeliveryModeType = null;
-    public DeliveryLegType? DeliveryLegType = null;
-    public EventType? EventType = null;
-    public LegStageType? LegStageType = null;
+    public DeliveryModeType? DeliveryModeType { get; set; } = null;
+    public DeliveryLegType? DeliveryLegType { get; set; } = null;
+    public EventType? EventType { get; set; } = null;
+    public LegStageType? LegStageType { get; set; } = null;
     public string DeliveryLegSequenceNumber = string.Empty;
-    public DeliveryOrigin DeliveryOrigin = new();
-    public CarrierParty? CarrierParty = new();
-    public List<OtherParty> OtherParty = [];
-    public TransportModeCharacteristics? TransportModeCharacteristics = null;
-    public TransportVehicleCharacteristics? TransportVehicleCharacteristics = null;
-    public TransportUnitCharacteristics? TransportUnitCharacteristics = null;
-    public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics = null;
-    public TransportOtherInstructions? TransportOtherInstructions = null;
-    public List<Route> Route = [];
-    public DeliveryTransitTime? DeliveryTransitTime = null;
-    public DeliveryDestination? DeliveryDestination = null;
-    public List<DeliveryDateWindow> DeliveryDateWindow = [];
-    public List<DeliveryLegReference> DeliveryLegReference = [];
-    public List<TermsOfChartering> TermsOfChartering = [];
+    public DeliveryOrigin DeliveryOrigin { get; } = new();
+    public CarrierParty? CarrierParty { get; } = new();
+    public List<OtherParty> OtherParty { get; } = [];
+    public TransportModeCharacteristics? TransportModeCharacteristics { get; set; } = null;
+    public TransportVehicleCharacteristics? TransportVehicleCharacteristics { get; set; } = null;
+    public TransportUnitCharacteristics? TransportUnitCharacteristics { get; set; } = null;
+    public TransportUnloadingCharacteristics? TransportUnloadingCharacteristics { get; set; } = null;
+    public TransportOtherInstructions? TransportOtherInstructions { get; set; } = null;
+    public List<Route> Route { get; } = [];
+    public DeliveryTransitTime? DeliveryTransitTime { get; set; } = null;
+    public DeliveryDestination? DeliveryDestination { get; set; } = null;
+    public List<DeliveryDateWindow> DeliveryDateWindow { get; } = [];
+    public List<DeliveryLegReference> DeliveryLegReference { get; } = [];
+    public List<TermsOfChartering> TermsOfChartering { get; } = [];
     public string Value = string.Empty;
 
     public DeliveryLeg() { }
@@ -4489,7 +4489,7 @@ public class CarrierParty : Party
 
 public class TermsOfChartering
 {
-    public TermsOfCharteringType? TermsOfCharteringType = null;
+    public TermsOfCharteringType? TermsOfCharteringType { get; set; } = null;
     public string Value = string.Empty;
 
     public TermsOfChartering() { }
@@ -4534,13 +4534,13 @@ public class DeliveryLegReference : AssignedByReferenceValueBase
 
 public class DeliveryDestination
 {
-    public Date? Date = null;
-    public Time? Time = null;
-    public LocationParty LocationParty = new();
-    public SupplyPoint? SupplyPoint = null;
-    public LocationCode? LocationCode = null;
-    public GPSCoordinates? GPSCoordinates = null;
-    public MapCoordinates? MapCoordinates = null;
+    public Date? Date { get; set; } = null;
+    public Time? Time { get; set; } = null;
+    public LocationParty LocationParty { get; } = new();
+    public SupplyPoint? SupplyPoint { get; set; } = null;
+    public LocationCode? LocationCode { get; set; } = null;
+    public GPSCoordinates? GPSCoordinates { get; set; } = null;
+    public MapCoordinates? MapCoordinates { get; set; } = null;
     public string Value = string.Empty;
 
     public DeliveryDestination() { }
@@ -4573,8 +4573,8 @@ public class DeliveryDestination
 public class DeliveryTransitTime
 {
     public string Days = string.Empty;
-    public string? Hours = null;
-    public string? Minutes = null;
+    public string? Hours { get; set; } = null;
+    public string? Minutes { get; set; } = null;
 
     public DeliveryTransitTime() { }
 
@@ -4599,13 +4599,13 @@ public class Route
 {
     public RouteType RouteType = RouteType.DeliveryOriginToDeliveryDestination;
     public string RouteName = string.Empty;
-    public List<string> RouteComment = [];
-    public List<SupplyPoint> SupplyPoint = [];
-    public List<MapPoint> MapPoint = [];
-    public string? RouteLength = null;
-    public string? RouteDefinition = null;
-    public eAttachment? eAttachment = null;
-    public List<RouteLeg> RouteLeg = [];
+    public List<string> RouteComment { get; } = [];
+    public List<SupplyPoint> SupplyPoint { get; } = [];
+    public List<MapPoint> MapPoint { get; } = [];
+    public string? RouteLength { get; set; } = null;
+    public string? RouteDefinition { get; set; } = null;
+    public eAttachment? eAttachment { get; set; } = null;
+    public List<RouteLeg> RouteLeg { get; } = [];
     public string RootValue = string.Empty;
 
     public Route() { }
@@ -4636,13 +4636,13 @@ public class Route
 public class RouteLeg
 {
     public string RouteLegNumber = string.Empty;
-    public string? RouteLegName = null;
-    public List<OtherParty> OtherParty = [];
-    public MapPoint? MapPoint = null;
-    public RouteLegLength? RouteLegLength = null;
-    public RoadCharacteristics? RoadCharacteristics = null;
-    public eAttachment? eAttachment = null;
-    public List<string> AdditionalText = [];
+    public string? RouteLegName { get; set; } = null;
+    public List<OtherParty> OtherParty { get; } = [];
+    public MapPoint? MapPoint { get; set; } = null;
+    public RouteLegLength? RouteLegLength { get; set; } = null;
+    public RoadCharacteristics? RoadCharacteristics { get; set; } = null;
+    public eAttachment? eAttachment { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
 
     public RouteLeg() { }
 
@@ -4684,18 +4684,18 @@ public class OtherParty : Party
 
 public class RoadCharacteristics
 {
-    public RoadOwnerType? RoadOwnerType = null;
-    public RoadKeeperType? RoadKeeperType = null;
-    public RoadAccessibilityType? RoadAccessibilityType = null;
-    public RoadTurningPossibilityType? RoadTurningPossibilityType = null;
-    public RoadTurningPointType? RoadTurningPointType = null;
-    public RoadPassingPossibility? RoadPassingPossibility = null;
-    public string? RoadName = null;
-    public string? RoadNumber = null;
-    public List<RoadClassification> RoadClassification = [];
-    public List<RoadAvailability> RoadAvailability = [];
-    public List<RoadBearingCapacity> RoadBearingCapacity = [];
-    public List<RoadObstruction> RoadObstruction = [];
+    public RoadOwnerType? RoadOwnerType { get; set; } = null;
+    public RoadKeeperType? RoadKeeperType { get; set; } = null;
+    public RoadAccessibilityType? RoadAccessibilityType { get; set; } = null;
+    public RoadTurningPossibilityType? RoadTurningPossibilityType { get; set; } = null;
+    public RoadTurningPointType? RoadTurningPointType { get; set; } = null;
+    public RoadPassingPossibility? RoadPassingPossibility { get; set; } = null;
+    public string? RoadName { get; set; } = null;
+    public string? RoadNumber { get; set; } = null;
+    public List<RoadClassification> RoadClassification { get; } = [];
+    public List<RoadAvailability> RoadAvailability { get; } = [];
+    public List<RoadBearingCapacity> RoadBearingCapacity { get; } = [];
+    public List<RoadObstruction> RoadObstruction { get; } = [];
 
     public RoadCharacteristics() { }
 
@@ -4737,16 +4737,16 @@ public class RoadCharacteristics
 public class RoadObstruction
 {
     public RoadObstructionType RoadObstructionType = RoadObstructionType.Passage;
-    public string? MapPointName = null;
-    public List<string> MapPointComment = [];
-    public List<MapCoordinates> MapCoordinates = [];
-    public string? RoadSlopePercent = null;
-    public List<RoadBearingCapacity> RoadBearingCapacity = [];
-    public Length? Length = null;
-    public Width? Width = null;
-    public Height? Height = null;
-    public eAttachment? eAttachment = null;
-    public List<string> AdditionalText = [];
+    public string? MapPointName { get; set; } = null;
+    public List<string> MapPointComment { get; } = [];
+    public List<MapCoordinates> MapCoordinates { get; } = [];
+    public string? RoadSlopePercent { get; set; } = null;
+    public List<RoadBearingCapacity> RoadBearingCapacity { get; } = [];
+    public Length? Length { get; set; } = null;
+    public Width? Width { get; set; } = null;
+    public Height? Height { get; set; } = null;
+    public eAttachment? eAttachment { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
 
     public RoadObstruction() { }
 
@@ -4812,10 +4812,10 @@ public class Length : MeasurementBase
 
 public class RoadBearingCapacity
 {
-    public RoadBearingCapacityType? RoadBearingCapacityType = null;
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
+    public RoadBearingCapacityType? RoadBearingCapacityType { get; set; } = null;
+    public Value Value { get; } = new();
+    public RangeMin? RangeMin { get; set; } = null;
+    public RangeMax? RangeMax { get; set; } = null;
 
     public RoadBearingCapacity() { }
 
@@ -4840,8 +4840,8 @@ public class RoadBearingCapacity
 
 public class RoadClassification
 {
-    public string? RoadClassificationCode = null;
-    public List<string> RoadClassificationDescription = [];
+    public string? RoadClassificationCode { get; set; } = null;
+    public List<string> RoadClassificationDescription { get; } = [];
     public string RootValue = string.Empty;
 
     public RoadClassification() { }
@@ -4874,9 +4874,9 @@ public class RouteLegLength : MeasurementBase
 
 public class eAttachment
 {
-    public string? AttachmentFileName = null;
-    public string? NumberOfAttachments = null;
-    public List<URL> URL = [];
+    public string? AttachmentFileName { get; set; } = null;
+    public string? NumberOfAttachments { get; set; } = null;
+    public List<URL> URL { get; } = [];
     public string RootValue = string.Empty;
 
     public eAttachment() { }
@@ -4902,10 +4902,10 @@ public class eAttachment
 
 public class MapPoint
 {
-    public MapPointType? MapPointType = null;
+    public MapPointType? MapPointType { get; set; } = null;
     public string MapPointName = string.Empty;
-    public List<string> MapPointComment = [];
-    public List<MapCoordinates> MapCoordinates = [];
+    public List<string> MapPointComment { get; } = [];
+    public List<MapCoordinates> MapCoordinates { get; } = [];
     public string Value = string.Empty;
 
     public MapPoint() { }
@@ -4933,9 +4933,9 @@ public class MapPoint
 
 public class TransportOtherInstructions
 {
-    public TransportInstructionType? TransportInstructionType = null;
-    public TransportInstructionCode? TransportInstructionCode = null;
-    public List<string> TransportInstructionText = [];
+    public TransportInstructionType? TransportInstructionType { get; set; } = null;
+    public TransportInstructionCode? TransportInstructionCode { get; set; } = null;
+    public List<string> TransportInstructionText { get; } = [];
     public string Value = string.Empty;
 
     public TransportOtherInstructions() { }
@@ -4970,11 +4970,11 @@ public class TransportInstructionCode : AgencyValueBase
 
 public class TransportUnloadingCharacteristics
 {
-    public TransportUnloadingType? TransportUnloadingType = null;
-    public DirectUnloading? DirectUnloading = null;
-    public TransportUnloadingCode? TransportUnloadingCode = null;
-    public TransportUnloadingCodeDescription? TransportUnloadingCodeDescription = null;
-    public List<string> TransportUnloadingText = [];
+    public TransportUnloadingType? TransportUnloadingType { get; set; } = null;
+    public DirectUnloading? DirectUnloading { get; set; } = null;
+    public TransportUnloadingCode? TransportUnloadingCode { get; set; } = null;
+    public TransportUnloadingCodeDescription? TransportUnloadingCodeDescription { get; set; } = null;
+    public List<string> TransportUnloadingText { get; } = [];
     public string Value = string.Empty;
 
     public TransportUnloadingCharacteristics() { }
@@ -5004,8 +5004,8 @@ public class TransportUnloadingCharacteristics
 
 public class TransportUnloadingCodeDescription
 {
-    public List<string> AdditionalText = [];
-    public e_Attachment? e_Attachment = null;
+    public List<string> AdditionalText { get; } = [];
+    public e_Attachment? e_Attachment { get; set; } = null;
     public string Value = string.Empty;
 
     public TransportUnloadingCodeDescription() { }
@@ -5033,9 +5033,9 @@ public class TransportUnloadingCodeDescription
 
 public class e_Attachment
 {
-    public string? AttachmentFileName = null;
-    public string? NumberOfAttachments = null;
-    public URL? URL = null;
+    public string? AttachmentFileName { get; set; } = null;
+    public string? NumberOfAttachments { get; set; } = null;
+    public URL? URL { get; set; } = null;
     public string Value = string.Empty;
 
     public e_Attachment() { }
@@ -5061,7 +5061,7 @@ public class e_Attachment
 
 public class URL
 {
-    public string? URLContext = null;
+    public string? URLContext { get; set; } = null;
     public string Value = string.Empty;
 
     public URL() { }
@@ -5093,15 +5093,15 @@ public class TransportUnloadingCode : AgencyValueBase
 public class TransportUnitCharacteristics
 {
     public TransportUnitType TransportUnitType = TransportUnitType.Other;
-    public TransportUnitVariable? TransportUnitVariable = null;
-    public string? TransportUnitLevel = null;
-    public TransportUnitCode? TransportUnitCode = null;
-    public TransportUnitMeasurements? TransportUnitMeasurements = null;
-    public List<TransportUnitEquipment> TransportUnitEquipment = [];
-    public string? TransportUnitCount = null;
-    public List<TransportUnitIdentifier> TransportUnitIdentifier = [];
-    public string? TransportUnitText = null;
-    public TransportUnitDetail? TransportUnitDetail = null;
+    public TransportUnitVariable? TransportUnitVariable { get; set; } = null;
+    public string? TransportUnitLevel { get; set; } = null;
+    public TransportUnitCode? TransportUnitCode { get; set; } = null;
+    public TransportUnitMeasurements? TransportUnitMeasurements { get; set; } = null;
+    public List<TransportUnitEquipment> TransportUnitEquipment { get; } = [];
+    public string? TransportUnitCount { get; set; } = null;
+    public List<TransportUnitIdentifier> TransportUnitIdentifier { get; } = [];
+    public string? TransportUnitText { get; set; } = null;
+    public TransportUnitDetail? TransportUnitDetail { get; set; } = null;
 
     public TransportUnitCharacteristics() { }
 
@@ -5138,10 +5138,10 @@ public class TransportUnitCharacteristics
 
 public class TransportUnitDetail
 {
-    public TransportUnitDetailType? TransportUnitDetailType = null;
-    public LoadOpeningSide? LoadOpeningSide = null;
-    public TransportUnitDetailCode? TransportUnitDetailCode = null;
-    public List<string> AdditionalText = [];
+    public TransportUnitDetailType? TransportUnitDetailType { get; set; } = null;
+    public LoadOpeningSide? LoadOpeningSide { get; set; } = null;
+    public TransportUnitDetailCode? TransportUnitDetailCode { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
 
     public TransportUnitDetail() { }
 
@@ -5176,8 +5176,8 @@ public class TransportUnitDetailCode : AgencyValueBase
 public class TransportUnitIdentifier
 {
     public TransportUnitIdentifierType TransportUnitIdentifierType = TransportUnitIdentifierType.Other;
-    public string? StateOrProvince = null;
-    public ISOCountryCode? ISOCountryCode = null;
+    public string? StateOrProvince { get; set; } = null;
+    public ISOCountryCode? ISOCountryCode { get; set; } = null;
     public string Value = string.Empty;
 
     public TransportUnitIdentifier() { }
@@ -5203,8 +5203,8 @@ public class TransportUnitIdentifier
 
 public class TransportUnitEquipment
 {
-    public TransportUnitEquipmentCode? TransportUnitEquipmentCode = null;
-    public List<TransportUnitEquipmentDescription> TransportUnitEquipmentDescription = [];
+    public TransportUnitEquipmentCode? TransportUnitEquipmentCode { get; set; } = null;
+    public List<TransportUnitEquipmentDescription> TransportUnitEquipmentDescription { get; } = [];
 
     public TransportUnitEquipment() { }
 
@@ -5225,7 +5225,7 @@ public class TransportUnitEquipment
 
 public class TransportUnitEquipmentDescription
 {
-    public Language? Language = null;
+    public Language? Language { get; set; } = null;
     public string Value = string.Empty;
 
     public TransportUnitEquipmentDescription() { }
@@ -5256,11 +5256,11 @@ public class TransportUnitEquipmentCode : AgencyValueBase
 
 public class TransportUnitMeasurements
 {
-    public AppliesTo? AppliesTo = null;
-    public TransportUnitLength? TransportUnitLength = null;
-    public TransportUnitWidth? TransportUnitWidth = null;
-    public TransportUnitHeight? TransportUnitHeight = null;
-    public TransportUnitWeight? TransportUnitWeight = null;
+    public AppliesTo? AppliesTo { get; set; } = null;
+    public TransportUnitLength? TransportUnitLength { get; set; } = null;
+    public TransportUnitWidth? TransportUnitWidth { get; set; } = null;
+    public TransportUnitHeight? TransportUnitHeight { get; set; } = null;
+    public TransportUnitWeight? TransportUnitWeight { get; set; } = null;
 
     public TransportUnitMeasurements() { }
 
@@ -5332,13 +5332,13 @@ public class TransportUnitCode : AgencyValueBase
 
 public class TransportVehicleCharacteristics
 {
-    public TransportVehicleType? TransportVehicleType = null;
-    public TransportVehicleCode? TransportVehicleCode = null;
-    public TransportVehicleMeasurements? TransportVehicleMeasurements = null;
-    public List<TransportVehicleEquipment> TransportVehicleEquipment = [];
-    public string? TransportVehicleCount = null;
-    public TransportVehicleIdentifier? TransportVehicleIdentifier = null;
-    public string? TransportVehicleText = null;
+    public TransportVehicleType? TransportVehicleType { get; set; } = null;
+    public TransportVehicleCode? TransportVehicleCode { get; set; } = null;
+    public TransportVehicleMeasurements? TransportVehicleMeasurements { get; set; } = null;
+    public List<TransportVehicleEquipment> TransportVehicleEquipment { get; } = [];
+    public string? TransportVehicleCount { get; set; } = null;
+    public TransportVehicleIdentifier? TransportVehicleIdentifier { get; set; } = null;
+    public string? TransportVehicleText { get; set; } = null;
 
     public TransportVehicleCharacteristics() { }
 
@@ -5369,9 +5369,9 @@ public class TransportVehicleCharacteristics
 
 public class TransportVehicleIdentifier
 {
-    public TransportVehicleIdentifierType? TransportVehicleIdentifierType = null;
-    public string? StateOrProvince = null;
-    public ISOCountryCode? ISOCountryCode = null;
+    public TransportVehicleIdentifierType? TransportVehicleIdentifierType { get; set; } = null;
+    public string? StateOrProvince { get; set; } = null;
+    public ISOCountryCode? ISOCountryCode { get; set; } = null;
     public string Value = string.Empty;
 
     public TransportVehicleIdentifier() { }
@@ -5397,8 +5397,8 @@ public class TransportVehicleIdentifier
 
 public class TransportVehicleEquipment
 {
-    public TransportVehicleEquipmentCode? TransportVehicleEquipmentCode = null;
-    public List<TransportVehicleEquipmentDescription> TransportVehicleEquipmentDescription = [];
+    public TransportVehicleEquipmentCode? TransportVehicleEquipmentCode { get; set; } = null;
+    public List<TransportVehicleEquipmentDescription> TransportVehicleEquipmentDescription { get; } = [];
 
     public TransportVehicleEquipment() { }
 
@@ -5419,7 +5419,7 @@ public class TransportVehicleEquipment
 
 public class TransportVehicleEquipmentDescription
 {
-    public Language? Language = null;
+    public Language? Language { get; set; } = null;
     public string Value = string.Empty;
 
     public TransportVehicleEquipmentDescription() { }
@@ -5450,10 +5450,10 @@ public class TransportVehicleEquipmentCode : AgencyValueBase
 
 public class TransportVehicleMeasurements
 {
-    public TransportVehicleLength? TransportVehicleLength = null;
-    public TransportVehicleWidth? TransportVehicleWidth = null;
-    public TransportVehicleHeight? TransportVehicleHeight = null;
-    public TransportVehicleWeight? TransportVehicleWeight = null;
+    public TransportVehicleLength? TransportVehicleLength { get; set; } = null;
+    public TransportVehicleWidth? TransportVehicleWidth { get; set; } = null;
+    public TransportVehicleHeight? TransportVehicleHeight { get; set; } = null;
+    public TransportVehicleWeight? TransportVehicleWeight { get; set; } = null;
 
     public TransportVehicleMeasurements() { }
 
@@ -5523,9 +5523,9 @@ public class TransportVehicleCode : AgencyValueBase
 
 public class TransportModeCharacteristics
 {
-    public TransportModeType? TransportModeType = null;
-    public TransportModeCode? TransportModeCode = null;
-    public string? TransportModeText = null;
+    public TransportModeType? TransportModeType { get; set; } = null;
+    public TransportModeCode? TransportModeCode { get; set; } = null;
+    public string? TransportModeText { get; set; } = null;
 
     public TransportModeCharacteristics() { }
 
@@ -5557,13 +5557,13 @@ public class TransportModeCode : AgencyValueBase
 
 public class DeliveryOrigin
 {
-    public Date? Date = null;
-    public Time? Time = null;
-    public LocationParty LocationParty = new();
-    public SupplyPoint? SupplyPoint = null;
-    public LocationCode? LocationCode = null;
-    public GPSCoordinates? GPSCoordinates = null;
-    public MapCoordinates? MapCoordinates = null;
+    public Date? Date { get; set; } = null;
+    public Time? Time { get; set; } = null;
+    public LocationParty LocationParty { get; } = new();
+    public SupplyPoint? SupplyPoint { get; set; } = null;
+    public LocationCode? LocationCode { get; set; } = null;
+    public GPSCoordinates? GPSCoordinates { get; set; } = null;
+    public MapCoordinates? MapCoordinates { get; set; } = null;
 
     public DeliveryOrigin() { }
 
@@ -5602,9 +5602,9 @@ public class LocationParty : Party
 public class SupplyPoint
 {
     public LocationType LocationType = LocationType.Destination;
-    public SupplyPointCode SupplyPointCode = new();
-    public List<string> SupplyPointDescription = [];
-    public List<MapCoordinates> MapCoordinates = [];
+    public SupplyPointCode SupplyPointCode { get; } = new();
+    public List<string> SupplyPointDescription { get; } = [];
+    public List<MapCoordinates> MapCoordinates { get; } = [];
 
     public SupplyPoint() { }
 
@@ -5639,13 +5639,13 @@ public class SupplyPointCode : AgencyValueBase
 public class PriceDetails
 {
     public PriceQuantityBasis PriceQuantityBasis = PriceQuantityBasis.ActualVolume;
-    public PriceTaxBasis? PriceTaxBasis = null;
-    public PricePerUnit PricePerUnit = new();
-    public List<InformationalPricePerUnit> InformationalPricePerUnit = [];
-    public List<string> AdditionalText = [];
-    public ExchangeRate ExchangeRate = new();
-    public MonetaryAdjustment? MonetaryAdjustment = null;
-    public GeneralLedgerAccount? GeneralLedgerAccount = null;
+    public PriceTaxBasis? PriceTaxBasis { get; set; } = null;
+    public PricePerUnit PricePerUnit { get; } = new();
+    public List<InformationalPricePerUnit> InformationalPricePerUnit { get; } = [];
+    public List<string> AdditionalText { get; } = [];
+    public ExchangeRate ExchangeRate { get; } = new();
+    public MonetaryAdjustment? MonetaryAdjustment { get; set; } = null;
+    public GeneralLedgerAccount? GeneralLedgerAccount { get; set; } = null;
 
     public PriceDetails() { }
 
@@ -5680,17 +5680,17 @@ public class MonetaryAdjustment
 {
     public AdjustmentType_Financial AdjustmentType = AdjustmentType_Financial.Other;
     public string MonetaryAdjustmentLine = string.Empty;
-    public MonetaryAdjustmentStartAmount? MonetaryAdjustmentStartAmount = null;
-    public MonetaryAdjustmentStartQuantity? MonetaryAdjustmentStartQuantity = null;
-    public PriceAdjustment? PriceAdjustment = null;
-    public FlatAmountAdjustment? FlatAmountAdjustment = null;
-    public TaxAdjustment? TaxAdjustment = null;
-    public InformationalAmount? InformationalAmount = null;
-    public string? MonetaryAdjustmentReferenceLine = null;
-    public List<string> AdditionalText = [];
-    public GeneralLedgerAccount? GeneralLedgerAccount = null;
-    public MonetaryAdjustmentAmount? MonetaryAdjustmentAmount = null;
-    public string? AdjustmentTypeReason = null;
+    public MonetaryAdjustmentStartAmount? MonetaryAdjustmentStartAmount { get; set; } = null;
+    public MonetaryAdjustmentStartQuantity? MonetaryAdjustmentStartQuantity { get; set; } = null;
+    public PriceAdjustment? PriceAdjustment { get; set; } = null;
+    public FlatAmountAdjustment? FlatAmountAdjustment { get; set; } = null;
+    public TaxAdjustment? TaxAdjustment { get; set; } = null;
+    public InformationalAmount? InformationalAmount { get; set; } = null;
+    public string? MonetaryAdjustmentReferenceLine { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
+    public GeneralLedgerAccount? GeneralLedgerAccount { get; set; } = null;
+    public MonetaryAdjustmentAmount? MonetaryAdjustmentAmount { get; set; } = null;
+    public string? AdjustmentTypeReason { get; set; } = null;
 
     public MonetaryAdjustment() { }
 
@@ -5733,7 +5733,7 @@ public class MonetaryAdjustment
 
 public class MonetaryAdjustmentAmount
 {
-    public CurrencyValue CurrencyValue = new();
+    public CurrencyValue CurrencyValue { get; } = new();
 
     public MonetaryAdjustmentAmount() { }
 
@@ -5761,12 +5761,12 @@ public class GeneralLedgerAccount : AgencyValueBase
 
 public class TaxAdjustment
 {
-    public TaxCategoryType? TaxCategoryType = null;
+    public TaxCategoryType? TaxCategoryType { get; set; } = null;
     public TaxType TaxType = TaxType.VAT;
-    public string? TaxPercent = null;
-    public TaxAmount? TaxAmount = null;
+    public string? TaxPercent { get; set; } = null;
+    public TaxAmount? TaxAmount { get; set; } = null;
     public string TaxLocation = string.Empty;
-    public List<InformationalAmount> InformationalAmount = [];
+    public List<InformationalAmount> InformationalAmount { get; } = [];
 
     public TaxAdjustment() { }
 
@@ -5795,10 +5795,10 @@ public class TaxAdjustment
 
 public class InformationalAmount
 {
-    public AmountType? AmountType = null;
-    public CurrencyValue CurrencyValue = new();
-    public ExchangeRate? ExchangeRate = null;
-    public List<string> AdditionalText = [];
+    public AmountType? AmountType { get; set; } = null;
+    public CurrencyValue CurrencyValue { get; } = new();
+    public ExchangeRate? ExchangeRate { get; set; } = null;
+    public List<string> AdditionalText { get; } = [];
 
     public InformationalAmount() { }
 
@@ -5823,7 +5823,7 @@ public class InformationalAmount
 
 public class TaxAmount
 {
-    public CurrencyValue CurrencyValue = new();
+    public CurrencyValue CurrencyValue { get; } = new();
 
     public TaxAmount() { }
 
@@ -5842,8 +5842,8 @@ public class TaxAmount
 
 public class FlatAmountAdjustment
 {
-    public AdjustmentPercentage? AdjustmentPercentage = null;
-    public AdjustmentFixedAmount? AdjustmentFixedAmount = null;
+    public AdjustmentPercentage? AdjustmentPercentage { get; set; } = null;
+    public AdjustmentFixedAmount? AdjustmentFixedAmount { get; set; } = null;
     public string Value = string.Empty;
 
     public FlatAmountAdjustment() { }
@@ -5867,7 +5867,7 @@ public class FlatAmountAdjustment
 
 public class AdjustmentFixedAmount
 {
-    public CurrencyValue CurrencyValue = new();
+    public CurrencyValue CurrencyValue { get; } = new();
     public string Value = string.Empty;
 
     public AdjustmentFixedAmount() { }
@@ -5889,8 +5889,8 @@ public class AdjustmentFixedAmount
 
 public class PriceAdjustment
 {
-    public AdjustmentPercentage? AdjustmentPercentage = null;
-    public AdjustmentValue? AdjustmentValue = null;
+    public AdjustmentPercentage? AdjustmentPercentage { get; set; } = null;
+    public AdjustmentValue? AdjustmentValue { get; set; } = null;
     public string Value = string.Empty;
 
     public PriceAdjustment() { }
@@ -5914,7 +5914,7 @@ public class PriceAdjustment
 
 public class AdjustmentValue : MeasurementBase
 {
-    public CurrencyValue CurrencyValue = new();
+    public CurrencyValue CurrencyValue { get; } = new();
 
     public AdjustmentValue() { }
 
@@ -5956,7 +5956,7 @@ public class MonetaryAdjustmentStartQuantity : MeasurementBase
 
 public class MonetaryAdjustmentStartAmount
 {
-    public CurrencyValue CurrencyValue = new();
+    public CurrencyValue CurrencyValue { get; } = new();
     public string Value = string.Empty;
 
     public MonetaryAdjustmentStartAmount() { }
@@ -5981,11 +5981,11 @@ public class MonetaryAdjustmentStartAmount
 public class ExchangeRate
 {
     public ExchangeRateType ExchangeRateType = ExchangeRateType.Fixed;
-    public CurrencyFromType? CurrencyFromType = null;
-    public CurrencyValue? CurrencyValue = null;
-    public MinCurrencyValue MinCurrencyValue = new();
-    public MaxCurrencyValue MaxCurrencyValue = new();
-    public Date? Date = null;
+    public CurrencyFromType? CurrencyFromType { get; set; } = null;
+    public CurrencyValue? CurrencyValue { get; set; } = null;
+    public MinCurrencyValue MinCurrencyValue { get; } = new();
+    public MaxCurrencyValue MaxCurrencyValue { get; } = new();
+    public Date? Date { get; set; } = null;
 
     public ExchangeRate() { }
 
@@ -6031,7 +6031,7 @@ public class MinCurrencyValue : CurrencyValueBase
 
 public abstract class CurrencyValueBase
 {
-    public CurrencyType? CurrencyType = null;
+    public CurrencyType? CurrencyType { get; set; } = null;
     public string Value = string.Empty;
 
     public abstract string LocalName { get; }
@@ -6056,7 +6056,7 @@ public abstract class CurrencyValueBase
 public class InformationalPricePerUnit : MeasurementBase
 {
     public InformationalPricePerUnitType InformationalPricePerUnitType = InformationalPricePerUnitType.ProductPrice;
-    public CurrencyValue CurrencyValue = new();
+    public CurrencyValue CurrencyValue { get; } = new();
 
     public InformationalPricePerUnit() { }
 
@@ -6081,7 +6081,7 @@ public class InformationalPricePerUnit : MeasurementBase
 
 public class PricePerUnit : MeasurementBase
 {
-    public CurrencyValue CurrencyValue = new();
+    public CurrencyValue CurrencyValue { get; } = new();
 
     public PricePerUnit() { }
 
@@ -6149,13 +6149,13 @@ public class InformationalQuantity : Quantity
 public class Quantity
 {
     public QuantityType QuantityType = QuantityType.ActualVolume;
-    public QuantityTypeContext? QuantityTypeContext = null;
-    public AdjustmentType_Tare? AdjustmentType = null;
-    public MeasuringAgency? MeasuringAgency = null;
-    public string? MeasuringMethod = null;
-    public Value Value = new();
-    public RangeMin? RangeMin = null;
-    public RangeMax? RangeMax = null;
+    public QuantityTypeContext? QuantityTypeContext { get; set; } = null;
+    public AdjustmentType_Tare? AdjustmentType { get; set; } = null;
+    public MeasuringAgency? MeasuringAgency { get; set; } = null;
+    public string? MeasuringMethod { get; set; } = null;
+    public Value Value { get; } = new();
+    public RangeMin? RangeMin { get; set; } = null;
+    public RangeMax? RangeMax { get; set; } = null;
 
     public Quantity() { }
 
@@ -6240,11 +6240,11 @@ public abstract class ValueBase
 public class DeliveryDateWindow
 {
     public DeliveryDateType DeliveryDateType = DeliveryDateType.ActualArrivalDate;
-    public DateTimeRange? DateTimeRange = null;
-    public string? Month = null;
-    public string? Week = null;
-    public Date Date = new();
-    public Time? Time = null;
+    public DateTimeRange? DateTimeRange { get; set; } = null;
+    public string? Month { get; set; } = null;
+    public string? Week { get; set; } = null;
+    public Date Date { get; } = new();
+    public Time? Time { get; set; } = null;
 
     public DeliveryDateWindow() { }
 
@@ -6273,8 +6273,8 @@ public class DeliveryDateWindow
 
 public class DateTimeRange
 {
-    public DateTimeFrom DateTimeFrom = new();
-    public DateTimeTo DateTimeTo = new();
+    public DateTimeFrom DateTimeFrom { get; } = new();
+    public DateTimeTo DateTimeTo { get; } = new();
 
     public DateTimeRange() { }
 
@@ -6295,8 +6295,8 @@ public class DateTimeRange
 
 public class DateTimeTo
 {
-    public Date Date = new();
-    public Time? Time = null;
+    public Date Date { get; } = new();
+    public Time? Time { get; set; } = null;
 
     public DateTimeTo() { }
 
@@ -6317,8 +6317,8 @@ public class DateTimeTo
 
 public class DateTimeFrom
 {
-    public Date Date = new();
-    public Time? Time = null;
+    public Date Date { get; } = new();
+    public Time? Time { get; set; } = null;
 
     public DateTimeFrom() { }
 
@@ -6339,8 +6339,8 @@ public class DateTimeFrom
 
 public class DeliveryStatus
 {
-    public DeliveryStatusType? DeliveryStatusType = null;
-    public DeliveryLastDateOfChange? DeliveryLastDateOfChange = null;
+    public DeliveryStatusType? DeliveryStatusType { get; set; } = null;
+    public DeliveryLastDateOfChange? DeliveryLastDateOfChange { get; set; } = null;
 
     public DeliveryStatus() { }
 
@@ -6361,8 +6361,8 @@ public class DeliveryStatus
 
 public class DeliveryLastDateOfChange
 {
-    public Date Date = new();
-    public Time? Time = null;
+    public Date Date { get; } = new();
+    public Time? Time { get; set; } = null;
 
     public DeliveryLastDateOfChange() { }
 
@@ -6384,7 +6384,7 @@ public class DeliveryLastDateOfChange
 public class ProductionStatus
 {
     public ProductionStatusType ProductionStatusType = ProductionStatusType.Free;
-    public ProductionLastDateOfChange? ProductionLastDateOfChange = null;
+    public ProductionLastDateOfChange? ProductionLastDateOfChange { get; set; } = null;
 
     public ProductionStatus() { }
 
@@ -6405,8 +6405,8 @@ public class ProductionStatus
 
 public class ProductionLastDateOfChange
 {
-    public Date Date = new();
-    public Time? Time = null;
+    public Date Date { get; } = new();
+    public Time? Time { get; set; } = null;
 
     public ProductionLastDateOfChange() { }
 
@@ -6427,10 +6427,10 @@ public class ProductionLastDateOfChange
 
 public class ShipToCharacteristics
 {
-    public ShipToParty ShipToParty = new();
-    public LocationCode? LocationCode = null;
-    public TermsOfDelivery? TermsOfDelivery = null;
-    public DeliveryRouteCode? DeliveryRouteCode = null;
+    public ShipToParty ShipToParty { get; } = new();
+    public LocationCode? LocationCode { get; set; } = null;
+    public TermsOfDelivery? TermsOfDelivery { get; set; } = null;
+    public DeliveryRouteCode? DeliveryRouteCode { get; set; } = null;
 
     public ShipToCharacteristics() { }
 
@@ -6482,10 +6482,10 @@ public class DeliveryRouteCode : AgencyValueBase
 
 public class TermsOfDelivery
 {
-    public IncotermsLocation? IncotermsLocation = null;
-    public ShipmentMethodOfPayment? ShipmentMethodOfPayment = null;
-    public string? FreightPayableAt = null;
-    public string? AdditionalText = null;
+    public IncotermsLocation? IncotermsLocation { get; set; } = null;
+    public ShipmentMethodOfPayment? ShipmentMethodOfPayment { get; set; } = null;
+    public string? FreightPayableAt { get; set; } = null;
+    public string? AdditionalText { get; set; } = null;
 
     public TermsOfDelivery() { }
 
@@ -6510,8 +6510,8 @@ public class TermsOfDelivery
 
 public class ShipmentMethodOfPayment
 {
-    public LocationQualifier? LocationQualifier = null;
-    public Method? Method = null;
+    public LocationQualifier? LocationQualifier { get; set; } = null;
+    public Method? Method { get; set; } = null;
     public string Value = string.Empty;
 
     public ShipmentMethodOfPayment() { }
@@ -6536,7 +6536,7 @@ public class ShipmentMethodOfPayment
 public class IncotermsLocation
 {
     public Incoterms Incoterms = Incoterms.Other;
-    public string? IncotermsVersion = null;
+    public string? IncotermsVersion { get; set; } = null;
     public string Value = string.Empty;
 
     public IncotermsLocation() { }
@@ -6560,12 +6560,12 @@ public class IncotermsLocation
 
 public abstract class Party
 {
-    public PartyType? PartyType = null;
-    public LogisticsRole? LogisticsRole = null;
-    public List<PartyIdentifier> PartyIdentifier = [];
-    public NameAddress NameAddress = new();
-    public string? URL = null;
-    public CommonContact? CommonContact = null;
+    public PartyType? PartyType { get; set; } = null;
+    public LogisticsRole? LogisticsRole { get; set; } = null;
+    public List<PartyIdentifier> PartyIdentifier { get; } = [];
+    public NameAddress NameAddress { get; } = new();
+    public string? URL { get; set; } = null;
+    public CommonContact? CommonContact { get; set; } = null;
 
     public abstract string LocalName { get; }
 
@@ -6598,13 +6598,13 @@ public class CommonContact
 {
     public ContactType ContactType = ContactType.Other;
     public string ContactName = string.Empty;
-    public string? ContactIdentifier = null;
-    public string? Telephone = null;
-    public string? MobilePhone = null;
-    public string? Email = null;
-    public string? Fax = null;
-    public GPSCoordinates? GPSCoordinates = null;
-    public MapCoordinates? MapCoordinates = null;
+    public string? ContactIdentifier { get; set; } = null;
+    public string? Telephone { get; set; } = null;
+    public string? MobilePhone { get; set; } = null;
+    public string? Email { get; set; } = null;
+    public string? Fax { get; set; } = null;
+    public GPSCoordinates? GPSCoordinates { get; set; } = null;
+    public MapCoordinates? MapCoordinates { get; set; } = null;
 
     public CommonContact() { }
 
@@ -6642,7 +6642,7 @@ public class MapCoordinates
     public MapReferenceSystem MapReferenceSystem = MapReferenceSystem.NTF;
     public MapCoordinateType MapCoordinateType = MapCoordinateType.UTM;
     public string Coordinates = string.Empty;
-    public string? Altitude = null;
+    public string? Altitude { get; set; } = null;
 
     public MapCoordinates() { }
 
@@ -6667,22 +6667,22 @@ public class MapCoordinates
 
 public class NameAddress
 {
-    public CommunicationRole? CommunicationRole = null;
+    public CommunicationRole? CommunicationRole { get; set; } = null;
     public string Name1 = string.Empty;
-    public string? Name2 = null;
-    public string? Name3 = null;
-    public string? OrganisationUnit = null;
-    public string? Address1 = null;
-    public string? Address2 = null;
-    public string? Address3 = null;
-    public string? Address4 = null;
-    public string? City = null;
-    public string? County = null;
-    public string? StateOrProvince = null;
-    public string? PostalCode = null;
-    public Country? Country = null;
-    public GPSCoordinates? GPSCoordinates = null;
-    public MapCoordinates? MapCoordinates = null;
+    public string? Name2 { get; set; } = null;
+    public string? Name3 { get; set; } = null;
+    public string? OrganisationUnit { get; set; } = null;
+    public string? Address1 { get; set; } = null;
+    public string? Address2 { get; set; } = null;
+    public string? Address3 { get; set; } = null;
+    public string? Address4 { get; set; } = null;
+    public string? City { get; set; } = null;
+    public string? County { get; set; } = null;
+    public string? StateOrProvince { get; set; } = null;
+    public string? PostalCode { get; set; } = null;
+    public Country? Country { get; set; } = null;
+    public GPSCoordinates? GPSCoordinates { get; set; } = null;
+    public MapCoordinates? MapCoordinates { get; set; } = null;
 
     public NameAddress() { }
 
@@ -6730,7 +6730,7 @@ public class NameAddress
 
 public class Country
 {
-    public ISOCountryCode? ISOCountryCode = null;
+    public ISOCountryCode? ISOCountryCode { get; set; } = null;
     public string Value = string.Empty;
 
     public Country() { }
@@ -6752,10 +6752,10 @@ public class Country
 
 public class GPSCoordinates
 {
-    public GPSSystem? GPSSystem = null;
+    public GPSSystem? GPSSystem { get; set; } = null;
     public string Latitude = string.Empty;
     public string Longitude = string.Empty;
-    public string? Height = null;
+    public string? Height { get; set; } = null;
 
     public GPSCoordinates() { }
 
@@ -6804,10 +6804,10 @@ public class PartyIdentifier : AgencyValueBase
 public class DocumentReferenceInformation
 {
     public string DocumentReferenceID = string.Empty;
-    public string? DocumentReferenceIDLineItemNumber = null;
-    public Date? Date = null;
-    public Time? Time = null;
-    public string? NumberOfDocumentsRequired = null;
+    public string? DocumentReferenceIDLineItemNumber { get; set; } = null;
+    public Date? Date { get; set; } = null;
+    public Time? Time { get; set; } = null;
+    public string? NumberOfDocumentsRequired { get; set; } = null;
 
     public DocumentReferenceInformation() { }
 
@@ -6857,7 +6857,7 @@ public class DeliveryMessageReference : AssignedByReferenceValueBase
 
 public abstract class AgencyValueBase
 {
-    public Agency? Agency = null;
+    public Agency? Agency { get; set; } = null;
     public string Value = string.Empty;
 
     public abstract string LocalName { get; }
