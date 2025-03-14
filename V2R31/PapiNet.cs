@@ -38,6 +38,12 @@ public class DeliveryMessageWood
 public class DeliveryMessageWoodSummary
 {
     public TotalNumberOfShipments TotalNumberOfShipments = new();
+    public TotalQuantity TotalQuantity = new();
+    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
+    public ProductSummary? ProductSummary = null;
+    public LengthSpecification? LengthSpecification = null;
+    public QuantityDeviation? QuantityDeviation = null;
+    public CustomsTotals? CustomsTotals = null;
     public string Value = string.Empty;
 
     public DeliveryMessageWoodSummary(XElement root)
@@ -50,6 +56,22 @@ public class DeliveryMessageWoodSummary
             Value
         ).ToString();
     }
+}
+
+public class CustomsTotals
+{
+    public CustomsTariffCode CustomsTariffCode = new();
+}
+
+public class CustomsTariffCode
+{
+    public string Value = string.Empty;
+
+    public CustomsTariffCode() { }
+
+    public CustomsTariffCode(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("CustomsTariffCode", Value).ToString();
 }
 
 public class TotalNumberOfShipments
