@@ -37,6 +37,7 @@ public class DeliveryMessageWood
 
 public class DeliveryMessageWoodSummary
 {
+    public TotalNumberOfShipments TotalNumberOfShipments = new();
     public string Value = string.Empty;
 
     public DeliveryMessageWoodSummary(XElement root)
@@ -49,6 +50,17 @@ public class DeliveryMessageWoodSummary
             Value
         ).ToString();
     }
+}
+
+public class TotalNumberOfShipments
+{
+    public string Value = string.Empty;
+
+    public TotalNumberOfShipments() { }
+
+    public TotalNumberOfShipments(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("TotalNumberOfShipments", Value).ToString();
 }
 
 public class DeliveryMessageDate
