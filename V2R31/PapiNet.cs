@@ -136,10 +136,22 @@ public class DeliveryMessageShipment
 
 public class DeliveryMessageProductGroup
 {
-    public string? ProductGroupID = null;
+    public ProductGroupID? ProductGroupID = null;
     public List<DeliveryShipmentLineItem> DeliveryShipmentLineItem = [];
     public ProductGroupSummary? ProductGroupSummary = null;
+    public string Value = string.Empty;
 
+    public DeliveryMessageProductGroup() { }
+
+    public DeliveryMessageProductGroup(XElement root)
+    {
+
+    }
+}
+
+public class ProductGroupID
+{
+    public ProductGroupIDType? ProductGroupIDType = null;
 }
 
 public class ProductGroupSummary

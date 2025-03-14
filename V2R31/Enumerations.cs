@@ -3586,3 +3586,10 @@ public enum DateType
     [EnumMember(Value = "WarehouseDate")] WarehouseDate,
     [EnumMember(Value = "Other")] Other,
 }
+
+public enum ProductGroupIDType
+{
+    [EnumMember(Value = "BillOfLadingMark")] BillOfLadingMark,
+    [EnumMember(Value = "LotIdentifier")] LotIdentifier,
+    [EnumMember(Value = "ProductIdentifier")] ProductIdentifier,
+}
