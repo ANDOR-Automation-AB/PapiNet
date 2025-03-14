@@ -3600,3 +3600,9 @@ public enum ShipmentIDType
     [EnumMember(Value = "ContainerID")] ContainerID,
     [EnumMember(Value = "LotIdentifier")] LotIdentifier,
 }
+
+public enum CustomsReferenceNumberType
+{
+    [EnumMember(Value = "T2L")] T2L,
+    [EnumMember(Value = "SimplifiedCustomsClearanceLicenseNumber")] SimplifiedCustomsClearanceLicenseNumber,
+}

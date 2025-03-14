@@ -64,7 +64,12 @@ public class CustomsStampInformation
     public CustomsStampHeaderText? CustomsStampHeaderText = null;
     public CustomsParty? CustomsParty = null;
     public CustomsStampDate? CustomsStampDate = null;
+    public CustomsReferenceNumber? CustomsReferenceNumber = null;
+}
 
+public class CustomsReferenceNumber
+{
+    public CustomsReferenceNumberType CustomsReferenceNumberType;
 }
 
 public class CustomsStampDate : DateTimeBase
