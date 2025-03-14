@@ -61,6 +61,29 @@ public class DeliveryMessageWoodSummary
 public class CustomsTotals
 {
     public CustomsTariffCode CustomsTariffCode = new();
+    public TotalQuantity TotalQuantity = new();
+    public List<InformationalQuantity> InformationalQuantity = [];
+    public string Value = string.Empty;
+
+    public CustomsTotals() { }
+
+    public CustomsTotals(XElement root)
+    {
+        CustomsTariffCode = root.Element("CustomsTariffCode") is { } ctc ? new(ctc) : CustomsTariffCode;
+        TotalQuantity = root.Element("TotalQuantity") is { } tq ? new(tq) : TotalQuantity;
+        InformationalQuantity = [.. root.Elements("InformationalQuantity").Select(e => new InformationalQuantity(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("CustomsTotals",
+            XElement.Parse($"{CustomsTariffCode}"),
+            XElement.Parse($"{TotalQuantity}"),
+            InformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class CustomsTariffCode
