@@ -48,13 +48,34 @@ public class DeliveryMessageWoodSummary
     public List<TermsAndDisclaimers> TermsAndDisclaimers = [];
     public string Value = string.Empty;
 
+    public DeliveryMessageWoodSummary() { }
+
     public DeliveryMessageWoodSummary(XElement root)
     {
+        TotalNumberOfShipments = root.Element("TotalNumberOfShipments") is { } tnos ? new(tnos) : TotalNumberOfShipments;
+        TotalQuantity = root.Element("TotalQuantity") is { } tq ? new(tq) : TotalQuantity;
+        TotalInformationalQuantity = [.. root.Elements("TotalInformationalQuantity").Select(e => new TotalInformationalQuantity(e))];
+        ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
+        LengthSpecification = root.Element("LengthSpecification") is { } ls ? new(ls) : LengthSpecification;
+        QuantityDeviation = root.Element("QuantityDeviation") is { } qd ? new(qd) : QuantityDeviation;
+        CustomsTotals = root.Element("CustomsTotals") is { } ct ? new(ct) : CustomsTotals;
+        CustomsStampInformation = [.. root.Elements("CustomsStampInformation").Select(e => new CustomsStampInformation(e))];
+        TermsAndDisclaimers = [.. root.Elements("TermsAndDisclaimers").Select(e => new TermsAndDisclaimers(e))];
+        Value = root.Value;
     }
 
     public override string ToString()
     {
         return new XElement("DeliveryMessageWoodSummary",
+            XElement.Parse($"{TotalNumberOfShipments}"),
+            XElement.Parse($"{TotalQuantity}"),
+            TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
+            ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
+            LengthSpecification != null ? XElement.Parse($"{LengthSpecification}") : null,
+            QuantityDeviation != null ? XElement.Parse($"{QuantityDeviation}") : null,
+            CustomsTotals != null ? XElement.Parse($"{CustomsTotals}") : null,
+            CustomsStampInformation.Select(obj => XElement.Parse($"{obj}")),
+            TermsAndDisclaimers.Select(obj => XElement.Parse($"{obj}")),
             Value
         ).ToString();
     }
