@@ -62,7 +62,16 @@ public class DeliveryMessageWoodSummary
 public class CustomsStampInformation
 {
     public CustomsStampHeaderText? CustomsStampHeaderText = null;
+    public CustomsParty? CustomsParty = null;
+}
 
+public class CustomsParty : Party
+{
+    public CustomsParty() : base() { }
+
+    public CustomsParty(XElement root) : base(root) { }
+
+    public new static string LocalName => "CustomsParty";
 }
 
 public class CustomsStampHeaderText
