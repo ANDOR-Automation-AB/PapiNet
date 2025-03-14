@@ -138,6 +138,39 @@ public class DeliveryMessageProductGroup
 {
     public string? ProductGroupID = null;
     public List<DeliveryShipmentLineItem> DeliveryShipmentLineItem = [];
+    public ProductGroupSummary? ProductGroupSummary = null;
+
+}
+
+public class ProductGroupSummary
+{
+    public TotalQuantity? TotalQuantity = null;
+    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
+    public ProductSummary? ProductSummary = null;
+    public List<LengthSpecification> LengthSpecification = [];
+    public string Value = string.Empty;
+
+    public ProductGroupSummary() { }
+
+    public ProductGroupSummary(XElement root)
+    {
+        TotalQuantity = root.Element("TotalQuantity") is { } tq ? new(tq) : TotalQuantity;
+        TotalInformationalQuantity = [.. root.Elements("TotalInformationalQuantity").Select(e => new TotalInformationalQuantity(e))];
+        ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
+        LengthSpecification = [.. root.Elements("LengthSpecification").Select(e => new LengthSpecification(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ProductGroupSummary",
+            TotalQuantity != null ? XElement.Parse($"{TotalQuantity}") : null,
+            TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
+            ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
+            LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
+            Value
+        ).ToString();
+    }
 }
 
 public class DeliveryShipmentLineItem
