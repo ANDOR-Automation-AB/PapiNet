@@ -61,12 +61,26 @@ public class DeliveryMessageWoodSummary
 
 public class CustomsStampInformation
 {
-    public CustomsStampHeaderText? CustomsStampHeaderText = null;
+    public List<CustomsStampHeaderText> CustomsStampHeaderText = [];
     public CustomsParty? CustomsParty = null;
     public CustomsStampDate? CustomsStampDate = null;
     public CustomsReferenceNumber? CustomsReferenceNumber = null;
     public SupplierCustomsReference? SupplierCustomsReference = null;
     public MillParty? MillParty = null;
+    public CustomsStampTrailerText? CustomsStampTrailerText = null;
+
+
+}
+
+public class CustomsStampTrailerText
+{
+    public string Value = string.Empty;
+
+    public CustomsStampTrailerText() { }
+
+    public CustomsStampTrailerText(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("CustomsStampTrailerText", Value).ToString();
 }
 
 public class MillParty : Party
