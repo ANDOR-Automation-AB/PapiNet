@@ -13,7 +13,8 @@ public class DeliveryMessageWood
     public DeliveryMessageWoodHeader DeliveryMessageWoodHeader { get; } = new();
     public List<DeliveryMessageShipment> DeliveryMessageShipment { get; } = [];
     public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
+    
 
     public DeliveryMessageWood() { }
 
@@ -39,8 +40,7 @@ public class DeliveryMessageWood
             Reissued != null ? new XAttribute("Reissued", Reissued) : null,
             XElement.Parse($"{DeliveryMessageWoodHeader}"),
             DeliveryMessageShipment.Select(obj => XElement.Parse($"{obj}")),
-            DeliveryMessageWoodSummary != null ? XElement.Parse($"{DeliveryMessageWoodSummary}") : null,
-            Value
+            DeliveryMessageWoodSummary != null ? XElement.Parse($"{DeliveryMessageWoodSummary}") : null
         ).ToString();
     }
 }
@@ -56,7 +56,8 @@ public class DeliveryMessageWoodSummary
     public CustomsTotals? CustomsTotals { get; set; } = null;
     public List<CustomsStampInformation> CustomsStampInformation { get; } = [];
     public List<TermsAndDisclaimers> TermsAndDisclaimers { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
+    
 
     public DeliveryMessageWoodSummary() { }
 
@@ -85,8 +86,7 @@ public class DeliveryMessageWoodSummary
             QuantityDeviation != null ? XElement.Parse($"{QuantityDeviation}") : null,
             CustomsTotals != null ? XElement.Parse($"{CustomsTotals}") : null,
             CustomsStampInformation.Select(obj => XElement.Parse($"{obj}")),
-            TermsAndDisclaimers.Select(obj => XElement.Parse($"{obj}")),
-            Value
+            TermsAndDisclaimers.Select(obj => XElement.Parse($"{obj}"))
         ).ToString();
     }
 }
@@ -94,7 +94,8 @@ public class DeliveryMessageWoodSummary
 public class TermsAndDisclaimers
 {
     public Language? Language { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
+    
 
     public TermsAndDisclaimers() { }
 
@@ -122,7 +123,8 @@ public class CustomsStampInformation
     public SupplierCustomsReference? SupplierCustomsReference { get; set; } = null;
     public MillParty? MillParty { get; set; } = null;
     public CustomsStampTrailerText? CustomsStampTrailerText { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
+    
 
     public CustomsStampInformation() { }
 
@@ -155,7 +157,7 @@ public class CustomsStampInformation
 
 public class CustomsStampTrailerText
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public CustomsStampTrailerText() { }
 
@@ -177,7 +179,8 @@ public class SupplierCustomsReference
 {
     public ReferenceType SupplierCustomsReferenceType = ReferenceType.Other;
     public AssignedBy AssignedBy = AssignedBy.Other;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
+    
 
     public SupplierCustomsReference() { }
 
@@ -201,7 +204,8 @@ public class SupplierCustomsReference
 public class CustomsReferenceNumber
 {
     public CustomsReferenceNumberType CustomsReferenceNumberType;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
+    
 
     public CustomsReferenceNumber() { }
 
@@ -254,7 +258,8 @@ public class CustomsTotals
     public CustomsTariffCode CustomsTariffCode { get; } = new();
     public TotalQuantity TotalQuantity { get; } = new();
     public List<InformationalQuantity> InformationalQuantity { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty; 
+    
 
     public CustomsTotals() { }
 
@@ -279,7 +284,7 @@ public class CustomsTotals
 
 public class CustomsTariffCode
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty; 
 
     public CustomsTariffCode() { }
 
@@ -355,12 +360,7 @@ public class Time
 
     public Time(XElement root) { Value = root.Value; }
 
-    public override string ToString()
-    {
-        return new XElement("Time",
-            Value
-        ).ToString();
-    }
+    public override string ToString() => new XElement("Time", Value).ToString();
 }
 
 public class DeliveryMessageShipment
@@ -368,7 +368,8 @@ public class DeliveryMessageShipment
     public ShipmentID? ShipmentID { get; set; } = null;
     public List<DeliveryMessageProductGroup> DeliveryMessageProductGroup { get; } = [];
     public ShipmentSummary? ShipmentSummary { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
+    
 
     public DeliveryMessageShipment() { }
 
@@ -385,8 +386,7 @@ public class DeliveryMessageShipment
         return new XElement("DeliveryMessageShipment",
             ShipmentID != null ? XElement.Parse($"{ShipmentID}") : null,
             DeliveryMessageProductGroup.Select(obj => XElement.Parse($"{obj}")),
-            ShipmentSummary != null ? XElement.Parse($"{ShipmentSummary}") : null,
-            Value
+            ShipmentSummary != null ? XElement.Parse($"{ShipmentSummary}") : null
         ).ToString();
     }
 }
@@ -419,7 +419,7 @@ public class ShipmentSummary
     public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
     public ProductSummary? ProductSummary { get; set; } = null;
     public List<LengthSpecification> LengthSpecification { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ShipmentSummary() { }
 
@@ -438,8 +438,7 @@ public class ShipmentSummary
             TotalQuantity != null ? XElement.Parse($"{TotalQuantity}") : null,
             TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
             ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
-            LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
-            Value
+            LengthSpecification.Select(obj => XElement.Parse($"{obj}"))
         ).ToString();
     }
 }
@@ -449,7 +448,7 @@ public class DeliveryMessageProductGroup
     public ProductGroupID? ProductGroupID { get; set; } = null;
     public List<DeliveryShipmentLineItem> DeliveryShipmentLineItem { get; } = [];
     public ProductGroupSummary? ProductGroupSummary { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public DeliveryMessageProductGroup() { }
 
@@ -466,8 +465,7 @@ public class DeliveryMessageProductGroup
         return new XElement("DeliveryMessageProductGroup",
             ProductGroupID != null ? XElement.Parse($"{ProductGroupID}") : null,
             DeliveryShipmentLineItem.Select(obj => XElement.Parse($"{obj}")),
-            ProductGroupSummary != null ? XElement.Parse($"{ProductGroupSummary}") : null,
-            Value
+            ProductGroupSummary != null ? XElement.Parse($"{ProductGroupSummary}") : null
         ).ToString();
     }
 }
@@ -475,7 +473,7 @@ public class DeliveryMessageProductGroup
 public class ProductGroupID
 {
     public ProductGroupIDType? ProductGroupIDType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ProductGroupID() { }
 
@@ -500,7 +498,7 @@ public class ProductGroupSummary
     public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
     public ProductSummary? ProductSummary { get; set; } = null;
     public List<LengthSpecification> LengthSpecification { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ProductGroupSummary() { }
 
@@ -519,8 +517,7 @@ public class ProductGroupSummary
             TotalQuantity != null ? XElement.Parse($"{TotalQuantity}") : null,
             TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
             ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
-            LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
-            Value
+            LengthSpecification.Select(obj => XElement.Parse($"{obj}"))
         ).ToString();
     }
 }
@@ -550,7 +547,8 @@ public class DeliveryShipmentLineItem
     public ProductSummary? ProductSummary { get; set; } = null;
     public List<LengthSpecification> LengthSpecification { get; } = [];
     public QuantityDeviation? QuantityDeviation { get; set; } = null;
-    public string Value = string.Empty;
+    
+    public string Value = string.Empty;  
 
     public DeliveryShipmentLineItem() { }
 
@@ -607,15 +605,14 @@ public class DeliveryShipmentLineItem
             TransportPackageInformation != null ? XElement.Parse($"{TransportPackageInformation}") : null,
             ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
             LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
-            QuantityDeviation != null ? XElement.Parse($"{QuantityDeviation}") : null,
-            Value
+            QuantityDeviation != null ? XElement.Parse($"{QuantityDeviation}") : null
         ).ToString();
     }
 }
 
 public class PurchaseOrderLineItemNumber
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PurchaseOrderLineItemNumber() { }
 
@@ -626,7 +623,7 @@ public class PurchaseOrderLineItemNumber
 
 public class DeliveryShipmentLineItemNumber
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public DeliveryShipmentLineItemNumber() { }
 
@@ -668,7 +665,7 @@ public class TransportPackageInformation
     public UnitItem? UnitItem { get; set; } = null;
     public WoodItem? WoodItem { get; set; } = null;
     public List<OtherDate> OtherDate { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportPackageInformation() { }
 
@@ -722,8 +719,7 @@ public class TransportPackageInformation
             SheetItem != null ? XElement.Parse($"{SheetItem}") : null,
             UnitItem != null ? XElement.Parse($"{UnitItem}") : null,
             WoodItem != null ? XElement.Parse($"{WoodItem}") : null,
-            OtherDate.Select(obj => XElement.Parse($"{obj}")),
-            Value
+            OtherDate.Select(obj => XElement.Parse($"{obj}"))
         ).ToString();
     }
 }
@@ -754,7 +750,7 @@ public class PackageInformation
     public e_Attachment? e_Attachment { get; set; } = null;
     public List<AdditionalText> AdditionalText { get; } = [];
     public PackageReference? PackageReference { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PackageInformation() { }
 
@@ -820,7 +816,7 @@ public class PackageInformation
 
 public class PackageLevel
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PackageLevel() { }
 
@@ -833,7 +829,7 @@ public class PackageReference
 {
     public ReferenceType PackageReferenceType = ReferenceType.Other;
     public AssignedBy AssignedBy = AssignedBy.Other;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PackageReference() { }
 
@@ -856,7 +852,7 @@ public class PackageReference
 
 public class AdditionalText
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public AdditionalText() { }
 
@@ -872,7 +868,7 @@ public class OtherDate
     public Time? Time { get; set; } = null;
     public Week? Week { get; set; } = null;
     public DateTimeRange? DateTimeRange { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public OtherDate() { }
 
@@ -901,7 +897,7 @@ public class OtherDate
 
 public class Week
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Week() { }
 
@@ -916,7 +912,7 @@ public class WoodItem
     public PackagingInformation? PackagingInformation { get; set; } = null;
     public ProductSummary? ProductSummary { get; set; } = null;
     public List<LengthSpecification> LengthSpecification { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public WoodItem() { }
 
@@ -935,8 +931,7 @@ public class WoodItem
             Product != null ? XElement.Parse($"{Product}") : null,
             PackagingInformation != null ? XElement.Parse($"{PackagingInformation}") : null,
             ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
-            LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
-            Value
+            LengthSpecification.Select(obj => XElement.Parse($"{obj}"))
         ).ToString();
     }
 }
@@ -945,7 +940,7 @@ public class LengthSpecification
 {
     public LengthCategory? LengthCategory { get; set; } = null;
     public TotalNumberOfUnits? TotalNumberOfUnits { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public LengthSpecification() { }
 
@@ -960,8 +955,7 @@ public class LengthSpecification
     {
         return new XElement("LengthSpecification",
             LengthCategory != null ? XElement.Parse($"{LengthCategory}") : null,
-            TotalNumberOfUnits != null ? XElement.Parse($"{TotalNumberOfUnits}") : null,
-            Value
+            TotalNumberOfUnits != null ? XElement.Parse($"{TotalNumberOfUnits}") : null
         ).ToString();
     }
 }
@@ -979,7 +973,7 @@ public class ProductSummary
 {
     public TotalQuantity? TotalQuantity { get; set; } = null;
     public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ProductSummary() { }
 
@@ -994,8 +988,7 @@ public class ProductSummary
     {
         return new XElement("ProductSummary",
             TotalQuantity != null ? XElement.Parse($"{TotalQuantity}") : null,
-            TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
-            Value
+            TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}"))
         ).ToString();
     }
 }
@@ -1031,7 +1024,7 @@ public class PackagingInformation
     public List<Wrap> Wrap { get; } = [];
     public List<string> AdditionalText { get; } = [];
     public PackageType? PackageType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PackagingInformation() { }
 
@@ -1118,7 +1111,7 @@ public class PackageCharacteristics
     public Width? Width { get; set; } = null;
     public Length? Length { get; set; } = null;
     public LengthCutDescription? LengthCutDescription { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PackageCharacteristics() { }
 
@@ -1150,7 +1143,7 @@ public class InventoryClass
     public InventoryClassCode InventoryClassCode { get; } = new();
     public List<InventoryClassDescription> InventoryClassDescription { get; } = [];
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public InventoryClass() { }
 
@@ -1179,7 +1172,7 @@ public class InventoryClass
 
 public class InventoryClassDescription
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public InventoryClassDescription() { }
 
@@ -1192,7 +1185,7 @@ public class InventoryClassCode
 {
     public Agency Agency = Agency.Other;
     public string InventoryClassLevel = "1";
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public InventoryClassCode() { }
 
@@ -1224,7 +1217,7 @@ public class ItemCount : MeasurementBase
 
 public class MachineID
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public MachineID() { }
 
@@ -1238,7 +1231,7 @@ public class RawMaterialSet
     public IdentifierCodeType IdentifierCodeType;
     public IdentifierType IdentifierType;
     public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public RawMaterialSet() { }
 
@@ -1263,7 +1256,7 @@ public class RawMaterialSet
 
 public class SupplierMarks
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SupplierMarks() { }
 
@@ -1285,7 +1278,7 @@ public class Identifier
     public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
     public IdentifierType IdentifierType = IdentifierType.Primary;
     public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Identifier() { }
 
@@ -1320,7 +1313,7 @@ public class Product
     public RecoveredPaper? RecoveredPaper { get; set; } = null;
     public VirginFibre? VirginFibre { get; set; } = null;
     public WoodProducts? WoodProducts { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Product() { }
 
@@ -1351,8 +1344,7 @@ public class Product
             Pulp != null ? XElement.Parse($"{Pulp}") : null,
             RecoveredPaper != null ? XElement.Parse($"{RecoveredPaper}") : null,
             VirginFibre != null ? XElement.Parse($"{VirginFibre}") : null,
-            WoodProducts != null ? XElement.Parse($"{WoodProducts}") : null,
-            Value
+            WoodProducts != null ? XElement.Parse($"{WoodProducts}") : null
         ).ToString();
     }
 }
@@ -1396,7 +1388,7 @@ public class WoodProducts
     public List<ProofInformationalQuantity> ProofInformationalQuantity { get; } = [];
     public List<SuppliedComponentInformation> SuppliedComponentInformation { get; } = [];
     public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public WoodProducts() { }
 
@@ -1425,8 +1417,7 @@ public class WoodProducts
             Gypsum != null ? XElement.Parse($"{Gypsum}") : null,
             ProofInformationalQuantity.Select(piq => XElement.Parse($"{piq}")),
             SuppliedComponentInformation.Select(sci => XElement.Parse($"{sci}")),
-            SafetyAndEnvironmentalInformation.Select(saei => XElement.Parse($"{saei}")),
-            Value
+            SafetyAndEnvironmentalInformation.Select(saei => XElement.Parse($"{saei}"))
         ).ToString();
     }
 }
@@ -1492,7 +1483,7 @@ public class SoftwoodPlywood
     public List<LabelCharacteristics> LabelCharacteristics { get; } = [];
     public List<StencilCharacteristics> StencilCharacteristics { get; } = [];
     public List<SafetyAndEnvironmentalInformation> SafetyAndEnvironmentalInformation { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SoftwoodPlywood() { }
 
@@ -1553,7 +1544,7 @@ public class Supplemental
 {
     public SupplementalSpecification? SupplementalSpecification { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Supplemental() { }
 
@@ -1580,7 +1571,7 @@ public class Edge
     public EdgeLocation? EdgeLocation { get; set; } = null;
     public string? EdgeMachiningProfile { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Edge() { }
 
@@ -1609,7 +1600,7 @@ public class Overlay
 {
     public OverlaySide? OverlaySide { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Overlay() { }
 
@@ -1634,7 +1625,7 @@ public class Surface
 {
     public SurfaceType? SurfaceType { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Surface() { }
 
@@ -1660,7 +1651,7 @@ public class PlywoodOSBGrade
     public Face? Face { get; set; } = null;
     public SpanRating? SpanRating { get; set; } = null;
     public StrengthGroup? StrengthGroup { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PlywoodOSBGrade() { }
 
@@ -1688,7 +1679,7 @@ public class RoofingSidingDeckingFencing
     public NaturalWoodSiding? NaturalWoodSiding { get; set; } = null;
     public NaturalWoodSidingOther? NaturalWoodSidingOther { get; set; } = null;
     public DeckAndPorchFlooringMaterialsNaturalWood? DeckAndPorchFlooringMaterialsNaturalWood { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public RoofingSidingDeckingFencing() { }
 
@@ -1715,7 +1706,7 @@ public class DeckAndPorchFlooringMaterialsNaturalWood
 {
     public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics { get; } = new();
     public Packaging? Packaging { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public string LocalName => "DeckAndPorchFlooringMaterials-NaturalWood";
 
@@ -1751,7 +1742,7 @@ public class NaturalWoodSidingOther
 {
     public NaturalWoodSidingOtherCharacteristics NaturalWoodSidingOtherCharacteristics { get; } = new();
     public Packaging? Packaging { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public string LocalName => "NaturalWoodSiding-Other";
 
@@ -1787,7 +1778,7 @@ public class NaturalWoodSiding
 {
     public NaturalWoodSidingCharacteristics NaturalWoodSidingCharacteristics { get; } = new();
     public Packaging? Packaging { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public NaturalWoodSiding() { }
 
@@ -1836,7 +1827,7 @@ public abstract class SoftwoodLumberCharacteristicsBase
     public List<string> AdditionalText { get; } = [];
     public LengthCutDescription? LengthCutDescription { get; set; } = null;
     public string? ShippingMark { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
     
     public abstract string LocalName { get; }
 
@@ -1901,8 +1892,7 @@ public abstract class SoftwoodLumberCharacteristicsBase
             SafetyAndEnvironmentalInformation.Select(saei => XElement.Parse($"{saei}")),
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             LengthCutDescription != null ? XElement.Parse($"{LengthCutDescription}") : null,
-            ShippingMark != null ? new XElement("ShippingMark", ShippingMark) : null,
-            Value
+            ShippingMark != null ? new XElement("ShippingMark", ShippingMark) : null
         ).ToString();
     }
 }
@@ -1920,7 +1910,7 @@ public class WoodTimbersDimensionalLumberBoards
 {
     public SoftwoodLumber? SoftwoodLumber { get; set; } = null;
     public HardwoodLumber? HardwoodLumber { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public WoodTimbersDimensionalLumberBoards() { }
 
@@ -1935,8 +1925,7 @@ public class WoodTimbersDimensionalLumberBoards
     {
         return new XElement("WoodTimbersDimensionalLumberBoards",
             SoftwoodLumber != null ? XElement.Parse($"{SoftwoodLumber}") : null,
-            HardwoodLumber != null ? XElement.Parse($"{HardwoodLumber}") : null,
-            Value
+            HardwoodLumber != null ? XElement.Parse($"{HardwoodLumber}") : null
         ).ToString();
     }
 }
@@ -1945,7 +1934,7 @@ public class HardwoodLumber
 {
     public HardwoodLumberCharacteristics HardwoodLumberCharacteristics { get; } = new();
     public Packaging? Packaging { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public HardwoodLumber() { }
 
@@ -1969,7 +1958,7 @@ public class HardwoodLumber
 public class HardwoodLumberCharacteristics
 {
     public List<AnyType> AnyType { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public HardwoodLumberCharacteristics() { }
 
@@ -1991,7 +1980,7 @@ public class HardwoodLumberCharacteristics
 public class AnyType
 {
     public string LocalName = string.Empty;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public AnyType() { }
 
@@ -2013,7 +2002,7 @@ public class SoftwoodLumber
 {
     public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics { get; } = new();
     public Packaging? Packaging { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SoftwoodLumber() { }
 
@@ -2028,8 +2017,7 @@ public class SoftwoodLumber
     {
         return new XElement("SoftwoodLumber",
             XElement.Parse($"{SoftwoodLumberCharacteristics}"),
-            Packaging != null ? XElement.Parse($"{Packaging}") : null,
-            Value
+            Packaging != null ? XElement.Parse($"{Packaging}") : null
         ).ToString();
     }
 }
@@ -2037,7 +2025,7 @@ public class SoftwoodLumber
 public class Packaging
 {
     public ProductPackaging ProductPackaging { get; } = new();
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Packaging() { }
 
@@ -2069,7 +2057,7 @@ public class ProductPackaging
     public List<Wrap> Wrap { get; } = [];
     public List<string> AdditionalText { get; } = [];
     public PackageType? PackageType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ProductPackaging() { }
 
@@ -2126,7 +2114,7 @@ public class PalletCharacteristics
     public MaximumHeight? MaximumHeight { get; set; } = null;
     public string? StackingMethod { get; set; } = null;
     public LabelCharacteristics? LabelCharacteristics { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PalletCharacteristics() { }
 
@@ -2206,7 +2194,7 @@ public class ProductIdentification
 {
     public ProductIdentifier ProductIdentifier { get; } = new();
     public List<string> ProductDescription { get; } = [];
-    public string Value = string.Empty; 
+    public string Value = string.Empty;   
 
     public ProductIdentification() { }
 
@@ -2233,7 +2221,7 @@ public class BandCharacteristics
     public YesNo? BandsRequired { get; set; } = null;
     public string? NumberOfBands { get; set; } = null;
     public string? BandColour { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public BandCharacteristics() { }
 
@@ -2263,7 +2251,7 @@ public class PackageIDInformation
     public PackageAgency? PackageAgency { get; set; } = null;
     public string? PackageCode { get; set; } = null;
     public string? PackageName { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PackageIDInformation() { }
 
@@ -2293,7 +2281,7 @@ public class UnitDimension
     public Height? Height { get; set; } = null;
     public string? PiecesPerRow { get; set; } = null;
     public string? RowsPerUnit { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public UnitDimension() { }
 
@@ -2357,7 +2345,7 @@ public class SoftwoodLumberCharacteristics
     public List<string> AdditionalText { get; } = [];
     public LengthCutDescription? LengthCutDescription { get; set; } = null;
     public string? ShippingMark { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SoftwoodLumberCharacteristics() { }
 
@@ -2420,8 +2408,7 @@ public class SoftwoodLumberCharacteristics
             SafetyAndEnvironmentalInformation.Select(saei => XElement.Parse($"{saei}")),
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             LengthCutDescription != null ? XElement.Parse($"{LengthCutDescription}") : null,
-            ShippingMark != null ? new XElement("ShippingMark", ShippingMark) : null,
-            Value
+            ShippingMark != null ? new XElement("ShippingMark", ShippingMark) : null
         ).ToString();
     }
 }
@@ -2429,7 +2416,7 @@ public class SoftwoodLumberCharacteristics
 public class LengthCutDescription
 {
     public LengthCutType? LengthCutType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public LengthCutDescription() { }
 
@@ -2455,7 +2442,7 @@ public class Wrap
     public WrapLocation? WrapLocation { get; set; } = null;
     public string? NumberOfWraps { get; set; } = null;
     public string? Brand { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Wrap() { }
 
@@ -2491,7 +2478,7 @@ public class StencilCharacteristics
     public StencilContent? StencilContent { get; set; } = null;
     public AssignedBy? AssignedBy { get; set; } = null;
     public List<string> StencilText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public StencilCharacteristics() { }
 
@@ -2533,7 +2520,7 @@ public class LabelCharacteristics
     public Width? Width { get; set; } = null;
     public string? ColourCode { get; set; } = null;
     public string? ColourDescription { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public LabelCharacteristics() { }
 
@@ -2582,7 +2569,7 @@ public class ClassIdentifier
     public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
     public IdentifierType IdentifierType = IdentifierType.Primary;
     public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ClassIdentifier() { }
 
@@ -2629,7 +2616,7 @@ public class GradeStamp
     public GradeStamped? GradeStamped { get; set; } = null;
     public string? GradeStampMillNumber { get; set; } = null;
     public GradeStampLocation? GradeStampLocation { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public GradeStamp() { }
 
@@ -2653,7 +2640,7 @@ public class GradeStamp
 public class OtherTreatment
 {
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public OtherTreatment() { }
 
@@ -2676,7 +2663,7 @@ public class FireTreatment
 {
     public FireTreatmentType? FireTreatmentType { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public FireTreatment() { }
 
@@ -2702,7 +2689,7 @@ public class PressureTreatment
     public PressureTreatmentCompound PressureTreatmentCompound { get; } = new();
     public PressureTreatmentConcentration PressureTreatmentConcentration { get; } = new();
     public PressureTreatmentComStdorUseCategory PressureTreatmentComStdorUseCategory;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PressureTreatment() { }
 
@@ -2728,7 +2715,7 @@ public class PressureTreatment
 public class PressureTreatmentConcentration
 {
     public UOM? UOM { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PressureTreatmentConcentration() { }
 
@@ -2753,6 +2740,7 @@ public class PressureTreatmentCompound
     public string? CompoundAgency { get; set; } = null;   
     public Value? Value { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
+    
 
     public PressureTreatmentCompound() { }
 
@@ -2779,7 +2767,7 @@ public class Joining
 {
     public JoiningType? JoiningType { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Joining() { }
 
@@ -2804,7 +2792,7 @@ public class Trim
 {
     public TrimType? TrimType { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Trim() { }
 
@@ -2831,7 +2819,7 @@ public class PatternProfile
     public PatternProfileAgency? PatternProfileAgency { get; set; } = null;
     public string? PatternProfileCode { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PatternProfile() { }
 
@@ -2888,7 +2876,7 @@ public class HeatTreatment
 {
     public HeatTreatmentType? HeatTreatmentType { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public HeatTreatment() { }
 
@@ -2913,7 +2901,7 @@ public class MoistureContent
 {
     public MoistureContentPercentage? MoistureContentPercentage { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public MoistureContent() { }
 
@@ -2938,7 +2926,7 @@ public class Seasoning
 {
     public SeasoningType? SeasoningType { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Seasoning() { }
 
@@ -2978,7 +2966,7 @@ public class LumberGrade
     public string? GradeName { get; set; } = null;
     public string? GradeCode { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public LumberGrade() { }
 
@@ -3005,8 +2993,7 @@ public class LumberGrade
             Face != null ? new XAttribute("Face", Face) : null,
             GradeName != null ? new XElement("GradeName", GradeName) : null,
             GradeCode != null ? new XElement("GradeCode", GradeCode) : null,
-            AdditionalText.Select(at => new XElement("AdditionalText", at)),
-            Value
+            AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
     }
 }
@@ -3018,7 +3005,7 @@ public class LumberSpecies
     public SpeciesAgency? SpeciesAgency { get; set; } = null;
     public string? SpeciesCode { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public LumberSpecies() { }
 
@@ -3039,8 +3026,7 @@ public class LumberSpecies
             SpeciesOrigin != null ? new XAttribute("SpeciesOrigin", SpeciesOrigin) : null,
             SpeciesAgency != null ? new XAttribute("SpeciesAgency", SpeciesAgency) : null,
             SpeciesCode != null ? new XElement("SpeciesCode", SpeciesCode) : null,
-            AdditionalText.Select(at => new XElement("AdditionalText", at)),
-            Value
+            AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
     }
 }
@@ -3072,7 +3058,7 @@ public class SuppliedComponentInformation
     public ComponentNeededDate? ComponentNeededDate { get; set; } = null;
     public OrderStatusInformation? OrderStatusInformation { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SuppliedComponentInformation() { }
 
@@ -3119,7 +3105,7 @@ public class OrderStatusInformation
 {
     public string OrderPrimaryStatus = string.Empty;
     public string? OrderSecondaryStatus { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public OrderStatusInformation() { }
 
@@ -3171,7 +3157,7 @@ public class SuppliedComponentReference
 {
     public ReferenceType? SuppliedComponentReferenceType { get; set; } = null;
     public AssignedBy? AssignedBy { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SuppliedComponentReference() { }
 
@@ -3334,7 +3320,7 @@ public abstract class DetailMeasurementBase
     public TwoSigmaLower? TwoSigmaLower { get; set; } = null;
     public TwoSigmaUpper? TwoSigmaUpper { get; set; } = null;
     public IncrementalValue? IncrementalValue { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -3406,7 +3392,7 @@ public class TwoSigmaLower : ValueBase
 
 public class SampleSize
 {
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SampleSize() { }
 
@@ -3460,7 +3446,7 @@ public class DetailValue : ValueBase
 public class ProductDescription
 {
     public Language? Language { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ProductDescription() { }
 
@@ -3483,7 +3469,7 @@ public class ProductIdentifier
 {
     public Agency Agency = Agency.Other;
     public ProductIdentifierType ProductIdentifierType = ProductIdentifierType.Other;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ProductIdentifier() { }
 
@@ -3512,7 +3498,7 @@ public class PrepInformation
     public PrepDueDate? PrepDueDate { get; set; } = null;
     public PrepNeededDate? PrepNeededDate { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PrepInformation() { }
 
@@ -3565,7 +3551,7 @@ public abstract class DateTimeBase
 {
     public Date Date { get; } = new();
     public Time? Time { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -3582,8 +3568,7 @@ public abstract class DateTimeBase
     {
         return new XElement(LocalName,
             XElement.Parse($"{Date}"),
-            Time != null ? XElement.Parse($"{Time}") : null,
-            Value
+            Time != null ? XElement.Parse($"{Time}") : null
         ).ToString();
     }
 }
@@ -3597,7 +3582,7 @@ public class ProofInformationalQuantity
     public ProofApprovalDate? ProofApprovalDate { get; set; } = null;
     public ProofDueDate? ProofDueDate { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ProofInformationalQuantity() { }
 
@@ -3647,7 +3632,7 @@ public class BookClassification
     public BookClassificationType BookClassificationType = BookClassificationType.Assembly;
     public List<string> ClassificationDescription { get; } = [];
     public List<BookSubClassification> BookSubClassification { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public BookClassification() { }
 
@@ -3674,7 +3659,7 @@ public class BookSubClassification
 {
     public BookSubClassificationType BookSubClassificationType;
     public List<string> ClassificationDescription { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public BookSubClassification() { }
 
@@ -3699,7 +3684,7 @@ public class Classification
 {
     public string ClassificationCode = string.Empty;
     public string? ClassificationDescription = string.Empty;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Classification() { }
 
@@ -3728,7 +3713,7 @@ public class SafetyAndEnvironmentalInformation
     public string? ChainOfCustody { get; set; } = null;
     public SafetyAndEnvironmentalCertification? SafetyAndEnvironmentalCertification { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public SafetyAndEnvironmentalInformation() { }
 
@@ -3778,7 +3763,7 @@ public class TransportLoadingCharacteristics
     public string? TransportLoadingCode { get; set; } = null;
     public TransportLoadingCodeDescription? TransportLoadingCodeDescription { get; set; } = null;
     public List<string> TransportLoadingText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportLoadingCharacteristics() { }
 
@@ -3819,7 +3804,7 @@ public class TransportLoadingCodeDescription
 {
     public List<string> AdditionalText { get; } = [];
     public e_Attachment? e_Attachment { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportLoadingCodeDescription() { }
 
@@ -3846,7 +3831,7 @@ public class QuantityOrderedInformation
     public List<InformationalQuantity> InformationalQuantity { get; } = [];
     public List<string> AdditionalText { get; } = [];
     public List<Length> Length { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public QuantityOrderedInformation() { }
 
@@ -3876,7 +3861,7 @@ public class MillProductionInformation
     public MillCharacteristics? MillCharacteristics { get; set; } = null;
     public string? MillOrderNumber { get; set; } = null;
     public Quantity? Quantity { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public MillProductionInformation() { }
 
@@ -3903,7 +3888,7 @@ public class MillCharacteristics
 {
     public MillParty? MillParty { get; set; } = null;
     public string? MachineID { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public MillCharacteristics() { }
 
@@ -3973,7 +3958,7 @@ public class PurchaseOrderInformation
     public string? PurchaseOrderReleaseNumber { get; set; } = null;
     public PurchaseOrderIssuedDate? PurchaseOrderIssuedDate { get; set; } = null;
     public List<PurchaseOrderReference> PurchaseOrderReference { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PurchaseOrderInformation() { }
 
@@ -3992,8 +3977,7 @@ public class PurchaseOrderInformation
             PurchaseOrderNumber != null ? new XElement("PurchaseOrderNumber", PurchaseOrderNumber) : null,
             PurchaseOrderReleaseNumber != null ? new XElement("PurchaseOrderReleaseNumber", PurchaseOrderReleaseNumber) : null,
             PurchaseOrderIssuedDate != null ? XElement.Parse($"{PurchaseOrderIssuedDate}") : null,
-            PurchaseOrderReference.Select(obj => XElement.Parse($"{obj}")),
-            Value
+            PurchaseOrderReference.Select(obj => XElement.Parse($"{obj}"))
         ).ToString();
     }
 }
@@ -4048,7 +4032,7 @@ public class DeliveryMessageWoodHeader
     public Insurance? Insurance { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
     public List<DocumentInformation> DocumentInformation { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public DeliveryMessageWoodHeader() { }
 
@@ -4095,8 +4079,7 @@ public class DeliveryMessageWoodHeader
             CountryOfConsumption != null ? XElement.Parse($"{CountryOfConsumption}") : null,
             Insurance != null ? XElement.Parse($"{Insurance}") : null,
             AdditionalText.Select(text => new XElement("AdditionalText", text)),
-            DocumentInformation.Select(information => XElement.Parse($"{information}")),
-            Value
+            DocumentInformation.Select(information => XElement.Parse($"{information}"))
         ).ToString();
     }
 }
@@ -4151,7 +4134,7 @@ public class DocumentInformation
     public DocumentType DocumentType = DocumentType.DeliveryNote;
     public List<string> NumberOfDocuments { get; } = [];
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public DocumentInformation() { }
 
@@ -4180,7 +4163,7 @@ public class Insurance
     public string? InsuranceContractNo { get; set; } = null;
     public InsuredValue? InsuredValue { get; set; } = null;
     public string? InsuranceInfo { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Insurance() { }
 
@@ -4208,7 +4191,7 @@ public class Insurance
 public class InsuredValue
 {
     public string CurrencyValue = string.Empty;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public InsuredValue() { }
 
@@ -4231,7 +4214,7 @@ public class CountryOfConsumption
 {
     public string Country = string.Empty;
     public ISOCountryCode? ISOCountryCode { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public CountryOfConsumption() { }
 
@@ -4246,8 +4229,7 @@ public class CountryOfConsumption
     {
         return new XElement("CountryOfConsumption",
             ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
-            new XElement("Country", Country),
-            Value
+            new XElement("Country", Country)
         ).ToString();
     }
 }
@@ -4256,7 +4238,7 @@ public class CountryOfDestination
 {
     public string Country = string.Empty;
     public ISOCountryCode? ISOCountryCode { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public CountryOfDestination() { }
 
@@ -4271,8 +4253,7 @@ public class CountryOfDestination
     {
         return new XElement("CountryOfDestination",
             ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
-            new XElement("Country", Country),
-            Value
+            new XElement("Country", Country)
         ).ToString();
     }
 }
@@ -4281,7 +4262,7 @@ public class CountryOfOrigin
 {
     public string Country = string.Empty;
     public ISOCountryCode? ISOCountryCode { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public CountryOfOrigin() { }
 
@@ -4296,8 +4277,7 @@ public class CountryOfOrigin
     {
         return new XElement("CountryOfOrigin",
             ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
-            new XElement("Country", Country),
-            Value
+            new XElement("Country", Country)
         ).ToString();
     }
 }
@@ -4306,7 +4286,7 @@ public class ShipToInformation
 {
     public ShipToCharacteristics ShipToCharacteristics { get; } = new();
     public List<DeliverySchedule> DeliverySchedule { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ShipToInformation() { }
 
@@ -4321,8 +4301,7 @@ public class ShipToInformation
     {
         return new XElement("ShipToInformation",
             XElement.Parse($"{ShipToCharacteristics}"),
-            DeliverySchedule.Select(schedule => XElement.Parse($"{schedule}")),
-            Value
+            DeliverySchedule.Select(schedule => XElement.Parse($"{schedule}"))
         ).ToString();
     }
 }
@@ -4340,7 +4319,7 @@ public class DeliverySchedule
     public List<DeliveryLeg> DeliveryLeg { get; } = [];
     public List<DeliveryScheduleReference> DeliveryScheduleReference { get; } = [];
     public List<string> AdditionalText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public DeliverySchedule() { }
 
@@ -4373,8 +4352,7 @@ public class DeliverySchedule
             MonetaryAdjustment.Select(adjustment => XElement.Parse($"{adjustment}")),
             DeliveryLeg.Select(leg => XElement.Parse($"{leg}")),
             DeliveryScheduleReference.Select(reference => XElement.Parse($"{reference}")),
-            AdditionalText.Select(text => new XElement("AdditionalText", text)),
-            Value
+            AdditionalText.Select(text => new XElement("AdditionalText", text))
         ).ToString();
     }
 }
@@ -4423,7 +4401,7 @@ public class DeliveryLeg
     public List<DeliveryDateWindow> DeliveryDateWindow { get; } = [];
     public List<DeliveryLegReference> DeliveryLegReference { get; } = [];
     public List<TermsOfChartering> TermsOfChartering { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public DeliveryLeg() { }
 
@@ -4472,8 +4450,7 @@ public class DeliveryLeg
             DeliveryDestination != null ? XElement.Parse($"{DeliveryDestination}") : null,
             DeliveryDateWindow.Select(window => XElement.Parse($"{window}")),
             DeliveryLegReference.Select(reference => XElement.Parse($"{reference}")),
-            TermsOfChartering.Select(chartering => XElement.Parse($"{chartering}")),
-            Value
+            TermsOfChartering.Select(chartering => XElement.Parse($"{chartering}"))
         ).ToString();
     }
 }
@@ -4490,7 +4467,7 @@ public class CarrierParty : Party
 public class TermsOfChartering
 {
     public TermsOfCharteringType? TermsOfCharteringType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TermsOfChartering() { }
 
@@ -4509,22 +4486,24 @@ public class TermsOfChartering
     }
 }
 
-public class DeliveryLegReference : AssignedByReferenceValueBase
+public class DeliveryLegReference
 {
     public ReferenceType DeliveryLegReferenceType = ReferenceType.Other;
+    public AssignedBy? AssignedBy = null;
+    public string Value = string.Empty;
 
-    public DeliveryLegReference() : base() { }
+    public DeliveryLegReference() { }
 
-    public DeliveryLegReference(XElement root) : base(root)
+    public DeliveryLegReference(XElement root)
     {
-        DeliveryLegReferenceType = root.Attribute("DeliveryLegReferenceType") is { Value: var dlft } ? Enum.Parse<ReferenceType>(dlft) : DeliveryLegReferenceType;
+        DeliveryLegReferenceType = root.Attribute("DeliveryLegReferenceType")?.Value.ToEnum<ReferenceType>() ?? DeliveryLegReferenceType;
+        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>() ?? AssignedBy;
+        Value = root.Value;
     }
-
-    public override string LocalName => "DeliveryLegReference";
 
     public override string ToString()
     {
-        return new XElement(LocalName,
+        return new XElement("DeliveryLegReference",
             new XAttribute("DeliveryLegReferenceType", DeliveryLegReferenceType.GetMemberValue()),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
@@ -4541,7 +4520,7 @@ public class DeliveryDestination
     public LocationCode? LocationCode { get; set; } = null;
     public GPSCoordinates? GPSCoordinates { get; set; } = null;
     public MapCoordinates? MapCoordinates { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public DeliveryDestination() { }
 
@@ -4564,8 +4543,7 @@ public class DeliveryDestination
             LocationParty != null ? XElement.Parse($"{LocationParty}") : null,
             LocationCode != null ? XElement.Parse($"{LocationCode}") : null,
             GPSCoordinates != null ? XElement.Parse($"{GPSCoordinates}") : null,
-            MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null,
-            Value
+            MapCoordinates != null ? XElement.Parse($"{MapCoordinates}") : null
         ).ToString();
     }
 }
@@ -4906,7 +4884,7 @@ public class MapPoint
     public string MapPointName = string.Empty;
     public List<string> MapPointComment { get; } = [];
     public List<MapCoordinates> MapCoordinates { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public MapPoint() { }
 
@@ -4936,7 +4914,7 @@ public class TransportOtherInstructions
     public TransportInstructionType? TransportInstructionType { get; set; } = null;
     public TransportInstructionCode? TransportInstructionCode { get; set; } = null;
     public List<string> TransportInstructionText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportOtherInstructions() { }
 
@@ -4975,7 +4953,7 @@ public class TransportUnloadingCharacteristics
     public TransportUnloadingCode? TransportUnloadingCode { get; set; } = null;
     public TransportUnloadingCodeDescription? TransportUnloadingCodeDescription { get; set; } = null;
     public List<string> TransportUnloadingText { get; } = [];
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportUnloadingCharacteristics() { }
 
@@ -5006,7 +4984,7 @@ public class TransportUnloadingCodeDescription
 {
     public List<string> AdditionalText { get; } = [];
     public e_Attachment? e_Attachment { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportUnloadingCodeDescription() { }
 
@@ -5036,7 +5014,7 @@ public class e_Attachment
     public string? AttachmentFileName { get; set; } = null;
     public string? NumberOfAttachments { get; set; } = null;
     public URL? URL { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public e_Attachment() { }
 
@@ -5062,7 +5040,7 @@ public class e_Attachment
 public class URL
 {
     public string? URLContext { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public URL() { }
 
@@ -5178,7 +5156,7 @@ public class TransportUnitIdentifier
     public TransportUnitIdentifierType TransportUnitIdentifierType = TransportUnitIdentifierType.Other;
     public string? StateOrProvince { get; set; } = null;
     public ISOCountryCode? ISOCountryCode { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportUnitIdentifier() { }
 
@@ -5226,7 +5204,7 @@ public class TransportUnitEquipment
 public class TransportUnitEquipmentDescription
 {
     public Language? Language { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportUnitEquipmentDescription() { }
 
@@ -5372,7 +5350,7 @@ public class TransportVehicleIdentifier
     public TransportVehicleIdentifierType? TransportVehicleIdentifierType { get; set; } = null;
     public string? StateOrProvince { get; set; } = null;
     public ISOCountryCode? ISOCountryCode { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportVehicleIdentifier() { }
 
@@ -5420,7 +5398,7 @@ public class TransportVehicleEquipment
 public class TransportVehicleEquipmentDescription
 {
     public Language? Language { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public TransportVehicleEquipmentDescription() { }
 
@@ -5844,7 +5822,7 @@ public class FlatAmountAdjustment
 {
     public AdjustmentPercentage? AdjustmentPercentage { get; set; } = null;
     public AdjustmentFixedAmount? AdjustmentFixedAmount { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public FlatAmountAdjustment() { }
 
@@ -5868,7 +5846,7 @@ public class FlatAmountAdjustment
 public class AdjustmentFixedAmount
 {
     public CurrencyValue CurrencyValue { get; } = new();
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public AdjustmentFixedAmount() { }
 
@@ -5891,7 +5869,7 @@ public class PriceAdjustment
 {
     public AdjustmentPercentage? AdjustmentPercentage { get; set; } = null;
     public AdjustmentValue? AdjustmentValue { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public PriceAdjustment() { }
 
@@ -5957,7 +5935,7 @@ public class MonetaryAdjustmentStartQuantity : MeasurementBase
 public class MonetaryAdjustmentStartAmount
 {
     public CurrencyValue CurrencyValue { get; } = new();
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public MonetaryAdjustmentStartAmount() { }
 
@@ -6032,7 +6010,7 @@ public class MinCurrencyValue : CurrencyValueBase
 public abstract class CurrencyValueBase
 {
     public CurrencyType? CurrencyType { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -6106,7 +6084,7 @@ public class PricePerUnit : MeasurementBase
 public class CurrencyValue
 {
     public string CurrencyType = string.Empty;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public CurrencyValue() { }
 
@@ -6216,7 +6194,7 @@ public class Value : ValueBase
 public abstract class ValueBase
 {
     public UOM UOM = UOM.Unit;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -6445,7 +6423,7 @@ public class ShipToCharacteristics
     public override string ToString()
     {
         return new XElement("ShipToCharacteristics",
-            new XElement("ShipToParty", ShipToParty),
+            XElement.Parse($"{ShipToParty}"),
             LocationCode != null ? XElement.Parse($"{LocationCode}") : null,
             TermsOfDelivery != null ? XElement.Parse($"{TermsOfDelivery}") : null,
             DeliveryRouteCode != null ? XElement.Parse($"{DeliveryRouteCode}") : null
@@ -6512,7 +6490,7 @@ public class ShipmentMethodOfPayment
 {
     public LocationQualifier? LocationQualifier { get; set; } = null;
     public Method? Method { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public ShipmentMethodOfPayment() { }
 
@@ -6537,7 +6515,7 @@ public class IncotermsLocation
 {
     public Incoterms Incoterms = Incoterms.Other;
     public string? IncotermsVersion { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public IncotermsLocation() { }
 
@@ -6566,7 +6544,7 @@ public abstract class Party
     public NameAddress NameAddress { get; } = new();
     public string? URL { get; set; } = null;
     public CommonContact? CommonContact { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -6591,8 +6569,7 @@ public abstract class Party
             PartyIdentifier.Select(identifier => XElement.Parse($"{identifier}")),
             XElement.Parse($"{NameAddress}"),
             URL != null ? new XElement("URL", URL) : null,
-            CommonContact != null ? XElement.Parse($"{CommonContact}") : null,
-            Value
+            CommonContact != null ? XElement.Parse($"{CommonContact}") : null
         ).ToString();
     }
 }
@@ -6734,7 +6711,7 @@ public class NameAddress
 public class Country
 {
     public ISOCountryCode? ISOCountryCode { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public Country() { }
 
@@ -6781,24 +6758,26 @@ public class GPSCoordinates
     }
 }
 
-public class PartyIdentifier : AgencyValueBase
+public class PartyIdentifier
 {
     public PartyIdentifierType PartyIdentifierType = PartyIdentifierType.Other;
+    public Agency? Agency { get; set; } = null;
+    public string Value = string.Empty;  
 
-    public PartyIdentifier() : base() { }
+    public PartyIdentifier() { }
 
-    public PartyIdentifier(XElement root) : base(root)
+    public PartyIdentifier(XElement root)
     {
-        PartyIdentifierType = root.Attribute("PartyIdentifierType") is { Value: var pit } ? Enum.Parse<PartyIdentifierType>(pit) : PartyIdentifierType;
+        PartyIdentifierType = root.Attribute("PartyIdentifierType")?.Value.ToEnum<PartyIdentifierType>() ?? PartyIdentifierType;
+        Agency = root.Attribute("Agency")?.Value.ToEnum<Agency>() ?? Agency;
+        Value = root.Value;
     }
-
-    public override string LocalName => "PartyIdentifier";
 
     public override string ToString()
     {
-        return new XElement(LocalName,
-            new XAttribute("PartyIdentifierType", PartyIdentifierType),
-            Agency != null ? new XAttribute("Agency", Agency) : null,
+        return new XElement("PartyIdentifier",
+            new XAttribute("PartyIdentifierType", PartyIdentifierType.GetMemberValue()),
+            Agency != null ? new XAttribute("Agency", Agency.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -6835,22 +6814,24 @@ public class DocumentReferenceInformation
     }
 }
 
-public class DeliveryMessageReference : AssignedByReferenceValueBase
+public class DeliveryMessageReference
 {
     public ReferenceType DeliveryMessageReferenceType = ReferenceType.Other;
+    public AssignedBy? AssignedBy = null;
+    public string Value = string.Empty;
 
-    public DeliveryMessageReference() : base() { }
+    public DeliveryMessageReference() { }
 
-    public DeliveryMessageReference(XElement root) : base(root)
+    public DeliveryMessageReference(XElement root)
     {
-        DeliveryMessageReferenceType = root.Attribute("DeliveryMessageReferenceType") is { Value: var dmrt } ? Enum.Parse<ReferenceType>(dmrt) : DeliveryMessageReferenceType;
+        DeliveryMessageReferenceType = root.Attribute("DeliveryMessageReferenceType")?.Value.ToEnum<ReferenceType>() ?? DeliveryMessageReferenceType;
+        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>() ?? AssignedBy;
+        Value = root.Value;
     }
-
-    public override string LocalName => "DeliveryMessageReference";
 
     public override string ToString()
     {
-        return new XElement(LocalName,
+        return new XElement("DeliveryMessageReference",
             new XAttribute("DeliveryMessageReferenceType", DeliveryMessageReferenceType),
             AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
@@ -6861,7 +6842,7 @@ public class DeliveryMessageReference : AssignedByReferenceValueBase
 public abstract class AgencyValueBase
 {
     public Agency? Agency { get; set; } = null;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -6885,7 +6866,7 @@ public abstract class AgencyValueBase
 public abstract class AssignedByReferenceValueBase
 {
     public AssignedBy? AssignedBy;
-    public string Value = string.Empty;
+    public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -6900,8 +6881,7 @@ public abstract class AssignedByReferenceValueBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
-            Value
+            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null
         ).ToString();
     }
 }
