@@ -119,6 +119,7 @@ public class DeliveryMessageShipment
 {
     public string? ShipmentID = null;
     public List<DeliveryMessageProductGroup> DeliveryMessageProductGroup = [];
+    public ShipmentSummary? ShipmentSummary = null;
 
     public DeliveryMessageShipment() { }
 
@@ -134,6 +135,37 @@ public class DeliveryMessageShipment
     }
 }
 
+public class ShipmentSummary
+{
+    public TotalQuantity? TotalQuantity = null;
+    public List<TotalInformationalQuantity> TotalInformationalQuantity = [];
+    public ProductSummary? ProductSummary = null;
+    public List<LengthSpecification> LengthSpecification = [];
+    public string Value = string.Empty;
+
+    public ShipmentSummary() { }
+
+    public ShipmentSummary(XElement root)
+    {
+        TotalQuantity = root.Element("TotalQuantity") is { } tq ? new(tq) : TotalQuantity;
+        TotalInformationalQuantity = [.. root.Elements("TotalInformationalQuantity").Select(e => new TotalInformationalQuantity(e))];
+        ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
+        LengthSpecification = [.. root.Elements("LengthSpecification").Select(e => new LengthSpecification(e))];
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ShipmentSummary",
+            TotalQuantity != null ? XElement.Parse($"{TotalQuantity}") : null,
+            TotalInformationalQuantity.Select(obj => XElement.Parse($"{obj}")),
+            ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
+            LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
+            Value
+        ).ToString();
+    }
+}
+
 public class DeliveryMessageProductGroup
 {
     public ProductGroupID? ProductGroupID = null;
@@ -145,7 +177,20 @@ public class DeliveryMessageProductGroup
 
     public DeliveryMessageProductGroup(XElement root)
     {
+        ProductGroupID = root.Element("ProductGroupID") is { } pgid ? new(pgid) : ProductGroupID;
+        DeliveryShipmentLineItem = [.. root.Elements("DeliveryShipmentLineItem").Select(e => new DeliveryShipmentLineItem(e))];
+        ProductGroupSummary = root.Element("ProductGroupSummary") is { } pgs ? new(pgs) : ProductGroupSummary;
+        Value = root.Value;
+    }
 
+    public override string ToString()
+    {
+        return new XElement("DeliveryMessageProductGroup",
+            ProductGroupID != null ? XElement.Parse($"{ProductGroupID}") : null,
+            DeliveryShipmentLineItem.Select(obj => XElement.Parse($"{obj}")),
+            ProductGroupSummary != null ? XElement.Parse($"{ProductGroupSummary}") : null,
+            Value
+        ).ToString();
     }
 }
 
