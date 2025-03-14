@@ -140,6 +140,23 @@ public class DeliveryMessageShipment
 public class ShipmentID
 {
     public ShipmentIDType? ShipmentIDType = null;
+    public string Value = string.Empty;
+
+    public ShipmentID() { }
+
+    public ShipmentID(XElement root)
+    {
+        ShipmentIDType = root.Attribute("ShipmentIDType")?.Value.ToEnum<ShipmentIDType>() ?? ShipmentIDType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("ShipmentID",
+            ShipmentIDType != null ? new XAttribute("ShipmentIDType", ShipmentIDType) : null,
+            Value
+        ).ToString();
+    }
 }
 
 public class ShipmentSummary
