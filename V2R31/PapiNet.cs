@@ -187,9 +187,44 @@ public class DeliveryShipmentLineItem
         TransportUnloadingCharacteristics = root.Element("TransportUnloadingCharacteristics") is { } tuc ? new(tuc) : TransportUnloadingCharacteristics;
         TransportOtherInstructions = [.. root.Elements("TransportOtherInstructions").Select(e => new TransportOtherInstructions(e))];
         SafetyAndEnvironmentalInformation = [.. root.Elements("SafetyAndEnvironmentalInformation").Select(e => new SafetyAndEnvironmentalInformation(e))];
+        BillToParty = root.Element("BillToParty") is { } btp ? new(btp) : BillToParty;
+        Product = root.Element("Product") is { } p ? new(p) : Product;
+        PackageInformation = root.Element("PackageInformation") is { } pi ? new(pi) : PackageInformation;
+        TransportPackageInformation = root.Element("TransportPackageInformation") is { } tpi ? new(tpi) : TransportPackageInformation;
+        ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
+        LengthSpecification = [.. root.Elements("LengthSpecification").Select(e => new LengthSpecification(e))];
+        QuantityDeviation = root.Element("QuantityDeviation") is { } qd ? new(qd) : QuantityDeviation;
+        Value = root.Value;
+    }
 
-
-
+    public override string ToString()
+    {
+        return new XElement("DeliveryShipmentLineItem",
+            XElement.Parse($"{DeliveryShipmentLineItemNumber}"),
+            XElement.Parse($"{PurchaseOrderInformation}"),
+            PurchaseOrderLineItemNumber != null ? XElement.Parse($"{PurchaseOrderLineItemNumber}") : null,
+            DeliveryMessageReference.Select(obj => XElement.Parse($"{obj}")),
+            DocumentReferenceInformation.Select(obj => XElement.Parse($"{obj}")),
+            CountryOfOrigin != null ? XElement.Parse($"{CountryOfOrigin}") : null,
+            CountryOfDestination != null ? XElement.Parse($"{CountryOfDestination}") : null,
+            CountryOfConsumption != null ? XElement.Parse($"{CountryOfConsumption}") : null,
+            TotalNumberOfUnits != null ? XElement.Parse($"{TotalNumberOfUnits}") : null,
+            DeliveryDateWindow.Select(obj => XElement.Parse($"{obj}")),
+            MillProductionInformation != null ? XElement.Parse($"{TotalNumberOfUnits}") : null,
+            QuantityOrderedInformation != null ? XElement.Parse($"{TotalNumberOfUnits}") : null,
+            TransportLoadingCharacteristics.Select(obj => XElement.Parse($"{obj}")),
+            TransportUnloadingCharacteristics != null ? XElement.Parse($"{TotalNumberOfUnits}") : null,
+            TransportOtherInstructions.Select(obj => XElement.Parse($"{obj}")),
+            SafetyAndEnvironmentalInformation.Select(obj => XElement.Parse($"{obj}")),
+            BillToParty != null ? XElement.Parse($"{BillToParty}") : null,
+            Product != null ? XElement.Parse($"{Product}") : null,
+            PackageInformation != null ? XElement.Parse($"{PackageInformation}") : null,
+            TransportPackageInformation != null ? XElement.Parse($"{TransportPackageInformation}") : null,
+            ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
+            LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
+            QuantityDeviation != null ? XElement.Parse($"{QuantityDeviation}") : null,
+            Value
+        ).ToString();
     }
 }
 
