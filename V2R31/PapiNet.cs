@@ -70,6 +70,23 @@ public class CustomsStampInformation
 public class CustomsReferenceNumber
 {
     public CustomsReferenceNumberType CustomsReferenceNumberType;
+    public string Value = string.Empty;
+
+    public CustomsReferenceNumber() { }
+
+    public CustomsReferenceNumber(XElement root)
+    {
+        CustomsReferenceNumberType = root.Attribute("CustomsReferenceNumberType")?.Value.ToEnum<CustomsReferenceNumberType>() ?? CustomsReferenceNumberType;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("CustomsReferenceNumber",
+            new XAttribute("CustomsReferenceNumberType", CustomsReferenceNumberType),
+            Value
+        ).ToString();
+    }
 }
 
 public class CustomsStampDate : DateTimeBase
