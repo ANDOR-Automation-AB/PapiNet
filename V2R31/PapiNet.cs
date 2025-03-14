@@ -45,6 +45,7 @@ public class DeliveryMessageWoodSummary
     public QuantityDeviation? QuantityDeviation = null;
     public CustomsTotals? CustomsTotals = null;
     public List<CustomsStampInformation> CustomsStampInformation = [];
+    public List<TermsAndDisclaimers> TermsAndDisclaimers = [];
     public string Value = string.Empty;
 
     public DeliveryMessageWoodSummary(XElement root)
@@ -54,6 +55,28 @@ public class DeliveryMessageWoodSummary
     public override string ToString()
     {
         return new XElement("DeliveryMessageWoodSummary",
+            Value
+        ).ToString();
+    }
+}
+
+public class TermsAndDisclaimers
+{
+    public Language? Language = null;
+    public string Value = string.Empty;
+
+    public TermsAndDisclaimers() { }
+
+    public TermsAndDisclaimers(XElement root)
+    {
+        Language = root.Attribute("Language")?.Value.ToEnum<Language>() ?? Language;
+        Value = root.Value;
+    }
+
+    public override string ToString()
+    {
+        return new XElement("TermsAndDisclaimers",
+            Language != null ? new XAttribute("Language", Language) : null,
             Value
         ).ToString();
     }
