@@ -3593,3 +3593,10 @@ public enum ProductGroupIDType
     [EnumMember(Value = "LotIdentifier")] LotIdentifier,
     [EnumMember(Value = "ProductIdentifier")] ProductIdentifier,
 }
+
+public enum ShipmentIDType
+{
+    [EnumMember(Value = "BillOfLadingMark")] BillOfLadingMark,
+    [EnumMember(Value = "ContainerID")] ContainerID,
+    [EnumMember(Value = "LotIdentifier")] LotIdentifier,
+}

@@ -117,14 +117,16 @@ public class Time
 
 public class DeliveryMessageShipment
 {
-    public string? ShipmentID = null;
+    public ShipmentID? ShipmentID = null;
     public List<DeliveryMessageProductGroup> DeliveryMessageProductGroup = [];
     public ShipmentSummary? ShipmentSummary = null;
+    public string Value = string.Empty;
 
     public DeliveryMessageShipment() { }
 
     public DeliveryMessageShipment(XElement root)
     {
+        
     }
 
     public override string ToString()
@@ -133,6 +135,11 @@ public class DeliveryMessageShipment
             
         ).ToString();
     }
+}
+
+public class ShipmentID
+{
+    public ShipmentIDType? ShipmentIDType = null;
 }
 
 public class ShipmentSummary
