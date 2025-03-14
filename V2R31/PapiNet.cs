@@ -44,6 +44,7 @@ public class DeliveryMessageWoodSummary
     public LengthSpecification? LengthSpecification = null;
     public QuantityDeviation? QuantityDeviation = null;
     public CustomsTotals? CustomsTotals = null;
+    public List<CustomsStampInformation> CustomsStampInformation = [];
     public string Value = string.Empty;
 
     public DeliveryMessageWoodSummary(XElement root)
@@ -56,6 +57,23 @@ public class DeliveryMessageWoodSummary
             Value
         ).ToString();
     }
+}
+
+public class CustomsStampInformation
+{
+    public CustomsStampHeaderText? CustomsStampHeaderText = null;
+
+}
+
+public class CustomsStampHeaderText
+{
+    public string Value = string.Empty;
+
+    public CustomsStampHeaderText() { }
+
+    public CustomsStampHeaderText(XElement root) { Value = root.Value; }
+
+    public override string ToString() => new XElement("CustomsStampHeaderText", Value).ToString();
 }
 
 public class CustomsTotals
