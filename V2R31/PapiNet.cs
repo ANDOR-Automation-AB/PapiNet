@@ -8,17 +8,26 @@ public class DeliveryMessageWood
     public DeliveryMessageType DeliveryMessageType = DeliveryMessageType.DeliveryMessage;
     public DeliveryMessageStatusType DeliveryMessageStatusType = DeliveryMessageStatusType.Original;
     public DeliveryMessageContextType? DeliveryMessageContextType = null;
-    public bool? Reissued = null;
+    public YesNo? Reissued = null;
     public Language? Language = null;
     public DeliveryMessageWoodHeader DeliveryMessageWoodHeader = new();
     public List<DeliveryMessageShipment> DeliveryMessageShipment = [];
     public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary = null;
+    public string Value = string.Empty;
 
     public DeliveryMessageWood() { }
 
     public DeliveryMessageWood(XElement root)
     {
-
+        DeliveryMessageType = root.Attribute("DeliveryMessageType")?.Value.ToEnum<DeliveryMessageType>() ?? DeliveryMessageType;
+        DeliveryMessageStatusType = root.Attribute("DeliveryMessageStatusType")?.Value.ToEnum<DeliveryMessageStatusType>() ?? DeliveryMessageStatusType;
+        DeliveryMessageContextType = root.Attribute("DeliveryMessageContextType")?.Value.ToEnum<DeliveryMessageContextType>() ?? DeliveryMessageContextType;
+        Reissued = root.Attribute("Reissued")?.Value.ToEnum<YesNo>() ?? Reissued;
+        Language = root.Attribute("Language")?.Value.ToEnum<Language>() ?? Language;
+        DeliveryMessageWoodHeader = root.Element("DeliveryMessageWoodHeader") is { } dmwh ? new(dmwh) : DeliveryMessageWoodHeader;
+        DeliveryMessageShipment = [.. root.Elements("DeliveryMessageShipment").Select(e => new DeliveryMessageShipment(e))];
+        DeliveryMessageWoodSummary = root.Element("DeliveryMessageWoodSummary") is { } dmws ? new(dmws) : DeliveryMessageWoodSummary;
+        Value = root.Value;
     }
 
     public override string ToString()
@@ -29,8 +38,9 @@ public class DeliveryMessageWood
             DeliveryMessageContextType != null ? new XAttribute("DeliveryMessageContextType", DeliveryMessageContextType) : null,
             Reissued != null ? new XAttribute("Reissued", Reissued) : null,
             XElement.Parse($"{DeliveryMessageWoodHeader}"),
-            DeliveryMessageShipment.Select(shipment => XElement.Parse($"{shipment}")),
-            DeliveryMessageWoodSummary != null ? XElement.Parse($"{DeliveryMessageWoodSummary}") : null
+            DeliveryMessageShipment.Select(obj => XElement.Parse($"{obj}")),
+            DeliveryMessageWoodSummary != null ? XElement.Parse($"{DeliveryMessageWoodSummary}") : null,
+            Value
         ).ToString();
     }
 }
