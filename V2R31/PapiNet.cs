@@ -63,6 +63,17 @@ public class CustomsStampInformation
 {
     public CustomsStampHeaderText? CustomsStampHeaderText = null;
     public CustomsParty? CustomsParty = null;
+    public CustomsStampDate? CustomsStampDate = null;
+
+}
+
+public class CustomsStampDate : DateTimeBase
+{
+    public CustomsStampDate() : base() { }
+
+    public CustomsStampDate(XElement root) : base(root) { }
+
+    public override string LocalName => "CustomsStampDate";
 }
 
 public class CustomsParty : Party
