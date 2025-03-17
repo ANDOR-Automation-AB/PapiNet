@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Microsoft.Extensions.Logging;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 
@@ -35,13 +36,21 @@ public static class Extensions
             ?.Value ?? $"{value}";
     }
 
-    public static T ToEnum<T>(this string value) where T : struct, Enum
+    public static T ToEnum<T>(this string value, ILogger<DeliveryMessageWood>? logger = null) where T : struct, Enum
     {
-        return (T)Enum.Parse(typeof(T),
-            typeof(T).GetTypeInfo()
-                .DeclaredMembers
-                .SingleOrDefault(mi => mi.GetCustomAttribute<EnumMemberAttribute>(false)?.Value == value)
-                ?.Name ?? value,
-            true);
+        try
+        {
+            return (T)Enum.Parse(typeof(T),
+                typeof(T).GetTypeInfo()
+                    .DeclaredMembers
+                    .SingleOrDefault(mi => mi.GetCustomAttribute<EnumMemberAttribute>(false)?.Value == value)
+                    ?.Name ?? value,
+                true);
+        }
+        catch (Exception e)
+        {
+            logger?.LogError(e, e.Message);
+            return default;
+        }
     }
 }
