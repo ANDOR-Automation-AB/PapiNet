@@ -400,6 +400,14 @@ public class Date
             new XElement("Day", Day)
         ).ToString();
     }
+
+    public DateTime ToDateTime()
+    {
+        int year = int.Parse(Year);
+        int month = int.Parse(Month);
+        int day = int.Parse(Day);
+        return new DateTime(year, month, day);
+    }
 }
 
 public class Time
