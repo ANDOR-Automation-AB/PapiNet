@@ -2988,8 +2988,7 @@ public class PatternProfile
             PatternProfileType != null ? new XAttribute("PatternProfileType", PatternProfileType.GetMemberValue()) : null,
             PatternProfileAgency != null ? new XAttribute("PatternProfileAgency", PatternProfileAgency.GetMemberValue()) : null,
             PatternProfileCode != null ? new XElement("PatternProfileCode", PatternProfileCode) : null,
-            AdditionalText.Select(at => new XElement("AdditionalText", at)),
-            Value
+            AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
     }
 }
