@@ -638,7 +638,7 @@ public class DeliveryShipmentLineItem
     public BillToParty? BillToParty { get; set; } = null;
     public Product? Product { get; set; } = null;
     public PackageInformation? PackageInformation { get; set; } = null;
-    public TransportPackageInformation? TransportPackageInformation { get; set; } = null;
+    public List<TransportPackageInformation> TransportPackageInformation { get; set; } = [];
     public ProductSummary? ProductSummary { get; set; } = null;
     public List<LengthSpecification> LengthSpecification { get; } = [];
     public QuantityDeviation? QuantityDeviation { get; set; } = null;
@@ -674,7 +674,7 @@ public class DeliveryShipmentLineItem
         BillToParty = root.Element("BillToParty") is { } btp ? new(btp) : BillToParty;
         Product = root.Element("Product") is { } p ? new(p) : Product;
         PackageInformation = root.Element("PackageInformation") is { } pi ? new(pi, _logger) : PackageInformation;
-        TransportPackageInformation = root.Element("TransportPackageInformation") is { } tpi ? new(tpi, _logger) : TransportPackageInformation;
+        TransportPackageInformation = [.. root.Elements("TransportPackageInformation").Select(e => new TransportPackageInformation(e))];
         ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
         LengthSpecification = [.. root.Elements("LengthSpecification").Select(e => new LengthSpecification(e))];
         QuantityDeviation = root.Element("QuantityDeviation") is { } qd ? new(qd) : QuantityDeviation;
@@ -705,7 +705,7 @@ public class DeliveryShipmentLineItem
             BillToParty != null ? XElement.Parse($"{BillToParty}") : null,
             Product != null ? XElement.Parse($"{Product}") : null,
             PackageInformation != null ? XElement.Parse($"{PackageInformation}") : null,
-            TransportPackageInformation != null ? XElement.Parse($"{TransportPackageInformation}") : null,
+            TransportPackageInformation.Select(obj => XElement.Parse($"{obj}")),
             ProductSummary != null ? XElement.Parse($"{ProductSummary}") : null,
             LengthSpecification.Select(obj => XElement.Parse($"{obj}")),
             QuantityDeviation != null ? XElement.Parse($"{QuantityDeviation}") : null
