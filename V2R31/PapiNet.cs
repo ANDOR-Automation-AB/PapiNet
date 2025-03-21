@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -367,6 +368,15 @@ public class DeliveryMessageDate
     public DeliveryMessageDate(XElement root)
     {
         Date = root.Element("Date") is XElement date ? new Date(date) : Date;
+    }
+
+    public static DeliveryMessageDate Parse(DateTime dateTime)
+    {
+        DeliveryMessageDate dmd = new();
+        dmd.Date.Year = $"{dateTime.Year}";
+        dmd.Date.Month = $"{dateTime.Month}";
+        dmd.Date.Day = $"{dateTime.Day}";
+        return dmd;
     }
 
     public override string ToString()
@@ -4168,7 +4178,7 @@ public class DeliveryMessageWoodHeader
 
     public string DeliveryMessageNumber = string.Empty;
     public string? TransactionHistoryNumber { get; set; } = null;
-    public DeliveryMessageDate DeliveryMessageDate { get; } = new();
+    public DeliveryMessageDate DeliveryMessageDate { get; set; } = new();
     public List<DeliveryMessageReference> DeliveryMessageReference { get; } = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation { get; } = [];
     public BuyerParty BuyerParty { get; } = new();
