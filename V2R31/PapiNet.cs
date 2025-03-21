@@ -814,6 +814,7 @@ public class TransportPackageInformation
             PackageType != null ? new XAttribute("PackageType", PackageType.GetMemberValue()) : null,
             MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
             PackageLevel != null ? new XAttribute("PackageLevel", $"{PackageLevel}") : null,
+            Identifier != null ? XElement.Parse($"{Identifier}") : null,
             RawMaterialSet.Select(obj => XElement.Parse($"{obj}")),
             PartyIdentifier.Select(obj => XElement.Parse($"{obj}")),
             MachineID != null ? XElement.Parse($"{MachineID}") : null,
