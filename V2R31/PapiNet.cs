@@ -4186,7 +4186,7 @@ public class DeliveryMessageWoodHeader
     public SupplierParty SupplierParty { get; } = new();
     public List<OtherParty> OtherParty { get; } = [];
     public SenderParty? SenderParty { get; } = new();
-    public ReceiverParty? ReceiverParty { get; } = new();
+    public List<ReceiverParty> ReceiverParty { get; } = [];
     public List<ShipToInformation> ShipToInformation { get; } = [];
     public CountryOfOrigin? CountryOfOrigin { get; set; } = null;
     public CountryOfDestination? CountryOfDestination { get; set; } = null;
@@ -4211,7 +4211,7 @@ public class DeliveryMessageWoodHeader
         SupplierParty = root.Element("SupplierParty") is { } supa ? new(supa) : SupplierParty;
         OtherParty = [.. root.Elements("OtherParty").Select(e => new OtherParty(e))];
         SenderParty = root.Element("SenderParty") is { } sepa ? new(sepa) : SenderParty;
-        ReceiverParty = root.Element("ReceiverParty") is { } rp ? new(rp) : ReceiverParty;
+        ReceiverParty = [.. root.Elements("ReceiverParty").Select(e => new ReceiverParty(e))];
         ShipToInformation = [.. root.Elements("ShipToInformation").Select(e => new ShipToInformation(e))];
         CountryOfOrigin = root.Element("CountryOfOrigin") is { } coo ? new(coo) : CountryOfOrigin;
         CountryOfDestination = root.Element("CountryOfDestination") is { } cod ? new(cod) : CountryOfDestination;
@@ -4237,7 +4237,7 @@ public class DeliveryMessageWoodHeader
             XElement.Parse($"{SupplierParty}"),
             OtherParty.Select(party => XElement.Parse($"{party}")),
             SenderParty != null ? XElement.Parse($"{SenderParty}") : null,
-            ReceiverParty != null ? XElement.Parse($"{ReceiverParty}") : null,
+            ReceiverParty.Select(obj => XElement.Parse($"{obj}")),
             ShipToInformation.Select(information => XElement.Parse($"{information}")),
             CountryOfOrigin != null ? XElement.Parse($"{CountryOfOrigin}") : null,
             CountryOfDestination != null ? XElement.Parse($"{CountryOfDestination}") : null,
