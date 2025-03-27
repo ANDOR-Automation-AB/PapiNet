@@ -1436,10 +1436,10 @@ public class SupplierMarks
 
 public class Identifier
 {
-    public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
-    public IdentifierType IdentifierType = IdentifierType.Primary;
+    public IdentifierCodeType IdentifierCodeType { get; set; } = IdentifierCodeType.Supplier;
+    public IdentifierType IdentifierType { get; set; } = IdentifierType.Primary;
     public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
-    public string Value = string.Empty;  
+    public string Value { get; set; } = string.Empty;  
 
     public Identifier() { }
 
