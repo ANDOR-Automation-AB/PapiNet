@@ -6822,7 +6822,7 @@ public class MapCoordinates
 public class NameAddress
 {
     public CommunicationRole? CommunicationRole { get; set; } = null;
-    public string Name1 = string.Empty;
+    public string Name1 { get; set; } = string.Empty;
     public string? Name2 { get; set; } = null;
     public string? Name3 { get; set; } = null;
     public string? OrganisationUnit { get; set; } = null;
