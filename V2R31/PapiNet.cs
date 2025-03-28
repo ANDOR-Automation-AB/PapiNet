@@ -6936,9 +6936,9 @@ public class GPSCoordinates
 
 public class PartyIdentifier
 {
-    public PartyIdentifierType PartyIdentifierType = PartyIdentifierType.Other;
+    public PartyIdentifierType PartyIdentifierType { get; set; } = PartyIdentifierType.Other;
     public Agency Agency { get; set; } = Agency.Unset;
-    public string Value = string.Empty;  
+    public string Value { get; set; } = string.Empty;  
 
     public PartyIdentifier() { }
 
