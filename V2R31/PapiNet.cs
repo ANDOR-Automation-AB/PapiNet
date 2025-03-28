@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
+using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
@@ -10,9 +11,9 @@ public class DeliveryMessageWood
     private readonly ILogger<DeliveryMessageWood>? _logger;
     public DeliveryMessageType DeliveryMessageType { get; set; } = DeliveryMessageType.DeliveryMessage;
     public DeliveryMessageStatusType DeliveryMessageStatusType { get; set; } = DeliveryMessageStatusType.Original;
-    public DeliveryMessageContextType? DeliveryMessageContextType { get; set; } = null;
-    public YesNo? Reissued { get; set; } = null;
-    public Language? Language { get; set; } = null;
+    public DeliveryMessageContextType DeliveryMessageContextType { get; set; } = DeliveryMessageContextType.Unset;
+    public YesNo Reissued { get; set; } = YesNo.Unset;
+    public Language Language { get; set; } = Language.Unset;
     public DeliveryMessageWoodHeader DeliveryMessageWoodHeader { get; } = new();
     public List<DeliveryMessageShipment> DeliveryMessageShipment { get; } = [];
     public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary { get; set; } = null;
@@ -32,7 +33,7 @@ public class DeliveryMessageWood
         DeliveryMessageStatusType = root.Attribute("DeliveryMessageStatusType")?.Value.ToEnum<DeliveryMessageStatusType>(_logger) ?? DeliveryMessageStatusType;
         DeliveryMessageContextType = root.Attribute("DeliveryMessageContextType")?.Value.ToEnum<DeliveryMessageContextType>(_logger) ?? DeliveryMessageContextType;
         Reissued = root.Attribute("Reissued")?.Value.ToEnum<YesNo>(_logger) ?? Reissued;
-        Language = root.Attribute("Language")?.Value.ToEnum<Language>(_logger) ?? Language;
+        //Language = root.Attribute("Language")?.Value.ToEnum<Language>(_logger) ?? Language;
         DeliveryMessageWoodHeader = root.Element("DeliveryMessageWoodHeader") is { } dmwh ? new(dmwh, _logger) : DeliveryMessageWoodHeader;
         DeliveryMessageShipment = [.. root.Elements("DeliveryMessageShipment").Select(e => new DeliveryMessageShipment(e, _logger))];
         DeliveryMessageWoodSummary = root.Element("DeliveryMessageWoodSummary") is { } dmws ? new(dmws, _logger) : DeliveryMessageWoodSummary;
@@ -46,8 +47,8 @@ public class DeliveryMessageWood
         return new XElement("DeliveryMessageWood",
             new XAttribute("DeliveryMessageType", DeliveryMessageType),
             new XAttribute("DeliveryMessageStatusType", DeliveryMessageStatusType),
-            DeliveryMessageContextType != null ? new XAttribute("DeliveryMessageContextType", DeliveryMessageContextType) : null,
-            Reissued != null ? new XAttribute("Reissued", Reissued) : null,
+            DeliveryMessageContextType != DeliveryMessageContextType.Unset ? new XAttribute("DeliveryMessageContextType", DeliveryMessageContextType) : null,
+            Reissued != YesNo.Unset ? new XAttribute("Reissued", Reissued) : null,
             XElement.Parse($"{DeliveryMessageWoodHeader}"),
             DeliveryMessageShipment.Select(obj => XElement.Parse($"{obj}")),
             DeliveryMessageWoodSummary != null ? XElement.Parse($"{DeliveryMessageWoodSummary}") : null
@@ -112,7 +113,7 @@ public class DeliveryMessageWoodSummary
 public class TermsAndDisclaimers
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public Language? Language { get; set; } = null;
+    public Language Language { get; set; } = Language.Unset;
     public string Value = string.Empty;  
     
 
@@ -125,7 +126,7 @@ public class TermsAndDisclaimers
     public TermsAndDisclaimers(XElement root, ILogger<DeliveryMessageWood>? logger = null)
     {
         _logger = logger;
-        Language = root.Attribute("Language")?.Value.ToEnum<Language>(_logger) ?? Language;
+        //Language = root.Attribute("Language")?.Value.ToEnum<Language>(_logger) ?? Language;
         Value = root.Value;
 
         _logger?.LogInformation("New terms and disclaimers has been added.");
@@ -134,7 +135,7 @@ public class TermsAndDisclaimers
     public override string ToString()
     {
         return new XElement("TermsAndDisclaimers",
-            Language != null ? new XAttribute("Language", Language) : null,
+            //Language != null ? new XAttribute("Language", Language) : null,
             Value
         ).ToString();
     }
@@ -471,7 +472,7 @@ public class DeliveryMessageShipment
 public class ShipmentID
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public ShipmentIDType? ShipmentIDType { get; set; } = null;
+    public ShipmentIDType ShipmentIDType { get; set; } = ShipmentIDType.Unset;
     public string Value = string.Empty;
 
     public ShipmentID(ILogger<DeliveryMessageWood>? logger = null)
@@ -493,7 +494,7 @@ public class ShipmentID
     public override string ToString()
     {
         return new XElement("ShipmentID",
-            ShipmentIDType != null ? new XAttribute("ShipmentIDType", ShipmentIDType) : null,
+            ShipmentIDType != ShipmentIDType.Unset ? new XAttribute("ShipmentIDType", ShipmentIDType) : null,
             Value
         ).ToString();
     }
@@ -568,7 +569,7 @@ public class DeliveryMessageProductGroup
 public class ProductGroupID
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public ProductGroupIDType? ProductGroupIDType { get; set; } = null;
+    public ProductGroupIDType ProductGroupIDType { get; set; } = ProductGroupIDType.Unset;
     public string Value = string.Empty;  
 
     public ProductGroupID(ILogger<DeliveryMessageWood>? logger = null)
@@ -590,7 +591,7 @@ public class ProductGroupID
     public override string ToString()
     {
         return new XElement("ProductGroupID",
-            ProductGroupIDType != null ? new XAttribute("ProductGroupIDType", ProductGroupIDType) : null,
+            ProductGroupIDType !=  ProductGroupIDType.Unset ? new XAttribute("ProductGroupIDType", ProductGroupIDType) : null,
             Value
         ).ToString();
     }
@@ -757,8 +758,8 @@ public class QuantityDeviation : MeasurementBase
 public class TransportPackageInformation
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public PackageType? PackageType { get; set; } = null;
-    public YesNo? MixedProductPalletIndicator { get; set; } = null;
+    public PackageType PackageType { get; set; } = PackageType.Unset;
+    public YesNo MixedProductPalletIndicator { get; set; } = YesNo.Unset;
     public PackageLevel? PackageLevel { get; set; } = null;
     public Identifier? Identifier { get; set; } = null;
     public List<RawMaterialSet> RawMaterialSet { get; } = [];
@@ -821,8 +822,8 @@ public class TransportPackageInformation
     public override string ToString()
     {
         return new XElement("TransportPackageInformation",
-            PackageType != null ? new XAttribute("PackageType", PackageType.GetMemberValue()) : null,
-            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
+            PackageType != PackageType.Unset ? new XAttribute("PackageType", PackageType.GetMemberValue()) : null,
+            MixedProductPalletIndicator != YesNo.Unset ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
             PackageLevel != null ? new XAttribute("PackageLevel", $"{PackageLevel}") : null,
             Identifier != null ? XElement.Parse($"{Identifier}") : null,
             RawMaterialSet.Select(obj => XElement.Parse($"{obj}")),
@@ -850,8 +851,8 @@ public class TransportPackageInformation
 public class PackageInformation
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public PackageType? PackageType { get; set; } = null;
-    public YesNo? MixedProductPalletIndicator { get; set; } = null;
+    public PackageType PackageType { get; set; } = PackageType.Unset;
+    public YesNo MixedProductPalletIndicator { get; set; } = YesNo.Unset;
     public PackageLevel? PackageLevel { get; set; } = null;
     public Identifier? Identifier { get; set; } = null;
     public List<SupplierMarks> SupplierMarks { get; } = [];
@@ -918,8 +919,8 @@ public class PackageInformation
     public override string ToString()
     {
         return new XElement("PackageInformation",
-            PackageType != null ? new XAttribute("PackageType", PackageType.GetMemberValue()) : null,
-            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
+            PackageType != PackageType.Unset ? new XAttribute("PackageType", PackageType.GetMemberValue()) : null,
+            MixedProductPalletIndicator != YesNo.Unset ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
             PackageLevel != null ? new XAttribute("PackageLevel", $"{PackageLevel}") : null,
             SupplierMarks.Select(obj => XElement.Parse($"{obj}")),
             RawMaterialSet.Select(obj => XElement.Parse($"{obj}")),
@@ -1176,7 +1177,7 @@ public class PackagingInformation
     public List<PalletCharacteristics> PalletCharacteristics { get; } = [];
     public List<Wrap> Wrap { get; } = [];
     public List<string> AdditionalText { get; } = [];
-    public PackageType? PackageType { get; set; } = null;
+    public PackageType PackageType { get; set; } = PackageType.Unset;
     public string Value = string.Empty;  
 
     public PackagingInformation(ILogger<DeliveryMessageWood>? logger = null)
@@ -1218,7 +1219,7 @@ public class PackagingInformation
             PalletCharacteristics.Select(obj => XElement.Parse($"{obj}")),
             Wrap.Select(obj => XElement.Parse($"{obj}")),
             AdditionalText.Select(obj => new XElement("AdditionalText", obj)),
-            PackageType != null ? new XElement("PackageType", PackageType) : null,
+            PackageType != PackageType.Unset ? new XElement("PackageType", PackageType) : null,
             Value
         ).ToString();
     }
@@ -1299,8 +1300,8 @@ public class PackageCharacteristics
 
 public class InventoryClass
 {
-    public InventoryStatusType? InventoryStatusType { get; set; } = null;
-    public OwnedBy? InventoryOwnedBy { get; set; } = null;
+    public InventoryStatusType InventoryStatusType { get; set; } = InventoryStatusType.Unset;
+    public OwnedBy InventoryOwnedBy { get; set; } = OwnedBy.Unset;
     public InventoryClassCode InventoryClassCode { get; } = new();
     public List<InventoryClassDescription> InventoryClassDescription { get; } = [];
     public List<string> AdditionalText { get; } = [];
@@ -1321,8 +1322,8 @@ public class InventoryClass
     public override string ToString()
     {
         return new XElement("InventoryClass",
-            InventoryStatusType != null ? new XAttribute("InventoryStatusType", InventoryStatusType.GetMemberValue()) : null,
-            InventoryOwnedBy != null ? new XAttribute("InventoryOwnedBy", InventoryOwnedBy.GetMemberValue()) : null,
+            InventoryStatusType != InventoryStatusType.Unset ? new XAttribute("InventoryStatusType", InventoryStatusType.GetMemberValue()) : null,
+            InventoryOwnedBy != OwnedBy.Unset ? new XAttribute("InventoryOwnedBy", InventoryOwnedBy.GetMemberValue()) : null,
             XElement.Parse($"{InventoryClassCode}"),
             InventoryClassDescription.Select(icd => XElement.Parse($"{icd}")),
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
@@ -1389,9 +1390,9 @@ public class MachineID
 
 public class RawMaterialSet
 {
-    public IdentifierCodeType IdentifierCodeType;
-    public IdentifierType IdentifierType;
-    public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
+    public IdentifierCodeType IdentifierCodeType { get; set; }
+    public IdentifierType IdentifierType { get; set; }
+    public IdentifierFormatType IdentifierFormatType { get; set; } = IdentifierFormatType.Unset;
     public string Value = string.Empty;  
 
     public RawMaterialSet() { }
@@ -1409,7 +1410,7 @@ public class RawMaterialSet
         return new XElement("RawMaterialSet",
             new XAttribute("IdentifierCodeType", IdentifierCodeType),
             new XAttribute("IdentifierType", IdentifierType),
-            IdentifierFormatType != null ? new XAttribute("IdentifierFormatType", IdentifierFormatType) : IdentifierFormatType,
+            IdentifierFormatType != IdentifierFormatType.Unset ? new XAttribute("IdentifierFormatType", IdentifierFormatType) : IdentifierFormatType,
             Value
         ).ToString();
     }
@@ -1438,7 +1439,7 @@ public class Identifier
 {
     public IdentifierCodeType IdentifierCodeType { get; set; } = IdentifierCodeType.Supplier;
     public IdentifierType IdentifierType { get; set; } = IdentifierType.Primary;
-    public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
+    public IdentifierFormatType IdentifierFormatType { get; set; } = IdentifierFormatType.Unset;
     public string Value { get; set; } = string.Empty;  
 
     public Identifier() { }
@@ -1456,7 +1457,7 @@ public class Identifier
         return new XElement("Identifier",
             new XAttribute("IdentifierCodeType", IdentifierCodeType),
             new XAttribute("IdentifierType", IdentifierType),
-            IdentifierFormatType != null ? new XAttribute("IdentifierFormatType", IdentifierFormatType) : null,
+            IdentifierFormatType != IdentifierFormatType.Unset ? new XAttribute("IdentifierFormatType", IdentifierFormatType) : null,
             Value
         ).ToString();
     }
@@ -1628,17 +1629,17 @@ public class SoftwoodPlywood
     public Thickness Thickness { get; } = new();
     public Width Width { get; } = new();
     public Length Length { get; } = new();
-    public PlywoodOSBSpecies? PlywoodOSBSpecies { get; set; } = null;
+    public PlywoodOSBSpecies PlywoodOSBSpecies { get; set; } = PlywoodOSBSpecies.Unset;
     public string? PlyNumber { get; set; } = null;
     public Surface? Surface { get; set; } = null;
     public Overlay? Overlay { get; set; } = null;
-    public GlueExposure? GlueExposure { get; set; } = null;
+    public GlueExposure GlueExposure { get; set; } = GlueExposure.Unset;
     public Edge? Edge { get; set; } = null;
     public PressureTreatment? PressureTreatment { get; set; } = null;
     public FireTreatment? FireTreatment { get; set; } = null;
     public List<Supplemental> Supplemental { get; } = [];
     public string? Brand { get; set; } = null;
-    public GradeAgency? GradeAgency { get; set; } = null;
+    public GradeAgency GradeAgency { get; set; } = GradeAgency.Unset;
     public GradeStamp? GradeStamp { get; set; } = null;
     public ClassIdentifier? ClassIdentifier { get; set; } = null;
     public List<LabelCharacteristics> LabelCharacteristics { get; } = [];
@@ -1680,17 +1681,17 @@ public class SoftwoodPlywood
             XElement.Parse($"{Thickness}"),
             XElement.Parse($"{Width}"),
             XElement.Parse($"{Length}"),
-            PlywoodOSBSpecies != null ? new XElement("PlywoodOSBSpecies", PlywoodOSBSpecies.GetMemberValue()) : null,
+            PlywoodOSBSpecies != PlywoodOSBSpecies.Unset ? new XElement("PlywoodOSBSpecies", PlywoodOSBSpecies.GetMemberValue()) : null,
             PlyNumber != null ? new XElement("PlyNumber", PlyNumber) : null,
             Surface != null ? XElement.Parse($"{Surface}") : null,
             Overlay != null ? XElement.Parse($"{Overlay}") : null,
-            GlueExposure != null ? XElement.Parse($"{GlueExposure}") : null,
+            GlueExposure != GlueExposure.Unset ? XElement.Parse($"{GlueExposure}") : null,
             Edge != null ? XElement.Parse($"{Edge}") : null,
             PressureTreatment != null ? XElement.Parse($"{PressureTreatment}") : null,
             FireTreatment != null ? XElement.Parse($"{FireTreatment}") : null,
             Supplemental.Select(s => XElement.Parse($"{s}")),
             Brand != null ? new XElement("Brand", Brand) : null,
-            GradeAgency != null ? new XElement("GradeAgency", GradeAgency.GetMemberValue()) : null,
+            GradeAgency != GradeAgency.Unset ? new XElement("GradeAgency", GradeAgency.GetMemberValue()) : null,
             GradeStamp != null ? XElement.Parse($"{GradeStamp}") : null,
             ClassIdentifier != null ? XElement.Parse($"{ClassIdentifier}") : null,
             LabelCharacteristics.Select(lc => XElement.Parse($"{lc}")),
@@ -1703,7 +1704,7 @@ public class SoftwoodPlywood
 
 public class Supplemental
 {
-    public SupplementalSpecification? SupplementalSpecification { get; set; } = null;
+    public SupplementalSpecification SupplementalSpecification { get; set; } = SupplementalSpecification.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -1719,7 +1720,7 @@ public class Supplemental
     public override string ToString()
     {
         return new XElement("Supplemental",
-            SupplementalSpecification != null ? new XAttribute("SupplementalSpecification", SupplementalSpecification.GetMemberValue()) : null,
+            SupplementalSpecification != SupplementalSpecification.Unset ? new XAttribute("SupplementalSpecification", SupplementalSpecification.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -1728,8 +1729,8 @@ public class Supplemental
 
 public class Edge
 {
-    public EdgeTypePlywood? EdgeType { get; set; } = null;
-    public EdgeLocation? EdgeLocation { get; set; } = null;
+    public EdgeTypePlywood EdgeType { get; set; } = EdgeTypePlywood.Unset;
+    public EdgeLocation EdgeLocation { get; set; } = EdgeLocation.Unset;
     public string? EdgeMachiningProfile { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
@@ -1748,8 +1749,8 @@ public class Edge
     public override string ToString()
     {
         return new XElement("Edge",
-            EdgeType != null ? new XAttribute("EdgeType", EdgeType.GetMemberValue()) : null,
-            EdgeLocation != null ? new XAttribute("EdgeLocation", EdgeLocation.GetMemberValue()) : null,
+            EdgeType != EdgeTypePlywood.Unset ? new XAttribute("EdgeType", EdgeType.GetMemberValue()) : null,
+            EdgeLocation != EdgeLocation.Unset ? new XAttribute("EdgeLocation", EdgeLocation.GetMemberValue()) : null,
             EdgeMachiningProfile != null ? new XElement("EdgeMachiningProfile", EdgeMachiningProfile) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
@@ -1759,7 +1760,7 @@ public class Edge
 
 public class Overlay
 {
-    public OverlaySide? OverlaySide { get; set; } = null;
+    public OverlaySide OverlaySide { get; set; } = OverlaySide.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -1775,7 +1776,7 @@ public class Overlay
     public override string ToString()
     {
         return new XElement("Overlay",
-            OverlaySide != null ? new XAttribute("OverlaySide", OverlaySide.GetMemberValue()) : null,
+            OverlaySide != Unset ? new XAttribute("OverlaySide", OverlaySide.GetMemberValue()) : null,
             AdditionalText.Select(at => new XAttribute("AdditionalText", at)),
             Value
         ).ToString();
@@ -1784,7 +1785,7 @@ public class Overlay
 
 public class Surface
 {
-    public SurfaceType? SurfaceType { get; set; } = null;
+    public SurfaceType SurfaceType { get; set; } = SurfaceType.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -1800,7 +1801,7 @@ public class Surface
     public override string ToString()
     {
         return new XElement("Surface",
-            SurfaceType != null ? new XAttribute("SurfaceType", SurfaceType.GetMemberValue()) : null,
+            SurfaceType != SurfaceType.Unset ? new XAttribute("SurfaceType", SurfaceType.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -1809,9 +1810,9 @@ public class Surface
 
 public class PlywoodOSBGrade
 {
-    public Face? Face { get; set; } = null;
-    public SpanRating? SpanRating { get; set; } = null;
-    public StrengthGroup? StrengthGroup { get; set; } = null;
+    public Face Face { get; set; } = Face.Unset;
+    public SpanRating SpanRating { get; set; } = SpanRating.Unset;
+    public StrengthGroup StrengthGroup { get; set; } = StrengthGroup.Unset;
     public string Value = string.Empty;  
 
     public PlywoodOSBGrade() { }
@@ -1827,9 +1828,9 @@ public class PlywoodOSBGrade
     public override string ToString()
     {
         return new XElement("PlywoodOSBGrade",
-            Face != null ? new XAttribute("Face", Face.GetMemberValue()) : null,
-            SpanRating != null ? new XElement("SpanRating", SpanRating.GetMemberValue()) : null,
-            StrengthGroup != null ? new XElement("StrengthGroup", StrengthGroup.GetMemberValue()) : null,
+            Face != Face.Unset ? new XAttribute("Face", Face.GetMemberValue()) : null,
+            SpanRating != SpanRating.Unset ? new XElement("SpanRating", SpanRating.GetMemberValue()) : null,
+            StrengthGroup != StrengthGroup.Unset ? new XElement("StrengthGroup", StrengthGroup.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -2217,7 +2218,7 @@ public class ProductPackaging
     public List<PalletCharacteristics> PalletCharacteristics { get; } = [];
     public List<Wrap> Wrap { get; } = [];
     public List<string> AdditionalText { get; } = [];
-    public PackageType? PackageType { get; set; } = null;
+    public PackageType PackageType { get; set; } = PackageType.Unset;
     public string Value = string.Empty;  
 
     public ProductPackaging() { }
@@ -2259,13 +2260,13 @@ public class ProductPackaging
 
 public class PalletCharacteristics
 {
-    public YesNo? MixedProductPalletIndicator { get; set; } = null;
-    public PalletType? PalletType { get; set; } = null;
-    public PalletLedgeType? PalletLedgeType { get; set; } = null;
-    public PalletCoverType? PalletCoverType { get; set; } = null;
-    public PalletAdditionsType? PalletAdditionsType { get; set; } = null;
-    public PalletTopType? PalletTopType { get; set; } = null;
-    public YesNo? IsPartialPalletsAllowed { get; set; } = null;
+    public YesNo MixedProductPalletIndicator { get; set; } = YesNo.Unset;
+    public PalletType PalletType { get; set; } = PalletType.Unset;
+    public PalletLedgeType PalletLedgeType { get; set; } = PalletLedgeType.Unset;
+    public PalletCoverType PalletCoverType { get; set; } = PalletCoverType.Unset;
+    public PalletAdditionsType PalletAdditionsType { get; set; } = PalletAdditionsType.Unset;
+    public PalletTopType PalletTopType { get; set; } = PalletTopType.Unset;
+    public YesNo IsPartialPalletsAllowed { get; set; } = YesNo.Unset;
     public ProductIdentification? ProductIdentification { get; set; } = null;
     public PalletLength? PalletLength { get; set; } = null;
     public PalletWidth? PalletWidth { get; set; } = null;
@@ -2303,13 +2304,13 @@ public class PalletCharacteristics
     public override string ToString()
     {
         return new XElement("PalletCharacteristics",
-            MixedProductPalletIndicator != null ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
-            PalletType != null ? new XAttribute("PalletType", PalletType.GetMemberValue()) : null,
-            PalletLedgeType != null ? new XAttribute("PalletLedgeType", PalletLedgeType.GetMemberValue()) : null,
-            PalletCoverType != null ? new XAttribute("PalletCoverType", PalletCoverType.GetMemberValue()) : null,
-            PalletAdditionsType != null ? new XAttribute("PalletAdditionsType", PalletAdditionsType.GetMemberValue()) : null,
-            PalletTopType != null ? new XAttribute("PalletTopType", PalletTopType.GetMemberValue()) : null,
-            IsPartialPalletsAllowed != null ? new XAttribute("IsPartialPalletsAllowed", IsPartialPalletsAllowed.GetMemberValue()) : null,
+            MixedProductPalletIndicator != YesNo.Unset ? new XAttribute("MixedProductPalletIndicator", MixedProductPalletIndicator.GetMemberValue()) : null,
+            PalletType != PalletType.Unset ? new XAttribute("PalletType", PalletType.GetMemberValue()) : null,
+            PalletLedgeType != PalletLedgeType.Unset ? new XAttribute("PalletLedgeType", PalletLedgeType.GetMemberValue()) : null,
+            PalletCoverType != PalletCoverType.Unset ? new XAttribute("PalletCoverType", PalletCoverType.GetMemberValue()) : null,
+            PalletAdditionsType != PalletAdditionsType.Unset ? new XAttribute("PalletAdditionsType", PalletAdditionsType.GetMemberValue()) : null,
+            PalletTopType != PalletTopType.Unset ? new XAttribute("PalletTopType", PalletTopType.GetMemberValue()) : null,
+            IsPartialPalletsAllowed != YesNo.Unset ? new XAttribute("IsPartialPalletsAllowed", IsPartialPalletsAllowed.GetMemberValue()) : null,
             ProductIdentification != null ? XElement.Parse($"{ProductIdentification}") : null,
             PalletLength != null ? XElement.Parse($"{PalletLength}") : null,
             PalletWidth != null ? XElement.Parse($"{PalletWidth}") : null,
@@ -2378,8 +2379,8 @@ public class ProductIdentification
 
 public class BandCharacteristics
 {
-    public BandType? BandType { get; set; } = null;
-    public YesNo? BandsRequired { get; set; } = null;
+    public BandType BandType { get; set; } = BandType.Unset;
+    public YesNo BandsRequired { get; set; } = YesNo.Unset;
     public string? NumberOfBands { get; set; } = null;
     public string? BandColour { get; set; } = null;
     public string Value = string.Empty;  
@@ -2398,8 +2399,8 @@ public class BandCharacteristics
     public override string ToString()
     {
         return new XElement("BandCharacteristics",
-            BandType != null ? new XAttribute("BandType", BandType.GetMemberValue()) : null,
-            BandsRequired != null ? new XAttribute("BandsRequired", BandsRequired.GetMemberValue()) : null,
+            BandType != BandType.Unset ? new XAttribute("BandType", BandType.GetMemberValue()) : null,
+            BandsRequired != YesNo.Unset ? new XAttribute("BandsRequired", BandsRequired.GetMemberValue()) : null,
             NumberOfBands != null ? new XElement("NumberOfBands", NumberOfBands) : null,
             BandColour != null ? new XElement("BandColour", BandColour) : null,
             Value
@@ -2409,7 +2410,7 @@ public class BandCharacteristics
 
 public class PackageIDInformation
 {
-    public PackageAgency? PackageAgency { get; set; } = null;
+    public PackageAgency PackageAgency { get; set; } = PackageAgency.Unset;
     public string? PackageCode { get; set; } = null;
     public string? PackageName { get; set; } = null;
     public string Value = string.Empty;  
@@ -2427,7 +2428,7 @@ public class PackageIDInformation
     public override string ToString()
     {
         return new XElement("PackageIDInformation",
-            PackageAgency != null ? new XAttribute("PackageAgency", PackageAgency.GetMemberValue()) : null,
+            PackageAgency != PackageAgency.Unset ? new XAttribute("PackageAgency", PackageAgency.GetMemberValue()) : null,
             PackageCode != null ? new XElement("PackageCode", PackageCode) : null,
             PackageName != null ? new XElement("PackageName", PackageName) : null,
             Value
@@ -2576,7 +2577,7 @@ public class SoftwoodLumberCharacteristics
 
 public class LengthCutDescription
 {
-    public LengthCutType? LengthCutType { get; set; } = null;
+    public LengthCutType LengthCutType { get; set; } = LengthCutType.Unset;
     public string Value = string.Empty;  
 
     public LengthCutDescription() { }
@@ -2590,7 +2591,7 @@ public class LengthCutDescription
     public override string ToString()
     {
         return new XElement("LengthCutDescription",
-            LengthCutType != null ? new XAttribute("LengthCutType", LengthCutType.GetMemberValue()) : null,
+            LengthCutType != LengthCutType.Unset ? new XAttribute("LengthCutType", LengthCutType.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -2598,9 +2599,9 @@ public class LengthCutDescription
 
 public class Wrap
 {
-    public WrapType? WrapType { get; set; } = null;
-    public WrapProperties? WrapProperties { get; set; } = null;
-    public WrapLocation? WrapLocation { get; set; } = null;
+    public WrapType WrapType { get; set; } = WrapType.Unset;
+    public WrapProperties WrapProperties { get; set; } = WrapProperties.Unset;
+    public WrapLocation WrapLocation { get; set; } = WrapLocation.Unset;
     public string? NumberOfWraps { get; set; } = null;
     public string? Brand { get; set; } = null;
     public string Value = string.Empty;  
@@ -2620,9 +2621,9 @@ public class Wrap
     public override string ToString()
     {
         return new XElement("Wrap",
-            WrapType != null ? new XAttribute("WrapType", WrapType.GetMemberValue()) : null,
-            WrapProperties != null ? new XAttribute("WrapProperties", WrapProperties.GetMemberValue()) : null,
-            WrapLocation != null ? new XAttribute("WrapLocation", WrapLocation.GetMemberValue()) : null,
+            WrapType != WrapType.Unset ? new XAttribute("WrapType", WrapType.GetMemberValue()) : null,
+            WrapProperties != WrapProperties.Unset ? new XAttribute("WrapProperties", WrapProperties.GetMemberValue()) : null,
+            WrapLocation != WrapLocation.Unset ? new XAttribute("WrapLocation", WrapLocation.GetMemberValue()) : null,
             NumberOfWraps != null ? new XElement("NumberOfWraps", NumberOfWraps) : null,
             Brand != null ? new XElement("Brand", Brand) : null,
             Value
@@ -2632,12 +2633,12 @@ public class Wrap
 
 public class StencilCharacteristics
 {
-    public StencilType? StencilType { get; set; } = null;
-    public StencilInkType? StencilInkType { get; set; } = null;
-    public StencilLocation? StencilLocation { get; set; } = null;
-    public StencilFormat? StencilFormat { get; set; } = null;
-    public StencilContent? StencilContent { get; set; } = null;
-    public AssignedBy? AssignedBy { get; set; } = null;
+    public StencilType StencilType { get; set; } = StencilType.Unset;
+    public StencilInkType StencilInkType { get; set; } = StencilInkType.Unset;
+    public StencilLocation StencilLocation { get; set; } = StencilLocation.Unset;
+    public StencilFormat StencilFormat { get; set; } = StencilFormat.Unset;
+    public StencilContent StencilContent { get; set; } = StencilContent.Unset;
+    public AssignedBy AssignedBy { get; set; } = AssignedBy.Unset;
     public List<string> StencilText { get; } = [];
     public string Value = string.Empty;  
 
@@ -2658,12 +2659,12 @@ public class StencilCharacteristics
     public override string ToString()
     {
         return new XElement("StencilCharacteristics",
-            StencilType != null ? new XAttribute("StencilType", StencilType.GetMemberValue()) : null,
-            StencilInkType != null ? new XAttribute("StencilInkType", StencilInkType.GetMemberValue()) : null,
-            StencilLocation != null ? new XAttribute("StencilLocation", StencilLocation.GetMemberValue()) : null,
-            StencilFormat != null ? new XAttribute("StencilFormat", StencilFormat.GetMemberValue()) : null,
-            StencilContent != null ? new XAttribute("StencilContent", StencilContent.GetMemberValue()) : null,
-            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy.GetMemberValue()) : null,
+            StencilType != StencilType.Unset ? new XAttribute("StencilType", StencilType.GetMemberValue()) : null,
+            StencilInkType != StencilInkType.Unset ? new XAttribute("StencilInkType", StencilInkType.GetMemberValue()) : null,
+            StencilLocation != StencilLocation.Unset ? new XAttribute("StencilLocation", StencilLocation.GetMemberValue()) : null,
+            StencilFormat != StencilFormat.Unset ? new XAttribute("StencilFormat", StencilFormat.GetMemberValue()) : null,
+            StencilContent != StencilContent.Unset ? new XAttribute("StencilContent", StencilContent.GetMemberValue()) : null,
+            AssignedBy != AssignedBy.Unset ? new XAttribute("AssignedBy", AssignedBy.GetMemberValue()) : null,
             StencilText.Select(st => new XElement("StencilText", st)),
             Value
         ).ToString();
