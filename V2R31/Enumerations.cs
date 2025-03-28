@@ -15,6 +15,7 @@ namespace PapiNet;
 
 public enum DeliveryMessageType
 {
+    Unset =  -1,
     DeliveryMessage,
     InitialShipmentAdvice,
     LoadingOrder,
@@ -24,6 +25,7 @@ public enum DeliveryMessageType
 
 public enum DeliveryMessageStatusType
 {
+    Unset = -1,
     Cancelled,
     Original,
     Replaced,
@@ -31,6 +33,7 @@ public enum DeliveryMessageStatusType
 
 public enum DeliveryMessageContextType
 {
+    Unset = -1,
     Return,
 }
 
@@ -38,11 +41,12 @@ public enum DeliveryMessageContextType
 // https://www.loc.gov/standards/iso639-2/php/code_list.php
 public enum Language
 {
-
+    Unset = -1,
 }
 
 public enum LogisticsRole
 {
+    Unset = -1,
     Consignee,
     Consignor,
     LogisticsProvider,
@@ -50,6 +54,7 @@ public enum LogisticsRole
 
 public enum PartyIdentifierType
 {
+    Unset = -1,
     ABINumber,
     ABNNumber,
     AFPA,
@@ -91,6 +96,7 @@ public enum PartyIdentifierType
 
 public enum Agency
 {
+    Unset = -1,
     AFPA,
     ANSI,
     APPITA,
@@ -145,6 +151,7 @@ public enum Agency
 
 public enum CommunicationRole
 {
+    Unset = -1,
     From,
     To,
     CC,
@@ -152,6 +159,7 @@ public enum CommunicationRole
 
 public enum ContactType
 {
+    Unset = -1,
     AccountManager,
     Carrier,
     CrossDock,
@@ -172,6 +180,7 @@ public enum ContactType
 
 public enum ReferenceType
 {
+    Unset = -1,
     AccountNumber,
     AudioVideoSelectionNumber,
     Author,
@@ -395,6 +404,7 @@ public enum ReferenceType
 
 public enum AssignedBy
 {
+    Unset = -1,
     Bank,
     BillTo,
     BorderCrossing,
@@ -467,6 +477,7 @@ public enum AssignedBy
 
 public enum GPSSystem
 {
+    Unset = -1,
     ECEF,
     HAE,
     MSL,
@@ -474,6 +485,7 @@ public enum GPSSystem
 
 public enum MapCoordinateType
 {
+    Unset = -1,
     // ETRS-TM35FIN,
     Lambert93,
     Lambert1,
@@ -489,6 +501,7 @@ public enum MapCoordinateType
 
 public enum MapReferenceSystem
 {
+    Unset = -1,
     ETRS89,
     // EUREF-FIN,
     NTF,
@@ -500,6 +513,7 @@ public enum MapReferenceSystem
 
 public enum PartyType
 {
+    Unset = -1,
     Bank,
     BillTo,
     BorderCrossing,
@@ -572,6 +586,7 @@ public enum PartyType
 
 public enum Incoterms
 {
+    Unset = -1,
     CFR,
     CIF,
     CIP,
@@ -590,6 +605,7 @@ public enum Incoterms
 
 public enum IncotermsVersion
 {
+    Unset = -1,
     _1980,
     _1990,
     _2000,
@@ -598,6 +614,7 @@ public enum IncotermsVersion
 
 public enum LocationQualifier
 {
+    Unset = -1,
     Destination,
     DistributionCentre,
     Dock,
@@ -616,6 +633,7 @@ public enum LocationQualifier
 
 public enum Method
 {
+    Unset = -1,
     CollectFreight,
     CollectFreightAndAllowed,
     CollectFreightCreditedBackToCustomer,
@@ -627,12 +645,14 @@ public enum Method
 
 public enum ProductionStatusType
 {
+    Unset = -1,
     Free,
     NotFree,
 }
 
 public enum DeliveryStatusType
 {
+    Unset = -1,
     Cancelled,
     Free,
     NotFree,
@@ -640,6 +660,7 @@ public enum DeliveryStatusType
 
 public enum DeliveryDateType
 {
+    Unset = -1,
     ActualArrivalDate,
     ActualDepartureDate,
     AvailableToShipDate,
@@ -664,6 +685,7 @@ public enum DeliveryDateType
 
 public enum QuantityType
 {
+    Unset = -1,
     ActualVolume,
     AirDryWeight,
     Area,
@@ -688,6 +710,7 @@ public enum QuantityType
 
 public enum QuantityTypeContext
 {
+    Unset = -1,
     AgreedToClaimValue,
     Allocated,
     AllowableSpoilage,
@@ -727,6 +750,7 @@ public enum QuantityTypeContext
 
 public enum AdjustmentType_Tare
 {
+    Unset = -1,
     Advances,
     Core,
     Ends,
@@ -744,6 +768,7 @@ public enum AdjustmentType_Tare
 
 public enum MeasuringAgency
 {
+    Unset = -1,
     Buyer,
     RVR,
     SD,
@@ -753,6 +778,7 @@ public enum MeasuringAgency
 
 public enum UOM
 {
+    Unset = -1,
     AirDryMetricTonne,
     AirDryPercent,
     AirDryShortTon,
@@ -891,6 +917,7 @@ public enum UOM
 
 public enum PriceQuantityBasis
 {
+    Unset = -1,
     ActualVolume,
     AirDryWeight,
     Area,
@@ -915,12 +942,14 @@ public enum PriceQuantityBasis
 
 public enum PriceTaxBasis
 {
+    Unset = -1,
     Yes,
     No,
 }
 
 public enum InformationalPricePerUnitType
 {
+    Unset = -1,
     AlternatePrice,
     CoverPrice,
     ProductPrice,
@@ -929,12 +958,14 @@ public enum InformationalPricePerUnitType
 
 public enum ExchangeRateType
 {
+    Unset = -1,
     Fixed,
     Float,
 }
 
 public enum CurrencyFromType
 {
+    Unset = -1,
     // TODO:
     // A three-character ISO 4217 currency code in capital letters.
     // Refer to the ISO standard for enumerations.
@@ -942,6 +973,7 @@ public enum CurrencyFromType
 
 public enum CurrencyType
 {
+    Unset = -1,
     // TODO:
     // A three-character ISO 4217 currency code in capital letters.
     // Refer to the ISO standard for enumerations.
@@ -949,6 +981,7 @@ public enum CurrencyType
 
 public enum AdjustmentType_Financial
 {
+    Unset = -1,
     BillOfLadingCharge,
     CancellationCharge,
     CashDiscount,
@@ -1020,6 +1053,7 @@ public enum AdjustmentType_Financial
 
 public enum TaxCategoryType
 {
+    Unset = -1,
     Exempt,
     Standard,
     Zero,
@@ -1028,6 +1062,7 @@ public enum TaxCategoryType
 
 public enum TaxType
 {
+    Unset = -1,
     Federal,
     GST,
     Harmonised,
@@ -1038,6 +1073,7 @@ public enum TaxType
 
 public enum AmountType
 {
+    Unset = -1,
     Adjustment,
     Net,
     Tax,
@@ -1047,18 +1083,21 @@ public enum AmountType
 
 public enum DeliveryModeType
 {
+    Unset = -1,
     Deliver,
     PickUp,
 }
 
 public enum DeliveryLegType
 {
+    Unset = -1,
     Fixed,
     Open,
 }
 
 public enum EventType
 {
+    Unset = -1,
     Historical,
     Current,
     Future,
@@ -1067,6 +1106,7 @@ public enum EventType
 
 public enum LegStageType
 {
+    Unset = -1,
     PreCarriage,
     MainCarriage,
     OnCarriage,
@@ -1074,12 +1114,14 @@ public enum LegStageType
 
 public enum LocationType
 {
+    Unset = -1,
     Destination,
     Origin,
 }
 
 public enum TransportModeType
 {
+    Unset = -1,
     Air,
     InlandWaterway,
     Intermodal,
@@ -1093,6 +1135,7 @@ public enum TransportModeType
 
 public enum TransportVehicleType
 {
+    Unset = -1,
     Barge,
     ContainerVessel,
     ConventionalVessel,
@@ -1106,6 +1149,7 @@ public enum TransportVehicleType
 
 public enum TransportVehicleIdentifierType
 {
+    Unset = -1,
     FlightNumber,
     GlobalReturnableAssetIdentifier,
     IMONumber,
@@ -1122,6 +1166,7 @@ public enum TransportVehicleIdentifierType
 
 public enum ISOCountryCode
 {
+    Unset = -1,
     AF,
     AL,
     DZ,
@@ -1375,6 +1420,7 @@ public enum ISOCountryCode
 
 public enum TransportUnitType
 {
+    Unset = -1,
     Barge,
     Cassette,
     Container,
@@ -1393,6 +1439,7 @@ public enum TransportUnitType
 
 public enum TransportUnitVariable
 {
+    Unset = -1,
     CubicCapacity,
     DeckOption,
     Height,
@@ -1403,12 +1450,14 @@ public enum TransportUnitVariable
 
 public enum AppliesTo
 {
+    Unset = -1,
     Payload,
     Unit,
 }
 
 public enum TransportUnitIdentifierType
 {
+    Unset = -1,
     ContainerID,
     CassetteID,
     GlobalReturnableAssetIdentifier,
@@ -1423,6 +1472,7 @@ public enum TransportUnitIdentifierType
 
 public enum TransportUnitDetailType
 {
+    Unset = -1,
     DryFreightContainer,
     PlatformContainer,
     OpenSidesContainer,
@@ -1451,6 +1501,7 @@ public enum TransportUnitDetailType
 
 public enum LoadOpeningSide
 {
+    Unset = -1,
     BackEndSide,
     FrontEndSide,
     LeftAndRightSide,
@@ -1460,6 +1511,7 @@ public enum LoadOpeningSide
 
 public enum TransportUnloadingType
 {
+    Unset = -1,
     ByUnloadingCode,
     Lying,
     Standing,
@@ -1469,18 +1521,21 @@ public enum TransportUnloadingType
 
 public enum DirectUnloading
 {
+    Unset = -1,
     Yes,
     No,
 }
 
 public enum TransportInstructionType
 {
+    Unset = -1,
     LegSpecific,
     ProductSpecific,
 }
 
 public enum RouteType
 {
+    Unset = -1,
     DeliveryOriginToDeliveryDestination,
     MainIntersectionToDeliveryDestination,
     SupplyPointToDeliveryDestination,
@@ -1489,6 +1544,7 @@ public enum RouteType
 
 public enum MapPointType
 {
+    Unset = -1,
     Barrier,
     Bridge,
     CraneTemporaryStorage,
@@ -1509,18 +1565,21 @@ public enum MapPointType
 
 public enum RoadOwnerType
 {
+    Unset = -1,
     Public,
     Private,
 }
 
 public enum RoadKeeperType
 {
+    Unset = -1,
     Public,
     Private,
 }
 
 public enum RoadAccessibilityType
 {
+    Unset = -1,
     Trailer,
     DrawBarCombination,
     DrawBarCombinationWithAdjustableBogie,
@@ -1529,6 +1588,7 @@ public enum RoadAccessibilityType
 
 public enum RoadTurningPossibilityType
 {
+    Unset = -1,
     Trailer,
     DrawBarCombination,
     DrawBarCombinationWithAdjustableBogie,
@@ -1538,6 +1598,7 @@ public enum RoadTurningPossibilityType
 
 public enum RoadTurningPointType
 {
+    Unset = -1,
     Circle,
     //T-crossing,
     //X-crossing,
@@ -1545,12 +1606,14 @@ public enum RoadTurningPointType
 
 public enum RoadPassingPossibility
 {
+    Unset = -1,
     Yes,
     No,
 }
 
 public enum RoadAvailability
 {
+    Unset = -1,
     AllYear,
     NotInHeavyRain,
     NotInSevereThawing,
@@ -1560,6 +1623,7 @@ public enum RoadAvailability
 
 public enum RoadBearingCapacityType
 {
+    Unset = -1,
     BogieLoad,
     SingleAxleLoad,
     TripleAxleLoad,
@@ -1568,6 +1632,7 @@ public enum RoadBearingCapacityType
 
 public enum RoadObstructionType
 {
+    Unset = -1,
     Bridge,
     Ferry,
     Passage,
@@ -1578,12 +1643,14 @@ public enum RoadObstructionType
 
 public enum TermsOfCharteringType
 {
+    Unset = -1,
     Loading,
     Unloading,
 }
 
 public enum DocumentType
 {
+    Unset = -1,
     ATR,
     BillOfLading,
     CertificateForPackaging,
@@ -1602,12 +1669,14 @@ public enum DocumentType
 
 public enum MixProductIndicator
 {
+    Unset = -1,
     Yes,
     No,
 }
 
 public enum TransportLoadingType
 {
+    Unset = -1,
     ByLoadingCode,
     Lying,
     Standing,
@@ -1617,6 +1686,7 @@ public enum TransportLoadingType
 
 public enum TransportDeckOption
 {
+    Unset = -1,
     FullDeck,
     HalfDeck,
     OneThirdDeck,
@@ -1625,6 +1695,7 @@ public enum TransportDeckOption
 
 public enum LoadingTolerance
 {
+    Unset = -1,
     FillUpFromOtherOrder,
     Full,
     FullWithinTolerance,
@@ -1633,12 +1704,14 @@ public enum LoadingTolerance
 
 public enum DirectLoading
 {
+    Unset = -1,
     Yes,
     No,
 }
 
 public enum GoodsLoadingPrinciple
 {
+    Unset = -1,
     FirstInFirstOut,
     LastInFirstOut,
     Random,
@@ -1646,6 +1719,7 @@ public enum GoodsLoadingPrinciple
 
 public enum LabelOrientation
 {
+    Unset = -1,
     BackEndSide,
     FrontEndSide,
     LeftAndRightSide,
@@ -1655,6 +1729,7 @@ public enum LabelOrientation
 
 public enum SafetyAndEnvironmentalType
 {
+    Unset = -1,
     Agricultural,
     Biodegradable,
     Certified,
@@ -1677,6 +1752,7 @@ public enum SafetyAndEnvironmentalType
 
 public enum BookClassificationType
 {
+    Unset = -1,
     Assembly,
     Audio,
     Binding,
@@ -1700,6 +1776,7 @@ public enum BookClassificationType
 
 public enum BookSubClassificationType
 {
+    Unset = -1,
     //2PieceCarton,
     Acetate,
     AdvertisingBrochure,
@@ -1811,6 +1888,7 @@ public enum BookSubClassificationType
 
 public enum ProofType
 {
+    Unset = -1,
     Blues,
     ColorKey,
     Cromalin,
@@ -1831,6 +1909,7 @@ public enum ProofType
 
 public enum PrepType
 {
+    Unset = -1,
     //4PageImposedFilm,
     //8PageImposedFilm,
     ApplicationFiles,
@@ -1862,12 +1941,14 @@ public enum PrepType
 
 public enum SuppliedComponentType
 {
+    Unset = -1,
     Component,
     RawMaterial,
 }
 
 public enum ProductIdentifierType
 {
+    Unset = -1,
     BrandName,
     CatalogueNumber,
     CustomsTariffNumber,
@@ -1890,6 +1971,7 @@ public enum ProductIdentifierType
 
 public enum CoatingTop
 {
+    Unset = -1,
     Acrylic,
     Flexolyn,
     FoilCoated,
@@ -1910,6 +1992,7 @@ public enum CoatingTop
 
 public enum CoatingBottom
 {
+    Unset = -1,
     Acrylic,
     Flexolyn,
     FoilCoated,
@@ -1930,6 +2013,7 @@ public enum CoatingBottom
 
 public enum FinishType
 {
+    Unset = -1,
     Bond,
     Clear,
     CustomTint,
@@ -1957,6 +2041,7 @@ public enum FinishType
 
 public enum PrintType
 {
+    Unset = -1,
     ColdsetOffset,
     ContinuousForms,
     Digital,
@@ -1982,11 +2067,12 @@ public enum PrintType
 
 public enum TestMethod
 {
-
+    Unset = -1,
 }
 
 public enum TestAgency
 {
+    Unset = -1,
     ASTM,
     BS,
     CIE,
@@ -2005,6 +2091,7 @@ public enum TestAgency
 
 public enum SampleType
 {
+    Unset = -1,
     Average,
     Bottom,
     CDAverage,
@@ -2019,6 +2106,7 @@ public enum SampleType
 
 public enum ResultSource
 {
+    Unset = -1,
     AutoLab,
     Calculated,
     ManualLab,
@@ -2028,6 +2116,7 @@ public enum ResultSource
 
 public enum SpeciesType
 {
+    Unset = -1,
     Afrormosia,
     Afzelia,
     Agba,
@@ -2207,6 +2296,7 @@ public enum SpeciesType
 
 public enum SpeciesOrigin
 {
+    Unset = -1,
     Africa,
     America,
     Austria,
@@ -2235,6 +2325,7 @@ public enum SpeciesOrigin
 
 public enum SpeciesAgency
 {
+    Unset = -1,
     ISO,
     //prEN TC(1113-1),
     Supplier,
@@ -2243,6 +2334,7 @@ public enum SpeciesAgency
 // TODO :  Write enum member value
 public enum GradeType
 {
+    Unset = -1,
     [EnumMember(Value = "#1")]
     Num1,
     [EnumMember(Value = "#1 and #2")]
@@ -2548,6 +2640,7 @@ public enum GradeType
 
 public enum ActualNominal
 {
+    Unset = -1,
     Actual,
     Covering,
     Modal,
@@ -2556,12 +2649,14 @@ public enum ActualNominal
 
 public enum WithGrain
 {
+    Unset = -1,
     Yes,
     No,
 }
 
 public enum GradingRule
 {
+    Unset = -1,
     [EnumMember(Value = "European 1611-1")]
     European_1611_1,
     GSSS,
@@ -2574,6 +2669,7 @@ public enum GradingRule
 
 public enum LumberAgency
 {
+    Unset = -1,
     BS,
     [EnumMember(Value = "BS-EN")]
     BS_EN,
@@ -2604,6 +2700,7 @@ public enum LumberAgency
 
 public enum ModulusElasticity
 {
+    Unset = -1,
     [EnumMember(Value = "1.0E")]
     E1_0,
     [EnumMember(Value = "1.1E")]
@@ -2638,6 +2735,7 @@ public enum ModulusElasticity
 
 public enum Face
 {
+    Unset = -1,
     Face1,
     Face2,
     Both,
@@ -2645,6 +2743,7 @@ public enum Face
 
 public enum SeasoningType
 {
+    Unset = -1,
     Dry,
     Green,
     KD,
@@ -2657,6 +2756,7 @@ public enum SeasoningType
 
 public enum MoistureContentPercentage
 {
+    Unset = -1,
     [EnumMember(Value = "1")]
     _1,
     [EnumMember(Value = "2")]
@@ -2706,6 +2806,7 @@ public enum MoistureContentPercentage
 
 public enum HeatTreatmentType
 {
+    Unset = -1,
     HT,
     [EnumMember(Value = "HTC/NHTNC")]
     HTC_NHTNC,
@@ -2715,6 +2816,7 @@ public enum HeatTreatmentType
 
 public enum ManufacturingProcessType
 {
+    Unset = -1,
     [EnumMember(Value = "Chamfered")] Chamfered,
     [EnumMember(Value = "Combed")] Combed,
     [EnumMember(Value = "Compressed")] Compressed,
@@ -2772,6 +2874,7 @@ public enum ManufacturingProcessType
 
 public enum ManufacturingProcessAgency
 {
+    Unset = -1,
     ISO,
     [EnumMember(Value = "prEN TC(1113-1)")]
     prEN_TC_1113_1,
@@ -2780,6 +2883,7 @@ public enum ManufacturingProcessAgency
 
 public enum PatternProfileType
 {
+    Unset = -1,
     [EnumMember(Value = "Beveled Siding")] Beveled_Siding,
     [EnumMember(Value = "Bungalow Siding")] Bungalow_Siding,
     [EnumMember(Value = "Channel Rustic Siding")] Channel_Rustic_Siding,
@@ -2951,6 +3055,7 @@ public enum PatternProfileType
 
 public enum PatternProfileAgency
 {
+    Unset = -1,
     [EnumMember(Value = "BS")] BS,
     [EnumMember(Value = "BS-EN")] BS_EN,
     [EnumMember(Value = "CEN")] CEN,
@@ -2979,6 +3084,7 @@ public enum PatternProfileAgency
 
 public enum TrimType
 {
+    Unset = -1,
     [EnumMember(Value = "DET")] DET,
     [EnumMember(Value = "PET")] PET,
     [EnumMember(Value = "SquareEndTrim")] SquareEndTrim,
@@ -2987,6 +3093,7 @@ public enum TrimType
 
 public enum JoiningType
 {
+    Unset = -1,
     [EnumMember(Value = "FingerJointed")] FingerJointed,
     [EnumMember(Value = "FingerJointed-VertUseOnly")] FingerJointed_VertUseOnly,
     [EnumMember(Value = "Glued-Up")] Glued_Up,
@@ -2995,6 +3102,7 @@ public enum JoiningType
 
 public enum PressureTreatmentComStdorUseCategory
 {
+    Unset = -1,
     [EnumMember(Value = "C2")] C2,
     [EnumMember(Value = "C3")] C3,
     [EnumMember(Value = "C4")] C4,
@@ -3037,18 +3145,21 @@ public enum PressureTreatmentComStdorUseCategory
 
 public enum FireTreatmentType
 {
+    Unset = -1,
     [EnumMember(Value = "FireTreated")] FireTreated,
     [EnumMember(Value = "Other")] Other,
 }
 
 public enum GradeStamped
 {
+    Unset = -1,
     [EnumMember(Value = "Yes")] Yes,
     [EnumMember(Value = "No")] No,
 }
 
 public enum GradeStampLocation
 {
+    Unset = -1,
     [EnumMember(Value = "Face")] Face,
     [EnumMember(Value = "Back")] Back,
     [EnumMember(Value = "Good Side")] Good_Side,
@@ -3059,6 +3170,7 @@ public enum GradeStampLocation
 
 public enum IdentifierCodeType
 {
+    Unset = -1,
     [EnumMember(Value = "Carrier")] Carrier,
     [EnumMember(Value = "EAN8")] EAN8,
     [EnumMember(Value = "EAN8Plus2")] EAN8Plus2,
@@ -3099,6 +3211,7 @@ public enum IdentifierCodeType
 
 public enum IdentifierType
 {
+    Unset = -1,
     [EnumMember(Value = "Barcode")] Barcode,
     [EnumMember(Value = "CorrelationID")] CorrelationID,
     [EnumMember(Value = "Primary")] Primary,
@@ -3108,6 +3221,7 @@ public enum IdentifierType
 
 public enum IdentifierFormatType
 {
+    Unset = -1,
     [EnumMember(Value = "Codabar")] Codabar,
     [EnumMember(Value = "CodablockA")] CodablockA,
     [EnumMember(Value = "CodablockF")] CodablockF,
@@ -3163,6 +3277,7 @@ public enum IdentifierFormatType
 
 public enum StencilType
 {
+    Unset = -1,
     [EnumMember(Value = "CutOut")] CutOut,
     [EnumMember(Value = "InkJet")] InkJet,
     [EnumMember(Value = "Rubber")] Rubber,
@@ -3170,6 +3285,7 @@ public enum StencilType
 
 public enum StencilInkType
 {
+    Unset = -1,
     [EnumMember(Value = "EdibleNotWaterSoluble")] EdibleNotWaterSoluble,
     [EnumMember(Value = "EdibleWaterSoluble")] EdibleWaterSoluble,
     [EnumMember(Value = "InedibleNotWaterSoluble")] InedibleNotWaterSoluble,
@@ -3179,6 +3295,7 @@ public enum StencilInkType
 
 public enum StencilLocation
 {
+    Unset = -1,
     [EnumMember(Value = "End")] End,
     [EnumMember(Value = "Top")] Top,
     [EnumMember(Value = "Side")] Side,
@@ -3189,12 +3306,14 @@ public enum StencilLocation
 
 public enum StencilFormat
 {
+    Unset = -1,
     [EnumMember(Value = "Barcode")] Barcode,
     [EnumMember(Value = "Text")] Text,
 }
 
 public enum StencilContent
 {
+    Unset = -1,
     [EnumMember(Value = "Author")] Author,
     [EnumMember(Value = "BasisWeight")] BasisWeight,
     [EnumMember(Value = "BoxWeight")] BoxWeight,
@@ -3232,6 +3351,7 @@ public enum StencilContent
 
 public enum WrapType
 {
+    Unset = -1,
     [EnumMember(Value = "Cardboard")] Cardboard,
     [EnumMember(Value = "Chipboard")] Chipboard,
     [EnumMember(Value = "Fibreboard")] Fibreboard,
@@ -3252,6 +3372,7 @@ public enum WrapType
 
 public enum WrapProperties
 {
+    Unset = -1,
     [EnumMember(Value = "Bleached")] Bleached,
     [EnumMember(Value = "Unbleached")] Unbleached,
     [EnumMember(Value = "MoistureBarrier")] MoistureBarrier,
@@ -3260,6 +3381,7 @@ public enum WrapProperties
 
 public enum WrapLocation
 {
+    Unset = -1,
     [EnumMember(Value = "None")] None,
     [EnumMember(Value = "Entire")] Entire,
     [EnumMember(Value = "Top")] Top,
@@ -3272,6 +3394,7 @@ public enum WrapLocation
 
 public enum LengthCutType
 {
+    Unset = -1,
     [EnumMember(Value = "ExactLength")] ExactLength,
     [EnumMember(Value = "FreeCut")] FreeCut,
     [EnumMember(Value = "SpecialLength")] SpecialLength,
@@ -3282,6 +3405,7 @@ public enum LengthCutType
 
 public enum PackageAgency
 {
+    Unset = -1,
     [EnumMember(Value = "BS")] BS,
     [EnumMember(Value = "BS-EN")] BS_EN,
     [EnumMember(Value = "CEN")] CEN,
@@ -3310,6 +3434,7 @@ public enum PackageAgency
 
 public enum BandType
 {
+    Unset = -1,
     [EnumMember(Value = "Metal")] Metal,
     [EnumMember(Value = "Nylon")] Nylon,
     [EnumMember(Value = "Plastic")] Plastic,
@@ -3318,12 +3443,14 @@ public enum BandType
 
 public enum YesNo
 {
+    Unset = -1,
     [EnumMember(Value = "Yes")] Yes,
     [EnumMember(Value = "No")] No,
 }
 
 public enum BandDirection
 {
+    Unset = -1,
     [EnumMember(Value = "Long")] Long,
     [EnumMember(Value = "Short")] Short,
     [EnumMember(Value = "Both")] Both,
@@ -3331,6 +3458,7 @@ public enum BandDirection
 
 public enum PalletType
 {
+    Unset = -1,
     [EnumMember(Value = "Euro")] Euro,
     [EnumMember(Value = "Export")] Export,
     [EnumMember(Value = "NonPalletised")] NonPalletised,
@@ -3340,6 +3468,7 @@ public enum PalletType
 
 public enum PalletLedgeType
 {
+    Unset = -1,
     [EnumMember(Value = "LongWay")] LongWay,
     [EnumMember(Value = "LongWayWithBelt")] LongWayWithBelt,
     [EnumMember(Value = "ShortWay")] ShortWay,
@@ -3348,6 +3477,7 @@ public enum PalletLedgeType
 
 public enum PalletCoverType
 {
+    Unset = -1,
     [EnumMember(Value = "MetalPlateWithPE")] MetalPlateWithPE,
     [EnumMember(Value = "WithoutPE")] WithoutPE,
     [EnumMember(Value = "WithPE")] WithPE,
@@ -3358,6 +3488,7 @@ public enum PalletCoverType
 
 public enum PalletAdditionsType
 {
+    Unset = -1,
     [EnumMember(Value = "FullPerimeter")] FullPerimeter,
     [EnumMember(Value = "FungicideTreatment")] FungicideTreatment,
     [EnumMember(Value = "LongSlats")] LongSlats,
@@ -3368,6 +3499,7 @@ public enum PalletAdditionsType
 
 public enum PalletTopType
 {
+    Unset = -1,
     [EnumMember(Value = "CartonboardCover")] CartonboardCover,
     [EnumMember(Value = "Chipboard")] Chipboard,
     [EnumMember(Value = "Corrugated")] Corrugated,
@@ -3384,6 +3516,7 @@ public enum PalletTopType
 
 public enum PackageType
 {
+    Unset = -1,
     [EnumMember(Value = "Bag")] Bag,
     [EnumMember(Value = "Bale")] Bale,
     [EnumMember(Value = "Barrel")] Barrel,
@@ -3410,6 +3543,7 @@ public enum PackageType
 
 public enum SpanRating
 {
+    Unset = -1,
     [EnumMember(Value = "16oc")] _16oc,
     [EnumMember(Value = "20oc")] _20oc,
     [EnumMember(Value = "24oc")] _24oc,
@@ -3428,6 +3562,7 @@ public enum SpanRating
 
 public enum StrengthGroup
 {
+    Unset = -1,
     [EnumMember(Value = "Class-I")] Class_I,
     [EnumMember(Value = "Class-II")] Class_II,
     [EnumMember(Value = "Group1")] Group1,
@@ -3440,6 +3575,7 @@ public enum StrengthGroup
 
 public enum PlywoodOSBSpecies
 {
+    Unset = -1,
     [EnumMember(Value = "Southern")] Southern,
     [EnumMember(Value = "Western")] Western,
     [EnumMember(Value = "Aspen")] Aspen,
@@ -3451,6 +3587,7 @@ public enum PlywoodOSBSpecies
 
 public enum SurfaceType
 {
+    Unset = -1,
     [EnumMember(Value = "Oiled")] Oiled,
     [EnumMember(Value = "PluggedAndTouchSanded")] PluggedAndTouchSanded,
     [EnumMember(Value = "Rough")] Rough,
@@ -3466,12 +3603,14 @@ public enum SurfaceType
 
 public enum OverlaySide
 {
+    Unset = -1,
     [EnumMember(Value = "1")] _1,
     [EnumMember(Value = "2")] _2,
 }
 
 public enum GlueExposure
 {
+    Unset = -1,
     [EnumMember(Value = "Exterior")] Exterior,
     [EnumMember(Value = "Interior")] Interior,
     [EnumMember(Value = "Exposure1")] Exposure1,
@@ -3480,6 +3619,7 @@ public enum GlueExposure
 
 public enum EdgeTypePlywood
 {
+    Unset = -1,
     [EnumMember(Value = "ShipLap")] ShipLap,
     [EnumMember(Value = "SquareEdge")] SquareEdge,
     [EnumMember(Value = "TongueAndGroove-FullFace")] TongueAndGroove_FullFace,
@@ -3488,6 +3628,7 @@ public enum EdgeTypePlywood
 
 public enum EdgeLocation
 {
+    Unset = -1,
     [EnumMember(Value = "North")] North,
     [EnumMember(Value = "South")] South,
     [EnumMember(Value = "East")] East,
@@ -3496,6 +3637,7 @@ public enum EdgeLocation
 
 public enum SupplementalSpecification
 {
+    Unset = -1,
     [EnumMember(Value = "EdgeSealed")] EdgeSealed,
     [EnumMember(Value = "Overlay-1Side")] Overlay_1Side,
     [EnumMember(Value = "Overlay-2Side")] Overlay_2Side,
@@ -3506,6 +3648,7 @@ public enum SupplementalSpecification
 
 public enum GradeAgency
 {
+    Unset = -1,
     [EnumMember(Value = "APA")] APA,
     [EnumMember(Value = "PITTSBURG")] PITTSBURG,
     [EnumMember(Value = "TECO")] TECO,
@@ -3515,18 +3658,21 @@ public enum GradeAgency
 
 public enum InventoryStatusType
 {
+    Unset = -1,
     [EnumMember(Value = "Sound")] Sound,
     [EnumMember(Value = "Unsound")] Unsound,
 }
 
 public enum OwnedBy
 {
+    Unset = -1,
     [EnumMember(Value = "Buyer")] Buyer,
     [EnumMember(Value = "Seller")] Seller,
 }
 
 public enum DateType
 {
+    Unset = -1,
     [EnumMember(Value = "ActualArrivalDate")] ActualArrivalDate,
     [EnumMember(Value = "ActualDepartureDate")] ActualDepartureDate,
     [EnumMember(Value = "AvailableToShipDate")] AvailableToShipDate,
@@ -3579,6 +3725,7 @@ public enum DateType
 
 public enum ProductGroupIDType
 {
+    Unset = -1,
     [EnumMember(Value = "BillOfLadingMark")] BillOfLadingMark,
     [EnumMember(Value = "LotIdentifier")] LotIdentifier,
     [EnumMember(Value = "ProductIdentifier")] ProductIdentifier,
@@ -3586,6 +3733,7 @@ public enum ProductGroupIDType
 
 public enum ShipmentIDType
 {
+    Unset = -1,
     [EnumMember(Value = "BillOfLadingMark")] BillOfLadingMark,
     [EnumMember(Value = "ContainerID")] ContainerID,
     [EnumMember(Value = "LotIdentifier")] LotIdentifier,
@@ -3593,6 +3741,7 @@ public enum ShipmentIDType
 
 public enum CustomsReferenceNumberType
 {
+    Unset = -1,
     [EnumMember(Value = "T2L")] T2L,
     [EnumMember(Value = "SimplifiedCustomsClearanceLicenseNumber")] SimplifiedCustomsClearanceLicenseNumber,
 }
