@@ -1776,7 +1776,7 @@ public class Overlay
     public override string ToString()
     {
         return new XElement("Overlay",
-            OverlaySide != Unset ? new XAttribute("OverlaySide", OverlaySide.GetMemberValue()) : null,
+            OverlaySide != OverlaySide.Unset ? new XAttribute("OverlaySide", OverlaySide.GetMemberValue()) : null,
             AdditionalText.Select(at => new XAttribute("AdditionalText", at)),
             Value
         ).ToString();
@@ -2730,7 +2730,7 @@ public class ClassIdentifier
 {
     public IdentifierCodeType IdentifierCodeType = IdentifierCodeType.Supplier;
     public IdentifierType IdentifierType = IdentifierType.Primary;
-    public IdentifierFormatType? IdentifierFormatType { get; set; } = null;
+    public IdentifierFormatType IdentifierFormatType { get; set; } = IdentifierFormatType.Unset;
     public string Value = string.Empty;  
 
     public ClassIdentifier() { }
@@ -2748,7 +2748,7 @@ public class ClassIdentifier
         return new XElement("ClassIdentifier",
             new XAttribute("IdentifierCodeType", IdentifierCodeType.GetMemberValue()),
             new XAttribute("IdentifierType", IdentifierType.GetMemberValue()),
-            IdentifierFormatType != null ? new XAttribute("IdentifierFormatType", IdentifierFormatType.GetMemberValue()) : null,
+            IdentifierFormatType != IdentifierFormatType.Unset ? new XAttribute("IdentifierFormatType", IdentifierFormatType.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -2775,9 +2775,9 @@ public class ExLog
 
 public class GradeStamp
 {
-    public GradeStamped? GradeStamped { get; set; } = null;
+    public GradeStamped GradeStamped { get; set; } = GradeStamped.Unset;
     public string? GradeStampMillNumber { get; set; } = null;
-    public GradeStampLocation? GradeStampLocation { get; set; } = null;
+    public GradeStampLocation GradeStampLocation { get; set; } = GradeStampLocation.Unset;
     public string Value = string.Empty;  
 
     public GradeStamp() { }
@@ -2823,7 +2823,7 @@ public class OtherTreatment
 
 public class FireTreatment
 {
-    public FireTreatmentType? FireTreatmentType { get; set; } = null;
+    public FireTreatmentType FireTreatmentType { get; set; } = FireTreatmentType.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -2839,7 +2839,7 @@ public class FireTreatment
     public override string ToString()
     {
         return new XElement("FireTreatment",
-            FireTreatmentType != null ? new XAttribute("FireTreatmentType", FireTreatmentType.GetMemberValue()) : null,
+            FireTreatmentType != FireTreatmentType.Unset ? new XAttribute("FireTreatmentType", FireTreatmentType.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -2876,21 +2876,21 @@ public class PressureTreatment
 
 public class PressureTreatmentConcentration
 {
-    public UOM? UOM { get; set; } = null;
+    public UOM UOM { get; set; } = UOM.Unset;
     public string Value = string.Empty;  
 
     public PressureTreatmentConcentration() { }
 
     public PressureTreatmentConcentration(XElement root)
     {
-        UOM = root.Attribute("UOM") is { Value: var uom } ? uom.ToEnum<UOM>() : null;
+        UOM = root.Attribute("UOM") is { Value: var uom } ? uom.ToEnum<UOM>() : UOM;
         Value = root.Value;
     }
 
     public override string ToString()
     {
         return new XElement("PressureTreatmentConcentration",
-            UOM != null ? new XAttribute("UOM", UOM.GetMemberValue()) : null,
+            UOM != UOM.Unset ? new XAttribute("UOM", UOM.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -2927,7 +2927,7 @@ public class PressureTreatmentCompound
 
 public class Joining
 {
-    public JoiningType? JoiningType { get; set; } = null;
+    public JoiningType JoiningType { get; set; } = JoiningType.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -2935,7 +2935,7 @@ public class Joining
 
     public Joining(XElement root)
     {
-        JoiningType = root.Attribute("JoiningType") is { Value: var jt } ? jt.ToEnum<JoiningType>() : null;
+        JoiningType = root.Attribute("JoiningType") is { Value: var jt } ? jt.ToEnum<JoiningType>() : JoiningType;
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
         Value = root.Value;
     }
@@ -2943,7 +2943,7 @@ public class Joining
     public override string ToString()
     {
         return new XElement("Joining",
-            JoiningType != null ? new XAttribute("JoiningType", JoiningType.GetMemberValue()) : null,
+            JoiningType != JoiningType.Unset ? new XAttribute("JoiningType", JoiningType.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -2952,7 +2952,7 @@ public class Joining
 
 public class Trim
 {
-    public TrimType? TrimType { get; set; } = null;
+    public TrimType TrimType { get; set; } = TrimType.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -2968,7 +2968,7 @@ public class Trim
     public override string ToString()
     {
         return new XElement("Trim",
-            TrimType != null ? new XAttribute("TrimType", TrimType.GetMemberValue()) : null,
+            TrimType != TrimType.Unset ? new XAttribute("TrimType", TrimType.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -2977,8 +2977,8 @@ public class Trim
 
 public class PatternProfile
 {
-    public PatternProfileType? PatternProfileType { get; set; } = null;
-    public PatternProfileAgency? PatternProfileAgency { get; set; } = null;
+    public PatternProfileType PatternProfileType { get; set; } = PatternProfileType.Unset;
+    public PatternProfileAgency PatternProfileAgency { get; set; } = PatternProfileAgency.Unset;
     public string? PatternProfileCode { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
@@ -2987,8 +2987,8 @@ public class PatternProfile
 
     public PatternProfile(XElement root)
     {
-        PatternProfileType = root.Attribute("PatternProfileType") is { Value: var ppt } ? ppt.ToEnum<PatternProfileType>() : null;
-        PatternProfileAgency = root.Attribute("PatternProfileAgency") is { Value: var ppa } ? ppa.ToEnum<PatternProfileAgency>() : null;
+        PatternProfileType = root.Attribute("PatternProfileType") is { Value: var ppt } ? ppt.ToEnum<PatternProfileType>() : PatternProfileType;
+        PatternProfileAgency = root.Attribute("PatternProfileAgency") is { Value: var ppa } ? ppa.ToEnum<PatternProfileAgency>() : PatternProfileAgency;
         PatternProfileCode = root.Element("PatternProfileCode")?.Value ?? PatternProfileCode;
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
         Value = root.Value;
@@ -2997,8 +2997,8 @@ public class PatternProfile
     public override string ToString()
     {
         return new XElement("PatternProfile",
-            PatternProfileType != null ? new XAttribute("PatternProfileType", PatternProfileType.GetMemberValue()) : null,
-            PatternProfileAgency != null ? new XAttribute("PatternProfileAgency", PatternProfileAgency.GetMemberValue()) : null,
+            PatternProfileType != PatternProfileType.Unset ? new XAttribute("PatternProfileType", PatternProfileType.GetMemberValue()) : null,
+            PatternProfileAgency != PatternProfileAgency.Unset ? new XAttribute("PatternProfileAgency", PatternProfileAgency.GetMemberValue()) : null,
             PatternProfileCode != null ? new XElement("PatternProfileCode", PatternProfileCode) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
@@ -3007,8 +3007,8 @@ public class PatternProfile
 
 public class ManufacturingProcess
 {
-    public ManufacturingProcessType? ManufacturingProcessType { get; set; } = null;
-    public ManufacturingProcessAgency? ManufacturingProcessAgency { get; set; } = null;
+    public ManufacturingProcessType ManufacturingProcessType { get; set; } = ManufacturingProcessType.Unset;
+    public ManufacturingProcessAgency ManufacturingProcessAgency { get; set; } = ManufacturingProcessAgency.Unset;
     public Value? Value { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
 
@@ -3016,8 +3016,8 @@ public class ManufacturingProcess
 
     public ManufacturingProcess(XElement root)
     {
-        ManufacturingProcessType = root.Attribute("ManufacturingProcessType") is { Value: var mpt } ? mpt.ToEnum<ManufacturingProcessType>() : null;
-        ManufacturingProcessAgency = root.Attribute("ManufacturingProcessAgency") is { Value: var mpa } ? mpa.ToEnum<ManufacturingProcessAgency>() : null;
+        ManufacturingProcessType = root.Attribute("ManufacturingProcessType") is { Value: var mpt } ? mpt.ToEnum<ManufacturingProcessType>() : ManufacturingProcessType;
+        ManufacturingProcessAgency = root.Attribute("ManufacturingProcessAgency") is { Value: var mpa } ? mpa.ToEnum<ManufacturingProcessAgency>() : ManufacturingProcessAgency;
         Value = root.Element("Value") is { } v ? new(v) : null;
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
     }
@@ -3025,8 +3025,8 @@ public class ManufacturingProcess
     public override string ToString()
     {
         return new XElement("ManufacturingProcess",
-            ManufacturingProcessType != null ? new XAttribute("ManufacturingProcessType", ManufacturingProcessType.GetMemberValue()) : null,
-            ManufacturingProcessAgency != null ? new XAttribute("ManufacturingProcessAgency", ManufacturingProcessAgency.GetMemberValue()) : null,
+            ManufacturingProcessType != ManufacturingProcessType.Unset ? new XAttribute("ManufacturingProcessType", ManufacturingProcessType.GetMemberValue()) : null,
+            ManufacturingProcessAgency != ManufacturingProcessAgency.Unset ? new XAttribute("ManufacturingProcessAgency", ManufacturingProcessAgency.GetMemberValue()) : null,
             Value != null ? XElement.Parse($"{Value}") : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
@@ -3035,7 +3035,7 @@ public class ManufacturingProcess
 
 public class HeatTreatment
 {
-    public HeatTreatmentType? HeatTreatmentType { get; set; } = null;
+    public HeatTreatmentType HeatTreatmentType { get; set; } = HeatTreatmentType.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -3051,7 +3051,7 @@ public class HeatTreatment
     public override string ToString()
     {
         return new XElement("HeatTreatment",
-            HeatTreatmentType != null ? new XAttribute("HeatTreatmentType", HeatTreatmentType.GetMemberValue()) : null,
+            HeatTreatmentType != HeatTreatmentType.Unset ? new XAttribute("HeatTreatmentType", HeatTreatmentType.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -3060,7 +3060,7 @@ public class HeatTreatment
 
 public class MoistureContent
 {
-    public MoistureContentPercentage? MoistureContentPercentage { get; set; } = null;
+    public MoistureContentPercentage MoistureContentPercentage { get; set; } = MoistureContentPercentage.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -3076,7 +3076,7 @@ public class MoistureContent
     public override string ToString()
     {
         return new XElement("MoistureContent",
-            MoistureContentPercentage != null ? new XAttribute("MoistureContentPercentage", MoistureContentPercentage.GetMemberValue()) : null,
+            MoistureContentPercentage != MoistureContentPercentage.Unset ? new XAttribute("MoistureContentPercentage", MoistureContentPercentage.GetMemberValue()) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -3085,7 +3085,7 @@ public class MoistureContent
 
 public class Seasoning
 {
-    public SeasoningType? SeasoningType { get; set; } = null;
+    public SeasoningType SeasoningType { get; set; } = SeasoningType.Unset;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
 
@@ -3093,7 +3093,7 @@ public class Seasoning
 
     public Seasoning(XElement root)
     {
-        SeasoningType = root.Attribute("SeasoningType") is { Value: var st } ? st.ToEnum<SeasoningType>() : null;
+        SeasoningType = root.Attribute("SeasoningType") is { Value: var st } ? st.ToEnum<SeasoningType>() : SeasoningType;
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
         Value = root.Value;
     }
@@ -3101,7 +3101,7 @@ public class Seasoning
     public override string ToString()
     {
         return new XElement("Seasoning",
-            SeasoningType != null ? new XAttribute("SeasoningType", SeasoningType) : null,
+            SeasoningType != SeasoningType.Unset ? new XAttribute("SeasoningType", SeasoningType) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at)),
             Value
         ).ToString();
@@ -3119,11 +3119,11 @@ public class Thickness : MeasurementBase
 
 public class LumberGrade
 {
-    public GradeType? GradeType { get; set; } = null;
-    public GradingRule? GradingRule { get; set; } = null;
-    public LumberAgency? GradeAgency { get; set; } = null;
-    public ModulusElasticity? ModulusElasticity { get; set; } = null;
-    public Face? Face { get; set; } = null;
+    public GradeType GradeType { get; set; } = GradeType.Unset;
+    public GradingRule GradingRule { get; set; } = GradingRule.Unset;
+    public LumberAgency GradeAgency { get; set; } = LumberAgency.Unset;
+    public ModulusElasticity ModulusElasticity { get; set; } = ModulusElasticity.Unset;
+    public Face Face { get; set; } = Face.Unset;
     public string? GradeName { get; set; } = null;
     public string? GradeCode { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
@@ -3147,11 +3147,11 @@ public class LumberGrade
     public override string ToString()
     {
         return new XElement("LumberGrade",
-            GradeType != null ? new XAttribute("GradeType", GradeType) : null,
-            GradingRule != null ? new XAttribute("GradingRule", GradingRule) : null,
-            GradeAgency != null ? new XAttribute("GradeAgency", GradeAgency) : null,
-            ModulusElasticity != null ? new XAttribute("ModulusElasticity", ModulusElasticity) : null,
-            Face != null ? new XAttribute("Face", Face) : null,
+            GradeType != GradeType.Unset ? new XAttribute("GradeType", GradeType) : null,
+            GradingRule != GradingRule.Unset ? new XAttribute("GradingRule", GradingRule) : null,
+            GradeAgency != LumberAgency.Unset ? new XAttribute("GradeAgency", GradeAgency) : null,
+            ModulusElasticity != ModulusElasticity.Unset ? new XAttribute("ModulusElasticity", ModulusElasticity) : null,
+            Face != Face.Unset ? new XAttribute("Face", Face) : null,
             GradeName != null ? new XElement("GradeName", GradeName) : null,
             GradeCode != null ? new XElement("GradeCode", GradeCode) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at))
@@ -3161,9 +3161,9 @@ public class LumberGrade
 
 public class LumberSpecies
 {
-    public SpeciesType? SpeciesType { get; set; } = null;
-    public SpeciesOrigin? SpeciesOrigin { get; set; } = null;
-    public SpeciesAgency? SpeciesAgency { get; set; } = null;
+    public SpeciesType SpeciesType { get; set; } = SpeciesType.Unset;
+    public SpeciesOrigin SpeciesOrigin { get; set; } = SpeciesOrigin.Unset;
+    public SpeciesAgency SpeciesAgency { get; set; } = SpeciesAgency.Unset;
     public string? SpeciesCode { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
@@ -3183,9 +3183,9 @@ public class LumberSpecies
     public override string ToString()
     {
         return new XElement("LumberSpecies",
-            SpeciesType != null ? new XAttribute("SpeciesType", SpeciesType) : null,
-            SpeciesOrigin != null ? new XAttribute("SpeciesOrigin", SpeciesOrigin) : null,
-            SpeciesAgency != null ? new XAttribute("SpeciesAgency", SpeciesAgency) : null,
+            SpeciesType != SpeciesType.Unset ? new XAttribute("SpeciesType", SpeciesType) : null,
+            SpeciesOrigin != SpeciesOrigin.Unset ? new XAttribute("SpeciesOrigin", SpeciesOrigin) : null,
+            SpeciesAgency != SpeciesAgency.Unset ? new XAttribute("SpeciesAgency", SpeciesAgency) : null,
             SpeciesCode != null ? new XElement("SpeciesCode", SpeciesCode) : null,
             AdditionalText.Select(at => new XElement("AdditionalText", at))
         ).ToString();
@@ -3316,8 +3316,8 @@ public class ComponentShipDate : DateTimeBase
 
 public class SuppliedComponentReference
 {
-    public ReferenceType? SuppliedComponentReferenceType { get; set; } = null;
-    public AssignedBy? AssignedBy { get; set; } = null;
+    public ReferenceType SuppliedComponentReferenceType { get; set; } = ReferenceType.Unset;
+    public AssignedBy AssignedBy { get; set; } = AssignedBy.Unset;
     public string Value = string.Empty;  
 
     public SuppliedComponentReference() { }
@@ -3332,8 +3332,8 @@ public class SuppliedComponentReference
     public override string ToString()
     {
         return new XElement("SuppliedComponentReference",
-            SuppliedComponentReferenceType != null ? new XAttribute("SuppliedComponentReferenceType", SuppliedComponentReferenceType.GetMemberValue()) : null,
-            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy.GetMemberValue()) : null,
+            SuppliedComponentReferenceType != ReferenceType.Unset ? new XAttribute("SuppliedComponentReferenceType", SuppliedComponentReferenceType.GetMemberValue()) : null,
+            AssignedBy != AssignedBy.Unset ? new XAttribute("AssignedBy", AssignedBy.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -3469,10 +3469,10 @@ public class Abrasion : DetailMeasurementBase
 
 public abstract class DetailMeasurementBase
 {
-    public TestMethod? TestMethod { get; set; } = null;
-    public TestAgency? TestAgency { get; set; } = null;
-    public SampleType? SampleType { get; set; } = null;
-    public ResultSource? ResultSource { get; set; } = null;
+    public TestMethod TestMethod { get; set; } = TestMethod.Unset;
+    public TestAgency TestAgency { get; set; } = TestAgency.Unset;
+    public SampleType SampleType { get; set; } = SampleType.Unset;
+    public ResultSource ResultSource { get; set; } = ResultSource.Unset;
     public DetailValue DetailValue { get; } = new();
     public DetailRangeMin? DetailRangeMin { get; set; } = null;
     public DetailRangeMax? DetailRangeMax { get; set; } = null;
@@ -3507,10 +3507,10 @@ public abstract class DetailMeasurementBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            TestMethod != null ? new XAttribute("TestMethod", TestMethod) : null,
-            TestAgency != null ? new XAttribute("TestAgency", TestAgency) : null,
-            SampleType != null ? new XAttribute("SampleType", SampleType) : null,
-            ResultSource != null ? new XAttribute("ResultSource", ResultSource) : null,
+            TestMethod != TestMethod.Unset ? new XAttribute("TestMethod", TestMethod) : null,
+            TestAgency != TestAgency.Unset ? new XAttribute("TestAgency", TestAgency) : null,
+            SampleType != SampleType.Unset ? new XAttribute("SampleType", SampleType) : null,
+            ResultSource != ResultSource.Unset ? new XAttribute("ResultSource", ResultSource) : null,
             XElement.Parse($"{DetailValue}"),
             DetailRangeMin != null ? XElement.Parse($"{DetailRangeMin}") : null,
             DetailRangeMax != null ? XElement.Parse($"{DetailRangeMax}") : null,
@@ -3606,7 +3606,7 @@ public class DetailValue : ValueBase
 
 public class ProductDescription
 {
-    public Language? Language { get; set; } = null;
+    public Language Language { get; set; } = Language.Unset;
     public string Value = string.Empty;  
 
     public ProductDescription() { }
@@ -3620,7 +3620,7 @@ public class ProductDescription
     public override string ToString()
     {
         return new XElement("ProductDescription",
-            Language != null ? new XAttribute("Language", Language) : null,
+            Language != Language.Unset ? new XAttribute("Language", Language) : null,
             Value
         ).ToString();
     }
@@ -3653,7 +3653,7 @@ public class ProductIdentifier
 
 public class PrepInformation
 {
-    public PrepType? PrepType { get; set; } = null;
+    public PrepType PrepType { get; set; } = PrepType.Unset;
     public SupplierParty SupplierParty { get; } = new();
     public PrepShipDate? PrepShipDate { get; set; } = null;
     public PrepDueDate? PrepDueDate { get; set; } = null;
@@ -3676,7 +3676,7 @@ public class PrepInformation
     public override string ToString()
     {
         return new XElement("PrepInformation",
-            PrepType != null ? new XAttribute("PrepType", PrepType) : null,
+            PrepType != PrepType.Unset ? new XAttribute("PrepType", PrepType) : null,
             XElement.Parse($"{SupplierParty}"),
             PrepShipDate != null ? XElement.Parse($"{PrepShipDate}") : null,
             PrepDueDate != null ? XElement.Parse($"{PrepDueDate}") : null,
@@ -3736,7 +3736,7 @@ public abstract class DateTimeBase
 
 public class ProofInformationalQuantity
 {
-    public ProofType? ProofType { get; set; } = null;
+    public ProofType ProofType { get; set; } = ProofType.Unset;
     public Quantity Quantity { get; } = new();
     public List<InformationalQuantity> InformationalQuantity { get; } = [];
     public OtherParty? OtherParty { get; set; } = null;
@@ -3762,7 +3762,7 @@ public class ProofInformationalQuantity
     public override string ToString()
     {
         return new XElement("ProofInformationalQuantity",
-            ProofType != null ? new XAttribute("ProofType", ProofType) : null,
+            ProofType != ProofType.Unset ? new XAttribute("ProofType", ProofType) : null,
             XElement.Parse($"{Quantity}"),
             InformationalQuantity.Select(iq => XElement.Parse($"{iq}")),
             OtherParty != null ? XElement.Parse($"{OtherParty}") : null,
@@ -3868,8 +3868,8 @@ public class Classification
 
 public class SafetyAndEnvironmentalInformation
 {
-    public SafetyAndEnvironmentalType SafetyAndEnvironmentalType = SafetyAndEnvironmentalType.MaterialSafetyData;
-    public Agency Agency = Agency.Other;
+    public SafetyAndEnvironmentalType SafetyAndEnvironmentalType { get; set; } = SafetyAndEnvironmentalType.MaterialSafetyData;
+    public Agency Agency { get; set; } = Agency.Other;
     public string? LicenceNumber { get; set; } = null;
     public string? ChainOfCustody { get; set; } = null;
     public SafetyAndEnvironmentalCertification? SafetyAndEnvironmentalCertification { get; set; } = null;
@@ -4072,8 +4072,8 @@ public class MillCharacteristics
 
 public abstract class MeasurementBase
 {
-    public ActualNominal? ActualNominal { get; set; } = null;
-    public WithGrain? WithGrain { get; set; } = null;
+    public ActualNominal ActualNominal { get; set; } = ActualNominal.Unset;
+    public WithGrain WithGrain { get; set; } = WithGrain.Unset;
     public Value Value { get; } = new();
     public RangeMin? RangeMin { get; set; } = null;
     public RangeMax? RangeMax { get; set; } = null;
@@ -4096,8 +4096,8 @@ public abstract class MeasurementBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            ActualNominal != null ? new XAttribute("ActualNominal", ActualNominal) : null,
-            WithGrain != null ? new XAttribute("WithGrain", WithGrain) : null,
+            ActualNominal != ActualNominal.Unset ? new XAttribute("ActualNominal", ActualNominal) : null,
+            WithGrain != WithGrain.Unset ? new XAttribute("WithGrain", WithGrain) : null,
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
             RangeMax != null ? XElement.Parse($"{RangeMax}") : null,
@@ -4379,7 +4379,7 @@ public class InsuredValue
 public class CountryOfConsumption
 {
     public string Country = string.Empty;
-    public ISOCountryCode? ISOCountryCode { get; set; } = null;
+    public ISOCountryCode ISOCountryCode { get; set; } = ISOCountryCode.Unset;
     public string Value = string.Empty;  
 
     public CountryOfConsumption() { }
@@ -4394,7 +4394,7 @@ public class CountryOfConsumption
     public override string ToString()
     {
         return new XElement("CountryOfConsumption",
-            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            ISOCountryCode != ISOCountryCode.Unset ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
             new XElement("Country", Country)
         ).ToString();
     }
@@ -4403,7 +4403,7 @@ public class CountryOfConsumption
 public class CountryOfDestination
 {
     public string Country = string.Empty;
-    public ISOCountryCode? ISOCountryCode { get; set; } = null;
+    public ISOCountryCode ISOCountryCode { get; set; } = ISOCountryCode.Unset;
     public string Value = string.Empty;  
 
     public CountryOfDestination() { }
@@ -4418,7 +4418,7 @@ public class CountryOfDestination
     public override string ToString()
     {
         return new XElement("CountryOfDestination",
-            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            ISOCountryCode != ISOCountryCode.Unset ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
             new XElement("Country", Country)
         ).ToString();
     }
@@ -4427,7 +4427,7 @@ public class CountryOfDestination
 public class CountryOfOrigin
 {
     public string Country = string.Empty;
-    public ISOCountryCode? ISOCountryCode { get; set; } = null;
+    public ISOCountryCode ISOCountryCode { get; set; } = ISOCountryCode.Unset;
     public string Value = string.Empty;  
 
     public CountryOfOrigin() { }
@@ -4442,7 +4442,7 @@ public class CountryOfOrigin
     public override string ToString()
     {
         return new XElement("CountryOfOrigin",
-            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            ISOCountryCode != ISOCountryCode.Unset ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
             new XElement("Country", Country)
         ).ToString();
     }
@@ -4525,7 +4525,7 @@ public class DeliverySchedule
 
 public class DeliveryScheduleReference : AssignedByReferenceValueBase
 {
-    public ReferenceType DeliveryScheduleReferenceType = ReferenceType.Other;
+    public ReferenceType DeliveryScheduleReferenceType { get; set; } = ReferenceType.Other;
 
     public DeliveryScheduleReference() : base() { }
 
@@ -4548,10 +4548,10 @@ public class DeliveryScheduleReference : AssignedByReferenceValueBase
 
 public class DeliveryLeg
 {
-    public DeliveryModeType? DeliveryModeType { get; set; } = null;
-    public DeliveryLegType? DeliveryLegType { get; set; } = null;
-    public EventType? EventType { get; set; } = null;
-    public LegStageType? LegStageType { get; set; } = null;
+    public DeliveryModeType DeliveryModeType { get; set; } = DeliveryModeType.Unset;
+    public DeliveryLegType DeliveryLegType { get; set; } = DeliveryLegType.Unset;
+    public EventType EventType { get; set; } = EventType.Unset;
+    public LegStageType LegStageType { get; set; } = LegStageType.Unset;
     public string DeliveryLegSequenceNumber = string.Empty;
     public DeliveryOrigin DeliveryOrigin { get; } = new();
     public CarrierParty? CarrierParty { get; } = new();
@@ -4598,10 +4598,10 @@ public class DeliveryLeg
     public override string ToString()
     {
         return new XElement("DeliveryLeg",
-            DeliveryModeType != null ? new XAttribute("DeliveryModeType", DeliveryModeType) : null,
-            DeliveryLegType != null ? new XAttribute("DeliveryLegType", DeliveryLegType) : null,
-            EventType != null ? new XAttribute("EventType", EventType) : null,
-            LegStageType != null ? new XAttribute("LegStageType", LegStageType) : null,
+            DeliveryModeType != DeliveryModeType.Unset ? new XAttribute("DeliveryModeType", DeliveryModeType) : null,
+            DeliveryLegType != DeliveryLegType.Unset ? new XAttribute("DeliveryLegType", DeliveryLegType) : null,
+            EventType != EventType.Unset ? new XAttribute("EventType", EventType) : null,
+            LegStageType != LegStageType.Unset ? new XAttribute("LegStageType", LegStageType) : null,
             new XElement("DeliveryLegSequenceNumber", DeliveryLegSequenceNumber),
             XElement.Parse($"{DeliveryOrigin}"),
             CarrierParty != null ? XElement.Parse($"{CarrierParty}") : null,
@@ -4632,7 +4632,7 @@ public class CarrierParty : Party
 
 public class TermsOfChartering
 {
-    public TermsOfCharteringType? TermsOfCharteringType { get; set; } = null;
+    public TermsOfCharteringType TermsOfCharteringType { get; set; } = TermsOfCharteringType.Unset;
     public string Value = string.Empty;  
 
     public TermsOfChartering() { }
@@ -4646,7 +4646,7 @@ public class TermsOfChartering
     public override string ToString()
     {
         return new XElement("TermsOfChartering",
-            TermsOfCharteringType != null ? new XAttribute("TermsOfCharteringType", TermsOfCharteringType) : null,
+            TermsOfCharteringType != TermsOfCharteringType.Unset ? new XAttribute("TermsOfCharteringType", TermsOfCharteringType) : null,
             Value
         ).ToString();
     }
@@ -4655,7 +4655,7 @@ public class TermsOfChartering
 public class DeliveryLegReference
 {
     public ReferenceType DeliveryLegReferenceType = ReferenceType.Other;
-    public AssignedBy? AssignedBy = null;
+    public AssignedBy AssignedBy = AssignedBy.Unset;
     public string Value = string.Empty;
 
     public DeliveryLegReference() { }
@@ -4671,7 +4671,7 @@ public class DeliveryLegReference
     {
         return new XElement("DeliveryLegReference",
             new XAttribute("DeliveryLegReferenceType", DeliveryLegReferenceType.GetMemberValue()),
-            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            AssignedBy != AssignedBy.Unset ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
         ).ToString();
     }
@@ -4828,12 +4828,12 @@ public class OtherParty : Party
 
 public class RoadCharacteristics
 {
-    public RoadOwnerType? RoadOwnerType { get; set; } = null;
-    public RoadKeeperType? RoadKeeperType { get; set; } = null;
-    public RoadAccessibilityType? RoadAccessibilityType { get; set; } = null;
-    public RoadTurningPossibilityType? RoadTurningPossibilityType { get; set; } = null;
-    public RoadTurningPointType? RoadTurningPointType { get; set; } = null;
-    public RoadPassingPossibility? RoadPassingPossibility { get; set; } = null;
+    public RoadOwnerType RoadOwnerType { get; set; } = RoadOwnerType.Unset;
+    public RoadKeeperType RoadKeeperType { get; set; } = RoadKeeperType.Unset;
+    public RoadAccessibilityType RoadAccessibilityType { get; set; } = RoadAccessibilityType.Unset;
+    public RoadTurningPossibilityType RoadTurningPossibilityType { get; set; } = RoadTurningPossibilityType.Unset;
+    public RoadTurningPointType RoadTurningPointType { get; set; } = RoadTurningPointType.Unset;
+    public RoadPassingPossibility RoadPassingPossibility { get; set; } = RoadPassingPossibility.Unset;
     public string? RoadName { get; set; } = null;
     public string? RoadNumber { get; set; } = null;
     public List<RoadClassification> RoadClassification { get; } = [];
@@ -4862,12 +4862,12 @@ public class RoadCharacteristics
     public override string ToString()
     {
         return new XElement("RoadCharacteristics",
-            RoadOwnerType != null ? new XAttribute("RoadOwnerType", RoadOwnerType) : null,
-            RoadKeeperType != null ? new XAttribute("RoadKeeperType", RoadKeeperType) : null,
-            RoadAccessibilityType != null ? new XAttribute("RoadAccessibilityType", RoadAccessibilityType) : null,
-            RoadTurningPossibilityType != null ? new XAttribute("RoadTurningPossibilityType", RoadTurningPossibilityType) : null,
-            RoadTurningPointType != null ? new XAttribute("RoadTurningPointType", RoadTurningPointType) : null,
-            RoadPassingPossibility != null ? new XAttribute("RoadPassingPossibility", RoadPassingPossibility) : null,
+            RoadOwnerType != RoadOwnerType.Unset ? new XAttribute("RoadOwnerType", RoadOwnerType) : null,
+            RoadKeeperType != RoadKeeperType.Unset ? new XAttribute("RoadKeeperType", RoadKeeperType) : null,
+            RoadAccessibilityType != RoadAccessibilityType.Unset ? new XAttribute("RoadAccessibilityType", RoadAccessibilityType) : null,
+            RoadTurningPossibilityType != RoadTurningPossibilityType.Unset ? new XAttribute("RoadTurningPossibilityType", RoadTurningPossibilityType) : null,
+            RoadTurningPointType != RoadTurningPointType.Unset ? new XAttribute("RoadTurningPointType", RoadTurningPointType) : null,
+            RoadPassingPossibility != RoadPassingPossibility.Unset ? new XAttribute("RoadPassingPossibility", RoadPassingPossibility) : null,
             RoadName != null ? new XElement("RoadName", RoadName) : null,
             RoadNumber != null ? new XElement("RoadNumber", RoadNumber) : null,
             RoadClassification.Select(classification => XElement.Parse($"{classification}")),
@@ -4956,7 +4956,7 @@ public class Length : MeasurementBase
 
 public class RoadBearingCapacity
 {
-    public RoadBearingCapacityType? RoadBearingCapacityType { get; set; } = null;
+    public RoadBearingCapacityType RoadBearingCapacityType { get; set; } = RoadBearingCapacityType.Unset;
     public Value Value { get; } = new();
     public RangeMin? RangeMin { get; set; } = null;
     public RangeMax? RangeMax { get; set; } = null;
@@ -4974,7 +4974,7 @@ public class RoadBearingCapacity
     public override string ToString()
     {
         return new XElement("RoadBearingCapacity",
-            RoadBearingCapacityType != null ? new XAttribute("RoadBearingCapacityType", RoadBearingCapacityType) : null,
+            RoadBearingCapacityType != RoadBearingCapacityType.Unset ? new XAttribute("RoadBearingCapacityType", RoadBearingCapacityType) : null,
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
             RangeMax != null ? XElement.Parse($"{RangeMax}") : null
@@ -5046,7 +5046,7 @@ public class eAttachment
 
 public class MapPoint
 {
-    public MapPointType? MapPointType { get; set; } = null;
+    public MapPointType MapPointType { get; set; } = MapPointType.Unset;
     public string MapPointName = string.Empty;
     public List<string> MapPointComment { get; } = [];
     public List<MapCoordinates> MapCoordinates { get; } = [];
@@ -5066,7 +5066,7 @@ public class MapPoint
     public override string ToString()
     {
         return new XElement("MapPoint",
-            MapPointType != null ? new XAttribute("MapPointType", MapPointType) : null,
+            MapPointType != MapPointType.Unset ? new XAttribute("MapPointType", MapPointType) : null,
             new XElement("MapPointName", MapPointName),
             MapPointComment.Select(comment => new XElement("MapPointComment", comment)),
             MapCoordinates.Select(coordinates => XElement.Parse($"{coordinates}")),
@@ -5077,7 +5077,7 @@ public class MapPoint
 
 public class TransportOtherInstructions
 {
-    public TransportInstructionType? TransportInstructionType { get; set; } = null;
+    public TransportInstructionType TransportInstructionType { get; set; } = TransportInstructionType.Unset;
     public TransportInstructionCode? TransportInstructionCode { get; set; } = null;
     public List<string> TransportInstructionText { get; } = [];
     public string Value = string.Empty;  
@@ -5095,7 +5095,7 @@ public class TransportOtherInstructions
     public override string ToString()
     {
         return new XElement("TransportOtherInstructions",
-            TransportInstructionType != null ? new XAttribute("TransportInstructionType", TransportInstructionType) : null,
+            TransportInstructionType != TransportInstructionType.Unset ? new XAttribute("TransportInstructionType", TransportInstructionType) : null,
             TransportInstructionCode != null ? XElement.Parse($"{TransportInstructionCode}") : null,
             TransportInstructionText.Select(text => new XElement("TransportInstructionText", text)),
             Value
@@ -5114,8 +5114,8 @@ public class TransportInstructionCode : AgencyValueBase
 
 public class TransportUnloadingCharacteristics
 {
-    public TransportUnloadingType? TransportUnloadingType { get; set; } = null;
-    public DirectUnloading? DirectUnloading { get; set; } = null;
+    public TransportUnloadingType TransportUnloadingType { get; set; } = TransportUnloadingType.Unset;
+    public DirectUnloading DirectUnloading { get; set; } = DirectUnloading.Unset;
     public TransportUnloadingCode? TransportUnloadingCode { get; set; } = null;
     public TransportUnloadingCodeDescription? TransportUnloadingCodeDescription { get; set; } = null;
     public List<string> TransportUnloadingText { get; } = [];
@@ -5136,8 +5136,8 @@ public class TransportUnloadingCharacteristics
     public override string ToString()
     {
         return new XElement("TransportUnloadingCharacteristics",
-            TransportUnloadingType != null ? new XAttribute("TransportUnloadingType", TransportUnloadingType) : null,
-            DirectUnloading != null ? new XAttribute("DirectUnloading", DirectUnloading) : null,
+            TransportUnloadingType != TransportUnloadingType.Unset ? new XAttribute("TransportUnloadingType", TransportUnloadingType) : null,
+            DirectUnloading != DirectUnloading.Unset ? new XAttribute("DirectUnloading", DirectUnloading) : null,
             TransportUnloadingCode != null ? XElement.Parse($"{TransportUnloadingCode}") : null,
             TransportUnloadingCodeDescription != null ? XElement.Parse($"{TransportUnloadingCodeDescription}") : null,
             TransportUnloadingText.Select(text => new XElement("TransportUnloadingText", text)),
@@ -5237,7 +5237,7 @@ public class TransportUnloadingCode : AgencyValueBase
 public class TransportUnitCharacteristics
 {
     public TransportUnitType TransportUnitType = TransportUnitType.Other;
-    public TransportUnitVariable? TransportUnitVariable { get; set; } = null;
+    public TransportUnitVariable TransportUnitVariable { get; set; } = TransportUnitVariable.Unset;
     public string? TransportUnitLevel { get; set; } = null;
     public TransportUnitCode? TransportUnitCode { get; set; } = null;
     public TransportUnitMeasurements? TransportUnitMeasurements { get; set; } = null;
@@ -5267,7 +5267,7 @@ public class TransportUnitCharacteristics
     {
         return new XElement("TransportUnitCharacteristics",
             new XAttribute("TransportUnitType", TransportUnitType),
-            TransportUnitVariable != null ? new XAttribute("TransportUnitVariable", TransportUnitVariable) : null,
+            TransportUnitVariable != TransportUnitVariable.Unset ? new XAttribute("TransportUnitVariable", TransportUnitVariable) : null,
             TransportUnitLevel != null ? new XAttribute("TransportUnitLevel", TransportUnitLevel) : null,
             TransportUnitCode != null ? XElement.Parse($"{TransportUnitCode}") : null,
             TransportUnitMeasurements != null ? XElement.Parse($"{TransportUnitMeasurements}") : null,
@@ -5282,8 +5282,8 @@ public class TransportUnitCharacteristics
 
 public class TransportUnitDetail
 {
-    public TransportUnitDetailType? TransportUnitDetailType { get; set; } = null;
-    public LoadOpeningSide? LoadOpeningSide { get; set; } = null;
+    public TransportUnitDetailType TransportUnitDetailType { get; set; } = TransportUnitDetailType.Unset;
+    public LoadOpeningSide LoadOpeningSide { get; set; } = LoadOpeningSide.Unset;
     public TransportUnitDetailCode? TransportUnitDetailCode { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
 
@@ -5300,8 +5300,8 @@ public class TransportUnitDetail
     public override string ToString()
     {
         return new XElement("TransportUnitDetail",
-            TransportUnitDetailType != null ? new XAttribute("TransportUnitDetailType", TransportUnitDetailType) : null,
-            LoadOpeningSide != null ? new XAttribute("LoadOpeningSide", LoadOpeningSide) : null,
+            TransportUnitDetailType != TransportUnitDetailType.Unset ? new XAttribute("TransportUnitDetailType", TransportUnitDetailType) : null,
+            LoadOpeningSide != LoadOpeningSide.Unset ? new XAttribute("LoadOpeningSide", LoadOpeningSide) : null,
             TransportUnitDetailCode != null ? XElement.Parse($"{TransportUnitDetailCode}") : null,
             AdditionalText.Select(text => new XElement("AdditionalText", text))
         ).ToString();
@@ -5321,7 +5321,7 @@ public class TransportUnitIdentifier
 {
     public TransportUnitIdentifierType TransportUnitIdentifierType = TransportUnitIdentifierType.Other;
     public string? StateOrProvince { get; set; } = null;
-    public ISOCountryCode? ISOCountryCode { get; set; } = null;
+    public ISOCountryCode ISOCountryCode { get; set; } = ISOCountryCode.Unset;
     public string Value = string.Empty;  
 
     public TransportUnitIdentifier() { }
@@ -5339,7 +5339,7 @@ public class TransportUnitIdentifier
         return new XElement("TransportUnitIdentifier",
             new XAttribute("TransportUnitIdentifierType", TransportUnitIdentifierType),
             StateOrProvince != null ? new XAttribute("StateOrProvince", StateOrProvince) : null,
-            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            ISOCountryCode != ISOCountryCode.Unset ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
             Value
         ).ToString();
     }
@@ -5369,7 +5369,7 @@ public class TransportUnitEquipment
 
 public class TransportUnitEquipmentDescription
 {
-    public Language? Language { get; set; } = null;
+    public Language Language { get; set; } = Language.Unset;
     public string Value = string.Empty;  
 
     public TransportUnitEquipmentDescription() { }
@@ -5383,7 +5383,7 @@ public class TransportUnitEquipmentDescription
     public override string ToString()
     {
         return new XElement("TransportUnitEquipmentDescription",
-            Language != null ? new XAttribute("Language", Language) : null,
+            Language != Language.Unset ? new XAttribute("Language", Language) : null,
             Value
         ).ToString();
     }
@@ -5400,7 +5400,7 @@ public class TransportUnitEquipmentCode : AgencyValueBase
 
 public class TransportUnitMeasurements
 {
-    public AppliesTo? AppliesTo { get; set; } = null;
+    public AppliesTo AppliesTo { get; set; } = AppliesTo.Unset;
     public TransportUnitLength? TransportUnitLength { get; set; } = null;
     public TransportUnitWidth? TransportUnitWidth { get; set; } = null;
     public TransportUnitHeight? TransportUnitHeight { get; set; } = null;
@@ -5420,7 +5420,7 @@ public class TransportUnitMeasurements
     public override string ToString()
     {
         return new XElement("TransportUnitMeasurements",
-            AppliesTo != null ? new XAttribute("AppliesTo", AppliesTo) : null,
+            AppliesTo != AppliesTo.Unset ? new XAttribute("AppliesTo", AppliesTo) : null,
             TransportUnitLength != null ? XElement.Parse($"{TransportUnitLength}") : null,
             TransportUnitWidth != null ? XElement.Parse($"{TransportUnitWidth}") : null,
             TransportUnitHeight != null ? XElement.Parse($"{TransportUnitHeight}") : null,
@@ -5476,7 +5476,7 @@ public class TransportUnitCode : AgencyValueBase
 
 public class TransportVehicleCharacteristics
 {
-    public TransportVehicleType? TransportVehicleType { get; set; } = null;
+    public TransportVehicleType TransportVehicleType { get; set; } = TransportVehicleType.Unset;
     public TransportVehicleCode? TransportVehicleCode { get; set; } = null;
     public TransportVehicleMeasurements? TransportVehicleMeasurements { get; set; } = null;
     public List<TransportVehicleEquipment> TransportVehicleEquipment { get; } = [];
@@ -5500,7 +5500,7 @@ public class TransportVehicleCharacteristics
     public override string ToString()
     {
         return new XElement("TransportVehicleCharacteristics",
-            TransportVehicleType != null ? new XAttribute("TransportVehicleType", TransportVehicleType) : null,
+            TransportVehicleType != TransportVehicleType.Unset ? new XAttribute("TransportVehicleType", TransportVehicleType) : null,
             TransportVehicleCode != null ? XElement.Parse($"{TransportVehicleCode}") : null,
             TransportVehicleMeasurements != null ? XElement.Parse($"{TransportVehicleMeasurements}") : null,
             TransportVehicleEquipment.Select(equipment => XElement.Parse($"{equipment}")),
@@ -5513,9 +5513,9 @@ public class TransportVehicleCharacteristics
 
 public class TransportVehicleIdentifier
 {
-    public TransportVehicleIdentifierType? TransportVehicleIdentifierType { get; set; } = null;
+    public TransportVehicleIdentifierType TransportVehicleIdentifierType { get; set; } = TransportVehicleIdentifierType.Unset;
     public string? StateOrProvince { get; set; } = null;
-    public ISOCountryCode? ISOCountryCode { get; set; } = null;
+    public ISOCountryCode ISOCountryCode { get; set; } = ISOCountryCode.Unset;
     public string Value = string.Empty;  
 
     public TransportVehicleIdentifier() { }
@@ -5531,9 +5531,9 @@ public class TransportVehicleIdentifier
     public override string ToString()
     {
         return new XElement("TransportVehicleIdentifier",
-            TransportVehicleIdentifierType != null ? new XAttribute("TransportVehicleIdentifierType", TransportVehicleIdentifierType) : null,
+            TransportVehicleIdentifierType != TransportVehicleIdentifierType.Unset ? new XAttribute("TransportVehicleIdentifierType", TransportVehicleIdentifierType) : null,
             StateOrProvince != null ? new XAttribute("StateOrProvince", StateOrProvince) : null,
-            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            ISOCountryCode != ISOCountryCode.Unset ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
             Value
         ).ToString();
     }
@@ -5563,7 +5563,7 @@ public class TransportVehicleEquipment
 
 public class TransportVehicleEquipmentDescription
 {
-    public Language? Language { get; set; } = null;
+    public Language Language { get; set; } = Language.Unset;
     public string Value = string.Empty;  
 
     public TransportVehicleEquipmentDescription() { }
@@ -5577,7 +5577,7 @@ public class TransportVehicleEquipmentDescription
     public override string ToString()
     {
         return new XElement("TransportVehicleEquipmentDescription",
-            Language != null ? new XAttribute("Language", Language) : null,
+            Language != Language.Unset ? new XAttribute("Language", Language) : null,
             Value
         ).ToString();
     }
@@ -5667,7 +5667,7 @@ public class TransportVehicleCode : AgencyValueBase
 
 public class TransportModeCharacteristics
 {
-    public TransportModeType? TransportModeType { get; set; } = null;
+    public TransportModeType TransportModeType { get; set; } = TransportModeType.Unset;
     public TransportModeCode? TransportModeCode { get; set; } = null;
     public string? TransportModeText { get; set; } = null;
 
@@ -5683,7 +5683,7 @@ public class TransportModeCharacteristics
     public override string ToString()
     {
         return new XElement("TransportModeCharacteristics",
-            TransportModeType != null ? new XAttribute("TransportModeType", TransportModeType) : null,
+            TransportModeType != TransportModeType.Unset ? new XAttribute("TransportModeType", TransportModeType) : null,
             TransportModeCode != null ? XElement.Parse($"{TransportModeCode}") : null,
             TransportModeText != null ? new XElement("TransportModeText", TransportModeText) : null
         ).ToString();
@@ -5783,7 +5783,7 @@ public class SupplyPointCode : AgencyValueBase
 public class PriceDetails
 {
     public PriceQuantityBasis PriceQuantityBasis = PriceQuantityBasis.ActualVolume;
-    public PriceTaxBasis? PriceTaxBasis { get; set; } = null;
+    public PriceTaxBasis PriceTaxBasis { get; set; } = PriceTaxBasis.Unset;
     public PricePerUnit PricePerUnit { get; } = new();
     public List<InformationalPricePerUnit> InformationalPricePerUnit { get; } = [];
     public List<string> AdditionalText { get; } = [];
@@ -5809,7 +5809,7 @@ public class PriceDetails
     {
         return new XElement("PriceDetails",
             new XAttribute("PriceQuantityBasis", PriceQuantityBasis),
-            PriceTaxBasis != null ? new XAttribute("PriceTaxBasis", PriceTaxBasis) : null,
+            PriceTaxBasis != PriceTaxBasis.Unset ? new XAttribute("PriceTaxBasis", PriceTaxBasis) : null,
             PricePerUnit != null ? XElement.Parse($"{PricePerUnit}") : null,
             InformationalPricePerUnit.Select(unit => XElement.Parse($"{unit}")),
             AdditionalText.Select(text => XElement.Parse($"{text}")),
@@ -5905,7 +5905,7 @@ public class GeneralLedgerAccount : AgencyValueBase
 
 public class TaxAdjustment
 {
-    public TaxCategoryType? TaxCategoryType { get; set; } = null;
+    public TaxCategoryType TaxCategoryType { get; set; } = TaxCategoryType.Unset;
     public TaxType TaxType = TaxType.VAT;
     public string? TaxPercent { get; set; } = null;
     public TaxAmount? TaxAmount { get; set; } = null;
@@ -5927,7 +5927,7 @@ public class TaxAdjustment
     public override string ToString()
     {
         return new XElement("TaxAdjustment",
-            TaxCategoryType != null ? new XAttribute("TaxCategoryType", TaxCategoryType) : null,
+            TaxCategoryType != TaxCategoryType.Unset ? new XAttribute("TaxCategoryType", TaxCategoryType) : null,
             new XAttribute("TaxType", TaxType),
             TaxPercent != null ? XElement.Parse($"{TaxPercent}") : null,
             TaxAmount != null ? XElement.Parse($"{TaxAmount}") : null,
@@ -5939,7 +5939,7 @@ public class TaxAdjustment
 
 public class InformationalAmount
 {
-    public AmountType? AmountType { get; set; } = null;
+    public AmountType AmountType { get; set; } = AmountType.Unset;
     public CurrencyValue CurrencyValue { get; } = new();
     public ExchangeRate? ExchangeRate { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
@@ -5957,7 +5957,7 @@ public class InformationalAmount
     public override string ToString()
     {
         return new XElement("InformationalAmount",
-            AmountType != null ? new XAttribute("AmountType", AmountType) : null,
+            AmountType != AmountType.Unset ? new XAttribute("AmountType", AmountType) : null,
             XElement.Parse($"{CurrencyValue}"),
             ExchangeRate != null ? XElement.Parse($"{ExchangeRate}") : null,
             AdditionalText.Select(text => new XElement("AdditionalText", text))
@@ -6125,7 +6125,7 @@ public class MonetaryAdjustmentStartAmount
 public class ExchangeRate
 {
     public ExchangeRateType ExchangeRateType = ExchangeRateType.Fixed;
-    public CurrencyFromType? CurrencyFromType { get; set; } = null;
+    public CurrencyFromType CurrencyFromType { get; set; } = CurrencyFromType.Unset;
     public CurrencyValue? CurrencyValue { get; set; } = null;
     public MinCurrencyValue MinCurrencyValue { get; } = new();
     public MaxCurrencyValue MaxCurrencyValue { get; } = new();
@@ -6147,7 +6147,7 @@ public class ExchangeRate
     {
         return new XElement("ExchangeRate",
             new XAttribute("ExchangeRateType", ExchangeRateType),
-            CurrencyFromType != null ? new XAttribute("CurrencyFromType", CurrencyFromType) : null,
+            CurrencyFromType != CurrencyFromType.Unset ? new XAttribute("CurrencyFromType", CurrencyFromType) : null,
             MinCurrencyValue != null ? XElement.Parse($"{MinCurrencyValue}") : null,
             MaxCurrencyValue != null ? XElement.Parse($"{MaxCurrencyValue}") : null,
             Date != null ? XElement.Parse($"{Date}") : null
@@ -6175,7 +6175,7 @@ public class MinCurrencyValue : CurrencyValueBase
 
 public abstract class CurrencyValueBase
 {
-    public CurrencyType? CurrencyType { get; set; } = null;
+    public CurrencyType CurrencyType { get; set; } = CurrencyType.Unset;
     public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
@@ -6191,7 +6191,7 @@ public abstract class CurrencyValueBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            CurrencyType != null ? new XAttribute("CurrencyType", CurrencyType) : null,
+            CurrencyType != CurrencyType.Unset ? new XAttribute("CurrencyType", CurrencyType) : null,
             Value
         ).ToString();
     }
@@ -6293,9 +6293,9 @@ public class InformationalQuantity : Quantity
 public class Quantity
 {
     public QuantityType QuantityType = QuantityType.ActualVolume;
-    public QuantityTypeContext? QuantityTypeContext { get; set; } = null;
-    public AdjustmentType_Tare? AdjustmentType { get; set; } = null;
-    public MeasuringAgency? MeasuringAgency { get; set; } = null;
+    public QuantityTypeContext QuantityTypeContext { get; set; } = QuantityTypeContext.Unset;
+    public AdjustmentType_Tare AdjustmentType { get; set; } = AdjustmentType_Tare.Unset;
+    public MeasuringAgency MeasuringAgency { get; set; } = MeasuringAgency.Unset;
     public string? MeasuringMethod { get; set; } = null;
     public Value Value { get; } = new();
     public RangeMin? RangeMin { get; set; } = null;
@@ -6319,9 +6319,9 @@ public class Quantity
     {
         return new XElement("Quantity",
             new XAttribute("QuantityType", QuantityType),
-            QuantityTypeContext != null ? new XAttribute("QuantityTypeContext", QuantityTypeContext) : null,
-            AdjustmentType != null ? new XAttribute("AdjustmentType", AdjustmentType) : null,
-            MeasuringAgency != null ? new XAttribute("MeasuringAgency", MeasuringAgency) : null,
+            QuantityTypeContext != QuantityTypeContext.Unset ? new XAttribute("QuantityTypeContext", QuantityTypeContext) : null,
+            AdjustmentType != AdjustmentType_Tare.Unset ? new XAttribute("AdjustmentType", AdjustmentType) : null,
+            MeasuringAgency != MeasuringAgency.Unset ? new XAttribute("MeasuringAgency", MeasuringAgency) : null,
             MeasuringMethod != null ? new XAttribute("MeasuringMethod", MeasuringMethod) : null,
             XElement.Parse($"{Value}"),
             RangeMin != null ? XElement.Parse($"{RangeMin}") : null,
@@ -6359,8 +6359,8 @@ public class Value : ValueBase
 
 public abstract class ValueBase
 {
-    public UOM UOM = UOM.Unit;
-    public string Value = string.Empty;  
+    public UOM UOM { get; set; } = UOM.Unit;
+    public string Value { get; set; } = string.Empty;  
 
     public abstract string LocalName { get; }
 
@@ -6483,7 +6483,7 @@ public class DateTimeFrom
 
 public class DeliveryStatus
 {
-    public DeliveryStatusType? DeliveryStatusType { get; set; } = null;
+    public DeliveryStatusType DeliveryStatusType { get; set; } = DeliveryStatusType.Unset;
     public DeliveryLastDateOfChange? DeliveryLastDateOfChange { get; set; } = null;
 
     public DeliveryStatus() { }
@@ -6497,7 +6497,7 @@ public class DeliveryStatus
     public override string ToString()
     {
         return new XElement("DeliveryStatus",
-            DeliveryStatusType != null ? new XAttribute("DeliveryStatusType", DeliveryStatusType) : null,
+            DeliveryStatusType != DeliveryStatusType.Unset ? new XAttribute("DeliveryStatusType", DeliveryStatusType) : null,
             DeliveryLastDateOfChange != null ? XElement.Parse($"{DeliveryLastDateOfChange}") : null
         ).ToString();
     }
@@ -6654,7 +6654,7 @@ public class TermsOfDelivery
 
 public class ShipmentMethodOfPayment
 {
-    public LocationQualifier? LocationQualifier { get; set; } = null;
+    public LocationQualifier LocationQualifier { get; set; } = LocationQualifier.Unset;
     public Method? Method { get; set; } = null;
     public string Value = string.Empty;  
 
@@ -6670,7 +6670,7 @@ public class ShipmentMethodOfPayment
     public override string ToString()
     {
         return new XElement("ShipmentMethodOfPayment",
-            LocationQualifier != null ? new XAttribute("LocationQualifier", LocationQualifier) : null,
+            LocationQualifier != LocationQualifier.Unset ? new XAttribute("LocationQualifier", LocationQualifier) : null,
             Method != null ? new XAttribute("Method", Method) : null,
             Value
         ).ToString();
@@ -6705,8 +6705,8 @@ public class IncotermsLocation
 public abstract class Party
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public PartyType? PartyType { get; set; } = null;
-    public LogisticsRole? LogisticsRole { get; set; } = null;
+    public PartyType PartyType { get; set; } = PartyType.Unset;
+    public LogisticsRole LogisticsRole { get; set; } = LogisticsRole.Unset;
     public List<PartyIdentifier> PartyIdentifier { get; } = [];
     public NameAddress NameAddress { get; } = new();
     public string? URL { get; set; } = null;
@@ -6739,8 +6739,8 @@ public abstract class Party
     public override string ToString()
     {
         return new XElement(LocalName,
-            PartyType != null ? new XAttribute("PartyType", PartyType) : null,
-            LogisticsRole != null ? new XAttribute("LogisticsRole", LogisticsRole) : null,
+            PartyType != PartyType.Unset ? new XAttribute("PartyType", PartyType) : null,
+            LogisticsRole != LogisticsRole.Unset ? new XAttribute("LogisticsRole", LogisticsRole) : null,
             PartyIdentifier.Select(identifier => XElement.Parse($"{identifier}")),
             XElement.Parse($"{NameAddress}"),
             URL != null ? new XElement("URL", URL) : null,
@@ -6751,8 +6751,8 @@ public abstract class Party
 
 public class CommonContact
 {
-    public ContactType ContactType = ContactType.Other;
-    public string ContactName = string.Empty;
+    public ContactType ContactType { get; set; } = ContactType.Other;
+    public string ContactName { get; set; } = string.Empty;
     public string? ContactIdentifier { get; set; } = null;
     public string? Telephone { get; set; } = null;
     public string? MobilePhone { get; set; } = null;
@@ -6822,7 +6822,7 @@ public class MapCoordinates
 
 public class NameAddress
 {
-    public CommunicationRole? CommunicationRole { get; set; } = null;
+    public CommunicationRole CommunicationRole { get; set; } = CommunicationRole.Unset;
     public string Name1 { get; set; } = string.Empty;
     public string? Name2 { get; set; } = null;
     public string? Name3 { get; set; } = null;
@@ -6864,6 +6864,7 @@ public class NameAddress
     public override string ToString()
     {
         return new XElement("NameAddress",
+            CommunicationRole != CommunicationRole.Unset ? new XAttribute("CommunicationRole", CommunicationRole) : null,
             new XElement("Name1", Name1),
             Name2 != null ? new XElement("Name2", Name2) : null,
             Name3 != null ? new XElement("Name3", Name3) : null,
@@ -6885,7 +6886,7 @@ public class NameAddress
 
 public class Country
 {
-    public ISOCountryCode? ISOCountryCode { get; set; } = null;
+    public ISOCountryCode ISOCountryCode { get; set; } = ISOCountryCode.Unset;
     public string Value = string.Empty;  
 
     public Country() { }
@@ -6899,7 +6900,7 @@ public class Country
     public override string ToString()
     {
         return new XElement("Country",
-            ISOCountryCode != null ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
+            ISOCountryCode != ISOCountryCode.Unset ? new XAttribute("ISOCountryCode", ISOCountryCode) : null,
             Value
         ).ToString();
     }
@@ -6907,7 +6908,7 @@ public class Country
 
 public class GPSCoordinates
 {
-    public GPSSystem? GPSSystem { get; set; } = null;
+    public GPSSystem GPSSystem { get; set; } = GPSSystem.Unset;
     public string Latitude = string.Empty;
     public string Longitude = string.Empty;
     public string? Height { get; set; } = null;
@@ -6925,7 +6926,7 @@ public class GPSCoordinates
     public override string ToString()
     {
         return new XElement("GPSCoordinates",
-            GPSSystem != null ? new XAttribute("GPSSystem", GPSSystem) : null,
+            GPSSystem != GPSSystem.Unset ? new XAttribute("GPSSystem", GPSSystem) : null,
             new XElement("Latitude", Latitude),
             new XElement("Longitude", Longitude),
             Height != null ? new XElement("Height", Height) : null
@@ -6936,7 +6937,7 @@ public class GPSCoordinates
 public class PartyIdentifier
 {
     public PartyIdentifierType PartyIdentifierType = PartyIdentifierType.Other;
-    public Agency? Agency { get; set; } = null;
+    public Agency Agency { get; set; } = Agency.Unset;
     public string Value = string.Empty;  
 
     public PartyIdentifier() { }
@@ -6952,7 +6953,7 @@ public class PartyIdentifier
     {
         return new XElement("PartyIdentifier",
             new XAttribute("PartyIdentifierType", PartyIdentifierType.GetMemberValue()),
-            Agency != null ? new XAttribute("Agency", Agency.GetMemberValue()) : null,
+            Agency != Agency.Unset ? new XAttribute("Agency", Agency.GetMemberValue()) : null,
             Value
         ).ToString();
     }
@@ -6992,7 +6993,7 @@ public class DocumentReferenceInformation
 public class DeliveryMessageReference
 {
     public ReferenceType DeliveryMessageReferenceType = ReferenceType.Other;
-    public AssignedBy? AssignedBy = null;
+    public AssignedBy AssignedBy = AssignedBy.Unset;
     public string Value = string.Empty;
 
     public DeliveryMessageReference() { }
@@ -7008,7 +7009,7 @@ public class DeliveryMessageReference
     {
         return new XElement("DeliveryMessageReference",
             new XAttribute("DeliveryMessageReferenceType", DeliveryMessageReferenceType),
-            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null,
+            AssignedBy != AssignedBy.Unset ? new XAttribute("AssignedBy", AssignedBy) : null,
             Value
         ).ToString();
     }
@@ -7016,7 +7017,7 @@ public class DeliveryMessageReference
 
 public abstract class AgencyValueBase
 {
-    public Agency? Agency { get; set; } = null;
+    public Agency Agency { get; set; } = Agency.Unset;
     public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
@@ -7032,7 +7033,7 @@ public abstract class AgencyValueBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            Agency != null ?new XAttribute("Agency", Agency) : null,
+            Agency != Agency.Unset ? new XAttribute("Agency", Agency) : null,
             Value
         ).ToString();
     }
@@ -7040,7 +7041,7 @@ public abstract class AgencyValueBase
 
 public abstract class AssignedByReferenceValueBase
 {
-    public AssignedBy? AssignedBy;
+    public AssignedBy AssignedBy { get; set; } = AssignedBy.Unset;
     public string Value = string.Empty;  
 
     public abstract string LocalName { get; }
@@ -7056,7 +7057,7 @@ public abstract class AssignedByReferenceValueBase
     public override string ToString()
     {
         return new XElement(LocalName,
-            AssignedBy != null ? new XAttribute("AssignedBy", AssignedBy) : null
+            AssignedBy != AssignedBy.Unset ? new XAttribute("AssignedBy", AssignedBy) : null
         ).ToString();
     }
 }
