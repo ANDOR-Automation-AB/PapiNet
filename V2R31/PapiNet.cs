@@ -14,7 +14,7 @@ public class DeliveryMessageWood
     public DeliveryMessageContextType DeliveryMessageContextType { get; set; } = DeliveryMessageContextType.Unset;
     public YesNo Reissued { get; set; } = YesNo.Unset;
     public Language Language { get; set; } = Language.Unset;
-    public DeliveryMessageWoodHeader DeliveryMessageWoodHeader { get; } = new();
+    public DeliveryMessageWoodHeader DeliveryMessageWoodHeader { get; set; } = new();
     public List<DeliveryMessageShipment> DeliveryMessageShipment { get; } = [];
     public DeliveryMessageWoodSummary? DeliveryMessageWoodSummary { get; set; } = null;
 
@@ -59,8 +59,8 @@ public class DeliveryMessageWood
 public class DeliveryMessageWoodSummary
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public TotalNumberOfShipments TotalNumberOfShipments { get; } = new();
-    public TotalQuantity TotalQuantity { get; } = new();
+    public TotalNumberOfShipments TotalNumberOfShipments { get; set; } = new();
+    public TotalQuantity TotalQuantity { get; set; } = new();
     public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
     public ProductSummary? ProductSummary { get; set; } = null;
     public LengthSpecification? LengthSpecification { get; set; } = null;
@@ -309,8 +309,8 @@ public class CustomsStampHeaderText
 
 public class CustomsTotals
 {
-    public CustomsTariffCode CustomsTariffCode { get; } = new();
-    public TotalQuantity TotalQuantity { get; } = new();
+    public CustomsTariffCode CustomsTariffCode { get; set; } = new();
+    public TotalQuantity TotalQuantity { get; set; } = new();
     public List<InformationalQuantity> InformationalQuantity { get; } = [];
     public string Value = string.Empty; 
     
@@ -360,7 +360,7 @@ public class TotalNumberOfShipments
 
 public class DeliveryMessageDate
 {
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
 
     public DeliveryMessageDate() { }
 
@@ -630,8 +630,8 @@ public class ProductGroupSummary
 public class DeliveryShipmentLineItem
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
-    public DeliveryShipmentLineItemNumber DeliveryShipmentLineItemNumber { get; } = new();
-    public PurchaseOrderInformation PurchaseOrderInformation { get; } = new();
+    public DeliveryShipmentLineItemNumber DeliveryShipmentLineItemNumber { get; set; } = new();
+    public PurchaseOrderInformation PurchaseOrderInformation { get; set; } = new();
     public PurchaseOrderLineItemNumber? PurchaseOrderLineItemNumber { get; set; } = null;
     public List<DeliveryMessageReference> DeliveryMessageReference { get; } = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation { get; } = [];
@@ -1007,7 +1007,7 @@ public class OtherDate
 {
     private readonly ILogger<DeliveryMessageWood>? _logger;
     public DateType DateType = DateType.Other;
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
     public Week? Week { get; set; } = null;
     public DateTimeRange? DateTimeRange { get; set; } = null;
@@ -1302,7 +1302,7 @@ public class InventoryClass
 {
     public InventoryStatusType InventoryStatusType { get; set; } = InventoryStatusType.Unset;
     public OwnedBy InventoryOwnedBy { get; set; } = OwnedBy.Unset;
-    public InventoryClassCode InventoryClassCode { get; } = new();
+    public InventoryClassCode InventoryClassCode { get; set; } = new();
     public List<InventoryClassDescription> InventoryClassDescription { get; } = [];
     public List<string> AdditionalText { get; } = [];
     public string Value = string.Empty;  
@@ -1465,7 +1465,7 @@ public class Identifier
 
 public class Product
 {
-    public ProductIdentifier ProductIdentifier { get; } = new();
+    public ProductIdentifier ProductIdentifier { get; set; } = new();
     public List<ProductDescription> ProductDescription { get; } = [];
     public List<Classification> Classification { get; } = [];
     public BookManufacturing? BookManufacturing { get; set; } = null;
@@ -1625,10 +1625,10 @@ public class WoodPanelProducts
 
 public class SoftwoodPlywood
 {
-    public PlywoodOSBGrade PlywoodOSBGrade { get; } = new();
-    public Thickness Thickness { get; } = new();
-    public Width Width { get; } = new();
-    public Length Length { get; } = new();
+    public PlywoodOSBGrade PlywoodOSBGrade { get; set; } = new();
+    public Thickness Thickness { get; set; } = new();
+    public Width Width { get; set; } = new();
+    public Length Length { get; set; } = new();
     public PlywoodOSBSpecies PlywoodOSBSpecies { get; set; } = PlywoodOSBSpecies.Unset;
     public string? PlyNumber { get; set; } = null;
     public Surface? Surface { get; set; } = null;
@@ -1866,7 +1866,7 @@ public class RoofingSidingDeckingFencing
 
 public class DeckAndPorchFlooringMaterialsNaturalWood
 {
-    public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics { get; } = new();
+    public DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics { get; set; } = new();
     public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;  
 
@@ -1902,7 +1902,7 @@ public class DeckAndPorchFlooringMaterialsNaturalWoodCharacteristics : SoftwoodL
 
 public class NaturalWoodSidingOther
 {
-    public NaturalWoodSidingOtherCharacteristics NaturalWoodSidingOtherCharacteristics { get; } = new();
+    public NaturalWoodSidingOtherCharacteristics NaturalWoodSidingOtherCharacteristics { get; set; } = new();
     public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;  
 
@@ -1938,7 +1938,7 @@ public class NaturalWoodSidingOtherCharacteristics : SoftwoodLumberCharacteristi
 
 public class NaturalWoodSiding
 {
-    public NaturalWoodSidingCharacteristics NaturalWoodSidingCharacteristics { get; } = new();
+    public NaturalWoodSidingCharacteristics NaturalWoodSidingCharacteristics { get; set; } = new();
     public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;  
 
@@ -1963,8 +1963,8 @@ public class NaturalWoodSiding
 
 public abstract class SoftwoodLumberCharacteristicsBase
 {
-    public LumberSpecies LumberSpecies { get; } = new();
-    public LumberGrade LumberGrade { get; } = new();
+    public LumberSpecies LumberSpecies { get; set; } = new();
+    public LumberGrade LumberGrade { get; set; } = new();
     public Length? Length { get; set; } = null;
     public Width? Width { get; set; } = null;
     public Thickness? Thickness { get; set; } = null;
@@ -2094,7 +2094,7 @@ public class WoodTimbersDimensionalLumberBoards
 
 public class HardwoodLumber
 {
-    public HardwoodLumberCharacteristics HardwoodLumberCharacteristics { get; } = new();
+    public HardwoodLumberCharacteristics HardwoodLumberCharacteristics { get; set; } = new();
     public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;  
 
@@ -2162,7 +2162,7 @@ public class AnyType
 
 public class SoftwoodLumber
 {
-    public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics { get; } = new();
+    public SoftwoodLumberCharacteristics SoftwoodLumberCharacteristics { get; set; } = new();
     public Packaging? Packaging { get; set; } = null;
     public string Value = string.Empty;  
 
@@ -2186,7 +2186,7 @@ public class SoftwoodLumber
 
 public class Packaging
 {
-    public ProductPackaging ProductPackaging { get; } = new();
+    public ProductPackaging ProductPackaging { get; set; } = new();
     public string Value = string.Empty;  
 
     public Packaging() { }
@@ -2354,7 +2354,7 @@ public class PalletLength : Length
 
 public class ProductIdentification
 {
-    public ProductIdentifier ProductIdentifier { get; } = new();
+    public ProductIdentifier ProductIdentifier { get; set; } = new();
     public List<string> ProductDescription { get; } = [];
     public string Value = string.Empty;   
 
@@ -2481,8 +2481,8 @@ public class QuantityInUnit : MeasurementBase
 
 public class SoftwoodLumberCharacteristics
 {
-    public LumberSpecies LumberSpecies { get; } = new();
-    public LumberGrade LumberGrade { get; } = new();
+    public LumberSpecies LumberSpecies { get; set; } = new();
+    public LumberGrade LumberGrade { get; set; } = new();
     public Length? Length { get; set; } = null;
     public Width? Width { get; set; } = null;
     public Thickness? Thickness { get; set; } = null;
@@ -2756,7 +2756,7 @@ public class ClassIdentifier
 
 public class ExLog
 {
-    public Value Value { get; } = new();
+    public Value Value { get; set; } = new();
 
     public ExLog() { }
 
@@ -2848,8 +2848,8 @@ public class FireTreatment
 
 public class PressureTreatment
 {
-    public PressureTreatmentCompound PressureTreatmentCompound { get; } = new();
-    public PressureTreatmentConcentration PressureTreatmentConcentration { get; } = new();
+    public PressureTreatmentCompound PressureTreatmentCompound { get; set; } = new();
+    public PressureTreatmentConcentration PressureTreatmentConcentration { get; set; } = new();
     public PressureTreatmentComStdorUseCategory PressureTreatmentComStdorUseCategory;
     public string Value = string.Empty;  
 
@@ -3206,8 +3206,8 @@ public class BookManufacturing
 
 public class SuppliedComponentInformation
 {
-    public SupplierParty SupplierParty { get; } = new();
-    public ProductIdentifier ProductIdentifier { get; } = new();
+    public SupplierParty SupplierParty { get; set; } = new();
+    public ProductIdentifier ProductIdentifier { get; set; } = new();
     public List<ProductDescription> ProductDescription { get; } = [];
     public List<Classification> Classification { get; } = [];
     public List<BookClassification> BookClassification { get; } = [];
@@ -3473,7 +3473,7 @@ public abstract class DetailMeasurementBase
     public TestAgency TestAgency { get; set; } = TestAgency.Unset;
     public SampleType SampleType { get; set; } = SampleType.Unset;
     public ResultSource ResultSource { get; set; } = ResultSource.Unset;
-    public DetailValue DetailValue { get; } = new();
+    public DetailValue DetailValue { get; set; } = new();
     public DetailRangeMin? DetailRangeMin { get; set; } = null;
     public DetailRangeMax? DetailRangeMax { get; set; } = null;
     public StandardDeviation? StandardDeviation { get; set; } = null;
@@ -3654,7 +3654,7 @@ public class ProductIdentifier
 public class PrepInformation
 {
     public PrepType PrepType { get; set; } = PrepType.Unset;
-    public SupplierParty SupplierParty { get; } = new();
+    public SupplierParty SupplierParty { get; set; } = new();
     public PrepShipDate? PrepShipDate { get; set; } = null;
     public PrepDueDate? PrepDueDate { get; set; } = null;
     public PrepNeededDate? PrepNeededDate { get; set; } = null;
@@ -3710,7 +3710,7 @@ public class PrepShipDate : DateTimeBase
 
 public abstract class DateTimeBase
 {
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
     public string Value = string.Empty;  
 
@@ -3737,7 +3737,7 @@ public abstract class DateTimeBase
 public class ProofInformationalQuantity
 {
     public ProofType ProofType { get; set; } = ProofType.Unset;
-    public Quantity Quantity { get; } = new();
+    public Quantity Quantity { get; set; } = new();
     public List<InformationalQuantity> InformationalQuantity { get; } = [];
     public OtherParty? OtherParty { get; set; } = null;
     public ProofApprovalDate? ProofApprovalDate { get; set; } = null;
@@ -3988,7 +3988,7 @@ public class TransportLoadingCodeDescription
 
 public class QuantityOrderedInformation
 {
-    public Quantity Quantity { get; } = new();
+    public Quantity Quantity { get; set; } = new();
     public List<InformationalQuantity> InformationalQuantity { get; } = [];
     public List<string> AdditionalText { get; } = [];
     public List<Length> Length { get; } = [];
@@ -4074,7 +4074,7 @@ public abstract class MeasurementBase
 {
     public ActualNominal ActualNominal { get; set; } = ActualNominal.Unset;
     public WithGrain WithGrain { get; set; } = WithGrain.Unset;
-    public Value Value { get; } = new();
+    public Value Value { get; set; } = new();
     public RangeMin? RangeMin { get; set; } = null;
     public RangeMax? RangeMax { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
@@ -4182,11 +4182,11 @@ public class DeliveryMessageWoodHeader
     public DeliveryMessageDate DeliveryMessageDate { get; set; } = new();
     public List<DeliveryMessageReference> DeliveryMessageReference { get; } = [];
     public List<DocumentReferenceInformation> DocumentReferenceInformation { get; } = [];
-    public BuyerParty BuyerParty { get; } = new();
-    public BillToParty? BillToParty { get; } = new();
-    public SupplierParty SupplierParty { get; } = new();
+    public BuyerParty BuyerParty { get; set; } = new();
+    public BillToParty? BillToParty { get; set; } = new();
+    public SupplierParty SupplierParty { get; set; } = new();
     public List<OtherParty> OtherParty { get; } = [];
-    public SenderParty? SenderParty { get; } = new();
+    public SenderParty? SenderParty { get; set; } = new();
     public List<ReceiverParty> ReceiverParty { get; } = [];
     public List<ShipToInformation> ShipToInformation { get; } = [];
     public CountryOfOrigin? CountryOfOrigin { get; set; } = null;
@@ -4450,7 +4450,7 @@ public class CountryOfOrigin
 
 public class ShipToInformation
 {
-    public ShipToCharacteristics ShipToCharacteristics { get; } = new();
+    public ShipToCharacteristics ShipToCharacteristics { get; set; } = new();
     public List<DeliverySchedule> DeliverySchedule { get; } = [];
     public string Value = string.Empty;  
 
@@ -4478,7 +4478,7 @@ public class DeliverySchedule
     public ProductionStatus? ProductionStatus { get; set; } = null;
     public DeliveryStatus? DeliveryStatus { get; set; } = null;
     public List<DeliveryDateWindow> DeliveryDateWindow { get; } = [];
-    public Quantity Quantity { get; } = new();
+    public Quantity Quantity { get; set; } = new();
     public List<InformationalQuantity> InformationalQuantity { get; } = [];
     public PriceDetails? PriceDetails { get; set; } = null;
     public List<MonetaryAdjustment> MonetaryAdjustment { get; } = [];
@@ -4553,8 +4553,8 @@ public class DeliveryLeg
     public EventType EventType { get; set; } = EventType.Unset;
     public LegStageType LegStageType { get; set; } = LegStageType.Unset;
     public string DeliveryLegSequenceNumber = string.Empty;
-    public DeliveryOrigin DeliveryOrigin { get; } = new();
-    public CarrierParty? CarrierParty { get; } = new();
+    public DeliveryOrigin DeliveryOrigin { get; set; } = new();
+    public CarrierParty? CarrierParty { get; set; } = new();
     public List<OtherParty> OtherParty { get; } = [];
     public TransportModeCharacteristics? TransportModeCharacteristics { get; set; } = null;
     public TransportVehicleCharacteristics? TransportVehicleCharacteristics { get; set; } = null;
@@ -4681,7 +4681,7 @@ public class DeliveryDestination
 {
     public Date? Date { get; set; } = null;
     public Time? Time { get; set; } = null;
-    public LocationParty LocationParty { get; } = new();
+    public LocationParty LocationParty { get; set; } = new();
     public SupplyPoint? SupplyPoint { get; set; } = null;
     public LocationCode? LocationCode { get; set; } = null;
     public GPSCoordinates? GPSCoordinates { get; set; } = null;
@@ -4957,7 +4957,7 @@ public class Length : MeasurementBase
 public class RoadBearingCapacity
 {
     public RoadBearingCapacityType RoadBearingCapacityType { get; set; } = RoadBearingCapacityType.Unset;
-    public Value Value { get; } = new();
+    public Value Value { get; set; } = new();
     public RangeMin? RangeMin { get; set; } = null;
     public RangeMax? RangeMax { get; set; } = null;
 
@@ -5703,7 +5703,7 @@ public class DeliveryOrigin
 {
     public Date? Date { get; set; } = null;
     public Time? Time { get; set; } = null;
-    public LocationParty LocationParty { get; } = new();
+    public LocationParty LocationParty { get; set; } = new();
     public SupplyPoint? SupplyPoint { get; set; } = null;
     public LocationCode? LocationCode { get; set; } = null;
     public GPSCoordinates? GPSCoordinates { get; set; } = null;
@@ -5746,7 +5746,7 @@ public class LocationParty : Party
 public class SupplyPoint
 {
     public LocationType LocationType = LocationType.Destination;
-    public SupplyPointCode SupplyPointCode { get; } = new();
+    public SupplyPointCode SupplyPointCode { get; set; } = new();
     public List<string> SupplyPointDescription { get; } = [];
     public List<MapCoordinates> MapCoordinates { get; } = [];
 
@@ -5784,10 +5784,10 @@ public class PriceDetails
 {
     public PriceQuantityBasis PriceQuantityBasis = PriceQuantityBasis.ActualVolume;
     public PriceTaxBasis PriceTaxBasis { get; set; } = PriceTaxBasis.Unset;
-    public PricePerUnit PricePerUnit { get; } = new();
+    public PricePerUnit PricePerUnit { get; set; } = new();
     public List<InformationalPricePerUnit> InformationalPricePerUnit { get; } = [];
     public List<string> AdditionalText { get; } = [];
-    public ExchangeRate ExchangeRate { get; } = new();
+    public ExchangeRate ExchangeRate { get; set; } = new();
     public MonetaryAdjustment? MonetaryAdjustment { get; set; } = null;
     public GeneralLedgerAccount? GeneralLedgerAccount { get; set; } = null;
 
@@ -5877,7 +5877,7 @@ public class MonetaryAdjustment
 
 public class MonetaryAdjustmentAmount
 {
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
 
     public MonetaryAdjustmentAmount() { }
 
@@ -5940,7 +5940,7 @@ public class TaxAdjustment
 public class InformationalAmount
 {
     public AmountType AmountType { get; set; } = AmountType.Unset;
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
     public ExchangeRate? ExchangeRate { get; set; } = null;
     public List<string> AdditionalText { get; } = [];
 
@@ -5967,7 +5967,7 @@ public class InformationalAmount
 
 public class TaxAmount
 {
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
 
     public TaxAmount() { }
 
@@ -6011,7 +6011,7 @@ public class FlatAmountAdjustment
 
 public class AdjustmentFixedAmount
 {
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
     public string Value = string.Empty;  
 
     public AdjustmentFixedAmount() { }
@@ -6058,7 +6058,7 @@ public class PriceAdjustment
 
 public class AdjustmentValue : MeasurementBase
 {
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
 
     public AdjustmentValue() { }
 
@@ -6100,7 +6100,7 @@ public class MonetaryAdjustmentStartQuantity : MeasurementBase
 
 public class MonetaryAdjustmentStartAmount
 {
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
     public string Value = string.Empty;  
 
     public MonetaryAdjustmentStartAmount() { }
@@ -6127,8 +6127,8 @@ public class ExchangeRate
     public ExchangeRateType ExchangeRateType = ExchangeRateType.Fixed;
     public CurrencyFromType CurrencyFromType { get; set; } = CurrencyFromType.Unset;
     public CurrencyValue? CurrencyValue { get; set; } = null;
-    public MinCurrencyValue MinCurrencyValue { get; } = new();
-    public MaxCurrencyValue MaxCurrencyValue { get; } = new();
+    public MinCurrencyValue MinCurrencyValue { get; set; } = new();
+    public MaxCurrencyValue MaxCurrencyValue { get; set; } = new();
     public Date? Date { get; set; } = null;
 
     public ExchangeRate() { }
@@ -6200,7 +6200,7 @@ public abstract class CurrencyValueBase
 public class InformationalPricePerUnit : MeasurementBase
 {
     public InformationalPricePerUnitType InformationalPricePerUnitType = InformationalPricePerUnitType.ProductPrice;
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
 
     public InformationalPricePerUnit() { }
 
@@ -6225,7 +6225,7 @@ public class InformationalPricePerUnit : MeasurementBase
 
 public class PricePerUnit : MeasurementBase
 {
-    public CurrencyValue CurrencyValue { get; } = new();
+    public CurrencyValue CurrencyValue { get; set; } = new();
 
     public PricePerUnit() { }
 
@@ -6297,7 +6297,7 @@ public class Quantity
     public AdjustmentType_Tare AdjustmentType { get; set; } = AdjustmentType_Tare.Unset;
     public MeasuringAgency MeasuringAgency { get; set; } = MeasuringAgency.Unset;
     public string? MeasuringMethod { get; set; } = null;
-    public Value Value { get; } = new();
+    public Value Value { get; set; } = new();
     public RangeMin? RangeMin { get; set; } = null;
     public RangeMax? RangeMax { get; set; } = null;
 
@@ -6387,7 +6387,7 @@ public class DeliveryDateWindow
     public DateTimeRange? DateTimeRange { get; set; } = null;
     public string? Month { get; set; } = null;
     public string? Week { get; set; } = null;
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
 
     public DeliveryDateWindow() { }
@@ -6417,8 +6417,8 @@ public class DeliveryDateWindow
 
 public class DateTimeRange
 {
-    public DateTimeFrom DateTimeFrom { get; } = new();
-    public DateTimeTo DateTimeTo { get; } = new();
+    public DateTimeFrom DateTimeFrom { get; set; } = new();
+    public DateTimeTo DateTimeTo { get; set; } = new();
 
     public DateTimeRange() { }
 
@@ -6439,7 +6439,7 @@ public class DateTimeRange
 
 public class DateTimeTo
 {
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
 
     public DateTimeTo() { }
@@ -6461,7 +6461,7 @@ public class DateTimeTo
 
 public class DateTimeFrom
 {
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
 
     public DateTimeFrom() { }
@@ -6505,7 +6505,7 @@ public class DeliveryStatus
 
 public class DeliveryLastDateOfChange
 {
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
 
     public DeliveryLastDateOfChange() { }
@@ -6549,7 +6549,7 @@ public class ProductionStatus
 
 public class ProductionLastDateOfChange
 {
-    public Date Date { get; } = new();
+    public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
 
     public ProductionLastDateOfChange() { }
@@ -6571,7 +6571,7 @@ public class ProductionLastDateOfChange
 
 public class ShipToCharacteristics
 {
-    public ShipToParty ShipToParty { get; } = new();
+    public ShipToParty ShipToParty { get; set; } = new();
     public LocationCode? LocationCode { get; set; } = null;
     public TermsOfDelivery? TermsOfDelivery { get; set; } = null;
     public DeliveryRouteCode? DeliveryRouteCode { get; set; } = null;
@@ -6708,7 +6708,7 @@ public abstract class Party
     public PartyType PartyType { get; set; } = PartyType.Unset;
     public LogisticsRole LogisticsRole { get; set; } = LogisticsRole.Unset;
     public List<PartyIdentifier> PartyIdentifier { get; } = [];
-    public NameAddress NameAddress { get; } = new();
+    public NameAddress NameAddress { get; set; } = new();
     public string? URL { get; set; } = null;
     public CommonContact? CommonContact { get; set; } = null;
     public string Value = string.Empty;  
