@@ -371,14 +371,9 @@ public class DeliveryMessageDate
         Date = root.Element("Date") is XElement date ? new Date(date) : Date;
     }
 
-    public static DeliveryMessageDate Parse(DateTime dateTime)
-    {
-        DeliveryMessageDate dmd = new();
-        dmd.Date.Year = $"{dateTime.Year}";
-        dmd.Date.Month = $"{dateTime.Month}";
-        dmd.Date.Day = $"{dateTime.Day}";
-        return dmd;
-    }
+    public static implicit operator DateTime(DeliveryMessageDate deliveryMessageDate) => deliveryMessageDate.Date;
+
+    public static implicit operator DeliveryMessageDate(DateTime date) => new DeliveryMessageDate { Date = date };
 
     public override string ToString()
     {
@@ -403,6 +398,18 @@ public class Date
         Day = root.Element("Day")?.Value ?? Day;
     }
 
+    public static implicit operator DateTime(Date date) => new DateTime(
+        int.Parse(date.Year),
+        int.Parse(date.Month),
+        int.Parse(date.Day));
+
+    public static implicit operator Date(DateTime dateTime) => new Date
+    {
+        Day = $"{dateTime.Day:00}",
+        Month = $"{dateTime.Month:00}",
+        Year = $"{dateTime.Year}"
+    };
+
     public override string ToString()
     {
         return new XElement("Date",
@@ -410,14 +417,6 @@ public class Date
             new XElement("Month", Month),
             new XElement("Day", Day)
         ).ToString();
-    }
-
-    public DateTime ToDateTime()
-    {
-        int year = int.Parse(Year);
-        int month = int.Parse(Month);
-        int day = int.Parse(Day);
-        return new DateTime(year, month, day);
     }
 }
 
