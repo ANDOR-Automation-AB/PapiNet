@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
+﻿using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Xml.XPath;
@@ -8,7 +7,6 @@ namespace PapiNet;
 
 public class DeliveryMessageWood
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public DeliveryMessageType DeliveryMessageType { get; set; } = DeliveryMessageType.DeliveryMessage;
     public DeliveryMessageStatusType DeliveryMessageStatusType { get; set; } = DeliveryMessageStatusType.Original;
     public DeliveryMessageContextType DeliveryMessageContextType { get; set; } = DeliveryMessageContextType.Unset;
@@ -20,26 +18,19 @@ public class DeliveryMessageWood
 
     public string Value = string.Empty;  
     
-    public DeliveryMessageWood(ILogger<DeliveryMessageWood>? logger = null) 
-    {
-        _logger = logger;
-        _logger?.LogInformation("New delivery message has been added.");
-    }
+    public DeliveryMessageWood() { }
 
-    public DeliveryMessageWood(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public DeliveryMessageWood(XElement root)
     {
-        _logger = logger;
-        DeliveryMessageType = root.Attribute("DeliveryMessageType")?.Value.ToEnum<DeliveryMessageType>(_logger) ?? DeliveryMessageType;
-        DeliveryMessageStatusType = root.Attribute("DeliveryMessageStatusType")?.Value.ToEnum<DeliveryMessageStatusType>(_logger) ?? DeliveryMessageStatusType;
-        DeliveryMessageContextType = root.Attribute("DeliveryMessageContextType")?.Value.ToEnum<DeliveryMessageContextType>(_logger) ?? DeliveryMessageContextType;
-        Reissued = root.Attribute("Reissued")?.Value.ToEnum<YesNo>(_logger) ?? Reissued;
-        //Language = root.Attribute("Language")?.Value.ToEnum<Language>(_logger) ?? Language;
-        DeliveryMessageWoodHeader = root.Element("DeliveryMessageWoodHeader") is { } dmwh ? new(dmwh, _logger) : DeliveryMessageWoodHeader;
-        DeliveryMessageShipment = [.. root.Elements("DeliveryMessageShipment").Select(e => new DeliveryMessageShipment(e, _logger))];
-        DeliveryMessageWoodSummary = root.Element("DeliveryMessageWoodSummary") is { } dmws ? new(dmws, _logger) : DeliveryMessageWoodSummary;
+        DeliveryMessageType = root.Attribute("DeliveryMessageType")?.Value.ToEnum<DeliveryMessageType>() ?? DeliveryMessageType;
+        DeliveryMessageStatusType = root.Attribute("DeliveryMessageStatusType")?.Value.ToEnum<DeliveryMessageStatusType>() ?? DeliveryMessageStatusType;
+        DeliveryMessageContextType = root.Attribute("DeliveryMessageContextType")?.Value.ToEnum<DeliveryMessageContextType>() ?? DeliveryMessageContextType;
+        Reissued = root.Attribute("Reissued")?.Value.ToEnum<YesNo>() ?? Reissued;
+        //Language = root.Attribute("Language")?.Value.ToEnum<Language>() ?? Language;
+        DeliveryMessageWoodHeader = root.Element("DeliveryMessageWoodHeader") is { } dmwh ? new(dmwh) : DeliveryMessageWoodHeader;
+        DeliveryMessageShipment = [.. root.Elements("DeliveryMessageShipment").Select(e => new DeliveryMessageShipment(e))];
+        DeliveryMessageWoodSummary = root.Element("DeliveryMessageWoodSummary") is { } dmws ? new(dmws) : DeliveryMessageWoodSummary;
         Value = root.Value;
-
-        _logger?.LogInformation("New delivery message has been added.");
     }
 
     public override string ToString()
@@ -58,7 +49,6 @@ public class DeliveryMessageWood
 
 public class DeliveryMessageWoodSummary
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public TotalNumberOfShipments TotalNumberOfShipments { get; set; } = new();
     public TotalQuantity TotalQuantity { get; set; } = new();
     public List<TotalInformationalQuantity> TotalInformationalQuantity { get; } = [];
@@ -71,15 +61,10 @@ public class DeliveryMessageWoodSummary
     public string Value = string.Empty;  
     
 
-    public DeliveryMessageWoodSummary(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
-        _logger?.LogInformation("New delivery message summary has been added.");
-    }
+    public DeliveryMessageWoodSummary() { }
 
-    public DeliveryMessageWoodSummary(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public DeliveryMessageWoodSummary(XElement root)
     {
-        _logger = logger;
         TotalNumberOfShipments = root.Element("TotalNumberOfShipments") is { } tnos ? new(tnos) : TotalNumberOfShipments;
         TotalQuantity = root.Element("TotalQuantity") is { } tq ? new(tq) : TotalQuantity;
         TotalInformationalQuantity = [.. root.Elements("TotalInformationalQuantity").Select(e => new TotalInformationalQuantity(e))];
@@ -90,8 +75,6 @@ public class DeliveryMessageWoodSummary
         CustomsStampInformation = [.. root.Elements("CustomsStampInformation").Select(e => new CustomsStampInformation(e))];
         TermsAndDisclaimers = [.. root.Elements("TermsAndDisclaimers").Select(e => new TermsAndDisclaimers(e))];
         Value = root.Value;
-
-        _logger?.LogInformation("New delivery message summary has been added.");
     }
 
     public override string ToString()
@@ -112,24 +95,15 @@ public class DeliveryMessageWoodSummary
 
 public class TermsAndDisclaimers
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public Language Language { get; set; } = Language.Unset;
     public string Value = string.Empty;  
     
 
-    public TermsAndDisclaimers(ILogger<DeliveryMessageWood>? logger = null) 
-    {
-        _logger = logger;
-        _logger?.LogInformation("New terms and disclaimers has been added.");
-    }
+    public TermsAndDisclaimers() { }
 
-    public TermsAndDisclaimers(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public TermsAndDisclaimers(XElement root)
     {
-        _logger = logger;
-        //Language = root.Attribute("Language")?.Value.ToEnum<Language>(_logger) ?? Language;
-        Value = root.Value;
-
-        _logger?.LogInformation("New terms and disclaimers has been added.");
+        //Language = root.Attribute("Language")?.Value.ToEnum<Language>() ?? Language;
     }
 
     public override string ToString()
@@ -143,7 +117,6 @@ public class TermsAndDisclaimers
 
 public class CustomsStampInformation
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public List<CustomsStampHeaderText> CustomsStampHeaderText { get; } = [];
     public CustomsParty? CustomsParty { get; set; } = null;
     public CustomsStampDate? CustomsStampDate { get; set; } = null;
@@ -154,26 +127,18 @@ public class CustomsStampInformation
     public string Value = string.Empty;  
     
 
-    public CustomsStampInformation(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public CustomsStampInformation() { }
 
-        _logger?.LogInformation("New customs stamp information has been added.");
-    }
-
-    public CustomsStampInformation(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public CustomsStampInformation(XElement root)
     {
-        _logger = logger;
         CustomsStampHeaderText = [.. root.Elements("CustomsStampHeaderText").Select(e => new CustomsStampHeaderText(e))];
         CustomsParty = root.Element("CustomsParty") is { } cp ? new(cp) : CustomsParty;
         CustomsStampDate = root.Element("CustomsStampDate") is { } csd ? new(csd) : CustomsStampDate;
-        CustomsReferenceNumber = root.Element("CustomsReferenceNumber") is { } crn ? new(crn, _logger) : CustomsReferenceNumber;
-        SupplierCustomsReference = root.Element("SupplierCustomsReference") is { } scr ? new(scr, _logger) : SupplierCustomsReference;
+        CustomsReferenceNumber = root.Element("CustomsReferenceNumber") is { } crn ? new(crn) : CustomsReferenceNumber;
+        SupplierCustomsReference = root.Element("SupplierCustomsReference") is { } scr ? new(scr) : SupplierCustomsReference;
         MillParty = root.Element("MillParty") is { } mp ? new(mp) : MillParty;
         CustomsStampTrailerText = root.Element("CustomsStampTrailerText") is { } cstt ? new(cstt) : CustomsStampTrailerText;
         Value = root.Value;
-
-        _logger?.LogInformation("New customs stamp information has been added.");
     }
 
     public override string ToString()
@@ -204,36 +169,27 @@ public class CustomsStampTrailerText
 
 public class MillParty : Party
 {
-    public MillParty(ILogger<DeliveryMessageWood>? logger = null) : base(logger) { }
+    public MillParty() : base() { }
 
-    public MillParty(XElement root, ILogger<DeliveryMessageWood>? logger = null) : base(root, logger) { }
+    public MillParty(XElement root) : base(root) { }
 
     public override string LocalName => "MillParty";
 }
 
 public class SupplierCustomsReference
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public ReferenceType SupplierCustomsReferenceType = ReferenceType.Other;
     public AssignedBy AssignedBy = AssignedBy.Other;
     public string Value = string.Empty;  
     
 
-    public SupplierCustomsReference(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public SupplierCustomsReference() { }
 
-        _logger?.LogInformation("New supplier customs reference has been added.");
-    }
-
-    public SupplierCustomsReference(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public SupplierCustomsReference(XElement root)
     {
-        _logger = logger;
-        SupplierCustomsReferenceType = root.Attribute("SupplierCustomsReferenceType")?.Value.ToEnum<ReferenceType>(_logger) ?? SupplierCustomsReferenceType;
-        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>(_logger) ?? AssignedBy;
+        SupplierCustomsReferenceType = root.Attribute("SupplierCustomsReferenceType")?.Value.ToEnum<ReferenceType>() ?? SupplierCustomsReferenceType;
+        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>() ?? AssignedBy;
         Value = root.Value;
-
-        _logger?.LogInformation("New supplier customs reference has been added.");
     }
 
     public override string ToString()
@@ -248,25 +204,16 @@ public class SupplierCustomsReference
 
 public class CustomsReferenceNumber
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public CustomsReferenceNumberType CustomsReferenceNumberType;
     public string Value = string.Empty;  
     
 
-    public CustomsReferenceNumber(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public CustomsReferenceNumber() { }
 
-        _logger?.LogInformation("New customs reference number has been added.");
-    }
-
-    public CustomsReferenceNumber(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public CustomsReferenceNumber(XElement root)
     {
-        _logger = logger;
-        CustomsReferenceNumberType = root.Attribute("CustomsReferenceNumberType")?.Value.ToEnum<CustomsReferenceNumberType>(_logger) ?? CustomsReferenceNumberType;
+        CustomsReferenceNumberType = root.Attribute("CustomsReferenceNumberType")?.Value.ToEnum<CustomsReferenceNumberType>() ?? CustomsReferenceNumberType;
         Value = root.Value;
-
-        _logger?.LogInformation("New customs reference number has been added.");
     }
 
     public override string ToString()
@@ -435,27 +382,20 @@ public class Time
 
 public class DeliveryMessageShipment
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public ShipmentID? ShipmentID { get; set; } = null;
     public List<DeliveryMessageProductGroup> DeliveryMessageProductGroup { get; } = [];
     public ShipmentSummary? ShipmentSummary { get; set; } = null;
-    public string Value = string.Empty;  
-    
+    public string Value = string.Empty;
 
-    public DeliveryMessageShipment(ILogger<DeliveryMessageWood>? logger = null) 
-    { 
-        _logger = logger;
-    }
 
-    public DeliveryMessageShipment(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public DeliveryMessageShipment() { }
+
+    public DeliveryMessageShipment(XElement root)
     {
-        _logger = logger;
-        ShipmentID = root.Element("ShipmentID") is { } sid ? new(sid, _logger) : ShipmentID;
-        DeliveryMessageProductGroup = [.. root.Elements("DeliveryMessageProductGroup").Select(e => new DeliveryMessageProductGroup(e, _logger))];
+        ShipmentID = root.Element("ShipmentID") is { } sid ? new(sid) : ShipmentID;
+        DeliveryMessageProductGroup = [.. root.Elements("DeliveryMessageProductGroup").Select(e => new DeliveryMessageProductGroup(e))];
         ShipmentSummary = root.Element("ShipmentSummary") is { } ss ? new(ss) : ShipmentSummary;
         Value = root.Value;
-
-        _logger?.LogInformation("New delivery message shipment has been added.");
     }
 
     public override string ToString()
@@ -470,24 +410,15 @@ public class DeliveryMessageShipment
 
 public class ShipmentID
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public ShipmentIDType ShipmentIDType { get; set; } = ShipmentIDType.Unset;
     public string Value = string.Empty;
 
-    public ShipmentID(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public ShipmentID() { }
 
-        _logger?.LogInformation("New shipment id has been added.");
-    }
-
-    public ShipmentID(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public ShipmentID(XElement root)
     {
-        _logger = logger;
-        ShipmentIDType = root.Attribute("ShipmentIDType")?.Value.ToEnum<ShipmentIDType>(_logger) ?? ShipmentIDType;
+        ShipmentIDType = root.Attribute("ShipmentIDType")?.Value.ToEnum<ShipmentIDType>() ?? ShipmentIDType;
         Value = root.Value;
-
-        _logger?.LogInformation("New shipment id has been added.");
     }
 
     public override string ToString()
@@ -531,28 +462,19 @@ public class ShipmentSummary
 
 public class DeliveryMessageProductGroup
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public ProductGroupID? ProductGroupID { get; set; } = null;
     public List<DeliveryShipmentLineItem> DeliveryShipmentLineItem { get; } = [];
     public ProductGroupSummary? ProductGroupSummary { get; set; } = null;
     public string Value = string.Empty;  
 
-    public DeliveryMessageProductGroup(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public DeliveryMessageProductGroup() { }
 
-        _logger?.LogInformation("New delivery message product group has been added.");
-    }
-
-    public DeliveryMessageProductGroup(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public DeliveryMessageProductGroup(XElement root)
     {
-        _logger = logger;
-        ProductGroupID = root.Element("ProductGroupID") is { } pgid ? new(pgid, _logger) : ProductGroupID;
-        DeliveryShipmentLineItem = [.. root.Elements("DeliveryShipmentLineItem").Select(e => new DeliveryShipmentLineItem(e, _logger))];
+        ProductGroupID = root.Element("ProductGroupID") is { } pgid ? new(pgid) : ProductGroupID;
+        DeliveryShipmentLineItem = [.. root.Elements("DeliveryShipmentLineItem").Select(e => new DeliveryShipmentLineItem(e))];
         ProductGroupSummary = root.Element("ProductGroupSummary") is { } pgs ? new(pgs) : ProductGroupSummary;
         Value = root.Value;
-
-        _logger?.LogInformation("New delivery message product group has been added.");
     }
 
     public override string ToString()
@@ -567,24 +489,15 @@ public class DeliveryMessageProductGroup
 
 public class ProductGroupID
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public ProductGroupIDType ProductGroupIDType { get; set; } = ProductGroupIDType.Unset;
     public string Value = string.Empty;  
 
-    public ProductGroupID(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public ProductGroupID() { }
 
-        _logger?.LogInformation("New product group id has been added.");
-    }
-
-    public ProductGroupID(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public ProductGroupID(XElement root)
     {
-        _logger = logger;
-        ProductGroupIDType = root.Attribute("ProductGroupIDType")?.Value.ToEnum<ProductGroupIDType>(_logger) ?? ProductGroupIDType;
+        ProductGroupIDType = root.Attribute("ProductGroupIDType")?.Value.ToEnum<ProductGroupIDType>() ?? ProductGroupIDType;
         Value = root.Value;
-
-        _logger?.LogInformation("New product group id has been added.");
     }
 
     public override string ToString()
@@ -628,7 +541,6 @@ public class ProductGroupSummary
 
 public class DeliveryShipmentLineItem
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public DeliveryShipmentLineItemNumber DeliveryShipmentLineItemNumber { get; set; } = new();
     public PurchaseOrderInformation PurchaseOrderInformation { get; set; } = new();
     public PurchaseOrderLineItemNumber? PurchaseOrderLineItemNumber { get; set; } = null;
@@ -655,16 +567,10 @@ public class DeliveryShipmentLineItem
     
     public string Value = string.Empty;  
 
-    public DeliveryShipmentLineItem(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public DeliveryShipmentLineItem() { }
 
-        _logger?.LogInformation("New delivery shipment line item has been added.");
-    }
-
-    public DeliveryShipmentLineItem(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public DeliveryShipmentLineItem(XElement root)
     {
-        _logger = logger;
         DeliveryShipmentLineItemNumber = root.Element("DeliveryShipmentLineItemNumber") is { } dslin ? new(dslin) : DeliveryShipmentLineItemNumber;
         PurchaseOrderInformation = root.Element("PurchaseOrderInformation") is { } poi ? new(poi) : PurchaseOrderInformation;
         PurchaseOrderLineItemNumber = root.Element("PurchaseOrderLineItemNumber") is { } polin ? new(polin) : PurchaseOrderLineItemNumber;
@@ -683,14 +589,12 @@ public class DeliveryShipmentLineItem
         SafetyAndEnvironmentalInformation = [.. root.Elements("SafetyAndEnvironmentalInformation").Select(e => new SafetyAndEnvironmentalInformation(e))];
         BillToParty = root.Element("BillToParty") is { } btp ? new(btp) : BillToParty;
         Product = root.Element("Product") is { } p ? new(p) : Product;
-        PackageInformation = root.Element("PackageInformation") is { } pi ? new(pi, _logger) : PackageInformation;
+        PackageInformation = root.Element("PackageInformation") is { } pi ? new(pi) : PackageInformation;
         TransportPackageInformation = [.. root.Elements("TransportPackageInformation").Select(e => new TransportPackageInformation(e))];
         ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
         LengthSpecification = [.. root.Elements("LengthSpecification").Select(e => new LengthSpecification(e))];
         QuantityDeviation = root.Element("QuantityDeviation") is { } qd ? new(qd) : QuantityDeviation;
         Value = root.Value;
-
-        _logger?.LogInformation("New delivery shipment line item has been added.");
     }
 
     public override string ToString()
@@ -756,7 +660,6 @@ public class QuantityDeviation : MeasurementBase
 
 public class TransportPackageInformation
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public PackageType PackageType { get; set; } = PackageType.Unset;
     public YesNo MixedProductPalletIndicator { get; set; } = YesNo.Unset;
     public PackageLevel? PackageLevel { get; set; } = null;
@@ -781,18 +684,12 @@ public class TransportPackageInformation
     public List<OtherDate> OtherDate { get; } = [];
     public string Value = string.Empty;  
 
-    public TransportPackageInformation(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public TransportPackageInformation() { }
 
-        _logger?.LogInformation("New transport package information has been added.");
-    }
-
-    public TransportPackageInformation(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public TransportPackageInformation(XElement root)
     {
-        _logger = logger;
-        PackageType = root.Attribute("PackageType")?.Value.ToEnum<PackageType>(_logger) ?? PackageType;
-        MixedProductPalletIndicator = root.Attribute("MixedProductPalletIndicator")?.Value.ToEnum<YesNo>(_logger) ?? MixedProductPalletIndicator;
+        PackageType = root.Attribute("PackageType")?.Value.ToEnum<PackageType>() ?? PackageType;
+        MixedProductPalletIndicator = root.Attribute("MixedProductPalletIndicator")?.Value.ToEnum<YesNo>() ?? MixedProductPalletIndicator;
         PackageLevel = root.Attribute("PackageLevel") is { } pl ? new(pl) : PackageLevel;
         Identifier = root.Element("Identifier") is { } i ? new(i) : Identifier;
         RawMaterialSet = [.. root.Elements("RawMaterialSet").Select(e => new RawMaterialSet(e))];
@@ -811,11 +708,9 @@ public class TransportPackageInformation
         ReamItem = root.Element("ReamItem") is { } reai ? new(reai) : ReamItem;
         SheetItem = root.Element("SheetItem") is { } si ? new(si) : SheetItem;
         UnitItem = root.Element("UnitItem") is { } ui ? new(ui) : UnitItem;
-        WoodItem = root.Element("WoodItem") is { } wi ? new(wi, _logger) : WoodItem;
-        OtherDate = [.. root.Elements("OtherDate").Select(e => new OtherDate(e, _logger))];
+        WoodItem = root.Element("WoodItem") is { } wi ? new(wi) : WoodItem;
+        OtherDate = [.. root.Elements("OtherDate").Select(e => new OtherDate(e))];
         Value = root.Value;
-
-        _logger?.LogInformation("New transport package information has been added.");
     }
 
     public override string ToString()
@@ -849,7 +744,6 @@ public class TransportPackageInformation
 
 public class PackageInformation
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public PackageType PackageType { get; set; } = PackageType.Unset;
     public YesNo MixedProductPalletIndicator { get; set; } = YesNo.Unset;
     public PackageLevel? PackageLevel { get; set; } = null;
@@ -876,18 +770,12 @@ public class PackageInformation
     public PackageReference? PackageReference { get; set; } = null;
     public string Value = string.Empty;  
 
-    public PackageInformation(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public PackageInformation() { }
 
-        _logger?.LogInformation("New package information has been added.");
-    }
-
-    public PackageInformation(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public PackageInformation(XElement root)
     {
-        _logger = logger;
-        PackageType = root.Attribute("PackageType")?.Value.ToEnum<PackageType>(_logger) ?? PackageType;
-        MixedProductPalletIndicator = root.Attribute("MixedProductPalletIndicator")?.Value.ToEnum<YesNo>(_logger) ?? MixedProductPalletIndicator;
+        PackageType = root.Attribute("PackageType")?.Value.ToEnum<PackageType>() ?? PackageType;
+        MixedProductPalletIndicator = root.Attribute("MixedProductPalletIndicator")?.Value.ToEnum<YesNo>() ?? MixedProductPalletIndicator;
         PackageLevel = root.Attribute("PackageLevel") is { } pl ? new(pl) : PackageLevel;
         Identifier = root.Element("Identifier") is { } i ? new(i) : Identifier;
         SupplierMarks = [.. root.Elements("SupplierMarks").Select(e => new SupplierMarks(e))];
@@ -905,14 +793,12 @@ public class PackageInformation
         ReamItem = root.Element("ReamItem") is { } reai ? new(reai) : ReamItem;
         SheetItem = root.Element("SheetItem") is { } si ? new(si) : SheetItem;
         UnitItem = root.Element("UnitItem") is { } ui ? new(ui) : UnitItem;
-        WoodItem = root.Element("WoodItem") is { } wi ? new(wi, _logger) : WoodItem;
-        OtherDate = [.. root.Elements("OtherDate").Select(e => new OtherDate(e, _logger))];
+        WoodItem = root.Element("WoodItem") is { } wi ? new(wi) : WoodItem;
+        OtherDate = [.. root.Elements("OtherDate").Select(e => new OtherDate(e))];
         e_Attachment = root.Element("e-Attachment") is { } ea ? new(ea) : e_Attachment;
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => new AdditionalText(e))];
-        PackageReference = root.Element("PackageReference") is { } pr ? new(pr, _logger) : PackageReference;
+        PackageReference = root.Element("PackageReference") is { } pr ? new(pr) : PackageReference;
         Value = root.Value;
-
-        _logger?.LogInformation("New package information has been added.");
     }
 
     public override string ToString()
@@ -959,26 +845,17 @@ public class PackageLevel
 
 public class PackageReference
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public ReferenceType PackageReferenceType = ReferenceType.Other;
     public AssignedBy AssignedBy = AssignedBy.Other;
     public string Value = string.Empty;  
 
-    public PackageReference(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public PackageReference() { }
 
-        _logger?.LogInformation("New package reference has been added.");
-    }
-
-    public PackageReference(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public PackageReference(XElement root)
     {
-        _logger = logger;
-        PackageReferenceType = root.Attribute("PackageReferenceType")?.Value.ToEnum<ReferenceType>(_logger) ?? PackageReferenceType;
-        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>(_logger) ?? AssignedBy;
+        PackageReferenceType = root.Attribute("PackageReferenceType")?.Value.ToEnum<ReferenceType>() ?? PackageReferenceType;
+        AssignedBy = root.Attribute("AssignedBy")?.Value.ToEnum<AssignedBy>() ?? AssignedBy;
         Value = root.Value;
-
-        _logger?.LogInformation("New package reference has been added.");
     }
 
     public override string ToString()
@@ -1004,7 +881,6 @@ public class AdditionalText
 
 public class OtherDate
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public DateType DateType = DateType.Other;
     public Date Date { get; set; } = new();
     public Time? Time { get; set; } = null;
@@ -1014,10 +890,9 @@ public class OtherDate
 
     public OtherDate() { }
 
-    public OtherDate(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public OtherDate(XElement root)
     {
-        _logger = logger;
-        DateType = root.Attribute("DateType")?.Value.ToEnum<DateType>(_logger) ?? DateType;
+        DateType = root.Attribute("DateType")?.Value.ToEnum<DateType>() ?? DateType;
         Date = root.Element("Date") is { } d ? new(d) : Date;
         Time = root.Element("Time") is { } t ? new(t) : Time;
         Week = root.Element("Week") is { } w ? new(w) : Week;
@@ -1051,30 +926,21 @@ public class Week
 
 public class WoodItem
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public Product? Product { get; set; } = null;
     public PackagingInformation? PackagingInformation { get; set; } = null;
     public ProductSummary? ProductSummary { get; set; } = null;
     public List<LengthSpecification> LengthSpecification { get; } = [];
     public string Value = string.Empty;  
 
-    public WoodItem(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public WoodItem() { }
 
-        _logger?.LogInformation("New wood item has been added.");
-    }
-
-    public WoodItem(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public WoodItem(XElement root)
     {
-        _logger = logger;
         Product = root.Element("Product") is { } p ? new(p) : Product;
-        PackagingInformation = root.Element("PackagingInformation") is { } pi ? new(pi, _logger) : PackagingInformation;
+        PackagingInformation = root.Element("PackagingInformation") is { } pi ? new(pi) : PackagingInformation;
         ProductSummary = root.Element("ProductSummary") is { } ps ? new(ps) : ProductSummary;
         LengthSpecification = [.. root.Elements("LengthSpecification").Select(e => new LengthSpecification(e))];
         Value = root.Value;
-
-        _logger?.LogInformation("New wood item has been added.");
     }
 
     public override string ToString()
@@ -1165,7 +1031,6 @@ public class TotalQuantity : MeasurementBase
 
 public class PackagingInformation
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public QuantityInUnit? QuantityInUnit { get; set; } = null;
     public UnitDimension? UnitDimension { get; set; } = null;
     public Weight? Weight { get; set; } = null;
@@ -1179,16 +1044,10 @@ public class PackagingInformation
     public PackageType PackageType { get; set; } = PackageType.Unset;
     public string Value = string.Empty;  
 
-    public PackagingInformation(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public PackagingInformation() { }
 
-        _logger?.LogInformation("New packaging information has been added.");
-    }
-
-    public PackagingInformation(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public PackagingInformation(XElement root)
     {
-        _logger = logger;
         QuantityInUnit = root.Element("QuantityInUnit") is { } qiu ? new(qiu) : QuantityInUnit;
         UnitDimension = root.Element("UnitDimension") is { } ud ? new(ud) : UnitDimension;
         Weight = root.Element("Weight") is { } w ? new(w) : Weight;
@@ -1199,10 +1058,8 @@ public class PackagingInformation
         PalletCharacteristics = [.. root.Elements("PalletCharacteristics").Select(e => new PalletCharacteristics(e))];
         Wrap = [.. root.Elements("Wrap").Select(e => new Wrap(e))];
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
-        PackageType = root.Element("PackageType")?.Value.ToEnum<PackageType>(_logger) ?? PackageType;
+        PackageType = root.Element("PackageType")?.Value.ToEnum<PackageType>() ?? PackageType;
         Value = root.Value;
-
-        _logger?.LogInformation("New packaging information has been added.");
     }
 
     public override string ToString()
@@ -4174,9 +4031,7 @@ public class PurchaseOrderIssuedDate : DateTimeBase
 
 public class DeliveryMessageWoodHeader
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
-
-    public string DeliveryMessageNumber = string.Empty;
+    public string DeliveryMessageNumber { get; set; } = string.Empty;
     public string? TransactionHistoryNumber { get; set; } = null;
     public DeliveryMessageDate DeliveryMessageDate { get; set; } = new();
     public List<DeliveryMessageReference> DeliveryMessageReference { get; } = [];
@@ -4198,9 +4053,8 @@ public class DeliveryMessageWoodHeader
 
     public DeliveryMessageWoodHeader() { }
 
-    public DeliveryMessageWoodHeader(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public DeliveryMessageWoodHeader(XElement root)
     {
-        _logger = logger;
         DeliveryMessageNumber = root.Element("DeliveryMessageNumber")?.Value ?? DeliveryMessageNumber;
         TransactionHistoryNumber = root.Element("TransactionHistoryNumber")?.Value ?? TransactionHistoryNumber;
         DeliveryMessageDate = root.Element("DeliveryMessageDate") is { } dmd ? new(dmd) : DeliveryMessageDate;
@@ -4220,8 +4074,6 @@ public class DeliveryMessageWoodHeader
         AdditionalText = [.. root.Elements("AdditionalText").Select(e => e.Value)];
         DocumentInformation = [.. root.Elements("DocumentInformation").Select(e => new DocumentInformation(e))];
         Value = root.Value;
-
-        _logger?.LogInformation("New delivery message header has been added.");
     }
 
     public override string ToString()
@@ -6703,7 +6555,6 @@ public class IncotermsLocation
 
 public abstract class Party
 {
-    private readonly ILogger<DeliveryMessageWood>? _logger;
     public PartyType PartyType { get; set; } = PartyType.Unset;
     public LogisticsRole LogisticsRole { get; set; } = LogisticsRole.Unset;
     public List<PartyIdentifier> PartyIdentifier { get; } = [];
@@ -6714,16 +6565,10 @@ public abstract class Party
 
     public abstract string LocalName { get; }
 
-    public Party(ILogger<DeliveryMessageWood>? logger = null)
-    {
-        _logger = logger;
+    public Party() { }
 
-        _logger?.LogInformation($"New {LocalName} has been added.");
-    }
-
-    public Party(XElement root, ILogger<DeliveryMessageWood>? logger = null)
+    public Party(XElement root)
     {
-        _logger = logger;
         PartyType = root.Attribute("PartyType") is { Value: var pt } ? Enum.Parse<PartyType>(pt) : PartyType;
         LogisticsRole = root.Attribute("LogisticsRole") is { Value: var lr } ? Enum.Parse<LogisticsRole>(lr) : LogisticsRole;
         PartyIdentifier = [.. root.Elements("PartyIdentifier").Select(e => new PartyIdentifier(e))];
@@ -6731,8 +6576,6 @@ public abstract class Party
         URL = root.Element("URL")?.Value ?? URL;
         CommonContact = root.Element("CommonContact") is { } cc ? new(cc) : CommonContact;
         Value = root.Value;
-
-        _logger?.LogInformation($"New {LocalName} has been added.");
     }
 
     public override string ToString()
