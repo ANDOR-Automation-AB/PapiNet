@@ -36,7 +36,7 @@ public static class Extensions
             ?.Value ?? $"{value}";
     }
 
-    public static T ToEnum<T>(this string value, ILogger<DeliveryMessageWood>? logger = null) where T : struct, Enum
+    public static T ToEnum<T>(this string value, ILogger<PapiNet.Old.DeliveryMessageWood>? logger = null) where T : struct, Enum
     {
         try
         {
