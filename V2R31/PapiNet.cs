@@ -6561,7 +6561,9 @@ public abstract class Party
     public NameAddress NameAddress { get; set; } = new();
     public string? URL { get; set; } = null;
     public CommonContact? CommonContact { get; set; } = null;
-    public string Value = string.Empty;  
+    public string Value { get; set; } = string.Empty;
+
+    public string Name => NameAddress.Name1;
 
     public abstract string LocalName { get; }
 
