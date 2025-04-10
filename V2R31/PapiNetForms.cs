@@ -1,31 +1,30 @@
-﻿using PapiNet.New;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 
-namespace PapiNet.V2R31;
+namespace Xml.PapiNet.V2R31;
 
 public class DeliveryMessageWood
 {
     public DeliveryMessageType_Wood Type { get; set; }
     public DeliveryMessageStatusType Status{ get; set; }
     public DeliveryMessageWoodHeader Header { get; set; } = new();
-    public BindingList<DeliveryMessageShipment> Shipment { get; set; } = [];
+    public BindingList<DeliveryMessageShipment?> Shipment { get; set; } = [];
 
     public static implicit operator DeliveryMessageWood?(XElement? e) => e == null ? null : new()
     {
         Type = e.Attribute("DeliveryMessageType")!.Value.ParseMember<DeliveryMessageType_Wood>(),
         Status = e.Attribute("DeliveryMessageStatusType")!.Value.ParseMember<DeliveryMessageStatusType>(),
         Header = e.Element("DeliveryMessageWoodHeader")!,
-        Shipment = new([.. e.Elements("DeliveryMessageShipment").Select(e => (DeliveryMessageShipment)e)])
+        Shipment = new([.. e.Elements("DeliveryMessageShipment").Select(e => e)])
     };
     public static implicit operator XElement(DeliveryMessageWood o) => new(
         "DeliveryMessageWood",
         new XAttribute("DeliveryMessageType", o.Type.GetMemberValue()),
         new XAttribute("DeliveryMessageStatusType", o.Status.GetMemberValue()),
         (XElement)o.Header,
-        o.Shipment.Select(i => (XElement)i)
+        o.Shipment.Select(i => (XElement)i!)
     );
 
     public override string ToString() => ((XElement)this).ToString();
@@ -33,15 +32,15 @@ public class DeliveryMessageWood
 
 public class DeliveryMessageShipment
 {
-    public BindingList<DeliveryMessageProductGroup> ProductGroup { get; set; } = [];
+    public BindingList<DeliveryMessageProductGroup?> ProductGroup { get; set; } = [];
 
-    public static implicit operator DeliveryMessageShipment(XElement e) => e == null ? null : new()
+    public static implicit operator DeliveryMessageShipment?(XElement? e) => e == null ? null : new()
     {
         ProductGroup = new([.. e.Elements("DeliveryMessageProductGroup").Select(e => e)])
     };
     public static implicit operator XElement(DeliveryMessageShipment o) => new(
         "DeliveryMessageShipment",
-        o.ProductGroup.Select(i => (XElement)i)
+        o.ProductGroup.Select(i => (XElement)i!)
     );
 
     public override string ToString() => ((XElement)this).ToString();
@@ -49,15 +48,15 @@ public class DeliveryMessageShipment
 
 public class DeliveryMessageProductGroup
 {
-    public BindingList<DeliveryShipmentLineItem> Item { get; set; } = [];
+    public BindingList<DeliveryShipmentLineItem?> Item { get; set; } = [];
 
-    public static implicit operator DeliveryMessageProductGroup(XElement e) => new()
+    public static implicit operator DeliveryMessageProductGroup?(XElement? e) => e == null ? null : new()
     {
         Item = new([.. e.Elements("DeliveryShipmentLineItem").Select(e => e)])
     };
     public static implicit operator XElement(DeliveryMessageProductGroup o) => new(
         "DeliveryMessageProductGroup",
-        o.Item.Select(i => (XElement)i)
+        o.Item.Select(i => (XElement)i!)
     );
 
     public override string ToString() => ((XElement)this).ToString();
@@ -66,13 +65,13 @@ public class DeliveryMessageProductGroup
 public class DeliveryShipmentLineItem
 {
     public DeliveryShipmentLineItemNumber Number { get; set; } = new();
-    public PurchaseOrderInformation? Order { get; set; } = new();
-    public PurchaseOrderLineItemNumber? OrderItemNumber { get; set; } = new();
-    public BindingList<DeliveryMessageReference> Reference { get; set; } = [];
+    public PurchaseOrderInformation? Order { get; set; } = null;
+    public PurchaseOrderLineItemNumber? OrderItemNumber { get; set; } = null;
+    public BindingList<DeliveryMessageReference?> Reference { get; set; } = [];
     public Product Product { get; set; } = new();
-    public BindingList<TransportPackageInformation> Package { get; set; } = [];
+    public BindingList<TransportPackageInformation?> Package { get; set; } = [];
 
-    public static implicit operator DeliveryShipmentLineItem(XElement e) => new()
+    public static implicit operator DeliveryShipmentLineItem?(XElement? e) => e == null ? null : new()
     {
         Number = e.Element("DeliveryShipmentLineItemNumber")!,
         Order = e.Element("PurchaseOrderInformation"),
@@ -82,7 +81,12 @@ public class DeliveryShipmentLineItem
     };
     public static implicit operator XElement(DeliveryShipmentLineItem o) => new(
         "DeliveryShipmentLineItem",
-        (XElement)o.Number
+        (XElement)o.Number,
+        o.Order != null ? (XElement)o.Order : null,
+        o.OrderItemNumber != null ? (XElement)o.OrderItemNumber : null,
+        o.Reference.Select(i => (XElement)i!),
+        (XElement)o.Product,
+        o.Package.Select(i => (XElement)i!)
     );
 
     public override string ToString() => ((XElement)this).ToString();

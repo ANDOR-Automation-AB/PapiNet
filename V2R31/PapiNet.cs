@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
-namespace PapiNet.Old;
+namespace PapiNet;
 
 public class DeliveryMessageWood
 {
