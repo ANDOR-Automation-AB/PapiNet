@@ -10,6 +10,9 @@ static class Data
     public static string FolderPath => 
         Path.Combine(CommonApplication, "Andor", "PapiNet");
 
+    public static string MessagesPath =>
+        Path.Combine(FolderPath, "Messages");
+
     public static BindingList<T> Read<T>(string uri, string e, Func<XElement, T> func) =>
         new(File.Exists(uri) ? XDocument.Load(uri).Root?.Elements(e).Select(func).ToList() ?? [] : []);
 
@@ -17,10 +20,26 @@ static class Data
         new XDocument(new XElement("PapiNet", items.Select(i => (XElement)(dynamic)i!)))
         .Save(Path.Combine(FolderPath, uri));
 
+    public static BindingList<DeliveryMessage> Read() =>
+        new(Directory.EnumerateFiles(MessagesPath, "*.xml")
+            .Select(XDocument.Load)
+            .Select(i => (DeliveryMessage)i.Root!)
+            .ToList());
+
+    public static void Write(string uri, DeliveryMessage message) =>
+        new XDocument(
+            new XDeclaration("1.0", "ISO-8859-1", null), 
+            (XElement)message).Save(Path.Combine(MessagesPath, uri));
+
+    public static void Delete(string uri) =>
+        File.Delete(Path.Combine(MessagesPath, uri));
 }
 
 public class DeliveryMessage
 {
+    public string LocalName => "DeliveryMessageWood";
+    public string FileName => $"{Number}.xml";
+
     public MessageType Type { get; set; }
     public MessageStatus Status { get; set; }
     public string Number { get; set; } = string.Empty;
@@ -31,7 +50,7 @@ public class DeliveryMessage
     public BindingList<Party> OtherParties { get; set; } = [];
 
     public static implicit operator XElement(DeliveryMessage o) =>
-        new XElement("DeliveryMessageWood",
+        new XElement(o.LocalName,
             new XAttribute("DeliveryMessageType", o.Type),
             new XAttribute("DeliveryMessageStatusType", o.Status),
             new XElement("DeliveryMessageHeader",
@@ -47,11 +66,40 @@ public class DeliveryMessage
                 o.OtherParties.Select(i => (XElement)i))
             );
 
+    public static implicit operator DeliveryMessage(XElement e) => new()
+    {
+        Type = Enum.TryParse<MessageType>(e.Attribute("DeliveryMessageType")?.Value, out var t) ? t : default,
+        Status = Enum.TryParse<MessageStatus>(e.Attribute("DeliveryMessageStatusType")?.Value, out var s) ? s : default,
+        Number = e.Element("DeliveryMessageHeader")?.Element("DeliveryMessageNumber")?.Value ?? "",
+        Date = DateTime.TryParse(string.Join("-",
+        e.Element("DeliveryMessageHeader")!
+         .Element("DeliveryMessageDate")!
+         .Element("Date")!
+         .Elements().Select(x => x.Value)), out var date) ? date : DateTime.Now,
+        References = new BindingList<Reference>(
+        e.Descendants("DeliveryMessageReference").Select(x => (Reference)x).ToList()),
+        Buyer = (Party?)e.Descendants("BuyerParty").FirstOrDefault() ?? new(),
+        Supplier = (Party?)e.Descendants("SupplierParty").FirstOrDefault() ?? new(),
+        OtherParties = new BindingList<Party>(
+        e.Elements().Where(x =>
+            x.Name.LocalName != "DeliveryMessageHeader" &&
+            x.Name.LocalName != "BuyerParty" &&
+            x.Name.LocalName != "SupplierParty")
+        .Select(x => (Party)x).ToList())
+    };
+
+
     public static void Init()
     {
-        if (!Directory.Exists(Data.FolderPath))
-            Directory.CreateDirectory(Data.FolderPath);
+        Directory.CreateDirectory(Data.FolderPath);
+        Directory.CreateDirectory(Data.MessagesPath);
     }
+
+    public void Save() => Data.Write(FileName, this);
+
+    public void Delete() => Data.Delete(FileName);
+
+    public static BindingList<DeliveryMessage> Load() => Data.Read();
 
     public override string ToString() => ((XElement)this).ToString();
 }
