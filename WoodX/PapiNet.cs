@@ -78,8 +78,11 @@ public class Party
         Address = (Address)e.Element("NameAddress")!
     };
 
-    // TODO
-    // Add Save and Load party BindingList
+    public static void Save(BindingList<Party> list) =>
+        Data.Write(list.FirstOrDefault()!.FileName, list.Select(i => (XElement)i));
+
+    public static BindingList<Party> Load(string localName) =>
+        Data.Read($"{localName}.xml", localName, e => (Party)e);
 
     public override string ToString() => ((XElement)this).ToString();
 }
