@@ -14,7 +14,7 @@ static class Data
         Path.Combine(FolderPath, "Messages");
 
     public static BindingList<T> Read<T>(string uri, string e, Func<XElement, T> func) =>
-        new(File.Exists(uri) ? XDocument.Load(uri).Root?.Elements(e).Select(func).ToList() ?? [] : []);
+        new(File.Exists(Path.Combine(FolderPath, uri)) ? XDocument.Load(Path.Combine(FolderPath, uri)).Root?.Elements(e).Select(func).ToList() ?? [] : []);
 
     public static void Write<T>(string uri, IEnumerable<T> items) =>
         new XDocument(new XElement("PapiNet", items.Select(i => (XElement)(dynamic)i!)))
