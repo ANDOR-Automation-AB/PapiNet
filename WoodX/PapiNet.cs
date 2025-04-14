@@ -16,6 +16,9 @@ static class Data
     public static BindingList<T> Read<T>(string uri, string e, Func<XElement, T> func) =>
         new(File.Exists(Path.Combine(FolderPath, uri)) ? XDocument.Load(Path.Combine(FolderPath, uri)).Root?.Elements(e).Select(func).ToList() ?? [] : []);
 
+    public static BindingList<T> Read<T>(string uri, Func<XElement, T> func) =>
+        new(File.Exists(Path.Combine(FolderPath, uri)) ? XDocument.Load(Path.Combine(FolderPath, uri)).Root?.Elements().Select(func).ToList() ?? [] : []);
+
     public static void Write<T>(string uri, IEnumerable<T> items) =>
         new XDocument(new XElement("PapiNet", items.Select(i => (XElement)(dynamic)i!)))
         .Save(Path.Combine(FolderPath, uri));
@@ -51,8 +54,8 @@ public class DeliveryMessage
     public string Number { get; set; } = string.Empty;
     public DateTime Date { get; set; } = DateTime.Now;
     public BindingList<Reference> References { get; set; } = [];
-    public Party Buyer { get; set; } = new() { LocalName = "BuyerParty" };
-    public Party Supplier { get; set; } = new() { LocalName = "SupplierParty" };
+    public Party Buyer { get; set; } = new();
+    public Party Supplier { get; set; } = new();
     public BindingList<Party> OtherParties { get; set; } = [];
 
     public static implicit operator XElement(DeliveryMessage o) =>
@@ -67,8 +70,10 @@ public class DeliveryMessage
                         new XElement("Month", o.Date.Month),
                         new XElement("Day", o.Date.Day))),
                 o.References.Select(i => (XElement)i),
-                (XElement)o.Buyer,
-                (XElement)o.Supplier,
+                new XElement("BuyerParty",
+                    ((XElement)o.Buyer).Elements()),
+                new XElement("SupplierParty",
+                    ((XElement)o.Supplier).Elements()),
                 o.OtherParties.Select(i => (XElement)i))
             );
 
@@ -114,31 +119,38 @@ public class DeliveryMessage
 
 public class Party
 {
-    public string LocalName { get; set; } = string.Empty;
-    public string FileName => $"{LocalName}.xml";
+    public static string LocalName => "Party";
+    public static string FileName => $"{LocalName}.xml";
 
     public BindingList<PartyIdentifier> Identifiers { get; set; } = [];
     public string Name => Address.Name1;
     public Address Address { get; set; } = new();
+    public PartyType? PartyType { get; set; } = null;
 
     public static implicit operator XElement(Party o) =>
-        new XElement(o.LocalName,
+        new XElement(LocalName,
+            o.PartyType != null ? new XAttribute("PartyType", o.PartyType) : null,
             o.Identifiers.Select(i => (XElement)i),
             (XElement)o.Address);
 
     public static implicit operator Party(XElement e) => new()
     {
-        LocalName = e.Name.LocalName,
+        PartyType = Enum.TryParse<PartyType>(
+            e.Attribute("PartyType")?.Value, 
+            out var type) ? type : null,
         Identifiers = new BindingList<PartyIdentifier>(
             e.Elements("PartyIdentifier").Select(x => (PartyIdentifier)x).ToList()),
         Address = (Address)e.Element("NameAddress")!
     };
 
     public static void Save(BindingList<Party> list) =>
-        Data.Write(list.FirstOrDefault()!.FileName, list.Select(i => (XElement)i));
+        Data.Write(FileName, list.Select(i => (XElement)i));
 
     public static BindingList<Party> Load(string localName) =>
-        Data.Read($"{localName}.xml", localName, e => (Party)e);
+        Data.Read(FileName, localName, e => (Party)e);
+
+    public static BindingList<Party> Load() =>
+        Data.Read(FileName, LocalName, e => (Party)e);
 
     public override string ToString() => ((XElement)this).ToString();
 }
