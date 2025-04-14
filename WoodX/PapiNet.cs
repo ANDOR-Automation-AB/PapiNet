@@ -31,6 +31,12 @@ static class Data
             new XDeclaration("1.0", "ISO-8859-1", null), 
             (XElement)message).Save(Path.Combine(MessagesPath, uri));
 
+    public static void WriteOver(string oldUri, string uri, DeliveryMessage message)
+    {
+        Delete(oldUri);
+        Write(uri, message);
+    }
+
     public static void Delete(string uri) =>
         File.Delete(Path.Combine(MessagesPath, uri));
 }
@@ -96,6 +102,8 @@ public class DeliveryMessage
     }
 
     public void Save() => Data.Write(FileName, this);
+
+    public void SaveOver(string oldUri) => Data.WriteOver($"{oldUri}.xml", FileName, this);
 
     public void Delete() => Data.Delete(FileName);
 
