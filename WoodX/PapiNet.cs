@@ -278,6 +278,13 @@ public enum ReferenceType
     InvoiceNumber,
     OrderNumber,
     ReferenceNumber,
+    ContractNumber,
+    ContractLineNumber,
+    CallOffNumber,
+    CallOffLineItemNumber,
+    OrderLineItemNumber,
+    BillOfLadingMark,
+    LoadingOrderLineNumber
 }
 
 public enum MessageType
