@@ -57,6 +57,7 @@ public class DeliveryMessage
     public Party Buyer { get; set; } = new();
     public Party Supplier { get; set; } = new();
     public BindingList<Party> OtherParties { get; set; } = [];
+    public Shipment Shipment { get; set; } = new();
 
     public static implicit operator XElement(DeliveryMessage o) =>
         new XElement(o.LocalName,
@@ -74,8 +75,8 @@ public class DeliveryMessage
                     ((XElement)o.Buyer).Elements()),
                 new XElement("SupplierParty",
                     ((XElement)o.Supplier).Elements()),
-                o.OtherParties.Select(i => (XElement)i))
-            );
+                o.OtherParties.Select(i => (XElement)i)),
+            (XElement)o.Shipment);
 
     public static implicit operator DeliveryMessage(XElement e) => new()
     {
@@ -83,22 +84,22 @@ public class DeliveryMessage
         Status = Enum.TryParse<MessageStatus>(e.Attribute("DeliveryMessageStatusType")?.Value, out var s) ? s : default,
         Number = e.Element("DeliveryMessageHeader")?.Element("DeliveryMessageNumber")?.Value ?? "",
         Date = DateTime.TryParse(string.Join("-",
-        e.Element("DeliveryMessageHeader")!
-         .Element("DeliveryMessageDate")!
-         .Element("Date")!
-         .Elements().Select(x => x.Value)), out var date) ? date : DateTime.Now,
+            e.Element("DeliveryMessageHeader")!
+             .Element("DeliveryMessageDate")!
+             .Element("Date")!
+             .Elements().Select(x => x.Value)), out var date) ? date : DateTime.Now,
         References = new BindingList<Reference>(
-        e.Descendants("DeliveryMessageReference").Select(x => (Reference)x).ToList()),
-        Buyer = (Party?)e.Descendants("BuyerParty").FirstOrDefault() ?? new(),
-        Supplier = (Party?)e.Descendants("SupplierParty").FirstOrDefault() ?? new(),
-        OtherParties = new BindingList<Party>(
-        e.Elements().Where(x =>
-            x.Name.LocalName != "DeliveryMessageHeader" &&
-            x.Name.LocalName != "BuyerParty" &&
-            x.Name.LocalName != "SupplierParty")
-        .Select(x => (Party)x).ToList())
+            e.Descendants("DeliveryMessageReference").Select(x => (Reference)x).ToList()),
+        Buyer = e.First<Party>("BuyerParty") ?? new(),
+        Supplier = e.First<Party>("SupplierParty") ?? new(),
+        //OtherParties = new BindingList<Party>(
+        //    e.Elements().Where(x =>
+        //        x.Name.LocalName != "DeliveryMessageHeader" &&
+        //        x.Name.LocalName != "BuyerParty" &&
+        //        x.Name.LocalName != "SupplierParty")
+        //    .Select(x => (Party)x).ToList()),
+        Shipment = e.First<Shipment>("DeliveryMessageShipment") ?? new()
     };
-
 
     public static void Init()
     {
@@ -115,6 +116,28 @@ public class DeliveryMessage
     public static BindingList<DeliveryMessage> Load() => Data.Read();
 
     public override string ToString() => ((XElement)this).ToString();
+}
+
+public class Shipment
+{
+    public static string LocalName => "DeliveryMessageShipment";
+    public static string FileName => $"{LocalName}";
+
+    public string Number { get; set; } = string.Empty;
+    public BindingList<Reference> References { get; set; } = [];
+
+    public static implicit operator XElement(Shipment o) =>
+        new XElement(LocalName,
+            new XElement("DeliveryMessageProductGroup",
+                new XElement("DeliveryShipmentLineItem",
+                    new XElement("DeliveryShipmentLineItemNumber", o.Number))));
+
+    public static implicit operator Shipment(XElement e) => new()
+    {
+        Number = e.First("DeliveryShipmentLineItemNumber") ?? string.Empty,
+        References = new BindingList<Reference>(
+            e.Descendants("DeliveryMessageReference").Select(e => (Reference)e).ToList()),
+    };
 }
 
 public class Party
@@ -307,4 +330,200 @@ public enum MessageType
 public enum MessageStatus
 {
     Original
+}
+
+public static class Extensions
+{
+    public static T? First<T>(this XElement source, string name) where T : class
+    {
+        var e = source.Descendants(name).FirstOrDefault();
+        if (e == null) 
+            return null;
+        var method = typeof(T).GetMethod("op_Implicit", [typeof(XElement)]);
+        if (method is null)
+            return null;
+        return method.Invoke(null, [e]) as T;
+    }
+
+    public static string? First(this XElement source, string name) =>
+        source.Descendants(name).FirstOrDefault()?.Value;
+}
+
+public enum LumberSepcies
+{
+    Afrormosia,
+    Afzelia,
+    Agba,
+    AlaskanCedar,
+    Alder,
+    AlpineFir,
+    AmabilisFir,
+    Amapa,
+    Andoung,
+    Anegre,
+    Antiaris,
+    Ash,
+    Aspen,
+    AspenPolar,
+    AustrianSpruce,
+    Avodire,
+    Ayan,
+    Ayous,
+    Ako,
+    BalsamFir,
+    BalsamPolar,
+    Bamboo,
+    Basswood,
+    Beech,
+    Birch,
+    BirdseyeMaple,
+    BlackCherry,
+    BlackCottonwood,
+    BlackGuarea,
+    BlackSpruce,
+    Bubinga,
+    CaliforniaRedFir,
+    CaribeanPine,
+    CarolinaPine,
+    Cedar,
+    Ceiba,
+    CembraPine,
+    Cherry,
+    Chestnut,
+    CoastSpecies,
+    Cypress,
+    Danta,
+    DouglasFir,
+    Douka,
+    EasternCottonwood,
+    EasternHemlock,
+    EasternSoftwoods,
+    EasternSpruce,
+    EasternWhiteCedar,
+    EasternWhitePine,
+    Elliotti,
+    EngelmanSpruce,
+    Eucalyptus,
+    EuropeanLarch,
+    Exotic,
+    FigureSycamore,
+    Fir,
+    Frake,
+    Framire,
+    Gaboon,
+    GrandFir,
+    GreyElm,
+    HardMaple,
+    Hemlock,
+    Hornbeam,
+    IdahoWhitePine,
+    Ilomba,
+    Imbira,
+    IncCedar,
+    InlRedCedar,
+    Ipe,
+    Iroko,
+    JackPine,
+    Kaya,
+    Koto,
+    Larch,
+    LarricioPine,
+    Lauan,
+    Limba,
+    Locust,
+    LodgepolePine,
+    Mahogany,
+    Macoré,
+    Mansonia,
+    Maple,
+    MaritimePine,
+    Meranti,
+    Merbeau,
+    MexicanPine,
+    MixedSoftwood,
+    MixedSYP,
+    MixedTropicalHardwood,
+    MntnHemlock,
+    Niangon,
+    NobelFir,
+    NorwaySpruce,
+    NorthernAspen,
+    NorthernPine,
+    NorthernSpecies,
+    Oak,
+    Okume,
+    OliverAsh,
+    Olon,
+    Omu,
+    OregonPine,
+    Ozigo,
+    PacificCoastHemlock,
+    PacificSilverFir,
+    Padauk,
+    PaoAmarello,
+    Pear,
+    Pearwood,
+    Pine,
+    Plane,
+    PlywoodComposite,
+    PonderosaPine,
+    PrtOrfCed,
+    Poucouli,
+    Purpleheart,
+    Radiata,
+    RadiataPine,
+    RedCedar,
+    RedElm,
+    RedOak,
+    RedPine,
+    RedSpruce,
+    RedWhitewood,
+    Redwood,
+    RioRosewood,
+    Rosewood,
+    SandPine,
+    SantosRosewood,
+    Sapelle,
+    Satinwood,
+    ScotsPine,
+    SilkyOak,
+    SitkaSpruce,
+    SouthernPine,
+    SouthernPondPine,
+    SouthernSprucePine,
+    SPF,
+    Spruce,
+    SugarPine,
+    SwissPear,
+    SwissStonePine,
+    Sycamore,
+    SYP,
+    Taeda,
+    Tamarack,
+    Tauari,
+    Teak,
+    Tiama,
+    Tineo,
+    TropicalOliver,
+    Utile,
+    VirginiaPine,
+    Walnut,
+    Wenge,
+    Wey,
+    WesternCedars,
+    WesternHemlock,
+    WesternRedCedar,
+    WesternWhitePine,
+    WesternWhiteSpruce,
+    WesternWoods,
+    WhitebarkPine,
+    WhiteFir,
+    WhiteOak,
+    WhiteSpruce,
+    WhiteWood,
+    YellowCedar,
+    YellowCypress,
+    YellowPoplar,
+    Zebrano,
+    Other,
 }
