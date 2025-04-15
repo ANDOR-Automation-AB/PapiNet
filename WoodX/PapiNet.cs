@@ -145,6 +145,7 @@ public class Product
     public static string LocalName => "Product";
     public static string FileName => $"{LocalName}.xml";
 
+    public string PartNumber { get; set; } = string.Empty;
     public BindingList<ProductIdentifier> Identifiers { get; set; } = [];
     public string Description { get; set; } = string.Empty;
     public SpeciesType Species { get; set; } = SpeciesType.Redwood;
@@ -163,6 +164,10 @@ public class Product
 
     public static implicit operator XElement(Product o) =>
         new XElement(LocalName,
+            new XElement("ProductIdentifier", 
+                new XAttribute("Agency", "Supplier"),
+                new XAttribute("ProductIdentifierType", "PartNumber"),
+                o.PartNumber),
             o.Identifiers.Select(i => (XElement)i),
             new XElement("ProductDescription", o.Description),
             new XElement("WoodProducts",
@@ -198,6 +203,9 @@ public class Product
 
     public static implicit operator Product(XElement e) => new()
     {
+        PartNumber = e.Elements("ProductIdentifier")
+            .FirstOrDefault(i => i.Attribute("ProductIdentifierType")?.Value == "PartNumber")?.Value
+            ?? string.Empty,
         Identifiers = new ([.. e.Elements("ProductIdentifier").Select(i => (ProductIdentifier)i)]),
         Description = e.Element("ProductDescription")?.Value ?? string.Empty,
         Species = Enum.TryParse<SpeciesType>(
