@@ -124,19 +124,22 @@ public class Shipment
 
     public string Number { get; set; } = "1";
     public BindingList<Reference> References { get; set; } = [];
+    public Product Product { get; set; } = new();
 
     public static implicit operator XElement(Shipment o) =>
         new XElement(LocalName,
             new XElement("DeliveryMessageProductGroup",
                 new XElement("DeliveryShipmentLineItem",
                     new XElement("DeliveryShipmentLineItemNumber", o.Number),
-                    o.References.Select(i => (XElement)i))));
+                    o.References.Select(i => (XElement)i),
+                    (XElement)o.Product)));
 
     public static implicit operator Shipment(XElement e) => new()
     {
         Number = e.First("DeliveryShipmentLineItemNumber") ?? string.Empty,
         References = new BindingList<Reference>(
             e.Descendants("DeliveryMessageReference").Select(e => (Reference)e).ToList()),
+        Product = e.First<Product>("Product") ?? new()
     };
 }
 
@@ -144,6 +147,12 @@ public class Product
 {
     public static string LocalName => "Product";
     public static string FileName => $"{LocalName}.xml";
+
+    public string DisplayMember => string.IsNullOrEmpty(PartNumber) ? "Select product" :
+        $"{Description} " +
+        $"({PartNumber}) " +
+        $"Width {WidthActual}/{WidthNominal} " +
+        $"Thickness {ThicknessActual}/{ThicknessNominal}";
 
     public string PartNumber { get; set; } = string.Empty;
     public BindingList<ProductIdentifier> Identifiers { get; set; } = [];
@@ -168,7 +177,7 @@ public class Product
                 new XAttribute("Agency", "Supplier"),
                 new XAttribute("ProductIdentifierType", "PartNumber"),
                 o.PartNumber),
-            o.Identifiers.Select(i => (XElement)i),
+            //o.Identifiers.Select(i => (XElement)i),
             new XElement("ProductDescription", o.Description),
             new XElement("WoodProducts",
                 new XElement("WoodTimbersDimensionalLumberBoards",
