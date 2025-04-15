@@ -141,6 +141,60 @@ public class Shipment
             e.Descendants("DeliveryMessageReference").Select(e => (Reference)e).ToList()),
         Product = e.First<Product>("Product") ?? new()
     };
+
+    public override string ToString() => ((XElement)this).ToString();
+}
+
+public class Package
+{
+    public static string LocalName => "TransportPackageInformation";
+
+    public PackageType Type { get; set; } = PackageType.LengthPackage;
+    public string Identifier { get; set; } = string.Empty;
+    public string Pieces { get; set; } = string.Empty;
+    public string CubicMeter { get; set; } = string.Empty;
+    public string Meter { get; set; } = string.Empty;
+    public string Category { get; set; } = string.Empty;
+
+    public static implicit operator XElement(Package o) =>
+        new XElement(LocalName,
+            new XAttribute("PackageType", o.Type),
+            new XElement("Identifier",
+                new XAttribute("IdentifierCodeType", "Supplier"),
+                o.Identifier),
+            new XElement("ItemCount",
+                new XElement("Value",
+                    new XAttribute("UOM", "Piece"),
+                    o.Pieces)),
+            new XElement("Quantity",
+                new XAttribute("QuantityType", "Volume"),
+                new XAttribute("QuantityTypeContext", "Delivered"),
+                new XElement("Value",
+                    new XAttribute("UOM", "CubicMeter"),
+                    o.CubicMeter)),
+            new XElement("InformationalQuantity",
+                new XAttribute("QuantityType", "RunningLength"),
+                new XAttribute("QuantityTypeContext", "Delivered"),
+                new XElement("Value",
+                    new XAttribute("UOM", "Meter"),
+                    o.Meter)),
+            new XElement("WoodItem",
+                new XElement("LengthSpecification",
+                    new XElement("LengthCategory",
+                        new XAttribute("UOM", "Millimeter"),
+                        o.Category),
+                    new XElement("TotalNumberOfUnits",
+                        new XElement("Value",
+                            new XAttribute("UOM", "Piece"),
+                            o.Pieces)))));
+
+    public override string ToString() => ((XElement)this).ToString();
+}
+
+public enum PackageType
+{
+    LengthPackage,
+    TruckPackage
 }
 
 public class Product
