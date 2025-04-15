@@ -121,16 +121,16 @@ public class DeliveryMessage
 public class Shipment
 {
     public static string LocalName => "DeliveryMessageShipment";
-    public static string FileName => $"{LocalName}";
 
-    public string Number { get; set; } = string.Empty;
+    public string Number { get; set; } = "1";
     public BindingList<Reference> References { get; set; } = [];
 
     public static implicit operator XElement(Shipment o) =>
         new XElement(LocalName,
             new XElement("DeliveryMessageProductGroup",
                 new XElement("DeliveryShipmentLineItem",
-                    new XElement("DeliveryShipmentLineItemNumber", o.Number))));
+                    new XElement("DeliveryShipmentLineItemNumber", o.Number),
+                    o.References.Select(i => (XElement)i))));
 
     public static implicit operator Shipment(XElement e) => new()
     {
@@ -138,6 +138,163 @@ public class Shipment
         References = new BindingList<Reference>(
             e.Descendants("DeliveryMessageReference").Select(e => (Reference)e).ToList()),
     };
+}
+
+public class Product
+{
+    public static string LocalName => "Product";
+    public static string FileName => $"{LocalName}.xml";
+
+    public BindingList<ProductIdentifier> Identifiers { get; set; } = [];
+    public string Description { get; set; } = string.Empty;
+    public SpeciesType Species { get; set; } = SpeciesType.Redwood;
+    public string SpeciesCode => Species switch
+    {
+        SpeciesType.Redwood => "1",
+        SpeciesType.WhiteWood => "2",
+        _ => "3"
+    };
+    public string GradeName { get; set; } = string.Empty;
+    public string GradeCode { get; set; } = string.Empty;
+    public string WidthActual { get; set; } = string.Empty;
+    public string WidthNominal { get; set; } = string.Empty;
+    public string ThicknessActual { get; set; } = string.Empty;
+    public string ThicknessNominal { get; set; } = string.Empty;
+
+    public static implicit operator XElement(Product o) =>
+        new XElement(LocalName,
+            o.Identifiers.Select(i => (XElement)i),
+            new XElement("ProductDescription", o.Description),
+            new XElement("WoodProducts",
+                new XElement("WoodTimbersDimensionalLumberBoards",
+                    new XElement("SoftwoodLumber",
+                        new XElement("SoftwoodLumberCharacteristics",
+                            new XElement("LumberSpecies",
+                                new XAttribute("SpeciesType", o.Species),
+                                new XElement("SpeciesCode", o.SpeciesCode)),
+                            new XElement("LumberGrade",
+                                new XElement("GradeName", o.GradeName),
+                                new XElement("GradeCode", o.GradeCode)),
+                            new XElement("Width",
+                                new XAttribute("ActualNominal", "Nominal"),
+                                new XElement("Value",
+                                    new XAttribute("UOM", "Millimeter"),
+                                    o.WidthNominal)),
+                            new XElement("Width",
+                                new XAttribute("ActualNominal", "Actual"),
+                                new XElement("Value",
+                                    new XAttribute("UOM", "Millimeter"),
+                                    o.WidthActual)),
+                            new XElement("Thickness",
+                                new XAttribute("ActualNominal", "Nominal"),
+                                new XElement("Value",
+                                    new XAttribute("UOM", "Millimeter"),
+                                    o.ThicknessNominal)),
+                            new XElement("Thickness",
+                                new XAttribute("ActualNominal", "Actual"),
+                                new XElement("Value",
+                                    new XAttribute("UOM", "Millimeter"),
+                                    o.ThicknessActual)))))));
+
+    public static implicit operator Product(XElement e) => new()
+    {
+        Identifiers = new ([.. e.Elements("ProductIdentifier").Select(i => (ProductIdentifier)i)]),
+        Description = e.Element("ProductDescription")?.Value ?? string.Empty,
+        Species = Enum.TryParse<SpeciesType>(
+            e.Descendants("LumberSpecies").FirstOrDefault()?.Attribute("SpeciesType")?.Value,
+            out var species) ? species : default,
+        GradeName = e.Descendants("GradeName").FirstOrDefault()?.Value ?? string.Empty,
+        GradeCode = e.Descendants("GradeCode").FirstOrDefault()?.Value ?? string.Empty,
+        WidthNominal = e.Descendants("Width")
+            .FirstOrDefault(e => e.Attribute("ActualNominal")?.Value == "Nominal")?
+            .Element("Value")?.Value ?? string.Empty,
+        WidthActual = e.Descendants("Width")
+            .FirstOrDefault(e => e.Attribute("ActualNominal")?.Value == "Actual")?
+            .Element("Value")?.Value ?? string.Empty,
+        ThicknessNominal = e.Descendants("Thickness")
+            .FirstOrDefault(e => e.Attribute("ActualNominal")?.Value == "Nominal")?
+            .Element("Value")?.Value ?? string.Empty,
+        ThicknessActual = e.Descendants("Thickness")
+            .FirstOrDefault(e => e.Attribute("ActualNominal")?.Value == "Actual")?
+            .Element("Value")?.Value ?? string.Empty
+    };
+
+    public static void Save(BindingList<Product> list) =>
+        Data.Write(FileName, list.Select(i => (XElement)i));
+
+    public static BindingList<Product> Load() =>
+        Data.Read(FileName, LocalName, e => (Product)e);
+
+    public override string ToString() => ((XElement)this).ToString();
+}
+
+public enum ActualNominal
+{
+    Actual,
+    Nominal
+}
+
+public class ProductIdentifier
+{
+    public static string LocalName => "ProductIdentifier";
+    public static string FileName => $"{LocalName}.xml";
+
+    public Agency Agency { get; set; } = Agency.Supplier;
+    public ProductIdentifierType Type { get; set; } = ProductIdentifierType.PartNumber;
+    public string Value { get; set; } = string.Empty;
+
+    public static implicit operator XElement(ProductIdentifier o) =>
+        new XElement(LocalName,
+            new XAttribute("Agency", o.Agency),
+            new XAttribute("ProductIdentifierType", o.Type),
+            o.Value);
+
+    public static implicit operator ProductIdentifier(XElement e) => new()
+    {
+        Agency = Enum.TryParse<Agency>(
+            e.Attribute("Agency")?.Value,
+            out var agency) ? agency : Agency.Supplier,
+        Type = Enum.TryParse<ProductIdentifierType>(
+            e.Attribute("ProductIdentifierType")?.Value,
+            out var type)? type : ProductIdentifierType.PartNumber,
+        Value = e.Value
+    };
+
+    public static void Save(BindingList<ProductIdentifier> list) =>
+        Data.Write(FileName, list.Select(i => (XElement)i));
+
+    public static BindingList<ProductIdentifier> Load() =>
+        Data.Read(FileName, LocalName, e => (ProductIdentifier)e);
+
+    public override string ToString() => ((XElement)this).ToString();
+}
+
+public enum ProductIdentifierType
+{
+    BrandName,
+    CatalogueNumber,
+    CustomsTariffNumber,
+    EAN8,
+    EAN13,
+    ExportHarmonisedSystemCode,
+    FinishedGoodIdentifier,
+    GradeCode,
+    GradeName,
+    ImportHarmonisedSystemCode,
+    ManufacturingGradeCode,
+    ManufacturingGradeName,
+    Ondule,
+    PartNumber,
+    RFQPartNumber,
+    SKU,
+    UPC,
+    Other
+}
+
+public enum Agency
+{
+    Buyer,
+    Supplier
 }
 
 public class Party
@@ -349,181 +506,181 @@ public static class Extensions
         source.Descendants(name).FirstOrDefault()?.Value;
 }
 
-public enum LumberSepcies
+public enum SpeciesType
 {
-    Afrormosia,
-    Afzelia,
-    Agba,
-    AlaskanCedar,
-    Alder,
-    AlpineFir,
-    AmabilisFir,
-    Amapa,
-    Andoung,
-    Anegre,
-    Antiaris,
-    Ash,
-    Aspen,
-    AspenPolar,
-    AustrianSpruce,
-    Avodire,
-    Ayan,
-    Ayous,
-    Ako,
-    BalsamFir,
-    BalsamPolar,
-    Bamboo,
-    Basswood,
-    Beech,
-    Birch,
-    BirdseyeMaple,
-    BlackCherry,
-    BlackCottonwood,
-    BlackGuarea,
-    BlackSpruce,
-    Bubinga,
-    CaliforniaRedFir,
-    CaribeanPine,
-    CarolinaPine,
-    Cedar,
-    Ceiba,
-    CembraPine,
-    Cherry,
-    Chestnut,
-    CoastSpecies,
-    Cypress,
-    Danta,
-    DouglasFir,
-    Douka,
-    EasternCottonwood,
-    EasternHemlock,
-    EasternSoftwoods,
-    EasternSpruce,
-    EasternWhiteCedar,
-    EasternWhitePine,
-    Elliotti,
-    EngelmanSpruce,
-    Eucalyptus,
-    EuropeanLarch,
-    Exotic,
-    FigureSycamore,
-    Fir,
-    Frake,
-    Framire,
-    Gaboon,
-    GrandFir,
-    GreyElm,
-    HardMaple,
-    Hemlock,
-    Hornbeam,
-    IdahoWhitePine,
-    Ilomba,
-    Imbira,
-    IncCedar,
-    InlRedCedar,
-    Ipe,
-    Iroko,
-    JackPine,
-    Kaya,
-    Koto,
-    Larch,
-    LarricioPine,
-    Lauan,
-    Limba,
-    Locust,
-    LodgepolePine,
-    Mahogany,
-    Macoré,
-    Mansonia,
-    Maple,
-    MaritimePine,
-    Meranti,
-    Merbeau,
-    MexicanPine,
-    MixedSoftwood,
-    MixedSYP,
-    MixedTropicalHardwood,
-    MntnHemlock,
-    Niangon,
-    NobelFir,
-    NorwaySpruce,
-    NorthernAspen,
-    NorthernPine,
-    NorthernSpecies,
-    Oak,
-    Okume,
-    OliverAsh,
-    Olon,
-    Omu,
-    OregonPine,
-    Ozigo,
-    PacificCoastHemlock,
-    PacificSilverFir,
-    Padauk,
-    PaoAmarello,
-    Pear,
-    Pearwood,
-    Pine,
-    Plane,
-    PlywoodComposite,
-    PonderosaPine,
-    PrtOrfCed,
-    Poucouli,
-    Purpleheart,
-    Radiata,
-    RadiataPine,
-    RedCedar,
-    RedElm,
-    RedOak,
-    RedPine,
-    RedSpruce,
-    RedWhitewood,
+    //Afrormosia,
+    //Afzelia,
+    //Agba,
+    //AlaskanCedar,
+    //Alder,
+    //AlpineFir,
+    //AmabilisFir,
+    //Amapa,
+    //Andoung,
+    //Anegre,
+    //Antiaris,
+    //Ash,
+    //Aspen,
+    //AspenPolar,
+    //AustrianSpruce,
+    //Avodire,
+    //Ayan,
+    //Ayous,
+    //Ako,
+    //BalsamFir,
+    //BalsamPolar,
+    //Bamboo,
+    //Basswood,
+    //Beech,
+    //Birch,
+    //BirdseyeMaple,
+    //BlackCherry,
+    //BlackCottonwood,
+    //BlackGuarea,
+    //BlackSpruce,
+    //Bubinga,
+    //CaliforniaRedFir,
+    //CaribeanPine,
+    //CarolinaPine,
+    //Cedar,
+    //Ceiba,
+    //CembraPine,
+    //Cherry,
+    //Chestnut,
+    //CoastSpecies,
+    //Cypress,
+    //Danta,
+    //DouglasFir,
+    //Douka,
+    //EasternCottonwood,
+    //EasternHemlock,
+    //EasternSoftwoods,
+    //EasternSpruce,
+    //EasternWhiteCedar,
+    //EasternWhitePine,
+    //Elliotti,
+    //EngelmanSpruce,
+    //Eucalyptus,
+    //EuropeanLarch,
+    //Exotic,
+    //FigureSycamore,
+    //Fir,
+    //Frake,
+    //Framire,
+    //Gaboon,
+    //GrandFir,
+    //GreyElm,
+    //HardMaple,
+    //Hemlock,
+    //Hornbeam,
+    //IdahoWhitePine,
+    //Ilomba,
+    //Imbira,
+    //IncCedar,
+    //InlRedCedar,
+    //Ipe,
+    //Iroko,
+    //JackPine,
+    //Kaya,
+    //Koto,
+    //Larch,
+    //LarricioPine,
+    //Lauan,
+    //Limba,
+    //Locust,
+    //LodgepolePine,
+    //Mahogany,
+    //Macoré,
+    //Mansonia,
+    //Maple,
+    //MaritimePine,
+    //Meranti,
+    //Merbeau,
+    //MexicanPine,
+    //MixedSoftwood,
+    //MixedSYP,
+    //MixedTropicalHardwood,
+    //MntnHemlock,
+    //Niangon,
+    //NobelFir,
+    //NorwaySpruce,
+    //NorthernAspen,
+    //NorthernPine,
+    //NorthernSpecies,
+    //Oak,
+    //Okume,
+    //OliverAsh,
+    //Olon,
+    //Omu,
+    //OregonPine,
+    //Ozigo,
+    //PacificCoastHemlock,
+    //PacificSilverFir,
+    //Padauk,
+    //PaoAmarello,
+    //Pear,
+    //Pearwood,
+    //Pine,
+    //Plane,
+    //PlywoodComposite,
+    //PonderosaPine,
+    //PrtOrfCed,
+    //Poucouli,
+    //Purpleheart,
+    //Radiata,
+    //RadiataPine,
+    //RedCedar,
+    //RedElm,
+    //RedOak,
+    //RedPine,
+    //RedSpruce,
+    //RedWhitewood,
     Redwood,
-    RioRosewood,
-    Rosewood,
-    SandPine,
-    SantosRosewood,
-    Sapelle,
-    Satinwood,
-    ScotsPine,
-    SilkyOak,
-    SitkaSpruce,
-    SouthernPine,
-    SouthernPondPine,
-    SouthernSprucePine,
-    SPF,
-    Spruce,
-    SugarPine,
-    SwissPear,
-    SwissStonePine,
-    Sycamore,
-    SYP,
-    Taeda,
-    Tamarack,
-    Tauari,
-    Teak,
-    Tiama,
-    Tineo,
-    TropicalOliver,
-    Utile,
-    VirginiaPine,
-    Walnut,
-    Wenge,
-    Wey,
-    WesternCedars,
-    WesternHemlock,
-    WesternRedCedar,
-    WesternWhitePine,
-    WesternWhiteSpruce,
-    WesternWoods,
-    WhitebarkPine,
-    WhiteFir,
-    WhiteOak,
-    WhiteSpruce,
+    //RioRosewood,
+    //Rosewood,
+    //SandPine,
+    //SantosRosewood,
+    //Sapelle,
+    //Satinwood,
+    //ScotsPine,
+    //SilkyOak,
+    //SitkaSpruce,
+    //SouthernPine,
+    //SouthernPondPine,
+    //SouthernSprucePine,
+    //SPF,
+    //Spruce,
+    //SugarPine,
+    //SwissPear,
+    //SwissStonePine,
+    //Sycamore,
+    //SYP,
+    //Taeda,
+    //Tamarack,
+    //Tauari,
+    //Teak,
+    //Tiama,
+    //Tineo,
+    //TropicalOliver,
+    //Utile,
+    //VirginiaPine,
+    //Walnut,
+    //Wenge,
+    //Wey,
+    //WesternCedars,
+    //WesternHemlock,
+    //WesternRedCedar,
+    //WesternWhitePine,
+    //WesternWhiteSpruce,
+    //WesternWoods,
+    //WhitebarkPine,
+    //WhiteFir,
+    //WhiteOak,
+    //WhiteSpruce,
     WhiteWood,
-    YellowCedar,
-    YellowCypress,
-    YellowPoplar,
-    Zebrano,
-    Other,
+    //YellowCedar,
+    //YellowCypress,
+    //YellowPoplar,
+    //Zebrano,
+    //Other,
 }
