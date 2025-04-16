@@ -163,6 +163,7 @@ public class Package
             new XAttribute("PackageType", o.Type),
             new XElement("Identifier",
                 new XAttribute("IdentifierCodeType", "Supplier"),
+                new XAttribute("IdentifierType", "Primary"),
                 o.Identifier),
             new XElement("ItemCount",
                 new XElement("Value",
