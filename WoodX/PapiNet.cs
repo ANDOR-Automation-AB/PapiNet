@@ -125,6 +125,7 @@ public class Shipment
     public string Number { get; set; } = "1";
     public BindingList<Reference> References { get; set; } = [];
     public Product Product { get; set; } = new();
+    public BindingList<Package> Packages { get; set; } = [];
 
     public static implicit operator XElement(Shipment o) =>
         new XElement(LocalName,
@@ -132,7 +133,8 @@ public class Shipment
                 new XElement("DeliveryShipmentLineItem",
                     new XElement("DeliveryShipmentLineItemNumber", o.Number),
                     o.References.Select(i => (XElement)i),
-                    (XElement)o.Product)));
+                    (XElement)o.Product,
+                    o.Packages.Select(i => (XElement)i))));
 
     public static implicit operator Shipment(XElement e) => new()
     {
@@ -189,6 +191,144 @@ public class Package
                             o.Pieces)))));
 
     public override string ToString() => ((XElement)this).ToString();
+}
+
+public class PackageViewModel
+{
+    public Package Package { get; set; } = new();
+
+    public string Identifier
+    {
+        get => Package.Identifier;
+        set => Package.Identifier = value;
+    }
+
+    public string Meter
+    {
+        get => Package.Meter;
+        set => Package.Meter = value;
+    }
+
+    public string CubicMeter
+    {
+        get => Package.CubicMeter;
+        set => Package.CubicMeter = value;
+    }
+
+    private string GetLength(string category) => Package.Category == category ? Package.Pieces : "";
+    private void SetLength(string category, string? value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            Package.Category = category;
+            Package.Pieces = value;
+        }
+    }
+
+    public string Length1800
+    {
+        get => GetLength("1800");
+        set => SetLength("1800", value);
+    }
+
+    public string Length2100
+    {
+        get => GetLength("2100");
+        set => SetLength("2100", value);
+    }
+
+    public string Length2400
+    {
+        get => GetLength("2400");
+        set => SetLength("2400", value);
+    }
+
+    public string Length2700
+    {
+        get => GetLength("2700");
+        set => SetLength("2700", value);
+    }
+
+    public string Length3000
+    {
+        get => GetLength("3000");
+        set => SetLength("3000", value);
+    }
+
+    public string Length3300
+    {
+        get => GetLength("3300");
+        set => SetLength("3300", value);
+    }
+
+    public string Length3600
+    {
+        get => GetLength("3600");
+        set => SetLength("3600", value);
+    }
+
+    public string Length3900
+    {
+        get => GetLength("3900");
+        set => SetLength("3900", value);
+    }
+
+    public string Length4200
+    {
+        get => GetLength("4200");
+        set => SetLength("4200", value);
+    }
+
+    public string Length4500
+    {
+        get => GetLength("4500");
+        set => SetLength("4500", value);
+    }
+
+    public string Length4800
+    {
+        get => GetLength("4800");
+        set => SetLength("4800", value);
+    }
+
+    public string Length5100
+    {
+        get => GetLength("5100");
+        set => SetLength("5100", value);
+    }
+
+    public string Length5400
+    {
+        get => GetLength("5400");
+        set => SetLength("5400", value);
+    }
+
+    public string Length5700
+    {
+        get => GetLength("5700");
+        set => SetLength("5700", value);
+    }
+
+    public string Length6000
+    {
+        get => GetLength("6000");
+        set => SetLength("6000", value);
+    }
+
+    public static implicit operator PackageViewModel(Package package) =>
+        new() { Package = package };
+
+    public static implicit operator Package(PackageViewModel viewModel) =>
+        viewModel.Package;
+}
+
+public static class PackageExtensions
+{
+    public static BindingList<Package> ToPackages(this IEnumerable<PackageViewModel> viewModels) =>
+        new(viewModels.Select(vm => vm.Package).ToList());
+
+    public static BindingList<PackageViewModel> ToViewModels(this IEnumerable<Package> packages) =>
+        new(packages.Select(p => new PackageViewModel { Package = p }).ToList());
 }
 
 public enum PackageType
