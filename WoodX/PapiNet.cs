@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace PapiNet.WoodX;
@@ -334,7 +335,10 @@ public static class PackageExtensions
 
 public enum PackageType
 {
+    [Display(Name = "Längdpaket")]
     LengthPackage,
+
+    [Display(Name = "Truckpaket")]
     TruckPackage
 }
 
@@ -343,7 +347,7 @@ public class Product
     public static string LocalName => "Product";
     public static string FileName => $"{LocalName}.xml";
 
-    public string DisplayMember => string.IsNullOrEmpty(PartNumber) ? "Select product" :
+    public string DisplayMember => string.IsNullOrEmpty(PartNumber) ? "" :
         $"{Description} " +
         $"({PartNumber}) " +
         $"Width {WidthActual}/{WidthNominal} " +
@@ -442,7 +446,10 @@ public class Product
 
 public enum ActualNominal
 {
+    [Display(Name = "Aktuell")]
     Actual,
+
+    [Display(Name = "Nominell")]
     Nominal
 }
 
@@ -483,29 +490,64 @@ public class ProductIdentifier
 
 public enum ProductIdentifierType
 {
+    [Display(Name = "Varumärke")]
     BrandName,
+
+    [Display(Name = "Katalognummer")]
     CatalogueNumber,
-    CustomsTariffNumber,
-    EAN8,
-    EAN13,
+
+    [Display(Name = "Tullkod (export)")]
     ExportHarmonisedSystemCode,
-    FinishedGoodIdentifier,
-    GradeCode,
-    GradeName,
+
+    [Display(Name = "EAN-8")]
+    EAN8,
+
+    [Display(Name = "EAN-13")]
+    EAN13,
+
+    [Display(Name = "Tullkod (import)")]
     ImportHarmonisedSystemCode,
-    ManufacturingGradeCode,
-    ManufacturingGradeName,
-    Ondule,
+
+    [Display(Name = "Produkt-ID")]
+    FinishedGoodIdentifier,
+
+    [Display(Name = "Kvalitetskod")]
+    GradeCode,
+
+    [Display(Name = "Kvalitetsnamn")]
+    GradeName,
+
+    [Display(Name = "Partinummer")]
     PartNumber,
+
+    [Display(Name = "Artikelnummer (RFQ)")]
     RFQPartNumber,
+
+    [Display(Name = "Tillverkarens kod")]
+    ManufacturingGradeCode,
+
+    [Display(Name = "Tillverkarens namn")]
+    ManufacturingGradeName,
+
+    [Display(Name = "Ondule")]
+    Ondule,
+
+    [Display(Name = "SKU (lagerenhet)")]
     SKU,
+
+    [Display(Name = "UPC")]
     UPC,
+
+    [Display(Name = "Annat")]
     Other
 }
 
 public enum Agency
 {
+    [Display(Name = "Köpare")]
     Buyer,
+
+    [Display(Name = "Leverantör")]
     Supplier
 }
 
@@ -549,8 +591,13 @@ public class Party
 
 public enum PartyType
 {
+    [Display(Name = "Säljare")]
     Seller,
+
+    [Display(Name = "Mottagare")]
     Consignee,
+
+    [Display(Name = "Lossningsplats")]
     PlaceOfDischarge
 }
 
@@ -596,8 +643,11 @@ public class Address
 
 public enum ISOCountryCode
 {
+    [Display(Name = "Sverige")]
     SE,
-    DK,
+
+    [Display(Name = "Danmark")]
+    DK
 }
 
 public class PartyIdentifier
@@ -632,7 +682,10 @@ public class PartyIdentifier
 
 public enum PartyIdentifierType
 {
+    [Display(Name = "Tilldelad av säljare")]
     AssignedBySeller,
+
+    [Display(Name = "VAT momsregistreringsnummer")]
     VATIdentificationNumber
 }
 
@@ -673,49 +726,58 @@ public class Reference
 
 public enum AssignedBy
 {
+    [Display(Name = "Säljare")]
     Seller,
+
+    [Display(Name = "Köpare")]
     Buyer
 }
 
 public enum ReferenceType
 {
+    [Display(Name = "Fakturanummer")]
     InvoiceNumber,
+
+    [Display(Name = "Ordernummer")]
     OrderNumber,
+
+    [Display(Name = "Referensnummer")]
     ReferenceNumber,
+
+    [Display(Name = "Kontraktsnummer")]
     ContractNumber,
+
+    [Display(Name = "Kontraktsradnummer")]
     ContractLineNumber,
+
+    [Display(Name = "Avropsnummer")]
     CallOffNumber,
+
+    [Display(Name = "Avropsradnummer")]
     CallOffLineItemNumber,
+
+    [Display(Name = "Orderradnummer")]
     OrderLineItemNumber,
+
+    [Display(Name = "Fraktsedelmarkering")]
     BillOfLadingMark,
+
+    [Display(Name = "Lastningsorderradnummer")]
     LoadingOrderLineNumber
 }
 
 public enum MessageType
 {
+    [Display(Name = "Leveransmeddelande")]
     DeliveryMessage,
+
+    [Display(Name = "Packspecifikation")]
     PackingSpecification
 }
+
 public enum MessageStatus
 {
     Original
-}
-
-public static class Extensions
-{
-    public static T? First<T>(this XElement source, string name) where T : class
-    {
-        var e = source.Descendants(name).FirstOrDefault();
-        if (e == null) 
-            return null;
-        var method = typeof(T).GetMethod("op_Implicit", [typeof(XElement)]);
-        if (method is null)
-            return null;
-        return method.Invoke(null, [e]) as T;
-    }
-
-    public static string? First(this XElement source, string name) =>
-        source.Descendants(name).FirstOrDefault()?.Value;
 }
 
 public enum SpeciesType
@@ -895,4 +957,57 @@ public enum SpeciesType
     //YellowPoplar,
     //Zebrano,
     //Other,
+}
+
+//public enum SpeciesType
+//{
+//    [Display(Name = "Furu (Redwood)")]
+//    Redwood,
+//
+//    [Display(Name = "Gran (Whitewood)")]
+//    WhiteWood
+//}
+
+public class EnumDisplayItem<T>
+{
+    public T Value { get; set; } = default!;
+    public string DisplayName { get; set; } = string.Empty;
+}
+
+public static class Extensions
+{
+    public static T? First<T>(this XElement source, string name) where T : class
+    {
+        var e = source.Descendants(name).FirstOrDefault();
+        if (e == null) 
+            return null;
+        var method = typeof(T).GetMethod("op_Implicit", [typeof(XElement)]);
+        if (method is null)
+            return null;
+        return method.Invoke(null, [e]) as T;
+    }
+
+    public static string? First(this XElement source, string name) =>
+        source.Descendants(name).FirstOrDefault()?.Value;
+
+    public static string ToDisplayName(this Enum value)
+    {
+        var member = value.GetType().GetMember(value.ToString()).FirstOrDefault();
+        if (member == null)
+            return value.ToString();
+
+        var attribute = member
+            .GetCustomAttributes(typeof(DisplayAttribute), false)
+            .OfType<DisplayAttribute>()
+            .FirstOrDefault();
+
+        return attribute?.Name ?? value.ToString();
+    }
+
+    public static List<EnumDisplayItem<TEnum>> GetDisplayList<TEnum>() where TEnum : Enum =>
+        Enum.GetValues(typeof(TEnum)).Cast<TEnum>().Select(e => new EnumDisplayItem<TEnum>
+            {
+                Value = e,
+                DisplayName = ((Enum)(object)e).ToDisplayName()
+            }).ToList();
 }
