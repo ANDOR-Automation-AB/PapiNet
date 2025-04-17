@@ -43,6 +43,18 @@ static class Data
 
     public static void Delete(string uri) =>
         File.Delete(Path.Combine(MessagesPath, uri));
+
+    public static void Move(string uri, DeliveryMessage message)
+    {
+        var source = Path.Combine(Data.MessagesPath, message.FileName);
+        var destination = Path.Combine(uri, message.FileName);
+
+        if (!File.Exists(source))
+            throw new FileNotFoundException($"Hittar inte meddelandet {message.FileName}", source);
+
+        Directory.CreateDirectory(uri);
+        File.Move(source, destination);
+    }
 }
 
 public class DeliveryMessage
@@ -116,6 +128,8 @@ public class DeliveryMessage
 
     public static BindingList<DeliveryMessage> Load() => Data.Read();
 
+    public void Export(string uri) => Data.Move(uri, this);
+
     public override string ToString() => ((XElement)this).ToString();
 }
 
@@ -140,9 +154,9 @@ public class Shipment
     public static implicit operator Shipment(XElement e) => new()
     {
         Number = e.First("DeliveryShipmentLineItemNumber") ?? string.Empty,
-        References = new BindingList<Reference>(
-            e.Descendants("DeliveryMessageReference").Select(e => (Reference)e).ToList()),
-        Product = e.First<Product>("Product") ?? new()
+        References = new([.. e.Descendants(Reference.LocalName).Select(e => (Reference)e)]),
+        Product = e.First<Product>("Product") ?? new(),
+        Packages = new([.. e.Descendants(Package.LocalName).Select(i => (Package)i)])
     };
 
     public override string ToString() => ((XElement)this).ToString();
@@ -191,6 +205,16 @@ public class Package
                         new XElement("Value",
                             new XAttribute("UOM", "Piece"),
                             o.Pieces)))));
+
+    public static implicit operator Package(XElement e) => new()
+    {
+        Type = Enum.TryParse<PackageType>(e.Attribute("PackageType")?.Value, out var type) ? type : PackageType.LengthPackage,
+        Identifier = e.Element("Identifier")?.Value ?? string.Empty,
+        Pieces = e.Element("ItemCount")?.Element("Value")?.Value ?? string.Empty,
+        CubicMeter = e.Element("Quantity")?.Element("Value")?.Value ?? string.Empty,
+        Meter = e.Element("InformationalQuantity")?.Element("Value")?.Value ?? string.Empty,
+        Category = e.Descendants("LengthCategory").FirstOrDefault()?.Value ?? string.Empty
+    };
 
     public override string ToString() => ((XElement)this).ToString();
 }
