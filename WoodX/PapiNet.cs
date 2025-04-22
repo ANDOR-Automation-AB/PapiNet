@@ -390,6 +390,7 @@ public class Product
     public string WidthNominal { get; set; } = string.Empty;
     public string ThicknessActual { get; set; } = string.Empty;
     public string ThicknessNominal { get; set; } = string.Empty;
+    public string PatternProfile { get; set; } = string.Empty;
 
     public static implicit operator XElement(Product o) =>
         new XElement(LocalName,
@@ -428,7 +429,12 @@ public class Product
                                 new XAttribute("ActualNominal", "Actual"),
                                 new XElement("Value",
                                     new XAttribute("UOM", "Millimeter"),
-                                    o.ThicknessActual)))))));
+                                    o.ThicknessActual)),
+                            new XElement("PatternProfile",
+                                new XAttribute("PatternProfileType", "Other"),
+                                new XAttribute("PatternProfileAgency", "Supplier"),
+                                new XElement("PatternProfileCode", o.PatternProfile)
+                            ))))));
 
     public static implicit operator Product(XElement e) => new()
     {
@@ -453,7 +459,8 @@ public class Product
             .Element("Value")?.Value ?? string.Empty,
         ThicknessActual = e.Descendants("Thickness")
             .FirstOrDefault(e => e.Attribute("ActualNominal")?.Value == "Actual")?
-            .Element("Value")?.Value ?? string.Empty
+            .Element("Value")?.Value ?? string.Empty,
+        PatternProfile = e.Descendants("PatternProfileCode").FirstOrDefault()?.Value ?? string.Empty
     };
 
     public static void Save(BindingList<Product> list) =>
