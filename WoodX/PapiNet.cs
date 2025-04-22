@@ -709,7 +709,7 @@ public enum PartyIdentifierType
     [Display(Name = "Tilldelad av säljare")]
     AssignedBySeller,
 
-    [Display(Name = "VAT momsregistreringsnummer")]
+    [Display(Name = "Momsregistreringsnummer")]
     VATIdentificationNumber
 }
 
