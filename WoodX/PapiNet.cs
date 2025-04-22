@@ -372,10 +372,7 @@ public class Product
     public static string FileName => $"{LocalName}.xml";
 
     public string DisplayMember => string.IsNullOrEmpty(PartNumber) ? "" :
-        $"{Description} " +
-        $"({PartNumber}) " +
-        $"Width {WidthActual}/{WidthNominal} " +
-        $"Thickness {ThicknessActual}/{ThicknessNominal}";
+        $"{PartNumber} - {Description}";
 
     public string PartNumber { get; set; } = string.Empty;
     public BindingList<ProductIdentifier> Identifiers { get; set; } = [];
